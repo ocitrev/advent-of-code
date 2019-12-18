@@ -1,13 +1,14 @@
 // day02.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <string>
+#include "../common/input.hpp"
+#include "../common/intcode.hpp"
+#include "../common/main.hpp"
 #include <cassert>
-#include "..\common\input.hpp"
-#include "..\common\intcode.hpp"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 int RunAndGetValue(std::vector<int> const &code, int offset)
 {
@@ -47,14 +48,14 @@ void Part2(std::vector<int> const &input)
 
 }
 
-int main()
+void Main()
 {
     assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
     assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    std::vector const input = ReadInts(LR"(C:\Users\eb\OneDrive\devel\python\advent-of-code\2019\2.input)", ',');
+    std::vector const input = ReadInts(GetInputsPath() / L"2.input", ',');
     Part1(input);
     Part2(input);
 }

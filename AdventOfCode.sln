@@ -13,6 +13,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "day05", "day05\day05.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "day07", "day07\day07.vcxproj", "{A9C2BCF5-6B67-4599-9B80-27877C18515B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inputs", "inputs", "{BC8CBE87-D7D9-41E0-892E-121FBF6FA4BC}"
+	ProjectSection(SolutionItems) = preProject
+		inputs\1.input = inputs\1.input
+		inputs\2.input = inputs\2.input
+		inputs\3.input = inputs\3.input
+		inputs\5.input = inputs\5.input
+		inputs\6.input = inputs\6.input
+		inputs\7.input = inputs\7.input
+		inputs\8.input = inputs\8.input
+		inputs\9.input = inputs\9.input
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

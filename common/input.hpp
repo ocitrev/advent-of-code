@@ -3,4 +3,8 @@
 #include <vector>
 #include <filesystem>
 
-[[nodiscard]]std::vector<int> ReadInts(std::filesystem::path const &filepath, char sep);
+[[nodiscard]]
+std::filesystem::path GetInputsPath();
+
+[[nodiscard]]
+std::vector<int> ReadInts(std::filesystem::path const &filepath, char sep);

@@ -2,20 +2,30 @@
 
 #include <vector>
 #include <functional>
+#include <optional>
 
 class Intcode
 {
-    std::vector<int> memory;
-    std::size_t ip = 0;
-    int relOffset = 0;
-    std::function<int()> inputFunc;
-    std::function<void(int)> outputFunc;
-
     enum class Mode
     {
         Address,
         Immediate,
         Relative,
+    };
+
+    enum class OpCode
+    {
+        Invalid,
+        Add,
+        Muliply,
+        Input,
+        Output,
+        JumpTrue,
+        JumpFalse,
+        IsLess,
+        IsEqual,
+        SetRelBaseOffset,
+        Halt = 99,
     };
 
     struct Param
@@ -27,13 +37,22 @@ class Intcode
         operator int() const;
     };
 
-    Param GetParam(Mode mode);
-    std::pair<int, int> GetInstruction();
+    std::vector<int> memory;
+    std::size_t ip = 0;
+    int relOffset = 0;
+    bool halted = false;
+    std::function<int()> inputFunc;
+    std::function<void(int)> outputFunc;
 
+    Param GetParam(Mode mode);
+    std::pair<OpCode, int> GetInstruction();
+
+    void RunStep(OpCode opcode, int mode);
 
 public:
     explicit Intcode(std::vector<int> code);
     void Run();
+    std::optional<int> RunUntilOuput(std::function<int()> &&inputFunc);
 
     static void Run(std::vector<int> code);
     static void Run(std::vector<int> code, std::function<int()> &&inputFunc, std::function<void(int)> &&outputFunc);
@@ -43,4 +62,10 @@ public:
 
     void SetInput(std::function<int()> const &inputFunc);
     void SetOutput(std::function<void(int)> const &outputFunc);
+
+    bool IsHalted() const
+    {
+        return halted;
+    }
+
 };

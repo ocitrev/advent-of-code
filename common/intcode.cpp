@@ -5,7 +5,8 @@
 Intcode::Intcode(std::vector<int> code)
     : memory{std::move(code)}
 {
-
+    if (memory.empty())
+        throw std::invalid_argument("code cannot be empty.");
 }
 
 Intcode::Param Intcode::GetParam(Mode mode)
@@ -30,10 +31,10 @@ Intcode::Param::operator int() const
     return cpu->memory[value];
 }
 
-std::pair<int, int> Intcode::GetInstruction()
+std::pair<Intcode::OpCode, int> Intcode::GetInstruction()
 {
     int instruction = memory[ip++];
-    return {instruction % 100, instruction / 100};
+    return {static_cast<OpCode>(instruction % 100), instruction / 100};
 }
 
 void Intcode::Run(std::vector<int> code)
@@ -50,91 +51,117 @@ void Intcode::Run(std::vector<int> code, std::function<int()> &&inputFunc, std::
     a.Run();
 }
 
+void Intcode::RunStep(Intcode::OpCode opcode, int mode)
+{
+    switch (opcode)
+    {
+        case OpCode::Add:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a + b;
+            break;
+        }
+        case OpCode::Muliply:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a * b;
+            break;
+        }
+        case OpCode::Input:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            a = inputFunc();
+            break;
+        }
+        case OpCode::Output:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            outputFunc(a);
+            break;
+        }
+        case OpCode::JumpTrue:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+
+            if (a != 0)
+            {
+                ip = b;
+            }
+            break;
+        }
+        case OpCode::JumpFalse:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+
+            if (a == 0)
+            {
+                ip = b;
+            }
+            break;
+        }
+        case OpCode::IsLess:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a < b;
+            break;
+        }
+        case OpCode::IsEqual:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a == b;
+            break;
+        }
+        case OpCode::SetRelBaseOffset:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            relOffset += a;
+            break;
+        }
+        case OpCode::Halt:
+            halted = true;
+            break;
+        default:
+            throw std::domain_error("Invalid opcode");
+    }
+}
 
 void Intcode::Run()
 {
-    while (true)
+    while (halted == false)
+    {
+        auto [opcode, mode] = GetInstruction();
+        RunStep(opcode, mode);
+    }
+}
+
+std::optional<int> Intcode::RunUntilOuput(std::function<int()> &&inputFunc)
+{
+    this->inputFunc = std::move(inputFunc);
+
+    while (halted == false)
     {
         auto [opcode, mode] = GetInstruction();
 
-        switch (opcode)
+        if (opcode == OpCode::Output)
         {
-            case 1:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-                auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-                c = a + b;
-                break;
-            }
-            case 2:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-                auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-                c = a * b;
-                break;
-            }
-            case 3:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                a = inputFunc();
-                break;
-            }
-            case 4:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                outputFunc(a);
-                break;
-            }
-            case 5:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-
-                if (a != 0)
-                {
-                    ip = b;
-                }
-                break;
-            }
-            case 6:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-
-                if (a == 0)
-                {
-                    ip = b;
-                }
-                break;
-            }
-            case 7:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-                auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-                c = a < b;
-                break;
-            }
-            case 8:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-                auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-                c = a == b;
-                break;
-            }
-            case 9:
-            {
-                auto a = GetParam(static_cast<Mode>(mode % 10));
-                relOffset += a;
-                break;
-            }
-            case 99:
-                return;
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            return a;
         }
+
+        RunStep(opcode, mode);
     }
+
+    return std::nullopt;
 }
 
 int Intcode::ReadMemory(std::size_t offset) const

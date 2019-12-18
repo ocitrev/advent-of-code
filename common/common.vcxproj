@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="main.hpp" />
     <ClInclude Include="input.hpp" />
     <ClInclude Include="intcode.hpp" />
     <ClInclude Include="pch.h" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="input.cpp" />
     <ClCompile Include="intcode.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

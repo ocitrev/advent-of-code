@@ -1,13 +1,14 @@
 // 2019.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "../common/input.hpp"
+#include "../common/main.hpp"
 #include <charconv>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <string>
 #include <vector>
-#include "..\common\input.hpp"
 
 constexpr int GetFuel(int mass)
 {
@@ -35,9 +36,9 @@ static_assert(2 == GetRealFuel(14));
 static_assert(966 == GetRealFuel(1969));
 static_assert(50346 == GetRealFuel(100756));
 
-int main()
+void Main()
 {
-    std::vector<int> const list = ReadInts(LR"(C:\Users\eb\OneDrive\devel\python\advent-of-code\2019\1.input)", '\n');
+    std::vector<int> const list = ReadInts(GetInputsPath() / L"1.input", '\n');
 
     std::cout << "Part1: " << std::accumulate(begin(list), end(list), 0, [](int r, int mass)
     {

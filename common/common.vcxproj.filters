@@ -5,10 +5,12 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="input.hpp" />
     <ClInclude Include="intcode.hpp" />
+    <ClInclude Include="main.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="intcode.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>

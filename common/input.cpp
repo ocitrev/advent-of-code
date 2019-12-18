@@ -1,9 +1,15 @@
 #include "pch.h"
 #include "input.hpp"
+#include "main.hpp"
 
 #include <fstream>
 #include <charconv>
 #include <string>
+
+std::filesystem::path GetInputsPath()
+{
+    return std::filesystem::absolute(GetExePath().parent_path() / L"..\\..\\inputs");
+}
 
 std::vector<int> ReadInts(std::filesystem::path const &filepath, char sep)
 {
