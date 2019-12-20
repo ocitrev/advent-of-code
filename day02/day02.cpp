@@ -1,7 +1,6 @@
 // day02.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "../common/input.hpp"
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <cassert>
@@ -10,14 +9,14 @@
 #include <string>
 #include <vector>
 
-int RunAndGetValue(std::vector<int> const &code, int offset)
+Int RunAndGetValue(std::vector<Int> const &code, int offset)
 {
     Intcode a{code};
     a.Run();
     return a.ReadMemory(offset);
 }
 
-int Run(std::vector<int> const &code, int noun, int verb)
+Int Run(std::vector<Int> const &code, int noun, int verb)
 {
     Intcode a{code};
     a.WriteMemory(1, noun);
@@ -26,12 +25,12 @@ int Run(std::vector<int> const &code, int noun, int verb)
     return a.ReadMemory(0);
 }
 
-void Part1(std::vector<int> const &input)
+void Part1(std::vector<Int> const &input)
 {
     std::cout << "Part1: " << Run(input, 12, 2) << '\n';
 }
 
-void Part2(std::vector<int> const &input)
+void Part2(std::vector<Int> const &input)
 {
     for (int noun = 0; noun != 100; ++noun)
     {
@@ -50,12 +49,14 @@ void Part2(std::vector<int> const &input)
 
 void Main()
 {
+    std::cout << "Day 2: 1202 Program Alarm\n";
+    
     assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
     assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    std::vector const input = ReadInts(GetInputsPath() / L"2.input", ',');
-    Part1(input);
-    Part2(input);
+    auto const code = Intcode::ReadFile(L"2.input");
+    Part1(code);
+    Part2(code);
 }

@@ -9,7 +9,10 @@
 std::filesystem::path GetInputsPath();
 
 [[nodiscard]]
-std::vector<int> ReadInts(std::filesystem::path const &filepath, char sep);
+std::vector<int> ReadInt32s(std::filesystem::path const &filepath, char sep);
+
+[[nodiscard]]
+std::vector<long long> ReadInt64s(std::filesystem::path const &filepath, char sep);
 
 [[nodiscard]]
 std::string ReadAllText(std::filesystem::path const &filepath);

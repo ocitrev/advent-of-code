@@ -1,17 +1,16 @@
 // day05.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "../common/input.hpp"
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <cassert>
 #include <iostream>
 #include <vector>
 
-int Run(std::vector<int> const &code, int input)
+Int Run(std::vector<Int> const &code, Int input)
 {
-    int outValue;
-    Intcode::Run(code, [input]() { return input; }, [&](int output)
+    Int outValue;
+    Intcode::Run(code, [input]() { return input; }, [&](Int output)
     {
         outValue = output;
     });
@@ -19,17 +18,17 @@ int Run(std::vector<int> const &code, int input)
 
 }
 
-void Part1(std::vector<int> const &code)
+void Part1(std::vector<Int> const &code)
 {
-    Intcode::Run(code, []() { return 1; }, [](int value)
+    Intcode::Run(code, []() { return 1; }, [](Int value)
     {
         std::cout << "Part1: " << value << '\n';
     });
 }
 
-void Part2(std::vector<int> const &code)
+void Part2(std::vector<Int> const &code)
 {
-    Intcode::Run(code, []() { return 5; }, [](int value)
+    Intcode::Run(code, []() { return 5; }, [](Int value)
     {
         std::cout << "Part1: " << value << '\n';
     });
@@ -37,6 +36,8 @@ void Part2(std::vector<int> const &code)
 
 void Main()
 {
+    std::cout << "Day 5: Sunny with a Chance of Asteroids\n";
+
     assert(0 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 7));
     assert(1 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 8));
     assert(0 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 9));
@@ -63,7 +64,7 @@ void Main()
     assert(1000 == Run({3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99}, 8));
     assert(1001 == Run({3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99}, 9));
 
-    auto code = ReadInts(GetInputsPath() / L"5.input", ',');
+    auto code = Intcode::ReadFile(L"5.input");
 
     Part1(code);
     Part2(code);

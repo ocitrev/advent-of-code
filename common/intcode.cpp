@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "intcode.hpp"
+#include "input.hpp"
 #include <stdexcept>
 
-Intcode::Intcode(std::vector<int> code)
+
+Intcode::Intcode(std::vector<Int> code)
     : memory{std::move(code)}
 {
     if (memory.empty())
@@ -14,36 +16,52 @@ Intcode::Param Intcode::GetParam(Mode mode)
     return {memory[ip++], this, mode};
 }
 
-Intcode::Param &Intcode::Param::operator=(int value_)
+Intcode::Param &Intcode::Param::operator=(Int value_)
 {
     if (mode == Mode::Immediate)
         throw std::domain_error("Cannot set immediate value");
 
-    cpu->memory[value] = value_;
+    Int offset = value;
+
+    if (mode == Mode::Relative)
+        offset += cpu->relOffset;
+
+    if (offset >= static_cast<Int>(cpu->memory.size()))
+        cpu->memory.resize(offset + 1);
+
+    cpu->memory[offset] = value_;
     return *this;
 }
 
-Intcode::Param::operator int() const
+Intcode::Param::operator Int() const
 {
     if (mode == Mode::Immediate)
         return value;
+    
+    Int offset = value;
 
-    return cpu->memory[value];
+    if (mode == Mode::Relative)
+        offset += cpu->relOffset;
+
+    if (offset >= static_cast<Int>(cpu->memory.size()))
+        return 0;
+
+    return cpu->memory[offset];
 }
 
-std::pair<Intcode::OpCode, int> Intcode::GetInstruction()
+std::pair<typename Intcode::OpCode, Int> Intcode::GetInstruction()
 {
-    int instruction = memory[ip++];
+    Int instruction = memory[ip++];
     return {static_cast<OpCode>(instruction % 100), instruction / 100};
 }
 
-void Intcode::Run(std::vector<int> code)
+void Intcode::Run(std::vector<Int> code)
 {
     Intcode a{std::move(code)};
     a.Run();
 }
 
-void Intcode::Run(std::vector<int> code, std::function<int()> &&inputFunc, std::function<void(int)> &&outputFunc)
+void Intcode::Run(std::vector<Int> code, InputFunc &&inputFunc, OutputFunc &&outputFunc)
 {
     Intcode a{std::move(code)};
     a.SetInput(std::move(inputFunc));
@@ -51,7 +69,7 @@ void Intcode::Run(std::vector<int> code, std::function<int()> &&inputFunc, std::
     a.Run();
 }
 
-void Intcode::RunStep(Intcode::OpCode opcode, int mode)
+void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 {
     switch (opcode)
     {
@@ -144,7 +162,7 @@ void Intcode::Run()
     }
 }
 
-std::optional<int> Intcode::RunUntilOuput(std::function<int()> &&inputFunc)
+std::optional<Int> Intcode::RunUntilOuput(InputFunc &&inputFunc)
 {
     inputFunc_ = std::move(inputFunc);
 
@@ -164,22 +182,27 @@ std::optional<int> Intcode::RunUntilOuput(std::function<int()> &&inputFunc)
     return std::nullopt;
 }
 
-int Intcode::ReadMemory(std::size_t offset) const
+Int Intcode::ReadMemory(std::size_t offset) const
 {
     return memory.at(offset);
 }
 
-int Intcode::WriteMemory(size_t offset, int value)
+Int Intcode::WriteMemory(size_t offset, Int value)
 {
     return std::exchange(memory.at(offset), value);
 }
 
-void Intcode::SetInput(std::function<int()> const &inputFunc)
+void Intcode::SetInput(InputFunc const &inputFunc)
 {
     inputFunc_ = inputFunc;
 }
 
-void Intcode::SetOutput(std::function<void(int)> const &outputFunc)
+void Intcode::SetOutput(OutputFunc const &outputFunc)
 {
     outputFunc_ = outputFunc;
+}
+
+std::vector<Int> Intcode::ReadFile(std::filesystem::path const &filepath)
+{
+    return ReadInt64s(GetInputsPath() / filepath, ',');
 }

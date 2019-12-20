@@ -1,7 +1,6 @@
 // day07.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "../common/input.hpp"
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <array>
@@ -9,15 +8,15 @@
 #include <vector>
 #include <cassert>
 
-int Amplify1(std::vector<int> const &code, std::array<int, 5> const &sequence)
+Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
-    int param = 0;
+    Int param = 0;
 
-    for (int s : sequence)
+    for (Int s : sequence)
     {
         bool first = true;
 
-        auto out = [&](int value)
+        auto out = [&](Int value)
         {
             param = value;
         };
@@ -41,9 +40,9 @@ int Amplify1(std::vector<int> const &code, std::array<int, 5> const &sequence)
 
 void Part1()
 {
-    auto code = ReadInts(GetInputsPath() / L"7.input", ',');
-    std::array sequence{0,1,2,3,4};
-    int maxValue = std::numeric_limits<int>::min();
+    auto code = Intcode::ReadFile(L"7.input");
+    std::array<Int, 5> sequence{0,1,2,3,4};
+    Int maxValue = std::numeric_limits<Int>::min();
 
     do
     {
@@ -51,12 +50,12 @@ void Part1()
     }
     while (std::next_permutation(begin(sequence), end(sequence)));
 
-    printf("Part1: %d\n", maxValue);
+    std::cout << "Part1: " << maxValue << '\n';
 }
 
-int Amplify2(std::vector<int> const &code, std::array<int, 5> const &sequence)
+Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
-    int param = 0;
+    Int param = 0;
 
     Intcode cpus[]{
         Intcode{code},
@@ -105,9 +104,9 @@ int Amplify2(std::vector<int> const &code, std::array<int, 5> const &sequence)
 
 void Part2()
 {
-    auto code = ReadInts(GetInputsPath() / L"7.input", ',');
-    std::array sequence{5,6,7,8,9};
-    int maxValue = std::numeric_limits<int>::min();
+    auto code = Intcode::ReadFile(L"7.input");
+    std::array<Int, 5> sequence{5,6,7,8,9};
+    Int maxValue = std::numeric_limits<Int>::min();
 
     do
     {
@@ -115,11 +114,13 @@ void Part2()
     }
     while (std::next_permutation(begin(sequence), end(sequence)));
 
-    printf("Part2: %d\n", maxValue);
+    std::cout << "Part2: " << maxValue << '\n';
 }
 
 void Main()
 {
+    std::cout << "Day 7: Amplification Circuit\n";
+
     assert(43210 == Amplify1({3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0}, {4,3,2,1,0}));
     assert(54321 == Amplify1({3,23,3,24,1002,24,10,24,1002,23,-1,23,101,5,23,23,1,24,23,23,4,23,99,0,0}, {0,1,2,3,4}));
     assert(65210 == Amplify1({3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,33,1,33,31,31,1,32,31,31,4,31,99,0,0,0}, {1,0,4,3,2}));

@@ -3,9 +3,15 @@
 #include <vector>
 #include <functional>
 #include <optional>
+#include <filesystem>
+
+using Int = long long;
 
 class Intcode
 {
+    using InputFunc = std::function<Int()>;
+    using OutputFunc = std::function<void (Int)>;
+
     enum class Mode
     {
         Address,
@@ -30,42 +36,44 @@ class Intcode
 
     struct Param
     {
-        int value;
+        Int value;
         Intcode *cpu;
         Mode mode;
-        Param &operator=(int value);
-        operator int() const;
+        Param &operator=(Int value);
+        operator Int() const;
     };
 
-    std::vector<int> memory;
+    std::vector<Int> memory;
     std::size_t ip = 0;
-    int relOffset = 0;
+    Int relOffset = 0;
     bool halted = false;
-    std::function<int()> inputFunc_;
-    std::function<void(int)> outputFunc_;
+    InputFunc inputFunc_;
+    OutputFunc outputFunc_;
 
     Param GetParam(Mode mode);
-    std::pair<OpCode, int> GetInstruction();
+    std::pair<OpCode, Int> GetInstruction();
 
-    void RunStep(OpCode opcode, int mode);
+    void RunStep(OpCode opcode, Int mode);
 
 public:
-    explicit Intcode(std::vector<int> code);
+    explicit Intcode(std::vector<Int> code);
     void Run();
-    [[nodiscard]] std::optional<int> RunUntilOuput(std::function<int()> &&inputFunc);
+    [[nodiscard]] std::optional<Int> RunUntilOuput(InputFunc &&inputFunc);
 
-    static void Run(std::vector<int> code);
-    static void Run(std::vector<int> code, std::function<int()> &&inputFunc, std::function<void(int)> &&outputFunc);
+    static void Run(std::vector<Int> code);
+    static void Run(std::vector<Int> code, InputFunc &&inputFunc, OutputFunc &&outputFunc);
 
-    [[nodiscard]] int ReadMemory(std::size_t offset) const;
-    int WriteMemory(std::size_t offset, int value);
+    [[nodiscard]] Int ReadMemory(std::size_t offset) const;
+    Int WriteMemory(std::size_t offset, Int value);
 
-    void SetInput(std::function<int()> const &inputFunc);
-    void SetOutput(std::function<void(int)> const &outputFunc);
+    void SetInput(InputFunc const &inputFunc);
+    void SetOutput(OutputFunc const &outputFunc);
 
     [[nodiscard]] bool IsHalted() const
     {
         return halted;
     }
+
+    static std::vector<Int> ReadFile(std::filesystem::path const &filepath);
 
 };

@@ -115,6 +115,8 @@ std::string ProcessWithOffsetTimes10000(std::string const &numbers, int count)
 
 void Main()
 {
+    std::cout << "Day 16: Flawed Frequency Transmission\n";
+
     assert("48226158" == Process("12345678", 1));
     assert("34040438" == Process("12345678", 2));
     assert("03415518" == Process("12345678", 3));

@@ -38,7 +38,9 @@ static_assert(50346 == GetRealFuel(100756));
 
 void Main()
 {
-    std::vector<int> const list = ReadInts(GetInputsPath() / L"1.input", '\n');
+    std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
+
+    std::vector const list = ReadInt32s(GetInputsPath() / L"1.input", '\n');
 
     std::cout << "Part1: " << std::accumulate(begin(list), end(list), 0, [](int r, int mass)
     {
