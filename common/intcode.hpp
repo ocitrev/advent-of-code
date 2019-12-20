@@ -41,8 +41,8 @@ class Intcode
     std::size_t ip = 0;
     int relOffset = 0;
     bool halted = false;
-    std::function<int()> inputFunc;
-    std::function<void(int)> outputFunc;
+    std::function<int()> inputFunc_;
+    std::function<void(int)> outputFunc_;
 
     Param GetParam(Mode mode);
     std::pair<OpCode, int> GetInstruction();
@@ -52,18 +52,18 @@ class Intcode
 public:
     explicit Intcode(std::vector<int> code);
     void Run();
-    std::optional<int> RunUntilOuput(std::function<int()> &&inputFunc);
+    [[nodiscard]] std::optional<int> RunUntilOuput(std::function<int()> &&inputFunc);
 
     static void Run(std::vector<int> code);
     static void Run(std::vector<int> code, std::function<int()> &&inputFunc, std::function<void(int)> &&outputFunc);
 
-    int ReadMemory(std::size_t offset) const;
+    [[nodiscard]] int ReadMemory(std::size_t offset) const;
     int WriteMemory(std::size_t offset, int value);
 
     void SetInput(std::function<int()> const &inputFunc);
     void SetOutput(std::function<void(int)> const &outputFunc);
 
-    bool IsHalted() const
+    [[nodiscard]] bool IsHalted() const
     {
         return halted;
     }

@@ -14,12 +14,12 @@ Intcode::Param Intcode::GetParam(Mode mode)
     return {memory[ip++], this, mode};
 }
 
-Intcode::Param &Intcode::Param::operator=(int value)
+Intcode::Param &Intcode::Param::operator=(int value_)
 {
     if (mode == Mode::Immediate)
         throw std::domain_error("Cannot set immediate value");
 
-    cpu->memory[this->value] = value;
+    cpu->memory[value] = value_;
     return *this;
 }
 
@@ -74,13 +74,13 @@ void Intcode::RunStep(Intcode::OpCode opcode, int mode)
         case OpCode::Input:
         {
             auto a = GetParam(static_cast<Mode>(mode % 10));
-            a = inputFunc();
+            a = inputFunc_();
             break;
         }
         case OpCode::Output:
         {
             auto a = GetParam(static_cast<Mode>(mode % 10));
-            outputFunc(a);
+            outputFunc_(a);
             break;
         }
         case OpCode::JumpTrue:
@@ -146,7 +146,7 @@ void Intcode::Run()
 
 std::optional<int> Intcode::RunUntilOuput(std::function<int()> &&inputFunc)
 {
-    this->inputFunc = std::move(inputFunc);
+    inputFunc_ = std::move(inputFunc);
 
     while (halted == false)
     {
@@ -176,10 +176,10 @@ int Intcode::WriteMemory(size_t offset, int value)
 
 void Intcode::SetInput(std::function<int()> const &inputFunc)
 {
-    this->inputFunc = inputFunc;
+    inputFunc_ = inputFunc;
 }
 
 void Intcode::SetOutput(std::function<void(int)> const &outputFunc)
 {
-    this->outputFunc = outputFunc;
+    outputFunc_ = outputFunc;
 }

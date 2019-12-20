@@ -6,7 +6,7 @@
 void Main();
 static std::filesystem::path thisExePath;
 
-int wmain(int argc, wchar_t **argv)
+int wmain([[maybe_unused]]int argc, wchar_t **argv)
 {
     thisExePath = argv[0];
 
