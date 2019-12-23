@@ -162,6 +162,28 @@ void Intcode::Run()
     }
 }
 
+std::function<void (Int)> Intcode::RunUntilInput()
+{
+    while (halted == false)
+    {
+        auto [opcode, mode] = GetInstruction();
+
+        if (opcode == OpCode::Input)
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+
+            return [a](Int value) mutable
+            {
+                a = value;
+            };
+        }
+
+        RunStep(opcode, mode);
+    }
+
+    return nullptr;
+}
+
 std::optional<Int> Intcode::RunUntilOuput(InputFunc &&inputFunc)
 {
     inputFunc_ = std::move(inputFunc);

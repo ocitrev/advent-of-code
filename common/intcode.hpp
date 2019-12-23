@@ -58,6 +58,7 @@ class Intcode
 public:
     explicit Intcode(std::vector<Int> code);
     void Run();
+    std::function<void (Int)> RunUntilInput();
     [[nodiscard]] std::optional<Int> RunUntilOuput(InputFunc &&inputFunc);
 
     static void Run(std::vector<Int> code);

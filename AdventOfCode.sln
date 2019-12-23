@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "inputs", "inputs", "{BC8CBE
 	ProjectSection(SolutionItems) = preProject
 		inputs\1.input = inputs\1.input
 		inputs\16.input = inputs\16.input
+		inputs\17.input = inputs\17.input
 		inputs\2.input = inputs\2.input
 		inputs\3.input = inputs\3.input
 		inputs\5.input = inputs\5.input
@@ -29,6 +30,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "day16", "day16\day16.vcxproj", "{D8E0C5FF-50F6-4691-9EF5-25D1212D5B12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "day09", "day09\day09.vcxproj", "{928337CF-3315-487B-9DA9-592C8DCDCD25}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "day17", "day17\day17.vcxproj", "{3690744B-24AD-46D4-B4C5-412FB31E378F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +97,14 @@ Global
 		{928337CF-3315-487B-9DA9-592C8DCDCD25}.Release|x64.Build.0 = Release|x64
 		{928337CF-3315-487B-9DA9-592C8DCDCD25}.Release|x86.ActiveCfg = Release|Win32
 		{928337CF-3315-487B-9DA9-592C8DCDCD25}.Release|x86.Build.0 = Release|Win32
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Debug|x64.ActiveCfg = Debug|x64
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Debug|x64.Build.0 = Debug|x64
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Debug|x86.ActiveCfg = Debug|Win32
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Debug|x86.Build.0 = Debug|Win32
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Release|x64.ActiveCfg = Release|x64
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Release|x64.Build.0 = Release|x64
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Release|x86.ActiveCfg = Release|Win32
+		{3690744B-24AD-46D4-B4C5-412FB31E378F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
