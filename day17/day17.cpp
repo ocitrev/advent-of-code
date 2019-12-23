@@ -360,6 +360,7 @@ Map ParseMap(std::string const &mapData)
 
 void Main()
 {
+    std::cout << "Day 17: Set and Forget\n";
     assert(13 == GetMapWidth(TEST_MAP1));
     assert(76 == MarkIntersections(ParseMap(TEST_MAP1)));
     assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2" == GetPath(ParseMap(TEST_MAP2)));
