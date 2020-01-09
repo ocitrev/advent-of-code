@@ -173,8 +173,6 @@ Int MarkIntersections(Map const &map)
 
 void RenderMap(Map const &map)
 {
-    Int const height = GetMapHeight(map);
-
     std::string line(map.second, '\0');
     auto iter = begin(line);
 

@@ -9,14 +9,14 @@
 #include <string>
 #include <vector>
 
-Int RunAndGetValue(std::vector<Int> const &code, int offset)
+Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
 {
     Intcode a{code};
     a.Run();
     return a.ReadMemory(offset);
 }
 
-Int Run(std::vector<Int> const &code, int noun, int verb)
+Int Run(std::vector<Int> const &code, Int noun, Int verb)
 {
     Intcode a{code};
     a.WriteMemory(1, noun);
@@ -32,9 +32,9 @@ void Part1(std::vector<Int> const &input)
 
 void Part2(std::vector<Int> const &input)
 {
-    for (int noun = 0; noun != 100; ++noun)
+    for (Int noun = 0; noun != 100; ++noun)
     {
-        for (int verb = 0; verb != 100; ++verb)
+        for (Int verb = 0; verb != 100; ++verb)
         {
             if (Run(input, noun, verb) == 19690720)
             {

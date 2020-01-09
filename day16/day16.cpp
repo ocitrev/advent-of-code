@@ -7,10 +7,44 @@
 #include <fstream>
 #include <string>
 #include <array>
+#ifdef COROUTINE
 #include <experimental/generator>
+#endif
 #include <cassert>
 #include <charconv>
 
+static constexpr std::array<int, 4> PATTERN{0, 1, 0, -1};
+
+struct PatternGenerator
+{
+    int const nb;
+    int step = 1;
+    decltype(begin(PATTERN)) iter = begin(PATTERN);
+
+    explicit PatternGenerator(int nb)
+        : nb(nb)
+    {
+    }
+
+    int next()
+    {
+        if (step == nb)
+        {
+            step = 1;
+
+            if (++iter == end(PATTERN))
+                iter = begin(PATTERN);
+        }
+        else
+        {
+            ++step;
+        }
+
+        return *iter;
+    }
+};
+
+#ifdef COROUTINE
 std::experimental::generator<int> GeneratePatternWithRepetitions(int nb)
 {
     constexpr std::array PATTERN{0, 1, 0, -1};
@@ -29,22 +63,21 @@ static int next(T &it)
     return v;
 
 }
+#endif
 
 std::string ProcessPhaseSlow(std::string const &numbers)
 {
     std::string ret(numbers.size(), '\0');
+    int const numCount = static_cast<int>(numbers.size());
 
-    for (int i = 0; i != numbers.size(); ++i)
+    for (int i = 0; i != numCount; ++i)
     {
-        auto &&g = GeneratePatternWithRepetitions(i + 1);
-        auto it = begin(g);
-        // skip first
-        ++it;
+        PatternGenerator p{i + 1};
 
         int sum = 0;
         for (char n : numbers)
         {
-            sum += (n - '0') * next(it);
+            sum += (n - '0') * p.next();
         }
 
         ret[i] = abs(sum) % 10 + '0';
@@ -96,7 +129,7 @@ std::string ProcessWithOffsetTimes10000(std::string const &numbers, int count)
     int ncount = static_cast<int>(numbers.size());
     std::string first7{numbers.begin(), numbers.begin() + 7};
     int offset;
-    auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
+    [[maybe_unused]]auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
     assert(result.ec == std::errc{});
     
     auto r = div(offset, ncount);

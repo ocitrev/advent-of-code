@@ -21,7 +21,7 @@ void Part1()
             beam.append(1, '.');
     };
 
-    int a, b;
+    Int a, b;
 
     auto in = [&]()
     {
@@ -30,11 +30,11 @@ void Part1()
 
     auto const code = Intcode::ReadFile("19.input");
 
-    for (int y = 0; y != 50; ++y)
+    for (Int y = 0; y != 50; ++y)
     {
         b = y;
 
-        for (int x = 0; x != 50; ++x)
+        for (Int x = 0; x != 50; ++x)
         {
             a = x;
             Intcode::Run(code, in, out);
@@ -62,11 +62,11 @@ Int Run(std::vector<Int> const &code, Int x, Int y)
     return result;
 }
 
-int FindSquare(int width, int height)
+Int FindSquare(Int width, Int height)
 {
     auto const code = Intcode::ReadFile("19.input");
-    int minx = 0;
-    int miny = 10;
+    Int minx = 0;
+    Int miny = 10;
 
 
     while (true)
@@ -77,7 +77,7 @@ int FindSquare(int width, int height)
         while (Run(code, minx, miny) == 0)
             ++minx;
 
-        for (int x = 1; x != width; ++x)
+        for (Int x = 1; x != width; ++x)
         {
             if (Run(code, x + minx, miny) == 0)
             {
@@ -88,7 +88,7 @@ int FindSquare(int width, int height)
 
         if (valid)
         {
-            for (int y = 1; y != height; ++y)
+            for (Int y = 1; y != height; ++y)
             {
                 if (Run(code, minx, miny - (height - y)) == 0)
                 {
@@ -99,7 +99,7 @@ int FindSquare(int width, int height)
 
             if (valid)
             {
-                for (int x = 1; x != width; ++x)
+                for (Int x = 1; x != width; ++x)
                 {
                     if (Run(code, minx + (width - x), miny - (height - 1)) == 0)
                     {
@@ -110,8 +110,8 @@ int FindSquare(int width, int height)
 
                 if (valid)
                 {
-                    int x = minx;
-                    int y = miny - (height - 1);
+                    Int x = minx;
+                    Int y = miny - (height - 1);
 
                     //std::cout << x << ", " << y << '\n';
                     return x * 10000 + y;
