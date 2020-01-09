@@ -1,6 +1,3 @@
-// day05.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <cassert>
@@ -54,7 +51,7 @@ void Main()
     assert(1 == Run({3, 3, 1107, -1, 8, 3, 4, 3, 99}, 7));
     assert(0 == Run({3, 3, 1107, -1, 8, 3, 4, 3, 99}, 8));
     assert(0 == Run({3, 3, 1107, -1, 8, 3, 4, 3, 99}, 9));
-            
+
     // JMP *
     assert(0 == Run({3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9}, 0));
     assert(1 == Run({3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9}, 1));

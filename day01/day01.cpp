@@ -1,6 +1,3 @@
-// 2019.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "../common/input.hpp"
 #include "../common/main.hpp"
 #include <charconv>
@@ -23,7 +20,7 @@ static_assert(33583 == GetFuel(100756));
 constexpr int GetRealFuel(int mass)
 {
     int fuel = GetFuel(mass);
-    
+
     if (fuel > 0)
         return fuel + GetRealFuel(fuel);
     else if (fuel < 0)

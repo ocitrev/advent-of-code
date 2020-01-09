@@ -1,6 +1,3 @@
-// day07.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <array>

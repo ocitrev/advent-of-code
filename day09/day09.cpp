@@ -1,6 +1,3 @@
-// day09.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "../common/main.hpp"
 #include "../common/intcode.hpp"
 #include "../common/input.hpp"
