@@ -80,7 +80,7 @@ std::string ProcessPhaseSlow(std::string const &numbers)
             sum += (n - '0') * p.next();
         }
 
-        ret[i] = abs(sum) % 10 + '0';
+        ret[static_cast<size_t>(i)] = abs(sum) % 10 + '0';
     }
 
     return ret;
@@ -131,12 +131,12 @@ std::string ProcessWithOffsetTimes10000(std::string const &numbers, int count)
     int offset;
     [[maybe_unused]]auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
     assert(result.ec == std::errc{});
-    
+
     auto r = div(offset, ncount);
     int missing = 10'000 - r.quot;
-    
+
     std::string ret = numbers;
-    
+
     for (int i = 1; i < missing; ++i)
         ret.append(numbers);
 
@@ -163,7 +163,7 @@ void Main()
     assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
     std::string inputText = ReadAllText(GetInputsPath() / L"16.input");
-    
+
     std::cout << "Part1: " << Process(inputText, 100) << '\n';
     std::cout << "Part2: " << ProcessWithOffsetTimes10000(inputText, 100) << '\n';
 }

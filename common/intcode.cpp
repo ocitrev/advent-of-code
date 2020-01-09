@@ -27,9 +27,9 @@ Intcode::Param &Intcode::Param::operator=(Int value_)
         offset += cpu->relOffset;
 
     if (offset >= static_cast<Int>(cpu->memory.size()))
-        cpu->memory.resize(offset + 1);
+        cpu->memory.resize(static_cast<size_t>(offset) + 1);
 
-    cpu->memory[offset] = value_;
+    cpu->memory[static_cast<size_t>(offset)] = value_;
     return *this;
 }
 
@@ -37,7 +37,7 @@ Intcode::Param::operator Int() const
 {
     if (mode == Mode::Immediate)
         return value;
-    
+
     Int offset = value;
 
     if (mode == Mode::Relative)
@@ -46,7 +46,7 @@ Intcode::Param::operator Int() const
     if (offset >= static_cast<Int>(cpu->memory.size()))
         return 0;
 
-    return cpu->memory[offset];
+    return cpu->memory[static_cast<size_t>(offset)];
 }
 
 std::pair<typename Intcode::OpCode, Int> Intcode::GetInstruction()
@@ -108,7 +108,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 
             if (a != 0)
             {
-                ip = b;
+                ip = static_cast<size_t>(b);
             }
             break;
         }
@@ -119,7 +119,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 
             if (a == 0)
             {
-                ip = b;
+                ip = static_cast<size_t>(b);
             }
             break;
         }

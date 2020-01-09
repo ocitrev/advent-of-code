@@ -43,14 +43,12 @@ void Part2(std::vector<Int> const &input)
             }
         }
     }
-
-
 }
 
 void Main()
 {
     std::cout << "Day 2: 1202 Program Alarm\n";
-    
+
     assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
     assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));

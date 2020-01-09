@@ -44,7 +44,11 @@ void Part1()
     }
 
     std::cout << "Part1: " << total << '\n';
-    //std::cout << beam << '\n';
+
+    if constexpr (false)
+    {
+        std::cout << beam << '\n';
+    }
 }
 
 Int Run(std::vector<Int> const &code, Int x, Int y)

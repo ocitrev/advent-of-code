@@ -137,7 +137,7 @@ char GetTile(Map const &map, Pos const &p)
     if (p.y >= height)
         return '\0';
 
-    return map.first[p.y * map.second + p.x];
+    return map.first[static_cast<size_t>(p.y * map.second + p.x)];
 }
 
 Int MarkIntersections(Map const &map)
@@ -173,7 +173,7 @@ Int MarkIntersections(Map const &map)
 
 void RenderMap(Map const &map)
 {
-    std::string line(map.second, '\0');
+    std::string line(static_cast<size_t>(map.second), '\0');
     auto iter = begin(line);
 
     for (char const &c : map.first)
@@ -205,7 +205,7 @@ constexpr std::array<std::pair<Pos, char>, 2> GetOtherDirs(Pos const &pos)
 {
     if (pos == West)
         return {std::make_pair(South, 'L'), std::make_pair(North, 'R')};
-    
+
     if (pos == East)
         return {std::make_pair(North, 'L'), std::make_pair(South, 'R')};
 
@@ -266,7 +266,7 @@ std::string GetPath(Map const &map)
 {
     using namespace std::string_view_literals;
     auto pos = map.first.find('^');
-    Pos start = div(pos, map.second);
+    Pos start = div(static_cast<Int>(pos), map.second);
 
     std::string path;
     FillPath(path, map, start, GetDir('^'));
@@ -308,12 +308,10 @@ void Part2()
 
                 if (value == '\n' && prev == '\n')
                 {
-                    //std::count(begin(ret), end(ret), '\n');
-
                     fwrite("\x1b[f", 1, 4, stdout);
                     fwrite(ret.data(), 1, ret.size(), stdout);
                     ret.clear();
-                    //Sleep(50);
+                    Sleep(50);
                 }
             }
 

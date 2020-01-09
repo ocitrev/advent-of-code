@@ -51,7 +51,7 @@ std::string ReadAllText(std::filesystem::path const &filepath)
     auto size = input.tellg();
     input.seekg(0);
 
-    std::string ret(size, '\0');
+    std::string ret(static_cast<size_t>(size), '\0');
     input.read(ret.data(), size);
     trim(ret);
     return ret;
