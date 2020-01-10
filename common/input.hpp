@@ -12,6 +12,9 @@ std::filesystem::path GetInputsPath();
 std::vector<int> ReadInt32s(std::filesystem::path const &filepath, char sep);
 
 [[nodiscard]]
+std::vector<long long> ReadInt64s(std::istream &input, char sep);
+
+[[nodiscard]]
 std::vector<long long> ReadInt64s(std::filesystem::path const &filepath, char sep);
 
 [[nodiscard]]

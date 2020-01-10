@@ -1,5 +1,6 @@
 #include "../common/input.hpp"
 #include "../common/main.hpp"
+#include "input.hpp"
 #include <charconv>
 #include <fstream>
 #include <iostream>
@@ -33,19 +34,18 @@ static_assert(2 == GetRealFuel(14));
 static_assert(966 == GetRealFuel(1969));
 static_assert(50346 == GetRealFuel(100756));
 
+
 void Main()
 {
     std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
 
-    std::vector const list = ReadInt32s(GetInputsPath() / L"1.input", '\n');
-
-    std::cout << "Part1: " << std::accumulate(begin(list), end(list), 0, [](int r, int mass)
+    std::cout << "Part1: " << std::accumulate(begin(data), end(data), 0, [](int r, int mass)
     {
         return r + GetFuel(mass);
     }) << '\n';
 
 
-    std::cout << "Part2: " << std::accumulate(begin(list), end(list), 0, [](int r, int mass)
+    std::cout << "Part2: " << std::accumulate(begin(data), end(data), 0, [](int r, int mass)
     {
         return r + GetRealFuel(mass);
     }) << '\n';

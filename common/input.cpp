@@ -28,9 +28,9 @@ std::vector<int> ReadInt32s(std::filesystem::path const &filepath, char sep)
     return results;
 }
 
-std::vector<long long> ReadInt64s(std::filesystem::path const &filepath, char sep)
+
+std::vector<long long> ReadInt64s(std::istream &input, char sep)
 {
-    std::ifstream input(filepath);
     std::vector<long long> results;
 
     for (std::string line; std::getline(input, line, sep); )
@@ -43,6 +43,12 @@ std::vector<long long> ReadInt64s(std::filesystem::path const &filepath, char se
     }
 
     return results;
+}
+
+std::vector<long long> ReadInt64s(std::filesystem::path const &filepath, char sep)
+{
+    std::ifstream input(filepath);
+    return ReadInt64s(input, sep);
 }
 
 std::string ReadAllText(std::filesystem::path const &filepath)

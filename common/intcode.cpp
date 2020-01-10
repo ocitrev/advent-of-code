@@ -2,6 +2,7 @@
 #include "intcode.hpp"
 #include "input.hpp"
 #include <stdexcept>
+#include <sstream>
 
 
 Intcode::Intcode(std::vector<Int> code)
@@ -227,4 +228,10 @@ void Intcode::SetOutput(OutputFunc const &outputFunc)
 std::vector<Int> Intcode::ReadFile(std::filesystem::path const &filepath)
 {
     return ReadInt64s(GetInputsPath() / filepath, ',');
+}
+
+std::vector<Int> Intcode::ReadString(std::string_view data)
+{
+    std::istringstream ss({data.data(), data.size()});
+    return ReadInt64s(ss, ',');
 }
