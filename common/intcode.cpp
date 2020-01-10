@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "common.hpp"
 #include "intcode.hpp"
 #include "input.hpp"
 #include <stdexcept>

@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "common.hpp"
 #include "main.hpp"
 #include "input.hpp"
 #include <crtdbg.h>
