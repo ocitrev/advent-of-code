@@ -1,15 +1,12 @@
 #include "common.hpp"
 #include "main.hpp"
-#include "input.hpp"
 #include <crtdbg.h>
 
 void Main();
-static std::filesystem::path thisExePath;
 
-int wmain([[maybe_unused]]int argc, wchar_t **argv)
+#ifdef _WIN32
+int wmain([[maybe_unused]]int argc, [[maybe_unused]]wchar_t **argv)
 {
-    thisExePath = argv[0];
-
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
     _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
@@ -19,8 +16,9 @@ int wmain([[maybe_unused]]int argc, wchar_t **argv)
 
     Main();
 }
-
-std::filesystem::path const &GetExePath()
+#else
+int main()
 {
-    return thisExePath;
+    Main();
 }
+#endif

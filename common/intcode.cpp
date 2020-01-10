@@ -1,6 +1,5 @@
 #include "common.hpp"
 #include "intcode.hpp"
-#include "input.hpp"
 #include <stdexcept>
 #include <sstream>
 
@@ -223,15 +222,4 @@ void Intcode::SetInput(InputFunc const &inputFunc)
 void Intcode::SetOutput(OutputFunc const &outputFunc)
 {
     outputFunc_ = outputFunc;
-}
-
-std::vector<Int> Intcode::ReadFile(std::filesystem::path const &filepath)
-{
-    return ReadInt64s(GetInputsPath() / filepath, ',');
-}
-
-std::vector<Int> Intcode::ReadString(std::string_view data)
-{
-    std::istringstream ss({data.data(), data.size()});
-    return ReadInt64s(ss, ',');
 }

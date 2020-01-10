@@ -1,5 +1,5 @@
 #pragma once
-#include <filesystem>
 
-std::filesystem::path const & GetExePath();
+#ifdef _WIN32
 #pragma comment(linker, "/INCLUDE:wmain")
+#endif

@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-constexpr std::array data
+constexpr std::array inputData
 {
     104451,
     112406,

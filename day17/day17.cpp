@@ -1,3 +1,4 @@
+#include "day17.hpp"
 #include "../common/main.hpp"
 #include "../common/intcode.hpp"
 #include <iostream>
@@ -58,7 +59,7 @@ Map GenerateMap()
         ret.first.append(1, static_cast<char>(value));
     };
 
-    Intcode::Run(Intcode::ReadFile("17.input"), nullptr, out);
+    Intcode::Run({begin(inputData), end(inputData)}, nullptr, out);
     ret.second = GetMapWidth(ret.first);
     CleanMap(ret);
     return ret;
@@ -281,7 +282,7 @@ void Part2()
 {
     constexpr bool debug = false;
 
-    Intcode cpu(Intcode::ReadFile("17.input"));
+    Intcode cpu({begin(inputData), end(inputData)});
     cpu.WriteMemory(0, 2);
     Int result = 0;
 

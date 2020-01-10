@@ -1,10 +1,8 @@
+#include "day02.hpp"
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
-#include "input.hpp"
 #include <cassert>
-#include <fstream>
 #include <iostream>
-#include <string>
 #include <vector>
 
 Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
@@ -52,7 +50,7 @@ void Main()
     assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    auto const code = Intcode::ReadString(input);
+    std::vector<Int> const code{begin(inputData), end(inputData)};
     Part1(code);
     Part2(code);
 }

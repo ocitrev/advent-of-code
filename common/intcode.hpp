@@ -74,8 +74,4 @@ public:
     {
         return halted;
     }
-
-    static std::vector<Int> ReadFile(std::filesystem::path const &filepath);
-    static std::vector<Int> ReadString(std::string_view data);
-
 };

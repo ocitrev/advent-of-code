@@ -1,7 +1,7 @@
+#include "day19.hpp"
 #include "../common/main.hpp"
 #include "../common/intcode.hpp"
 #include <iostream>
-#include <array>
 
 void Part1()
 {
@@ -25,7 +25,7 @@ void Part1()
         return std::exchange(a, b);
     };
 
-    auto const code = Intcode::ReadFile("19.input");
+    std::vector<Int> const code{begin(inputData), end(inputData)};
 
     for (Int y = 0; y != 50; ++y)
     {
@@ -65,10 +65,9 @@ Int Run(std::vector<Int> const &code, Int x, Int y)
 
 Int FindSquare(Int width, Int height)
 {
-    auto const code = Intcode::ReadFile("19.input");
+    std::vector<Int> const code{begin(inputData), end(inputData)};
     Int minx = 0;
     Int miny = 10;
-
 
     while (true)
     {

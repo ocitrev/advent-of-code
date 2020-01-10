@@ -1,6 +1,5 @@
-#include "../common/input.hpp"
+#include "day01.hpp"
 #include "../common/main.hpp"
-#include "input.hpp"
 #include <charconv>
 #include <fstream>
 #include <iostream>
@@ -39,13 +38,13 @@ void Main()
 {
     std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
 
-    std::cout << "Part1: " << std::accumulate(begin(data), end(data), 0, [](int r, int mass)
+    std::cout << "Part1: " << std::accumulate(begin(inputData), end(inputData), 0, [](int r, int mass)
     {
         return r + GetFuel(mass);
     }) << '\n';
 
 
-    std::cout << "Part2: " << std::accumulate(begin(data), end(data), 0, [](int r, int mass)
+    std::cout << "Part2: " << std::accumulate(begin(inputData), end(inputData), 0, [](int r, int mass)
     {
         return r + GetRealFuel(mass);
     }) << '\n';

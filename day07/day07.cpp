@@ -1,3 +1,4 @@
+#include "day07.hpp"
 #include "../common/intcode.hpp"
 #include "../common/main.hpp"
 #include <array>
@@ -37,7 +38,7 @@ Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 
 void Part1()
 {
-    auto code = Intcode::ReadFile(L"7.input");
+    std::vector<Int> const code{begin(inputData), end(inputData)};
     std::array<Int, 5> sequence{0,1,2,3,4};
     Int maxValue = std::numeric_limits<Int>::min();
 
@@ -101,7 +102,7 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 
 void Part2()
 {
-    auto code = Intcode::ReadFile(L"7.input");
+    std::vector<Int> const code{begin(inputData), end(inputData)};
     std::array<Int, 5> sequence{5,6,7,8,9};
     Int maxValue = std::numeric_limits<Int>::min();
 

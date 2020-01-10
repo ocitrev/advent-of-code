@@ -1,5 +1,5 @@
+#include "day16.hpp"
 #include "../common/main.hpp"
-#include "../common/input.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -62,7 +62,7 @@ static int next(T &it)
 }
 #endif
 
-std::string ProcessPhaseSlow(std::string const &numbers)
+std::string ProcessPhaseSlow(std::string_view numbers)
 {
     std::string ret(numbers.size(), '\0');
     int const numCount = static_cast<int>(numbers.size());
@@ -88,9 +88,9 @@ static int GetDigit(char c)
     return c - '0';
 }
 
-std::string Process(std::string const &numbers, int count)
+std::string Process(std::string_view numbers, int count)
 {
-    std::string ret = numbers;
+    std::string ret{numbers.data(), numbers.size()};
 
     for (int i = 0; i != count; ++i)
     {
@@ -103,7 +103,7 @@ std::string Process(std::string const &numbers, int count)
     return ret;
 }
 
-std::string ProcessPhaseCheat(std::string const &numbers)
+std::string ProcessPhaseCheat(std::string_view numbers)
 {
     std::string ret(numbers.size(), '\0');
     char prev = '\0';
@@ -121,7 +121,7 @@ std::string ProcessPhaseCheat(std::string const &numbers)
     return ret;
 }
 
-std::string ProcessWithOffsetTimes10000(std::string const &numbers, int count)
+std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
 {
     int ncount = static_cast<int>(numbers.size());
     std::string first7{numbers.begin(), numbers.begin() + 7};
@@ -132,7 +132,7 @@ std::string ProcessWithOffsetTimes10000(std::string const &numbers, int count)
     auto r = div(offset, ncount);
     int missing = 10'000 - r.quot;
 
-    std::string ret = numbers;
+    std::string ret{numbers.data(), numbers.size()};
 
     for (int i = 1; i < missing; ++i)
         ret.append(numbers);
@@ -159,8 +159,6 @@ void Main()
     assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
     assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
-    std::string inputText = ReadAllText(GetInputsPath() / L"16.input");
-
-    std::cout << "Part1: " << Process(inputText, 100) << '\n';
-    std::cout << "Part2: " << ProcessWithOffsetTimes10000(inputText, 100) << '\n';
+    std::cout << "Part1: " << Process(inputData, 100) << '\n';
+    std::cout << "Part2: " << ProcessWithOffsetTimes10000(inputData, 100) << '\n';
 }
