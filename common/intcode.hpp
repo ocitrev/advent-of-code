@@ -3,9 +3,6 @@
 #include <vector>
 #include <functional>
 #include <optional>
-#include <filesystem>
-
-using Int = long long;
 
 class Intcode
 {

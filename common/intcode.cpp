@@ -1,4 +1,3 @@
-#include "common.hpp"
 #include "intcode.hpp"
 #include <stdexcept>
 #include <sstream>

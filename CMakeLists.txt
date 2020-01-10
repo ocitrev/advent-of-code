@@ -26,8 +26,14 @@ else()
   )
 endif()
 
+if(MSVC)
+  add_definitions(/FI"${PROJECT_SOURCE_DIR}/common/common.hpp")
+else()
+  # GCC or Clang
+  add_definitions(-include ${PROJECT_SOURCE_DIR}/common/common.hpp)
+endif()
+
 add_library(common STATIC
-  common/common.hpp
   common/main.cpp
   common/main.hpp
   common/intcode.cpp
