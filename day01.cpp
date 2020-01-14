@@ -1,5 +1,5 @@
 #include "day01.hpp"
-#include "../common/main.hpp"
+#include "common/main.hpp"
 #include <charconv>
 #include <fstream>
 #include <iostream>

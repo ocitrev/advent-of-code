@@ -210,7 +210,7 @@ Int Intcode::ReadMemory(std::size_t offset) const
 
 Int Intcode::WriteMemory(size_t offset, Int value)
 {
-    return std::exchange(memory.at(offset), value);
+    return std::exchange(memory[offset], value);
 }
 
 void Intcode::SetInput(InputFunc const &inputFunc)

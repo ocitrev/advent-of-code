@@ -1,5 +1,5 @@
 #include "day16.hpp"
-#include "../common/main.hpp"
+#include "common/main.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>

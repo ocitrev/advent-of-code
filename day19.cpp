@@ -1,6 +1,6 @@
 #include "day19.hpp"
-#include "../common/main.hpp"
-#include "../common/intcode.hpp"
+#include "common/main.hpp"
+#include "common/intcode.hpp"
 #include <iostream>
 
 void Part1()

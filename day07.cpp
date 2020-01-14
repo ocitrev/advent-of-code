@@ -1,6 +1,6 @@
 #include "day07.hpp"
-#include "../common/intcode.hpp"
-#include "../common/main.hpp"
+#include "common/intcode.hpp"
+#include "common/main.hpp"
 #include <array>
 #include <iostream>
 #include <vector>

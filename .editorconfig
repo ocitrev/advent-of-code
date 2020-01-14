@@ -1,0 +1,11 @@
+root = true
+
+[*.{cpp,hpp}]
+insert_final_newline = true
+charset = utf-8
+indent_style = spaces
+indent_size = 4
+
+[CMakeLists.txt]
+indent_style = tabs
+indent_size = 2

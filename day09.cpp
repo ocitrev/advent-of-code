@@ -1,6 +1,6 @@
 #include "day09.hpp"
-#include "../common/main.hpp"
-#include "../common/intcode.hpp"
+#include "common/main.hpp"
+#include "common/intcode.hpp"
 #include <iostream>
 #include <cassert>
 
