@@ -1,6 +1,6 @@
 #include "day19.hpp"
-#include "common/main.hpp"
 #include "common/intcode.hpp"
+#include "common/main.hpp"
 #include <iostream>
 
 void Part1()
@@ -8,8 +8,7 @@ void Part1()
     Int total = 0;
     std::string beam;
 
-    auto out = [&](Int value)
-    {
+    auto out = [&](Int value) {
         total += value;
 
         if (value == 1)
@@ -19,13 +18,11 @@ void Part1()
     };
 
     Int a, b;
-
-    auto in = [&]()
-    {
+    auto in = [&]() {
         return std::exchange(a, b);
     };
 
-    std::vector<Int> const code{begin(inputData), end(inputData)};
+    std::vector<Int> const code{begin(input::data), end(input::data)};
 
     for (Int y = 0; y != 50; ++y)
     {
@@ -50,22 +47,22 @@ void Part1()
 
 Int Run(std::vector<Int> const &code, Int x, Int y)
 {
-    auto in = [&]()
-    {
+    auto in = [&]() {
         return std::exchange(x, y);
     };
+
     Int result;
-    auto out = [&](Int value)
-    {
+    auto out = [&](Int value) {
         result = value;
     };
+
     Intcode::Run(code, in, out);
     return result;
 }
 
 Int FindSquare(Int width, Int height)
 {
-    std::vector<Int> const code{begin(inputData), end(inputData)};
+    std::vector<Int> const code{begin(input::data), end(input::data)};
     Int minx = 0;
     Int miny = 10;
 
@@ -113,7 +110,7 @@ Int FindSquare(Int width, Int height)
                     Int x = minx;
                     Int y = miny - (height - 1);
 
-                    //std::cout << x << ", " << y << '\n';
+                    // std::cout << x << ", " << y << '\n';
                     return x * 10000 + y;
                 }
             }

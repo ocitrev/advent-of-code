@@ -1,13 +1,13 @@
 #pragma once
 
-#include <vector>
 #include <functional>
 #include <optional>
+#include <vector>
 
 class Intcode
 {
     using InputFunc = std::function<Int()>;
-    using OutputFunc = std::function<void (Int)>;
+    using OutputFunc = std::function<void(Int)>;
 
     enum class Mode
     {
@@ -55,7 +55,7 @@ class Intcode
 public:
     explicit Intcode(std::vector<Int> code);
     void Run();
-    std::function<void (Int)> RunUntilInput();
+    OutputFunc RunUntilInput();
     [[nodiscard]] std::optional<Int> RunUntilOuput(InputFunc &&inputFunc);
 
     static void Run(std::vector<Int> code);

@@ -1,15 +1,14 @@
-#include "day17.hpp"
-#include "common/main.hpp"
-#include "common/intcode.hpp"
-#include <iostream>
-#include <cassert>
-#include <string_view>
-#include <array>
-#include <charconv>
 #include <Windows.h>
+#include "day17.hpp"
+#include "common/intcode.hpp"
+#include "common/main.hpp"
+#include <array>
+#include <cassert>
+#include <charconv>
+#include <iostream>
+#include <string_view>
 
-std::string const TEST_MAP1 =
-R"(..#..........
+std::string const TEST_MAP1 = R"(..#..........
 ..#..........
 #######...###
 #.#...#...#.#
@@ -18,8 +17,7 @@ R"(..#..........
 ..#####...^..
 )";
 
-std::string const TEST_MAP2 =
-R"(#######...#####
+std::string const TEST_MAP2 = R"(#######...#####
 #.....#...#...#
 #.....#...#...#
 ......#...#...#
@@ -44,7 +42,6 @@ Int GetMapWidth(std::string const &map)
     return std::distance(begin(map), iter);
 }
 
-
 void CleanMap(Map &map)
 {
     map.first.erase(std::remove(begin(map.first), end(map.first), '\n'), end(map.first));
@@ -54,12 +51,11 @@ Map GenerateMap()
 {
     Map ret;
 
-    auto out = [&](Int value)
-    {
+    auto out = [&](Int value) {
         ret.first.append(1, static_cast<char>(value));
     };
 
-    Intcode::Run({begin(inputData), end(inputData)}, nullptr, out);
+    Intcode::Run({std::begin(input::data), std::end(input::data)}, nullptr, out);
     ret.second = GetMapWidth(ret.first);
     CleanMap(ret);
     return ret;
@@ -112,7 +108,6 @@ struct Pos
     {
         return x == p.x && y == p.y;
     }
-
 };
 
 constexpr static Pos West{-1, 0};
@@ -188,12 +183,16 @@ void RenderMap(Map const &map)
 
 constexpr Pos GetDir(char robot)
 {
-    switch(robot)
+    switch (robot)
     {
-        case '<': return West;
-        case '>': return East;
-        case '^': return North;
-        case 'v': return South;
+    case '<':
+        return West;
+    case '>':
+        return East;
+    case '^':
+        return North;
+    case 'v':
+        return South;
     }
 
     throw std::invalid_argument{"Invalid robot"};
@@ -282,7 +281,7 @@ void Part2()
 {
     constexpr bool debug = false;
 
-    Intcode cpu({begin(inputData), end(inputData)});
+    Intcode cpu({std::begin(input::data), std::end(input::data)});
     cpu.WriteMemory(0, 2);
     Int result = 0;
 
@@ -294,8 +293,7 @@ void Part2()
         std::string ret;
         Int prev = 0;
 
-        auto outDebug = [&](Int value)
-        {
+        auto outDebug = [&](Int value) {
             if (value > 0x7f)
             {
                 result = value;
@@ -320,14 +318,12 @@ void Part2()
     }
     else
     {
-        cpu.SetOutput([&](Int value)
-        {
+        cpu.SetOutput([&](Int value) {
             result = value;
         });
     }
 
-    auto sendInputs = [](Intcode &cpu, std::string sequence)
-    {
+    auto sendInputs = [](Intcode &cpu, std::string sequence) {
         while (sequence.empty() == false)
         {
             cpu.RunUntilInput()(sequence.front());
@@ -357,7 +353,8 @@ void Main()
     std::cout << "Day 17: Set and Forget\n";
     assert(13 == GetMapWidth(TEST_MAP1));
     assert(76 == MarkIntersections(ParseMap(TEST_MAP1)));
-    assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2" == GetPath(ParseMap(TEST_MAP2)));
+    assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2"
+           == GetPath(ParseMap(TEST_MAP2)));
 
     Part1();
     Part2();

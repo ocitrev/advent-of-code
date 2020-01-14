@@ -1,12 +1,11 @@
 #include "day04.hpp"
 #include "common/main.hpp"
-#include <iostream>
-#include <charconv>
 #include <algorithm>
-#include <vector>
 #include <array>
 #include <cassert>
-
+#include <charconv>
+#include <iostream>
+#include <vector>
 
 static std::string ToString(int n)
 {
@@ -40,8 +39,7 @@ constexpr static bool HasDoubleDigit(int n)
             return true;
 
         n /= 10;
-    }
-    while (n != 0);
+    } while (n != 0);
 
     return false;
 }
@@ -54,8 +52,7 @@ constexpr static bool HasDoubleDigitExact(int n)
     {
         ++digitCount[n % 10];
         n /= 10;
-    }
-    while (n != 0);
+    } while (n != 0);
 
     for (int i : digitCount)
     {
@@ -81,7 +78,7 @@ static bool IsValid2(int n)
 void Main()
 {
     std::cout << "Day 4: Secure Container\n";
-    
+
     assert(IsIncreasing(111123));
     assert(IsIncreasing(135679));
 

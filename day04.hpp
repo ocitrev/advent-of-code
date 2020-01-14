@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace input
 {
     constexpr int begin = 236491;

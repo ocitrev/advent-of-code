@@ -1,11 +1,11 @@
 #include "day16.hpp"
 #include "common/main.hpp"
-#include <iostream>
-#include <fstream>
-#include <string>
 #include <array>
+#include <fstream>
+#include <iostream>
+#include <string>
 #ifdef COROUTINE
-#include <experimental/generator>
+#    include <experimental/generator>
 #endif
 #include <cassert>
 #include <charconv>
@@ -58,7 +58,6 @@ static int next(T &it)
     int v = *it;
     ++it;
     return v;
-
 }
 #endif
 
@@ -108,8 +107,7 @@ std::string ProcessPhaseCheat(std::string_view numbers)
     std::string ret(numbers.size(), '\0');
     char prev = '\0';
 
-    std::transform(rbegin(numbers), rend(numbers), rbegin(ret), [&](char c) -> char
-    {
+    std::transform(rbegin(numbers), rend(numbers), rbegin(ret), [&](char c) -> char {
         if (prev == '\0')
             prev = c;
         else
@@ -126,7 +124,7 @@ std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
     int ncount = static_cast<int>(numbers.size());
     std::string first7{numbers.begin(), numbers.begin() + 7};
     int offset;
-    [[maybe_unused]]auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
+    [[maybe_unused]] auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
     assert(result.ec == std::errc{});
 
     auto r = div(offset, ncount);
@@ -159,6 +157,6 @@ void Main()
     assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
     assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
-    std::cout << "Part1: " << Process(inputData, 100) << '\n';
-    std::cout << "Part2: " << ProcessWithOffsetTimes10000(inputData, 100) << '\n';
+    std::cout << "Part1: " << Process(input::data, 100) << '\n';
+    std::cout << "Part2: " << ProcessWithOffsetTimes10000(input::data, 100) << '\n';
 }
