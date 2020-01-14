@@ -1,5 +1,6 @@
 #include "day03.hpp"
 #include "common/main.hpp"
+#include "common/string.hpp"
 #include <algorithm>
 #include <cassert>
 #include <charconv>
@@ -48,28 +49,6 @@ struct Point
 };
 
 using Grid = std::map<Point, Cell>;
-
-static std::vector<std::string> Split(std::string_view text, char const sep)
-{
-    std::vector<std::string> result;
-
-    auto first = begin(text);
-    auto iter = first;
-    auto const last = end(text);
-
-    for (; iter != last; ++iter)
-    {
-        if (*iter != sep)
-            continue;
-
-        result.emplace_back(first, iter);
-        first = iter + 1;
-    }
-
-    result.emplace_back(first, iter);
-
-    return result;
-}
 
 struct Result
 {
