@@ -248,7 +248,7 @@ std::string GetPath(Map const &map)
 void Part1()
 {
     auto m = GenerateMap();
-    std::cout << "Part1: " << MarkIntersections(m) << '\n';
+    std::cout << "  Part1: " << MarkIntersections(m) << '\n';
 }
 
 void Part2()
@@ -312,7 +312,7 @@ void Part2()
     sendInputs(cpu, "n\n");
     cpu.Run();
 
-    std::cout << "Part2: " << result << '\n';
+    std::cout << "  Part2: " << result << '\n';
 }
 
 Map ParseMap(std::string_view mapData)

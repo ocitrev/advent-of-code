@@ -115,6 +115,6 @@ void Main()
         loose.push_back(i);
     }
 
-    std::cout << "Part1: " << loose.size() << '\n';
-    std::cout << "Part2: " << strict.size() << '\n';
+    std::cout << "  Part1: " << loose.size() << '\n';
+    std::cout << "  Part2: " << strict.size() << '\n';
 }

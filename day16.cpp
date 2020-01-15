@@ -157,6 +157,6 @@ void Main()
     assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
     assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
-    std::cout << "Part1: " << Process(input::data, 100) << '\n';
-    std::cout << "Part2: " << ProcessWithOffsetTimes10000(input::data, 100) << '\n';
+    std::cout << "  Part1: " << Process(input::data, 100) << '\n';
+    std::cout << "  Part2: " << ProcessWithOffsetTimes10000(input::data, 100) << '\n';
 }

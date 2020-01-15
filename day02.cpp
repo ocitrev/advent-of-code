@@ -23,7 +23,7 @@ Int Run(std::vector<Int> const &code, Int noun, Int verb)
 
 void Part1(std::vector<Int> const &code)
 {
-    std::cout << "Part1: " << Run(code, 12, 2) << '\n';
+    std::cout << "  Part1: " << Run(code, 12, 2) << '\n';
 }
 
 void Part2(std::vector<Int> const &code)
@@ -34,7 +34,7 @@ void Part2(std::vector<Int> const &code)
         {
             if (Run(code, noun, verb) == 19690720)
             {
-                std::cout << "Part2: " << noun * 100 + verb << '\n';
+                std::cout << "  Part2: " << noun * 100 + verb << '\n';
                 return;
             }
         }

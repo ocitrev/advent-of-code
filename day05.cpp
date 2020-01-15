@@ -27,7 +27,7 @@ void Part1(std::vector<Int> const &code)
             return 1;
         },
         [](Int value) {
-            std::cout << "Part1: " << value << '\n';
+            std::cout << "  Part1: " << value << '\n';
         });
 }
 
@@ -39,7 +39,7 @@ void Part2(std::vector<Int> const &code)
             return 5;
         },
         [](Int value) {
-            std::cout << "Part1: " << value << '\n';
+            std::cout << "  Part2: " << value << '\n';
         });
 }
 

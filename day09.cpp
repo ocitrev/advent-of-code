@@ -32,6 +32,6 @@ void Main()
 
     std::vector<Int> code{begin(input::data), end(input::data)};
 
-    std::cout << "Part1: " << Run(code, 1).front() << '\n';
-    std::cout << "Part2: " << Run(code, 2).front() << '\n';
+    std::cout << "  Part1: " << Run(code, 1).front() << '\n';
+    std::cout << "  Part2: " << Run(code, 2).front() << '\n';
 }

@@ -45,7 +45,7 @@ void Part1()
         maxValue = std::max(maxValue, Amplify1(code, sequence));
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::cout << "Part1: " << maxValue << '\n';
+    std::cout << "  Part1: " << maxValue << '\n';
 }
 
 Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
@@ -100,7 +100,7 @@ void Part2()
         maxValue = std::max(maxValue, Amplify2(code, sequence));
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::cout << "Part2: " << maxValue << '\n';
+    std::cout << "  Part2: " << maxValue << '\n';
 }
 
 void Main()

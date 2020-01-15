@@ -152,6 +152,6 @@ void Main()
                      "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
 
     auto [closest, fastest] = Solve(input::wire1, input::wire2);
-    std::cout << "Part1: " << closest << '\n';
-    std::cout << "Part2: " << fastest << '\n';
+    std::cout << "  Part1: " << closest << '\n';
+    std::cout << "  Part2: " << fastest << '\n';
 }

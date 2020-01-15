@@ -78,3 +78,21 @@ target_link_libraries(day12 PRIVATE common)
 target_link_libraries(day16 PRIVATE common)
 target_link_libraries(day17 PRIVATE common)
 target_link_libraries(day19 PRIVATE common)
+
+
+
+add_custom_target(run
+	COMMAND day01 DEPENDS day01
+	COMMAND day02 DEPENDS day02
+	COMMAND day03 DEPENDS day03
+	COMMAND day04 DEPENDS day04
+	COMMAND day05 DEPENDS day05
+	COMMAND day06 DEPENDS day06
+	COMMAND day07 DEPENDS day07
+	COMMAND day08 DEPENDS day08
+	COMMAND day09 DEPENDS day09
+	COMMAND day12 DEPENDS day12
+	COMMAND day16 DEPENDS day16
+	COMMAND day17 DEPENDS day17
+	COMMAND day19 DEPENDS day19
+)

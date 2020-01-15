@@ -73,7 +73,7 @@ void Part1()
     });
 
     assert(iterMin != end(layers));
-    std::cout << "Part1: " << iterMin->count[1] * iterMin->count[2] << '\n';
+    std::cout << "  Part1: " << iterMin->count[1] * iterMin->count[2] << '\n';
 }
 
 void Part2()
@@ -98,7 +98,7 @@ void Part2()
     }
 
     using namespace std::string_view_literals;
-    result.insert(0, L"Part2:\n"sv);
+    result.insert(0, L"  Part2:\n"sv);
     PrintUnicode(result);
 }
 

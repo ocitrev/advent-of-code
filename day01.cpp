@@ -37,14 +37,14 @@ void Main()
 {
     std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
 
-    std::cout << "Part1: "
+    std::cout << "  Part1: "
               << std::accumulate(begin(input::data), end(input::data), 0,
                                  [](int r, int mass) {
                                      return r + GetFuel(mass);
                                  })
               << '\n';
 
-    std::cout << "Part2: "
+    std::cout << "  Part2: "
               << std::accumulate(begin(input::data), end(input::data), 0,
                                  [](int r, int mass) {
                                      return r + GetRealFuel(mass);

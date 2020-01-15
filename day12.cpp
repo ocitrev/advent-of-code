@@ -146,7 +146,7 @@ Int Simulate(std::string_view data, int steps)
 
 Int CountCycle(std::string_view data)
 {
-    std::vector moons = Moon::ReadMoons(data);
+    std::vector const moons = Moon::ReadMoons(data);
     std::array<Int, 3> count{};
 
     for (size_t axis = 0; axis != 3; ++axis)
@@ -173,10 +173,10 @@ void Main()
     assert(179 == Simulate(example::one, 10));
     assert(1940 == Simulate(example::two, 100));
 
-    std::cout << "Part1: " << Simulate(input::data, 1000) << '\n';
+    std::cout << "  Part1: " << Simulate(input::data, 1000) << '\n';
 
     assert(2772 == CountCycle(example::one));
     assert(4686774924 == CountCycle(example::two));
 
-    std::cout << "Part2: " << CountCycle(input::data) << '\n';
+    std::cout << "  Part2: " << CountCycle(input::data) << '\n';
 }

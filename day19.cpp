@@ -37,7 +37,7 @@ void Part1()
         beam.append(1, '\n');
     }
 
-    std::cout << "Part1: " << total << '\n';
+    std::cout << "  Part1: " << total << '\n';
 
     if constexpr (false)
     {
@@ -124,7 +124,7 @@ Int FindSquare(Int width, Int height)
 
 void Part2()
 {
-    std::cout << "Part2: " << FindSquare(100, 100) << '\n';
+    std::cout << "  Part2: " << FindSquare(100, 100) << '\n';
 }
 
 void Main()

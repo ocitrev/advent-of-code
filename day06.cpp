@@ -88,7 +88,7 @@ void Main()
         count += CountIndirect(list, last);
     }
 
-    std::cout << "Part1: " << count << '\n';
+    std::cout << "  Part1: " << count << '\n';
 
     auto you = GetPath(list, "YOU");
     auto san = GetPath(list, "SAN");
@@ -102,5 +102,5 @@ void Main()
                                       return a < b;
                                   });
 
-    std::cout << "Part2: " << result.size() << '\n';
+    std::cout << "  Part2: " << result.size() << '\n';
 }
