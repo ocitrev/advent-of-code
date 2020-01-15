@@ -1,4 +1,6 @@
 #include "string.hpp"
+#include <fcntl.h>
+#include <io.h>
 
 std::vector<std::string> Split(std::string_view text, char const sep)
 {
@@ -20,4 +22,25 @@ std::vector<std::string> Split(std::string_view text, char const sep)
     result.emplace_back(first, iter);
 
     return result;
+}
+
+struct UnicodeScope
+{
+    int old;
+
+    UnicodeScope()
+    {
+        old = _setmode(_fileno(stdout), _O_U16TEXT);
+    }
+
+    ~UnicodeScope()
+    {
+        (void)_setmode(_fileno(stdout), old);
+    }
+};
+
+void PrintUnicode(std::wstring_view text)
+{
+    UnicodeScope _;
+    wprintf(text.data());
 }

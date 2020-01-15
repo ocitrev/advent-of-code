@@ -3,7 +3,7 @@
 
 namespace input
 {
-    constexpr std::string_view data{R"(2YQ)3JS
+    static constexpr std::string_view data{R"(2YQ)3JS
 GT4)KMQ
 FNN)6P6
 4BS)PG9

@@ -4,3 +4,4 @@
 #include <vector>
 
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char const sep);
+void PrintUnicode(std::wstring_view text);

@@ -8,35 +8,9 @@
 #include <iostream>
 #include <string_view>
 
-std::string const TEST_MAP1 = R"(..#..........
-..#..........
-#######...###
-#.#...#...#.#
-#############
-..#...#...#..
-..#####...^..
-)";
-
-std::string const TEST_MAP2 = R"(#######...#####
-#.....#...#...#
-#.....#...#...#
-......#...#...#
-......#...###.#
-......#.....#.#
-^########...#.#
-......#.#...#.#
-......#########
-........#...#..
-....#########..
-....#...#......
-....#...#......
-....#...#......
-....#####......
-)";
-
 using Map = std::pair<std::string, Int>;
 
-Int GetMapWidth(std::string const &map)
+Int GetMapWidth(std::string_view map)
 {
     auto iter = std::find(begin(map), end(map), '\n');
     return std::distance(begin(map), iter);
@@ -341,9 +315,9 @@ void Part2()
     std::cout << "Part2: " << result << '\n';
 }
 
-Map ParseMap(std::string const &mapData)
+Map ParseMap(std::string_view mapData)
 {
-    auto map = std::make_pair(mapData, GetMapWidth(mapData));
+    auto map = std::make_pair(std::string{mapData.data(), mapData.size()}, GetMapWidth(mapData));
     CleanMap(map);
     return map;
 }
@@ -351,10 +325,10 @@ Map ParseMap(std::string const &mapData)
 void Main()
 {
     std::cout << "Day 17: Set and Forget\n";
-    assert(13 == GetMapWidth(TEST_MAP1));
-    assert(76 == MarkIntersections(ParseMap(TEST_MAP1)));
+    assert(13 == GetMapWidth(example::map1));
+    assert(76 == MarkIntersections(ParseMap(example::map1)));
     assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2"
-           == GetPath(ParseMap(TEST_MAP2)));
+           == GetPath(ParseMap(example::map2)));
 
     Part1();
     Part2();
