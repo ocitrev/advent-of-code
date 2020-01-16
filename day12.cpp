@@ -84,8 +84,8 @@ public:
 
     Int GetEnergy() const
     {
-        Int pot = abs(pos[0]) + abs(pos[1]) + abs(pos[2]);
-        Int kin = abs(vel[0]) + abs(vel[1]) + abs(vel[2]);
+        Int pot = std::abs(pos[0]) + std::abs(pos[1]) + std::abs(pos[2]);
+        Int kin = std::abs(vel[0]) + std::abs(vel[1]) + std::abs(vel[2]);
         return pot * kin;
     }
 };

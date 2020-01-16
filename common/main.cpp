@@ -1,5 +1,7 @@
 #include "main.hpp"
-#include <crtdbg.h>
+#ifdef _WIN32
+#    include <crtdbg.h>
+#endif
 
 void Main();
 

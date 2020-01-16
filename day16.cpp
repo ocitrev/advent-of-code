@@ -1,5 +1,6 @@
 #include "day16.hpp"
 #include "common/main.hpp"
+#include <algorithm>
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -8,7 +9,6 @@
 #    include <experimental/generator>
 #endif
 #include <cassert>
-#include <charconv>
 
 static constexpr std::array<int, 4> PATTERN{0, 1, 0, -1};
 
@@ -123,10 +123,7 @@ std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
 {
     int ncount = static_cast<int>(numbers.size());
     std::string first7{numbers.begin(), numbers.begin() + 7};
-    int offset;
-    [[maybe_unused]] auto result = std::from_chars(numbers.data(), numbers.data() + 7, offset);
-    assert(result.ec == std::errc{});
-
+    int offset = std::stoi(first7);
     auto r = div(offset, ncount);
     int missing = 10'000 - r.quot;
 

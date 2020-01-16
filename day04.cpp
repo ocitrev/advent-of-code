@@ -3,30 +3,15 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <charconv>
 #include <iostream>
+#include <string>
 #include <vector>
-
-static std::string ToString(int n)
-{
-    std::string text(10, '\0');
-    auto result = std::to_chars(text.data(), text.data() + text.size(), n);
-    text.resize(static_cast<size_t>(result.ptr - text.data()));
-    return text;
-}
-
-static int ToInt(std::string const &text)
-{
-    int n;
-    std::from_chars(text.data(), text.data() + text.size(), n);
-    return n;
-}
 
 static bool IsIncreasing(int n)
 {
-    std::string sorted = ToString(n);
+    std::string sorted = std::to_string(n);
     std::sort(begin(sorted), end(sorted));
-    return n == ToInt(sorted);
+    return n == std::stoi(sorted);
 }
 
 constexpr static bool HasDoubleDigit(int n)

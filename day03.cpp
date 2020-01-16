@@ -3,7 +3,6 @@
 #include "common/string.hpp"
 #include <algorithm>
 #include <cassert>
-#include <charconv>
 #include <iostream>
 #include <map>
 #include <string>
@@ -81,11 +80,7 @@ static Point GetDirection(char action)
 static void Run(std::string_view action, unsigned int mask, Point &pos, int &length, Grid &grid)
 {
     Point dir = GetDirection(action.front());
-
-    int dist;
-    [[maybe_unused]] auto result
-        = std::from_chars(action.data() + 1, action.data() + action.size(), dist);
-    assert(result.ec == std::errc{});
+    int dist = std::strtol(action.data() + 1, nullptr, 10);
 
     for (int i = 0; i != dist; ++i)
     {

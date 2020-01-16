@@ -1,12 +1,12 @@
-#include <Windows.h>
 #include "day17.hpp"
 #include "common/intcode.hpp"
 #include "common/main.hpp"
 #include <array>
 #include <cassert>
-#include <charconv>
 #include <iostream>
+#include <string>
 #include <string_view>
+#include <thread>
 
 using Map = std::pair<std::string, Int>;
 
@@ -217,14 +217,8 @@ void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
                 ++count;
             }
 
-            std::array<char, 10> buffer;
-            auto result = std::to_chars(buffer.data(), buffer.data() + buffer.size(), count);
-
-            if (result.ec == std::errc{})
-            {
-                path.append(1, ',');
-                path.append(buffer.data(), result.ptr);
-            }
+            path.append(1, ',');
+            path.append(std::to_string(count));
         }
         else
         {
@@ -281,7 +275,8 @@ void Part2()
                     fwrite("\x1b[f", 1, 4, stdout);
                     fwrite(ret.data(), 1, ret.size(), stdout);
                     ret.clear();
-                    Sleep(50);
+                    using namespace std::chrono_literals;
+                    std::this_thread::sleep_for(50ms);
                 }
             }
 
