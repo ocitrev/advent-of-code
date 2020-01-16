@@ -48,7 +48,7 @@ struct Pos
     {
     }
 
-    constexpr Pos(lldiv_t d)
+    constexpr Pos(std::lldiv_t d)
         : x{d.rem}
         , y{d.quot}
     {
@@ -110,7 +110,7 @@ char GetTile(Map const &map, Pos const &p)
 Int MarkIntersections(Map const &map)
 {
     Int result = 0;
-    Int const height = static_cast<int>(map.first.size()) / map.second;
+    Int const height = static_cast<Int>(map.first.size()) / map.second;
     Pos p;
 
     for (char const &c : map.first)
@@ -231,7 +231,7 @@ std::string GetPath(Map const &map)
 {
     using namespace std::string_view_literals;
     auto pos = map.first.find('^');
-    Pos start = div(static_cast<Int>(pos), map.second);
+    Pos start = std::lldiv(static_cast<Int>(pos), map.second);
 
     std::string path;
     FillPath(path, map, start, GetDir('^'));

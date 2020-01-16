@@ -11,6 +11,9 @@ if(MSVC)
 		/diagnostics:caret
 		/permissive-
 	)
+	add_compile_definitions(
+		$<$<CONFIG:Debug>:_DEBUG=1>
+	)
 else()
 	target_compile_options(project_warnings INTERFACE
 		-Wall
@@ -30,6 +33,11 @@ else()
 		-Wunused
 	)
 endif()
+
+add_compile_definitions(
+	$<$<CONFIG:Debug>:DEBUG=1>
+	$<$<CONFIG:Release>:NDEBUG=1>
+)
 
 # setup le force include
 if(MSVC)

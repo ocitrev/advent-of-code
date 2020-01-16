@@ -80,7 +80,7 @@ static Point GetDirection(char action)
 static void Run(std::string_view action, unsigned int mask, Point &pos, int &length, Grid &grid)
 {
     Point dir = GetDirection(action.front());
-    int dist = std::strtol(action.data() + 1, nullptr, 10);
+    int dist = static_cast<int>(std::strtol(action.data() + 1, nullptr, 10));
 
     for (int i = 0; i != dist; ++i)
     {

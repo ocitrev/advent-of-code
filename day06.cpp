@@ -8,14 +8,6 @@
 #include <string>
 #include <vector>
 
-#ifdef _DEBUG
-static std::vector<std::string> GetTestData()
-{
-    using namespace std::string_literals;
-    return {"COM)B"s, "B)C"s, "C)D"s, "D)E"s, "E)F"s,   "B)G"s,  "G)H"s,
-            "D)I"s,   "E)J"s, "J)K"s, "K)L"s, "K)YOU"s, "I)SAN"s};
-}
-#endif
 
 static std::map<std::string, int> countCache;
 
@@ -72,9 +64,9 @@ static std::vector<std::string> GetPath(std::vector<std::string> const &list,
 void Main()
 {
     std::cout << "Day 6: Universal Orbit Map\n";
-    assert(3 == CountIndirect(GetTestData(), "D"));
-    assert(7 == CountIndirect(GetTestData(), "L"));
-    assert(0 == CountIndirect(GetTestData(), "COM"));
+    assert(3 == CountIndirect(Split(example::data, '\n'), "D"));
+    assert(7 == CountIndirect(Split(example::data, '\n'), "L"));
+    assert(0 == CountIndirect(Split(example::data, '\n'), "COM"));
 
     pathCache.clear();
     countCache.clear();
