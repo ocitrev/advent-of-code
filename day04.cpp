@@ -48,7 +48,7 @@ constexpr static bool HasDoubleDigitExact(int n)
     return false;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 static bool IsValid1(int n)
 {
     return IsIncreasing(n) && HasDoubleDigit(n);

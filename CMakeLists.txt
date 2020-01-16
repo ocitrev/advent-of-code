@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
-
 project(AdventOfCOde)
+
+# setup le force include
+if(MSVC)
+	add_compile_options("/FI${PROJECT_SOURCE_DIR}/common/common.hpp" /utf-8)
+else()
+	add_compile_options(-include "${PROJECT_SOURCE_DIR}/common/common.hpp")
+endif()
 
 add_library(project_warnings INTERFACE)
 
@@ -10,9 +16,6 @@ if(MSVC)
 		/WX
 		/diagnostics:caret
 		/permissive-
-	)
-	add_compile_definitions(
-		$<$<CONFIG:Debug>:_DEBUG=1>
 	)
 else()
 	target_compile_options(project_warnings INTERFACE
@@ -33,19 +36,6 @@ else()
 		-Wunused
 	)
 endif()
-
-add_compile_definitions(
-	$<$<CONFIG:Debug>:DEBUG=1>
-	$<$<CONFIG:Release>:NDEBUG=1>
-)
-
-# setup le force include
-if(MSVC)
-	add_compile_options("/FI${PROJECT_SOURCE_DIR}/common/common.hpp" /utf-8)
-else()
-	add_compile_options(-include "${PROJECT_SOURCE_DIR}/common/common.hpp")
-endif()
-
 
 add_library(common STATIC
 	common/main.cpp
@@ -87,20 +77,20 @@ target_link_libraries(day16 PRIVATE common)
 target_link_libraries(day17 PRIVATE common)
 target_link_libraries(day19 PRIVATE common)
 
-
+add_custom_target(run01 day01 DEPENDS day01)
+add_custom_target(run02 day02 DEPENDS day02)
+add_custom_target(run03 day03 DEPENDS day03)
+add_custom_target(run04 day04 DEPENDS day04)
+add_custom_target(run05 day05 DEPENDS day05)
+add_custom_target(run06 day06 DEPENDS day06)
+add_custom_target(run07 day07 DEPENDS day07)
+add_custom_target(run08 day08 DEPENDS day08)
+add_custom_target(run09 day09 DEPENDS day09)
+add_custom_target(run12 day12 DEPENDS day12)
+add_custom_target(run16 day16 DEPENDS day16)
+add_custom_target(run17 day17 DEPENDS day17)
+add_custom_target(run19 day19 DEPENDS day19)
 
 add_custom_target(run
-	COMMAND day01 DEPENDS day01
-	COMMAND day02 DEPENDS day02
-	COMMAND day03 DEPENDS day03
-	COMMAND day04 DEPENDS day04
-	COMMAND day05 DEPENDS day05
-	COMMAND day06 DEPENDS day06
-	COMMAND day07 DEPENDS day07
-	COMMAND day08 DEPENDS day08
-	COMMAND day09 DEPENDS day09
-	COMMAND day12 DEPENDS day12
-	COMMAND day16 DEPENDS day16
-	COMMAND day17 DEPENDS day17
-	COMMAND day19 DEPENDS day19
+	DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09 run12 run16 run17 run19
 )
