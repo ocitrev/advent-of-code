@@ -1,8 +1,4 @@
 #include "string.hpp"
-#ifdef _WIN32
-#    include <fcntl.h>
-#    include <io.h>
-#endif
 
 std::vector<std::string> Split(std::string_view text, char const sep)
 {
@@ -24,30 +20,4 @@ std::vector<std::string> Split(std::string_view text, char const sep)
     result.emplace_back(first, iter);
 
     return result;
-}
-
-#ifdef _WIN32
-struct UnicodeScope
-{
-    int old;
-
-    UnicodeScope()
-    {
-        old = _setmode(_fileno(stdout), _O_U16TEXT);
-    }
-
-    ~UnicodeScope()
-    {
-        (void)_setmode(_fileno(stdout), old);
-    }
-};
-#endif
-
-void PrintUnicode(std::wstring_view text)
-{
-#ifdef _WIN32
-    UnicodeScope _;
-#endif
-
-    wprintf(text.data());
 }

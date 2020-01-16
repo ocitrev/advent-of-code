@@ -79,27 +79,24 @@ void Part1()
 void Part2()
 {
     auto const canvas = Render(input::data, W, H);
-
-    std::wstring result;
-    result.reserve(canvas.size());
+    std::string result;
+    result.reserve(W * H + H);
     auto iter = cbegin(canvas);
 
     for (size_t y = 0; y != H; ++y)
     {
         for (size_t x = 0; x != W; ++x, ++iter)
         {
-            if (*iter == L'0')
-                result.append(1, L' ');
-            else if (*iter == L'1')
-                result.append(1, L'█');
+            if (*iter == '0')
+                result.append(" ");
+            else if (*iter == '1')
+                result.append("█");
         }
 
-        result.append(1, L'\n');
+        result.append("\n");
     }
 
-    using namespace std::string_view_literals;
-    result.insert(0, L"  Part2:\n"sv);
-    PrintUnicode(result);
+    std::cout << "  Part2:\n" << result;
 }
 
 void Main()
