@@ -3,7 +3,7 @@
 
 namespace example
 {
-	static constexpr std::string_view data{R"(COM)B
+    static constexpr std::string_view data{R"(COM)B
 B)C
 C)D
 D)E

@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-
 static std::map<std::string, int> countCache;
 
 static int CountIndirect(std::vector<std::string> const &list, std::string const &name)

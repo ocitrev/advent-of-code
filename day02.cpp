@@ -50,7 +50,6 @@ void Main()
     assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    std::vector<Int> const code{begin(input::data), end(input::data)};
-    Part1(code);
-    Part2(code);
+    Part1(input::data);
+    Part2(input::data);
 }

@@ -29,7 +29,7 @@ Map GenerateMap()
         ret.first.append(1, static_cast<char>(value));
     };
 
-    Intcode::Run({std::begin(input::data), std::end(input::data)}, nullptr, out);
+    Intcode::Run(input::data, nullptr, out);
     ret.second = GetMapWidth(ret.first);
     CleanMap(ret);
     return ret;
@@ -249,7 +249,7 @@ void Part2()
 {
     constexpr bool debug = false;
 
-    Intcode cpu({std::begin(input::data), std::end(input::data)});
+    Intcode cpu(input::data);
     cpu.WriteMemory(0, 2);
     Int result = 0;
 

@@ -88,8 +88,6 @@ void Main()
                 999,  1105, 1,    46, 1101, 1000, 1,    20, 4,   20,  1105, 1,  46,   98,   99},
                9));
 
-    std::vector<Int> const code{begin(input::data), end(input::data)};
-
-    Part1(code);
-    Part2(code);
+    Part1(input::data);
+    Part2(input::data);
 }

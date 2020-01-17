@@ -1,5 +1,5 @@
 #pragma once
-#include <array>
+#include <initializer_list>
 #include <string_view>
 
 namespace example
@@ -33,7 +33,7 @@ namespace example
 
 namespace input
 {
-    static constexpr int data[] = {
+    static constexpr std::initializer_list<Int> data{
         1,     330,   331,   332,   109,   3762,  1101,  1182,  0,     16,    1101,  0,     1467,
         24,    101,   0,     0,     570,   1006,  570,   36,    101,   0,     571,   0,     1001,
         570,   -1,    570,   1001,  24,    1,     24,    1105,  1,     18,    1008,  571,   0,

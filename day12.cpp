@@ -107,8 +107,7 @@ static void ForEachCombinations(ContainerT &&cont, CallableT &&callable)
 
 void StepAxis(std::vector<Moon> &moons, size_t axis)
 {
-    ForEachCombinations(moons, [axis](Moon &a, Moon &b)
-    {
+    ForEachCombinations(moons, [axis](Moon &a, Moon &b) {
         a.ApplyGravityAxis(b, axis);
     });
 

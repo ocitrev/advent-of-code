@@ -22,7 +22,7 @@ void Part1()
         return std::exchange(a, b);
     };
 
-    std::vector<Int> const code{begin(input::data), end(input::data)};
+    std::vector<Int> const code{input::data};
 
     for (Int y = 0; y != 50; ++y)
     {
@@ -62,7 +62,7 @@ Int Run(std::vector<Int> const &code, Int x, Int y)
 
 Int FindSquare(Int width, Int height)
 {
-    std::vector<Int> const code{begin(input::data), end(input::data)};
+    std::vector<Int> const code{input::data};
     Int minx = 0;
     Int miny = 10;
 
