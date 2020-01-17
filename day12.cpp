@@ -172,10 +172,14 @@ void Main()
     assert(179 == Simulate(example::one, 10));
     assert(1940 == Simulate(example::two, 100));
 
-    std::cout << "  Part1: " << Simulate(input::data, 1000) << '\n';
+    auto part1 = Simulate(input::data, 1000);
+    std::cout << "  Part1: " << part1 << '\n';
+    assert(8625 == part1);
 
     assert(2772 == CountCycle(example::one));
     assert(4686774924 == CountCycle(example::two));
 
-    std::cout << "  Part2: " << CountCycle(input::data) << '\n';
+    auto part2 = CountCycle(input::data);
+    std::cout << "  Part2: " << part2 << '\n';
+    assert(332477126821644 == part2);
 }

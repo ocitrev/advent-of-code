@@ -30,6 +30,11 @@ void Main()
     assert(std::vector<Int>{1219070632396864} == Run({1102, 34915192, 34915192, 7, 4, 7, 99, 0}));
     assert(std::vector<Int>{1125899906842624} == Run({104, 1125899906842624, 99}));
 
-    std::cout << "  Part1: " << Run(input::data, 1).front() << '\n';
-    std::cout << "  Part2: " << Run(input::data, 2).front() << '\n';
+    auto part1 = Run(input::data, 1);
+    std::cout << "  Part1: " << part1.front() << '\n';
+    assert(2890527621 == part1.front());
+
+    auto part2 = Run(input::data, 2);
+    std::cout << "  Part2: " << part2.front() << '\n';
+    assert(66772 == part2.front());
 }

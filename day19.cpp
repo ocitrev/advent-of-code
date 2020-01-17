@@ -1,6 +1,7 @@
 #include "day19.hpp"
 #include "common/intcode.hpp"
 #include "common/main.hpp"
+#include <cassert>
 #include <iostream>
 
 void Part1()
@@ -39,6 +40,7 @@ void Part1()
     }
 
     std::cout << "  Part1: " << total << '\n';
+    assert(231 == total);
 
     if constexpr (false)
     {
@@ -125,7 +127,9 @@ Int FindSquare(Int width, Int height)
 
 void Part2()
 {
-    std::cout << "  Part2: " << FindSquare(100, 100) << '\n';
+    auto part2 = FindSquare(100, 100);
+    std::cout << "  Part2: " << part2 << '\n';
+    assert(9210745 == part2);
 }
 
 void Main()

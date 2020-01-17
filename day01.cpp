@@ -1,5 +1,6 @@
 #include "day01.hpp"
 #include "common/main.hpp"
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <numeric>
@@ -38,17 +39,17 @@ void Main()
 {
     std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
 
-    std::cout << "  Part1: "
-              << std::accumulate(begin(input::data), end(input::data), 0,
-                                 [](int r, int mass) {
-                                     return r + GetFuel(mass);
-                                 })
-              << '\n';
+    int part1 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
+        return r + GetFuel(mass);
+    });
 
-    std::cout << "  Part2: "
-              << std::accumulate(begin(input::data), end(input::data), 0,
-                                 [](int r, int mass) {
-                                     return r + GetRealFuel(mass);
-                                 })
-              << '\n';
+    int part2 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
+        return r + GetRealFuel(mass);
+    });
+
+    std::cout << "  Part1: " << part1 << '\n';
+    assert(3538016 == part1);
+
+    std::cout << "  Part2: " << part2 << '\n';
+    assert(5304147 == part2);
 }

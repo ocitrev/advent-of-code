@@ -148,5 +148,8 @@ void Main()
 
     auto [closest, fastest] = Solve(input::wire1, input::wire2);
     std::cout << "  Part1: " << closest << '\n';
+    assert(245 == closest);
+
     std::cout << "  Part2: " << fastest << '\n';
+    assert(48262 == fastest);
 }

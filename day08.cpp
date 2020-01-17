@@ -74,6 +74,7 @@ void Part1()
 
     assert(iterMin != end(layers));
     std::cout << "  Part1: " << iterMin->count[1] * iterMin->count[2] << '\n';
+    assert(2080 == iterMin->count[1] * iterMin->count[2]);
 }
 
 void Part2()
@@ -97,6 +98,7 @@ void Part2()
     }
 
     std::cout << "  Part2:\n" << result;
+    assert(expected::part2 == result);
 }
 
 void Main()

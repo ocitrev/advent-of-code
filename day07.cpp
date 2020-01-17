@@ -46,6 +46,7 @@ void Part1()
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
     std::cout << "  Part1: " << maxValue << '\n';
+    assert(30940 == maxValue);
 }
 
 Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
@@ -101,17 +102,18 @@ void Part2()
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
     std::cout << "  Part2: " << maxValue << '\n';
+    assert(76211147 == maxValue);
 }
 
 void Main()
 {
     std::cout << "Day 7: Amplification Circuit\n";
 
-    assert(example::N1.result == Amplify1(example::N1.code, example::N1.sequence));
-    assert(example::N2.result == Amplify1(example::N2.code, example::N2.sequence));
-    assert(example::N3.result == Amplify1(example::N3.code, example::N3.sequence));
-    assert(example::N4.result == Amplify1(example::N4.code, example::N4.sequence));
-    assert(example::N5.result == Amplify1(example::N5.code, example::N5.sequence));
+    assert(example::N1::result == Amplify1(example::N1::code, example::N1::sequence));
+    assert(example::N2::result == Amplify1(example::N2::code, example::N2::sequence));
+    assert(example::N3::result == Amplify1(example::N3::code, example::N3::sequence));
+    assert(example::N4::result == Amplify2(example::N4::code, example::N4::sequence));
+    assert(example::N5::result == Amplify2(example::N5::code, example::N5::sequence));
 
     Part1();
     Part2();

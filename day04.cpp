@@ -101,5 +101,8 @@ void Main()
     }
 
     std::cout << "  Part1: " << loose.size() << '\n';
+    assert(1169 == loose.size());
+
     std::cout << "  Part2: " << strict.size() << '\n';
+    assert(757 == strict.size());
 }

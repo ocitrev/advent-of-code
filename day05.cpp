@@ -28,6 +28,8 @@ void Part1(std::vector<Int> const &code)
         },
         [](Int value) {
             std::cout << "  Part1: " << value << '\n';
+            // 0 is outputed
+            assert(value == 0 || 13285749 == value);
         });
 }
 
@@ -40,6 +42,7 @@ void Part2(std::vector<Int> const &code)
         },
         [](Int value) {
             std::cout << "  Part2: " << value << '\n';
+            assert(5000972 == value);
         });
 }
 

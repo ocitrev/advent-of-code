@@ -80,6 +80,7 @@ void Main()
     }
 
     std::cout << "  Part1: " << count << '\n';
+    assert(247089 == count);
 
     auto you = GetPath(list, "YOU");
     auto san = GetPath(list, "SAN");
@@ -94,4 +95,5 @@ void Main()
                                   });
 
     std::cout << "  Part2: " << result.size() << '\n';
+    assert(442 == result.size());
 }
