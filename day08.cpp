@@ -19,7 +19,7 @@ struct Layer
         for (auto const &p : pixels)
         {
             assert(p == '0' || p == '1' || p == '2');
-            ++count[static_cast<size_t>(p) - '0'];
+            ++count.at(static_cast<size_t>(p) - '0');
         }
     }
 };
@@ -30,7 +30,7 @@ static std::vector<Layer> DecodeLayers(std::string_view pixels, size_t w, size_t
     auto const *last = pixels.data() + pixels.size();
     size_t chunkSize = w * h;
 
-    for (auto iter = pixels.data(); iter < last; iter += chunkSize)
+    for (auto iter = pixels.data(); iter < last; std::advance(iter, chunkSize))
     {
         ret.emplace_back(std::string_view{iter, chunkSize});
     }

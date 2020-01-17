@@ -11,23 +11,23 @@ class Intcode
 
     enum class Mode
     {
-        Address,
-        Immediate,
-        Relative,
+        Address = 0,
+        Immediate = 1,
+        Relative = 2,
     };
 
     enum class OpCode
     {
-        Invalid,
-        Add,
-        Muliply,
-        Input,
-        Output,
-        JumpTrue,
-        JumpFalse,
-        IsLess,
-        IsEqual,
-        SetRelBaseOffset,
+        Invalid = 0,
+        Add = 1,
+        Muliply = 2,
+        Input = 3,
+        Output = 4,
+        JumpTrue = 5,
+        JumpFalse = 6,
+        IsLess = 7,
+        IsEqual = 8,
+        SetRelBaseOffset = 9,
         Halt = 99,
     };
 
@@ -64,8 +64,8 @@ public:
     [[nodiscard]] Int ReadMemory(std::size_t offset) const;
     Int WriteMemory(std::size_t offset, Int value);
 
-    void SetInput(InputFunc const &inputFunc);
-    void SetOutput(OutputFunc const &outputFunc);
+    void SetInput(InputFunc &&inputFunc);
+    void SetOutput(OutputFunc &&outputFunc);
 
     [[nodiscard]] bool IsHalted() const
     {

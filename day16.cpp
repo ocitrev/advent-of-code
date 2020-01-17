@@ -111,7 +111,7 @@ std::string ProcessPhaseCheat(std::string_view numbers)
         if (prev == '\0')
             prev = c;
         else
-            prev = (GetDigit(prev) + GetDigit(c)) % 10 + '0';
+            prev = static_cast<char>((GetDigit(prev) + GetDigit(c)) % 10 + '0');
 
         return prev;
     });

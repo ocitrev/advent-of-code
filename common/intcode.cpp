@@ -124,7 +124,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
         auto a = GetParam(static_cast<Mode>(mode % 10));
         auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
         auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a < b;
+        c = a < b ? 1 : 0;
         break;
     }
     case OpCode::IsEqual:
@@ -132,7 +132,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
         auto a = GetParam(static_cast<Mode>(mode % 10));
         auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
         auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a == b;
+        c = a == b ? 1 : 0;
         break;
     }
     case OpCode::SetRelBaseOffset:
@@ -151,7 +151,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 
 void Intcode::Run()
 {
-    while (halted == false)
+    while (!halted)
     {
         auto [opcode, mode] = GetInstruction();
         RunStep(opcode, mode);
@@ -160,7 +160,7 @@ void Intcode::Run()
 
 Intcode::OutputFunc Intcode::RunUntilInput()
 {
-    while (halted == false)
+    while (!halted)
     {
         auto [opcode, mode] = GetInstruction();
 
@@ -182,7 +182,7 @@ std::optional<Int> Intcode::RunUntilOuput(InputFunc &&inputFunc)
 {
     inputFunc_ = std::move(inputFunc);
 
-    while (halted == false)
+    while (!halted)
     {
         auto [opcode, mode] = GetInstruction();
 
@@ -208,12 +208,12 @@ Int Intcode::WriteMemory(size_t offset, Int value)
     return std::exchange(memory[offset], value);
 }
 
-void Intcode::SetInput(InputFunc const &inputFunc)
+void Intcode::SetInput(InputFunc &&inputFunc)
 {
-    inputFunc_ = inputFunc;
+    inputFunc_ = std::move(inputFunc);
 }
 
-void Intcode::SetOutput(OutputFunc const &outputFunc)
+void Intcode::SetOutput(OutputFunc &&outputFunc)
 {
-    outputFunc_ = outputFunc;
+    outputFunc_ = std::move(outputFunc);
 }

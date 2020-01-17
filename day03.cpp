@@ -41,7 +41,7 @@ struct Point
         return out << '(' << p.x << ", " << p.y << ')';
     }
 
-    int Distance() const
+    [[nodiscard]] int Distance() const
     {
         return abs(x) + abs(y);
     }

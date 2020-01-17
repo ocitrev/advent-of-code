@@ -15,10 +15,10 @@ public:
 
     explicit Moon(std::string const &data)
     {
-        std::regex re("<x=(-?\\d+), y=(-?\\d+), z=(-?\\d+)>");
+        std::regex re(R"(<x=(-?\d+), y=(-?\d+), z=(-?\d+)>)");
         std::smatch m;
 
-        if (std::regex_match(data, m, re) == false)
+        if (!std::regex_match(data, m, re))
             throw std::invalid_argument("Invalid data");
 
         pos[0] = std::stoi(m[1]);
@@ -30,7 +30,7 @@ public:
     {
         std::vector<Moon> moons;
 
-        for (auto line : Split(data, '\n'))
+        for (auto const &line : Split(data, '\n'))
         {
             moons.emplace_back(line);
         }
@@ -51,15 +51,15 @@ public:
 
     void ApplyGravityAxis(Moon &other, size_t axis)
     {
-        if (pos[axis] < other.pos[axis])
+        if (pos.at(axis) < other.pos.at(axis))
         {
-            ++vel[axis];
-            --other.vel[axis];
+            ++vel.at(axis);
+            --other.vel.at(axis);
         }
-        else if (pos[axis] > other.pos[axis])
+        else if (pos.at(axis) > other.pos.at(axis))
         {
-            --vel[axis];
-            ++other.vel[axis];
+            --vel.at(axis);
+            ++other.vel.at(axis);
         }
     }
 
@@ -72,7 +72,7 @@ public:
 
     void AccelerateAxis(size_t axis)
     {
-        pos[axis] += vel[axis];
+        pos.at(axis) += vel.at(axis);
     }
 
     void Accelerate()
@@ -82,7 +82,7 @@ public:
         AccelerateAxis(2);
     }
 
-    Int GetEnergy() const
+    [[nodiscard]] Int GetEnergy() const
     {
         Int pot = std::abs(pos[0]) + std::abs(pos[1]) + std::abs(pos[2]);
         Int kin = std::abs(vel[0]) + std::abs(vel[1]) + std::abs(vel[2]);
@@ -155,7 +155,7 @@ Int CountCycle(std::string_view data)
         while (true)
         {
             StepAxis(copies, axis);
-            ++count[axis];
+            ++count.at(axis);
 
             if (copies == moons)
                 break;

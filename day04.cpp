@@ -20,7 +20,7 @@ constexpr static bool HasDoubleDigit(int n)
 
     do
     {
-        if (++digitCount[n % 10] > 1)
+        if (++digitCount.at(n % 10) > 1)
             return true;
 
         n /= 10;
@@ -35,7 +35,7 @@ constexpr static bool HasDoubleDigitExact(int n)
 
     do
     {
-        ++digitCount[n % 10];
+        ++digitCount.at(n % 10);
         n /= 10;
     } while (n != 0);
 
@@ -68,19 +68,19 @@ void Main()
     assert(IsIncreasing(135679));
 
     assert(IsValid1(111111));
-    assert(false == IsValid1(223450));
-    assert(false == IsValid1(123789));
+    assert(!IsValid1(223450));
+    assert(!IsValid1(123789));
     assert(IsValid2(112233));
-    assert(false == IsValid2(123444));
+    assert(!IsValid2(123444));
     assert(IsValid2(111122));
 
     static_assert(HasDoubleDigit(111111));
     static_assert(HasDoubleDigit(112233));
     static_assert(HasDoubleDigit(123444));
     static_assert(HasDoubleDigit(111122));
-    static_assert(false == HasDoubleDigitExact(111111));
+    static_assert(!HasDoubleDigitExact(111111));
     static_assert(HasDoubleDigitExact(112233));
-    static_assert(false == HasDoubleDigitExact(123444));
+    static_assert(!HasDoubleDigitExact(123444));
     static_assert(HasDoubleDigitExact(111122));
 
     std::vector<int> loose;
@@ -88,10 +88,10 @@ void Main()
 
     for (int i = input::begin; i != input::end; ++i)
     {
-        if (IsIncreasing(i) == false)
+        if (!IsIncreasing(i))
             continue;
 
-        if (HasDoubleDigit(i) == false)
+        if (!HasDoubleDigit(i))
             continue;
 
         if (HasDoubleDigitExact(i))

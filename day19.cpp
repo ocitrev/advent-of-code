@@ -17,7 +17,8 @@ void Part1()
             beam.append(1, '.');
     };
 
-    Int a, b;
+    Int a;
+    Int b;
     auto in = [&]() {
         return std::exchange(a, b);
     };

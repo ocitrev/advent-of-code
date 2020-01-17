@@ -1,6 +1,31 @@
 cmake_minimum_required(VERSION 3.15)
 project(AdventOfCOde)
 
+if(NOT MSVC)
+  find_program(CLANG_TIDY NAMES "clang-tidy")
+
+  if(CLANG_TIDY)
+    set(CLANG_TIDY_CHECK_LIST
+      cppcoreguidelines-*
+      -cppcoreguidelines-avoid-magic-numbers
+      modernize-*
+      -modernize-use-trailing-return-type
+      performance-*
+      readability-*
+      -readability-braces-around-statements # ne fonctionne pas avec le style Alleman
+      -readability-magic-numbers
+    )
+    list(JOIN CLANG_TIDY_CHECK_LIST "," CLANG_TIDY_CHECKS)
+    set(CMAKE_CXX_CLANG_TIDY
+    	${CLANG_TIDY}
+    	-checks=${CLANG_TIDY_CHECKS}
+      -header-filter=.
+      --format-style=file
+    	--warnings-as-errors=*
+    )
+  endif()
+endif()
+
 # setup le force include
 if(MSVC)
 	add_compile_options("/FI${PROJECT_SOURCE_DIR}/common/common.hpp" /utf-8)
@@ -94,3 +119,10 @@ add_custom_target(run19 day19 DEPENDS day19)
 add_custom_target(run
 	DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09 run12 run16 run17 run19
 )
+
+find_program(CLANG_FORMAT NAMES "clang-format")
+
+if(CLANG_FORMAT)
+	file(GLOB FILES_TO_FORMAT *.cpp *.hpp common/*.cpp common/*.hpp)
+	add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
+endif()

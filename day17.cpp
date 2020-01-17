@@ -211,7 +211,7 @@ void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
         {
             int count = 0;
 
-            while (char t = GetTile(map, start + dir) == '#')
+            while (GetTile(map, start + dir) == '#')
             {
                 start += dir;
                 ++count;
@@ -293,7 +293,7 @@ void Part2()
     }
 
     auto sendInputs = [](Intcode &cpu, std::string sequence) {
-        while (sequence.empty() == false)
+        while (!sequence.empty())
         {
             cpu.RunUntilInput()(sequence.front());
             sequence.erase(begin(sequence));

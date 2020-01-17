@@ -1,6 +1,6 @@
 #include "string.hpp"
 
-std::vector<std::string> Split(std::string_view text, char const sep)
+std::vector<std::string> Split(std::string_view text, char sep)
 {
     std::vector<std::string> result;
 

@@ -22,8 +22,10 @@ constexpr int GetRealFuel(int mass)
 
     if (fuel > 0)
         return fuel + GetRealFuel(fuel);
-    else if (fuel < 0)
+
+    if (fuel < 0)
         fuel = 0;
+
     return fuel;
 }
 

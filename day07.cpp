@@ -52,7 +52,7 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
     Int param = 0;
 
-    Intcode cpus[]{Intcode{code}, Intcode{code}, Intcode{code}, Intcode{code}, Intcode{code}};
+    std::array cpus{Intcode{code}, Intcode{code}, Intcode{code}, Intcode{code}, Intcode{code}};
 
     for (size_t i = 0; i != 5; ++i)
     {
@@ -62,20 +62,20 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
             if (first)
             {
                 first = false;
-                return sequence[i];
+                return sequence.at(i);
             }
 
             return param;
         };
 
-        param = *cpus[i].RunUntilOuput(in);
+        param = *cpus.at(i).RunUntilOuput(in);
     }
 
     auto getParam = [&]() {
         return param;
     };
 
-    while (cpus[4].IsHalted() == false)
+    while (!cpus[4].IsHalted())
     {
         for (auto &cpu : cpus)
         {
