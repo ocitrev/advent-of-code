@@ -1,4 +1,5 @@
 #include "day12.hpp"
+#include "common/combinations.hpp"
 #include "common/main.hpp"
 #include "common/string.hpp"
 #include <array>
@@ -89,21 +90,6 @@ public:
         return pot * kin;
     }
 };
-
-template <typename ContainerT, typename CallableT>
-static void ForEachCombinations(ContainerT &&cont, CallableT &&callable)
-{
-    auto first = begin(cont);
-    auto last = end(cont);
-
-    for (auto iterOuter = first; iterOuter != last; ++iterOuter)
-    {
-        for (auto iterInner = std::next(iterOuter); iterInner != last; ++iterInner)
-        {
-            callable(*iterOuter, *iterInner);
-        }
-    }
-}
 
 void StepAxis(std::vector<Moon> &moons, size_t axis)
 {

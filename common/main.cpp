@@ -1,5 +1,6 @@
 #include "main.hpp"
 #ifdef _WIN32
+#    include <Windows.h>
 #    include <crtdbg.h>
 #endif
 
@@ -14,7 +15,7 @@ int wmain([[maybe_unused]] int argc, [[maybe_unused]] wchar_t **argv)
     _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR); // NOLINT
     _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR); // NOLINT
-
+    SetConsoleOutputCP(65001);
     Main();
 }
 #else

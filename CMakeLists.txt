@@ -63,12 +63,14 @@ else()
 endif()
 
 add_library(common STATIC
-	common/main.cpp
-	common/main.hpp
-	common/intcode.cpp
-	common/intcode.hpp
-	common/string.cpp
-	common/string.hpp
+  common/combinations.hpp
+  common/intcode.cpp
+  common/intcode.hpp
+  common/main.cpp
+  common/main.hpp
+  common/point.hpp
+  common/string.cpp
+  common/string.hpp
 )
 
 target_compile_features(common PUBLIC cxx_std_20)
@@ -83,6 +85,7 @@ add_executable(day06 day06.cpp day06.hpp)
 add_executable(day07 day07.cpp day07.hpp)
 add_executable(day08 day08.cpp day08.hpp)
 add_executable(day09 day09.cpp day09.hpp)
+add_executable(day10 day10.cpp day10.hpp)
 add_executable(day12 day12.cpp day12.hpp)
 add_executable(day16 day16.cpp day16.hpp)
 add_executable(day17 day17.cpp day17.hpp)
@@ -97,6 +100,7 @@ target_link_libraries(day06 PRIVATE common)
 target_link_libraries(day07 PRIVATE common)
 target_link_libraries(day08 PRIVATE common)
 target_link_libraries(day09 PRIVATE common)
+target_link_libraries(day10 PRIVATE common)
 target_link_libraries(day12 PRIVATE common)
 target_link_libraries(day16 PRIVATE common)
 target_link_libraries(day17 PRIVATE common)
@@ -111,13 +115,14 @@ add_custom_target(run06 day06 DEPENDS day06)
 add_custom_target(run07 day07 DEPENDS day07)
 add_custom_target(run08 day08 DEPENDS day08)
 add_custom_target(run09 day09 DEPENDS day09)
+add_custom_target(run10 day10 DEPENDS day10)
 add_custom_target(run12 day12 DEPENDS day12)
 add_custom_target(run16 day16 DEPENDS day16)
 add_custom_target(run17 day17 DEPENDS day17)
 add_custom_target(run19 day19 DEPENDS day19)
 
 add_custom_target(run
-	DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09 run12 run16 run17 run19
+	DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09 run10 run12 run16 run17 run19
 )
 
 find_program(CLANG_FORMAT NAMES "clang-format")

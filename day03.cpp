@@ -1,5 +1,6 @@
 #include "day03.hpp"
 #include "common/main.hpp"
+#include "common/point.hpp"
 #include "common/string.hpp"
 #include <algorithm>
 #include <cassert>
@@ -12,39 +13,6 @@ struct Cell
 {
     unsigned int flags = 0;
     int length = 0;
-};
-
-struct Point
-{
-    int x = 0;
-    int y = 0;
-
-    friend bool operator<(Point const &a, Point const &b)
-    {
-        return std::tie(a.x, a.y) < std::tie(b.x, b.y);
-    }
-
-    friend bool operator==(Point const &a, Point const &b)
-    {
-        return std::tie(a.x, a.y) == std::tie(b.x, b.y);
-    }
-
-    Point &operator+=(Point const other)
-    {
-        x += other.x;
-        y += other.y;
-        return *this;
-    }
-
-    friend std::ostream &operator<<(std::ostream &out, Point const &p)
-    {
-        return out << '(' << p.x << ", " << p.y << ')';
-    }
-
-    [[nodiscard]] int Distance() const
-    {
-        return abs(x) + abs(y);
-    }
 };
 
 using Grid = std::map<Point, Cell>;
