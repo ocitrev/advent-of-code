@@ -4,6 +4,8 @@
 #include <optional>
 #include <vector>
 
+using Int = long long;
+
 class Intcode
 {
     using InputFunc = std::function<Int()>;

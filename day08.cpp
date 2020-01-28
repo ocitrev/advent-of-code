@@ -101,7 +101,7 @@ void Part2()
     assert(expected::part2 == result);
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 8: Space Image Format\n";
     assert("0110" == Render("0222112222120000", 2, 2));

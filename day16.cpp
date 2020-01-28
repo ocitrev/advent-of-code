@@ -138,7 +138,7 @@ std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
     return {ret.begin() + r.rem, ret.begin() + r.rem + 8};
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 16: Flawed Frequency Transmission\n";
 

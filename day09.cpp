@@ -20,7 +20,7 @@ std::vector<Int> Run(std::vector<Int> code, Int input = 0)
     return result;
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 9: Sensor Boost\n";
 

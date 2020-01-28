@@ -104,7 +104,7 @@ void Part2()
     assert(expected::part2 == result);
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 11: Space Police\n";
 

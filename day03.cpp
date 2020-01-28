@@ -104,7 +104,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
     return {d, l};
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 3: Crossed Wires\n";
     assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));

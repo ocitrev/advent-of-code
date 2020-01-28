@@ -94,7 +94,7 @@ std::pair<int, Point> GetBestFromMap(std::string_view map)
     return {static_cast<int>(best.rays.size()), best.pos};
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 10: Monitoring Station\n";
 

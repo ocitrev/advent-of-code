@@ -132,7 +132,7 @@ void Part2()
     assert(9210745 == part2);
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 19: Tractor Beam\n";
     Part1();

@@ -14,52 +14,45 @@ if(NOT MSVC)
       readability-*
       -readability-braces-around-statements # ne fonctionne pas avec le style Alleman
       -readability-magic-numbers
-    )
+      )
     list(JOIN CLANG_TIDY_CHECK_LIST "," CLANG_TIDY_CHECKS)
     set(CMAKE_CXX_CLANG_TIDY
-    	${CLANG_TIDY}
-    	-checks=${CLANG_TIDY_CHECKS}
+      ${CLANG_TIDY}
+      -checks=${CLANG_TIDY_CHECKS}
       -header-filter=.
       --format-style=file
-    	--warnings-as-errors=*
-    )
+      --warnings-as-errors=*
+      )
   endif()
-endif()
-
-# setup le force include
-if(MSVC)
-	add_compile_options("/FI${PROJECT_SOURCE_DIR}/common/common.hpp" /utf-8)
-else()
-	add_compile_options(-include "${PROJECT_SOURCE_DIR}/common/common.hpp")
 endif()
 
 add_library(project_warnings INTERFACE)
 
 if(MSVC)
-	target_compile_options(project_warnings INTERFACE
-		/W4
-		/WX
-		/diagnostics:caret
-		/permissive-
-	)
+  target_compile_options(project_warnings INTERFACE
+    /W4
+    /WX
+    /diagnostics:caret
+    /permissive-
+   )
 else()
-	target_compile_options(project_warnings INTERFACE
-		-Wall
-		-Wcast-align
-		-Wconversion
-		-Wdouble-promotion
-		-Werror
-		-Wextra
-		-Wformat=2
-		-Wnon-virtual-dtor
-		-Wnull-dereference
-		-Wold-style-cast
-		-Woverloaded-virtual
-		-Wpedantic
-		-Wshadow
-		-Wsign-conversion
-		-Wunused
-	)
+  target_compile_options(project_warnings INTERFACE
+    -Wall
+    -Wcast-align
+    -Wconversion
+    -Wdouble-promotion
+    -Werror
+    -Wextra
+    -Wformat=2
+    -Wnon-virtual-dtor
+    -Wnull-dereference
+    -Wold-style-cast
+    -Woverloaded-virtual
+    -Wpedantic
+    -Wshadow
+    -Wsign-conversion
+    -Wunused
+  )
 endif()
 
 add_library(common STATIC
@@ -73,8 +66,31 @@ add_library(common STATIC
   common/string.hpp
 )
 
+target_compile_definitions(common PUBLIC
+  _USE_MATH_DEFINES
+  NOMINMAX
+  WIN32_LEAN_AND_MEAN
+)
 target_compile_features(common PUBLIC cxx_std_20)
 target_link_libraries(common PUBLIC project_warnings)
+
+# fmt library
+include(ExternalProject)
+
+set(FMT_LIB_PREFIX ${PROJECT_BINARY_DIR}/deps/fmtlib)
+ExternalProject_Add(fmtlib
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 6.1.2
+  CMAKE_ARGS "-DFMT_TEST=OFF" "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+  PREFIX ${FMT_LIB_PREFIX}
+  INSTALL_COMMAND ""
+  UPDATE_COMMAND ""
+)
+
+add_dependencies(common fmtlib)
+target_include_directories(common SYSTEM PUBLIC ${FMT_LIB_PREFIX}/src/fmtlib/include)
+link_directories(${FMT_LIB_PREFIX}/src/fmtlib-build)
+target_link_libraries(common PUBLIC fmt$<$<CONFIG:Debug>:d>)
 
 add_executable(day01 day01.cpp day01.hpp)
 add_executable(day02 day02.cpp day02.hpp)
@@ -128,13 +144,13 @@ add_custom_target(run17 day17 DEPENDS day17)
 add_custom_target(run19 day19 DEPENDS day19)
 
 add_custom_target(run
-	DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09
+  DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09
   run10 run11 run12 run13 run16 run17 run19
 )
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
 if(CLANG_FORMAT)
-	file(GLOB FILES_TO_FORMAT *.cpp *.hpp common/*.cpp common/*.hpp)
-	add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
+  file(GLOB FILES_TO_FORMAT *.cpp *.hpp common/*.cpp common/*.hpp)
+  add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
 endif()

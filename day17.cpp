@@ -320,7 +320,7 @@ Map ParseMap(std::string_view mapData)
     return map;
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 17: Set and Forget\n";
     assert(13 == GetMapWidth(example::map1));

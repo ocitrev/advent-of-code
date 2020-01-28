@@ -105,7 +105,7 @@ void Part2()
     assert(76211147 == maxValue);
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 7: Amplification Circuit\n";
 

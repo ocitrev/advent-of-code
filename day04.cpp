@@ -60,7 +60,7 @@ static bool IsValid2(int n)
 }
 #endif
 
-void Main()
+int main()
 {
     std::cout << "Day 4: Secure Container\n";
 

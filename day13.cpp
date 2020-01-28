@@ -4,7 +4,7 @@
 #include "common/point.hpp"
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <map>
 
 enum class Tile
@@ -44,7 +44,7 @@ void Part1()
         return elem.second == Tile::Block;
     });
 
-    std::cout << "Part1: " << result << '\n';
+    fmt::print("  Part1: {}\n", result);
     assert(expected::part1 == result);
 }
 
@@ -65,27 +65,7 @@ static std::string GetTile(Tile tile)
     }
 }
 
-static std::ostream & RenderAt(std::ostream &out, int x, int y)
-{
-    if (x > 0 && y > 0)
-    {
-        out << "\033[u\033[" << y << "B\033[" << x << "C";
-    }
-    else if (x > 0)
-    {
-        out << "\033[u\033[" << x << "C";
-    }
-    else if (y > 0)
-    {
-        out << "\033[u\033[" << y << "B";
-    }
-    else
-    {
-        out << "\033[u";
-    }
-
-    return out;
-}
+#define ESC(x) "\x1b" x // NOLINT: cppcoreguidelines-macro-usage
 
 void Part2(bool render)
 {
@@ -120,7 +100,7 @@ void Part2(bool render)
 
             if (render)
             {
-                RenderAt(std::cout, 0, 23) << "SCORE: " << score;
+                fmt::print(ESC("8") ESC("[23B") "SCORE: {}", score);
             }
         }
         else
@@ -147,7 +127,16 @@ void Part2(bool render)
 
             if (render)
             {
-                RenderAt(std::cout, inputPos.x, inputPos.y) << GetTile(tile);
+                std::string data = fmt::format(ESC("8"));
+
+                if (inputPos.x != 0)
+                    data.append(fmt::format(ESC("[{}C"), inputPos.x));
+
+                if (inputPos.y != 0)
+                    data.append(fmt::format(ESC("[{}B"), inputPos.y));
+
+                data.append(GetTile(tile));
+                fmt::print(data);
             }
 
             grid[inputPos] = tile;
@@ -166,31 +155,30 @@ void Part2(bool render)
 
     if (render)
     {
-        std::cout << "Part2:\n\033[s";
-        std::cout << "\033[?25l";
+        fmt::print("  Part2:\n  " ESC("[?25l") ESC("7"));
     }
 
     cpu.Run();
 
     if (render)
     {
-        RenderAt(std::cout, 0, max.y + 1) << "\033[?25h\n";
+        fmt::print(ESC("8") ESC("[{}B") ESC("[20C") ESC("[?25h") "\n", max.y + 1);
     }
     else
     {
-        std::cout << "Part2: " << score << '\n';
+        fmt::print("  Part2: {}\n", score);
     }
 
     assert(expected::part2 == score);
 }
 
-void Main()
+int main(int argc, char const **argv)
 {
-    std::cout << "Day 13: Care Package\n";
+    fmt::print("Day 13: Care Package\n");
 
     Part1();
-    Part2(false);
 
-    GetTile(Tile::Ball);
-    
+    // NOLINTNEXTLINE: cppcoreguidelines-pro-bounds-pointer-arithmetic
+    bool const render = argc > 1 && _stricmp(argv[1], "render") == 0;
+    Part2(render);
 }

@@ -46,7 +46,7 @@ void Part2(std::vector<Int> const &code)
         });
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 5: Sunny with a Chance of Asteroids\n";
 

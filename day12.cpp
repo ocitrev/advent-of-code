@@ -11,8 +11,8 @@
 class Moon
 {
 public:
-    std::array<Int, 3> pos{};
-    std::array<Int, 3> vel{};
+    std::array<long long, 3> pos{};
+    std::array<long long, 3> vel{};
 
     explicit Moon(std::string const &data)
     {
@@ -83,10 +83,10 @@ public:
         AccelerateAxis(2);
     }
 
-    [[nodiscard]] Int GetEnergy() const
+    [[nodiscard]] long long GetEnergy() const
     {
-        Int pot = std::abs(pos[0]) + std::abs(pos[1]) + std::abs(pos[2]);
-        Int kin = std::abs(vel[0]) + std::abs(vel[1]) + std::abs(vel[2]);
+        long long pot = std::abs(pos[0]) + std::abs(pos[1]) + std::abs(pos[2]);
+        long long kin = std::abs(vel[0]) + std::abs(vel[1]) + std::abs(vel[2]);
         return pot * kin;
     }
 };
@@ -115,7 +115,7 @@ void Step(std::vector<Moon> &moons)
     }
 }
 
-Int Simulate(std::string_view data, int steps)
+long long Simulate(std::string_view data, int steps)
 {
     std::vector moons = Moon::ReadMoons(data);
 
@@ -124,15 +124,15 @@ Int Simulate(std::string_view data, int steps)
         Step(moons);
     }
 
-    return std::accumulate(begin(moons), end(moons), Int{0}, [](Int total, Moon const &m) {
+    return std::accumulate(begin(moons), end(moons), 0ll, [](long long total, Moon const &m) {
         return total + m.GetEnergy();
     });
 }
 
-Int CountCycle(std::string_view data)
+long long CountCycle(std::string_view data)
 {
     std::vector const moons = Moon::ReadMoons(data);
-    std::array<Int, 3> count{};
+    std::array<long long, 3> count{};
 
     for (size_t axis = 0; axis != 3; ++axis)
     {
@@ -151,7 +151,7 @@ Int CountCycle(std::string_view data)
     return std::lcm(std::lcm(count[0], count[1]), count[2]);
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 12: The N-Body Problem\n";
 

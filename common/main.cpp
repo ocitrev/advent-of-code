@@ -2,12 +2,8 @@
 #ifdef _WIN32
 #    include <Windows.h>
 #    include <crtdbg.h>
-#endif
 
-void Main();
-
-#ifdef _WIN32
-int wmain([[maybe_unused]] int argc, [[maybe_unused]] wchar_t **argv)
+static int ConsoleInit()
 {
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR); // NOLINT
@@ -15,12 +11,15 @@ int wmain([[maybe_unused]] int argc, [[maybe_unused]] wchar_t **argv)
     _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR); // NOLINT
     _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR); // NOLINT
-    SetConsoleOutputCP(65001);
-    Main();
+    SetConsoleOutputCP(CP_UTF8);
+    return 0;
 }
-#else
-int main()
+
+static int consoleInit = ConsoleInit();
+
+extern "C"
 {
-    Main();
+    int __forceConsoleInit;
 }
+
 #endif

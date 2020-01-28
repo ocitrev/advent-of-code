@@ -1,8 +1,8 @@
 #include "day01.hpp"
 #include "common/main.hpp"
 #include <cassert>
+#include <fmt/format.h>
 #include <fstream>
-#include <iostream>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -35,9 +35,9 @@ static_assert(2 == GetRealFuel(14));
 static_assert(966 == GetRealFuel(1969));
 static_assert(50346 == GetRealFuel(100756));
 
-void Main()
+int main()
 {
-    std::cout << "Day 1: The Tyranny of the Rocket Equation\n";
+    fmt::print("Day 1: The Tyranny of the Rocket Equation\n");
 
     int part1 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
         return r + GetFuel(mass);
@@ -47,9 +47,9 @@ void Main()
         return r + GetRealFuel(mass);
     });
 
-    std::cout << "  Part1: " << part1 << '\n';
+    fmt::print("  Part1: {}\n", part1);
     assert(3538016 == part1);
 
-    std::cout << "  Part2: " << part2 << '\n';
+    fmt::print("  Part2: {}\n", part2);
     assert(5304147 == part2);
 }

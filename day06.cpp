@@ -60,7 +60,7 @@ static std::vector<std::string> GetPath(std::vector<std::string> const &list,
     throw std::invalid_argument{"Not found"};
 }
 
-void Main()
+int main()
 {
     std::cout << "Day 6: Universal Orbit Map\n";
     assert(3 == CountIndirect(Split(example::data, '\n'), "D"));

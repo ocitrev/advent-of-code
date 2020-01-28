@@ -3,7 +3,7 @@
 
 namespace input
 {
-    static constexpr std::initializer_list<Int> data{
+    static constexpr std::initializer_list<long long> data{
         1,   0,   0,  3,   1,  1,   2,  3,  1,   3,  4,  3,   1,   5,  0,  3,   2,   1,  10,
         19,  1,   6,  19,  23, 1,   13, 23, 27,  1,  6,  27,  31,  1,  31, 10,  35,  1,  35,
         6,   39,  1,  39,  13, 43,  2,  10, 43,  47, 1,  47,  6,   51, 2,  6,   51,  55, 1,
