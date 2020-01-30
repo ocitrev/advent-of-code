@@ -124,7 +124,7 @@ long long Simulate(std::string_view data, int steps)
         Step(moons);
     }
 
-    return std::accumulate(begin(moons), end(moons), 0ll, [](long long total, Moon const &m) {
+    return std::accumulate(begin(moons), end(moons), 0LL, [](long long total, Moon const &m) {
         return total + m.GetEnergy();
     });
 }

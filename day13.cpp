@@ -65,7 +65,8 @@ static std::string GetTile(Tile tile)
     }
 }
 
-#define ESC(x) "\x1b" x // NOLINT: cppcoreguidelines-macro-usage
+// https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
+#define CSI(x) "\x1b[" x // NOLINT: cppcoreguidelines-macro-usage
 
 void Part2(bool render)
 {
@@ -100,7 +101,7 @@ void Part2(bool render)
 
             if (render)
             {
-                fmt::print(ESC("8") ESC("[23B") "SCORE: {}", score);
+                fmt::print(CSI("24;1H") "SCORE: {}", score);
             }
         }
         else
@@ -127,16 +128,7 @@ void Part2(bool render)
 
             if (render)
             {
-                std::string data = fmt::format(ESC("8"));
-
-                if (inputPos.x != 0)
-                    data.append(fmt::format(ESC("[{}C"), inputPos.x));
-
-                if (inputPos.y != 0)
-                    data.append(fmt::format(ESC("[{}B"), inputPos.y));
-
-                data.append(GetTile(tile));
-                fmt::print(data);
+                fmt::print(CSI("{};{}H") "{}", inputPos.y + 1, inputPos.x + 1, GetTile(tile));
             }
 
             grid[inputPos] = tile;
@@ -155,30 +147,30 @@ void Part2(bool render)
 
     if (render)
     {
-        fmt::print("  Part2:\n  " ESC("[?25l") ESC("7"));
+        // Switches to a new alternate screen buffer.
+        fmt::print(CSI("?1049h") CSI("?25l"));
     }
 
     cpu.Run();
 
     if (render)
     {
-        fmt::print(ESC("8") ESC("[{}B") ESC("[20C") ESC("[?25h") "\n", max.y + 1);
-    }
-    else
-    {
-        fmt::print("  Part2: {}\n", score);
+        // Switches back to the main buffer.
+        fmt::print(CSI("?1049l") CSI("?25h"));
     }
 
+    fmt::print("  Part2: {}\n", score);
     assert(expected::part2 == score);
 }
 
-int main(int argc, char const **argv)
+int main()
 {
+    bool const isTerminal = IsTerminal(stdout);
     fmt::print("Day 13: Care Package\n");
 
     Part1();
 
     // NOLINTNEXTLINE: cppcoreguidelines-pro-bounds-pointer-arithmetic
-    bool const render = argc > 1 && _stricmp(argv[1], "render") == 0;
+    bool const render = isTerminal;
     Part2(render);
 }
