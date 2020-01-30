@@ -1,9 +1,9 @@
 #include "day04.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <string>
 #include <vector>
 
@@ -62,7 +62,7 @@ static bool IsValid2(int n)
 
 int main()
 {
-    std::cout << "Day 4: Secure Container\n";
+    fmt::print("Day 4: Secure Container\n");
 
     assert(IsIncreasing(111123));
     assert(IsIncreasing(135679));
@@ -100,9 +100,9 @@ int main()
         loose.push_back(i);
     }
 
-    std::cout << "  Part1: " << loose.size() << '\n';
+    fmt::print("  Part1: {}\n", loose.size());
     assert(1169 == loose.size());
 
-    std::cout << "  Part2: " << strict.size() << '\n';
+    fmt::print("  Part2: {}\n", strict.size());
     assert(757 == strict.size());
 }

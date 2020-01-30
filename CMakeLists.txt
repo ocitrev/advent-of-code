@@ -59,11 +59,11 @@ add_library(common STATIC
   common/combinations.hpp
   common/intcode.cpp
   common/intcode.hpp
-  common/main.cpp
-  common/main.hpp
   common/point.hpp
   common/string.cpp
   common/string.hpp
+  common/terminal.cpp
+  common/terminal.hpp
 )
 
 target_compile_definitions(common PUBLIC

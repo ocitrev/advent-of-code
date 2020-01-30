@@ -1,9 +1,9 @@
 #include "day07.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <vector>
 
 Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
@@ -45,7 +45,7 @@ void Part1()
         maxValue = std::max(maxValue, Amplify1(code, sequence));
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::cout << "  Part1: " << maxValue << '\n';
+    fmt::print("  Part1: {}\n", maxValue);
     assert(30940 == maxValue);
 }
 
@@ -101,13 +101,13 @@ void Part2()
         maxValue = std::max(maxValue, Amplify2(code, sequence));
     } while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::cout << "  Part2: " << maxValue << '\n';
+    fmt::print("  Part2: {}\n", maxValue);
     assert(76211147 == maxValue);
 }
 
 int main()
 {
-    std::cout << "Day 7: Amplification Circuit\n";
+    fmt::print("Day 7: Amplification Circuit\n");
 
     assert(example::N1::result == Amplify1(example::N1::code, example::N1::sequence));
     assert(example::N2::result == Amplify1(example::N2::code, example::N2::sequence));

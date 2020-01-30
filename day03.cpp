@@ -1,10 +1,10 @@
 #include "day03.hpp"
-#include "common/main.hpp"
 #include "common/point.hpp"
 #include "common/string.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -106,7 +106,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
 
 int main()
 {
-    std::cout << "Day 3: Crossed Wires\n";
+    fmt::print("Day 3: Crossed Wires\n");
     assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));
     assert((Result{159, 610}
             == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
@@ -115,9 +115,9 @@ int main()
                      "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
 
     auto [closest, fastest] = Solve(input::wire1, input::wire2);
-    std::cout << "  Part1: " << closest << '\n';
+    fmt::print("  Part1: {}\n", closest);
     assert(245 == closest);
 
-    std::cout << "  Part2: " << fastest << '\n';
+    fmt::print("  Part2: {}\n", fastest);
     assert(48262 == fastest);
 }

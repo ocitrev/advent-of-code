@@ -1,9 +1,9 @@
 #include "day17.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -149,7 +149,7 @@ void RenderMap(Map const &map)
 
         if (++iter == end(line))
         {
-            std::cout << line << '\n';
+            fmt::print("{}\n", line);
             iter = begin(line);
         }
     }
@@ -243,7 +243,7 @@ void Part1()
 {
     auto m = GenerateMap();
     auto part1 = MarkIntersections(m);
-    std::cout << "  Part1: " << part1 << '\n';
+    fmt::print("  Part1: {}\n", part1);
     assert(14332 == part1);
 }
 
@@ -309,7 +309,7 @@ void Part2()
     sendInputs(cpu, "n\n");
     cpu.Run();
 
-    std::cout << "  Part2: " << result << '\n';
+    fmt::print("  Part2: {}\n", result);
     assert(1034009 == result);
 }
 
@@ -322,7 +322,7 @@ Map ParseMap(std::string_view mapData)
 
 int main()
 {
-    std::cout << "Day 17: Set and Forget\n";
+    fmt::print("Day 17: Set and Forget\n");
     assert(13 == GetMapWidth(example::map1));
     assert(76 == MarkIntersections(ParseMap(example::map1)));
     assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2"

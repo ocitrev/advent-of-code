@@ -1,8 +1,8 @@
 #include "day05.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <vector>
 
 Int Run(std::vector<Int> const &code, Int input)
@@ -27,7 +27,7 @@ void Part1(std::vector<Int> const &code)
             return 1;
         },
         [](Int value) {
-            std::cout << "  Part1: " << value << '\n';
+            fmt::print("  Part1: {}\n", value);
             // 0 is outputed
             assert(value == 0 || 13285749 == value);
         });
@@ -41,14 +41,14 @@ void Part2(std::vector<Int> const &code)
             return 5;
         },
         [](Int value) {
-            std::cout << "  Part2: " << value << '\n';
+            fmt::print("  Part2: {}\n", value);
             assert(5000972 == value);
         });
 }
 
 int main()
 {
-    std::cout << "Day 5: Sunny with a Chance of Asteroids\n";
+    fmt::print("Day 5: Sunny with a Chance of Asteroids\n");
 
     assert(0 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 7));
     assert(1 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 8));

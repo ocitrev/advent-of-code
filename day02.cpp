@@ -1,8 +1,8 @@
 #include "day02.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <vector>
 
 Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
@@ -24,7 +24,7 @@ Int Run(std::vector<Int> const &code, Int noun, Int verb)
 void Part1(std::vector<Int> const &code)
 {
     auto part1 = Run(code, 12, 2);
-    std::cout << "  Part1: " << part1 << '\n';
+    fmt::print("  Part1: {}\n", part1);
     assert(3706713 == part1);
 }
 
@@ -37,7 +37,7 @@ void Part2(std::vector<Int> const &code)
             if (Run(code, noun, verb) == 19690720)
             {
                 auto part2 = noun * 100 + verb;
-                std::cout << "  Part2: " << part2 << '\n';
+                fmt::print("  Part2: {}\n", part2);
                 assert(8609 == part2);
                 return;
             }
@@ -47,7 +47,7 @@ void Part2(std::vector<Int> const &code)
 
 int main()
 {
-    std::cout << "Day 2: 1202 Program Alarm\n";
+    fmt::print("Day 2: 1202 Program Alarm\n");
 
     assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));

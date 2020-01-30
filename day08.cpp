@@ -1,10 +1,10 @@
 #include "day08.hpp"
-#include "common/main.hpp"
 #include "common/string.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <string_view>
 #include <vector>
 
@@ -73,7 +73,7 @@ void Part1()
     });
 
     assert(iterMin != end(layers));
-    std::cout << "  Part1: " << iterMin->count[1] * iterMin->count[2] << '\n';
+    fmt::print("  Part1: {}\n", iterMin->count[1] * iterMin->count[2]);
     assert(2080 == iterMin->count[1] * iterMin->count[2]);
 }
 
@@ -97,13 +97,13 @@ void Part2()
         result.append("\n");
     }
 
-    std::cout << "  Part2:\n" << result;
+    fmt::print("  Part2:\n{}", result);
     assert(expected::part2 == result);
 }
 
 int main()
 {
-    std::cout << "Day 8: Space Image Format\n";
+    fmt::print("Day 8: Space Image Format\n");
     assert("0110" == Render("0222112222120000", 2, 2));
 
     Part1();

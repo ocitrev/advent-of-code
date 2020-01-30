@@ -1,10 +1,10 @@
 #include "day11.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
 #include "common/point.hpp"
+#include "common/terminal.hpp"
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <map>
 
 struct Robot
@@ -66,7 +66,7 @@ void Part1()
 {
     Robot robot;
     robot.Run();
-    std::cout << "Part1: " << robot.grid.size() << '\n';
+    fmt::print("Part1: {}\n", robot.grid.size());
     assert(expected::part1 == robot.grid.size());
 }
 
@@ -100,13 +100,13 @@ void Part2()
         result.append("\n");
     }
 
-    std::cout << "Part2:\n" << result;
+    fmt::print("Part2:\n{}", result);
     assert(expected::part2 == result);
 }
 
 int main()
 {
-    std::cout << "Day 11: Space Police\n";
+    fmt::print("Day 11: Space Police\n");
 
     Part1();
     Part2();

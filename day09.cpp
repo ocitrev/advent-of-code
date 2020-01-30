@@ -1,8 +1,8 @@
 #include "day09.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 
 std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 {
@@ -22,7 +22,7 @@ std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 
 int main()
 {
-    std::cout << "Day 9: Sensor Boost\n";
+    fmt::print("Day 9: Sensor Boost\n");
 
     assert(
         (std::vector<Int>{109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99}
@@ -31,10 +31,10 @@ int main()
     assert(std::vector<Int>{1125899906842624} == Run({104, 1125899906842624, 99}));
 
     auto part1 = Run(input::data, 1);
-    std::cout << "  Part1: " << part1.front() << '\n';
+    fmt::print("  Part1: {}\n", part1.front());
     assert(2890527621 == part1.front());
 
     auto part2 = Run(input::data, 2);
-    std::cout << "  Part2: " << part2.front() << '\n';
+    fmt::print("  Part2: {}\n", part2.front());
     assert(66772 == part2.front());
 }

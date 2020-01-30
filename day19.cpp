@@ -1,8 +1,8 @@
 #include "day19.hpp"
 #include "common/intcode.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 
 void Part1()
 {
@@ -39,12 +39,12 @@ void Part1()
         beam.append(1, '\n');
     }
 
-    std::cout << "  Part1: " << total << '\n';
+    fmt::print("  Part1: {}\n", total);
     assert(231 == total);
 
     if constexpr (false)
     {
-        std::cout << beam << '\n';
+        fmt::print("{}\n", beam);
     }
 }
 
@@ -113,7 +113,7 @@ Int FindSquare(Int width, Int height)
                     Int x = minx;
                     Int y = miny - (height - 1);
 
-                    // std::cout << x << ", " << y << '\n';
+                    // fmt::print("{}, {}\n", x, y);
                     return x * 10000 + y;
                 }
             }
@@ -128,13 +128,13 @@ Int FindSquare(Int width, Int height)
 void Part2()
 {
     auto part2 = FindSquare(100, 100);
-    std::cout << "  Part2: " << part2 << '\n';
+    fmt::print("  Part2: {}\n", part2);
     assert(9210745 == part2);
 }
 
 int main()
 {
-    std::cout << "Day 19: Tractor Beam\n";
+    fmt::print("Day 19: Tractor Beam\n");
     Part1();
     Part2();
 }

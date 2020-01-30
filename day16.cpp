@@ -1,9 +1,9 @@
 #include "day16.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <array>
+#include <fmt/format.h>
 #include <fstream>
-#include <iostream>
 #include <string>
 #ifdef COROUTINE
 #    include <experimental/generator>
@@ -140,7 +140,7 @@ std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
 
 int main()
 {
-    std::cout << "Day 16: Flawed Frequency Transmission\n";
+    fmt::print("Day 16: Flawed Frequency Transmission\n");
 
     assert("48226158" == Process("12345678", 1));
     assert("34040438" == Process("12345678", 2));
@@ -155,10 +155,10 @@ int main()
     assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
     auto part1 = Process(input::data, 100);
-    std::cout << "  Part1: " << part1 << '\n';
+    fmt::print("  Part1: {}\n", part1);
     assert("88323090" == part1);
 
     auto part2 = ProcessWithOffsetTimes10000(input::data, 100);
-    std::cout << "  Part2: " << part2 << '\n';
+    fmt::print("  Part2: {}\n", part2);
     assert("50077964" == part2);
 }

@@ -1,12 +1,12 @@
 #include "day10.hpp"
 #include "common/combinations.hpp"
-#include "common/main.hpp"
 #include "common/point.hpp"
 #include "common/string.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cmath>
-#include <iostream>
+#include <fmt/format.h>
 #include <map>
 #include <vector>
 
@@ -96,7 +96,7 @@ std::pair<int, Point> GetBestFromMap(std::string_view map)
 
 int main()
 {
-    std::cout << "Day 10: Monitoring Station\n";
+    fmt::print("Day 10: Monitoring Station\n");
 
     assert(std::make_pair(8, Point{3, 4}) == GetBestFromMap(example::map1));
     assert(std::make_pair(33, Point{5, 8}) == GetBestFromMap(example::map2));
@@ -107,7 +107,7 @@ int main()
     auto map = ParseMap(input::map);
 
     auto best = GetAsteroidWithMostRays(map);
-    std::cout << "  Part1: " << best.rays.size() << '\n';
+    fmt::print("  Part1: {}\n", best.rays.size());
     assert(299 == best.rays.size());
 
     std::vector<std::pair<Point, Ray>> r;
@@ -138,6 +138,6 @@ int main()
     std::nth_element(begin(r), el200, end(r), sortBySlope);
 
     int part2 = el200->second.pos.x * 100 + el200->second.pos.y;
-    std::cout << "  Part2: " << part2 << '\n';
+    fmt::print("  Part2: {}\n", part2);
     assert(1419 == part2);
 }

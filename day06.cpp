@@ -1,9 +1,9 @@
 #include "day06.hpp"
-#include "common/main.hpp"
 #include "common/string.hpp"
+#include "common/terminal.hpp"
 #include <algorithm>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -62,7 +62,7 @@ static std::vector<std::string> GetPath(std::vector<std::string> const &list,
 
 int main()
 {
-    std::cout << "Day 6: Universal Orbit Map\n";
+    fmt::print("Day 6: Universal Orbit Map\n");
     assert(3 == CountIndirect(Split(example::data, '\n'), "D"));
     assert(7 == CountIndirect(Split(example::data, '\n'), "L"));
     assert(0 == CountIndirect(Split(example::data, '\n'), "COM"));
@@ -79,7 +79,7 @@ int main()
         count += CountIndirect(list, last);
     }
 
-    std::cout << "  Part1: " << count << '\n';
+    fmt::print("  Part1: {}\n", count);
     assert(247089 == count);
 
     auto you = GetPath(list, "YOU");
@@ -94,6 +94,6 @@ int main()
                                       return a < b;
                                   });
 
-    std::cout << "  Part2: " << result.size() << '\n';
+    fmt::print("  Part2: {}\n", result.size());
     assert(442 == result.size());
 }

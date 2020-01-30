@@ -1,10 +1,10 @@
 #include "day12.hpp"
 #include "common/combinations.hpp"
-#include "common/main.hpp"
 #include "common/string.hpp"
+#include "common/terminal.hpp"
 #include <array>
 #include <cassert>
-#include <iostream>
+#include <fmt/format.h>
 #include <numeric>
 #include <regex>
 
@@ -153,19 +153,19 @@ long long CountCycle(std::string_view data)
 
 int main()
 {
-    std::cout << "Day 12: The N-Body Problem\n";
+    fmt::print("Day 12: The N-Body Problem\n");
 
     assert(179 == Simulate(example::one, 10));
     assert(1940 == Simulate(example::two, 100));
 
     auto part1 = Simulate(input::data, 1000);
-    std::cout << "  Part1: " << part1 << '\n';
+    fmt::print("  Part1: {}\n", part1);
     assert(8625 == part1);
 
     assert(2772 == CountCycle(example::one));
     assert(4686774924 == CountCycle(example::two));
 
     auto part2 = CountCycle(input::data);
-    std::cout << "  Part2: " << part2 << '\n';
+    fmt::print("  Part2: {}\n", part2);
     assert(332477126821644 == part2);
 }

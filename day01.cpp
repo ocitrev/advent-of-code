@@ -1,5 +1,5 @@
 #include "day01.hpp"
-#include "common/main.hpp"
+#include "common/terminal.hpp"
 #include <cassert>
 #include <fmt/format.h>
 #include <fstream>
