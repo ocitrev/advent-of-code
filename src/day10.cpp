@@ -1,8 +1,8 @@
 #include "day10.hpp"
-#include "common/combinations.hpp"
-#include "common/point.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
+#include "combinations.hpp"
+#include "point.hpp"
+#include "string.hpp"
+#include "terminal.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cmath>

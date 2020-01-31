@@ -1,7 +1,7 @@
 #include "day11.hpp"
-#include "common/intcode.hpp"
-#include "common/point.hpp"
-#include "common/terminal.hpp"
+#include "intcode.hpp"
+#include "point.hpp"
+#include "terminal.hpp"
 #include <array>
 #include <cassert>
 #include <fmt/format.h>

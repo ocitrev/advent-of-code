@@ -1,7 +1,7 @@
 #include "day12.hpp"
-#include "common/combinations.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
+#include "combinations.hpp"
+#include "string.hpp"
+#include "terminal.hpp"
 #include <array>
 #include <cassert>
 #include <fmt/format.h>

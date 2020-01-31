@@ -1,5 +1,5 @@
 #include "day16.hpp"
-#include "common/terminal.hpp"
+#include "terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>

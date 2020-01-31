@@ -1,6 +1,6 @@
 #include "day08.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
+#include "string.hpp"
+#include "terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>

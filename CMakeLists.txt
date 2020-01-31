@@ -56,14 +56,14 @@ else()
 endif()
 
 add_library(common STATIC
-  common/combinations.hpp
-  common/intcode.cpp
-  common/intcode.hpp
-  common/point.hpp
-  common/string.cpp
-  common/string.hpp
-  common/terminal.cpp
-  common/terminal.hpp
+  src/combinations.hpp
+  src/intcode.cpp
+  src/intcode.hpp
+  src/point.hpp
+  src/string.cpp
+  src/string.hpp
+  src/terminal.cpp
+  src/terminal.hpp
 )
 
 target_compile_definitions(common PUBLIC
@@ -92,23 +92,23 @@ target_include_directories(common SYSTEM PUBLIC ${FMT_LIB_PREFIX}/src/fmtlib/inc
 link_directories(${FMT_LIB_PREFIX}/src/fmtlib-build)
 target_link_libraries(common PUBLIC fmt$<$<CONFIG:Debug>:d>)
 
-add_executable(day01 day01.cpp day01.hpp)
-add_executable(day02 day02.cpp day02.hpp)
-add_executable(day03 day03.cpp day03.hpp)
-add_executable(day04 day04.cpp day04.hpp)
-add_executable(day05 day05.cpp day05.hpp)
-add_executable(day06 day06.cpp day06.hpp)
-add_executable(day07 day07.cpp day07.hpp)
-add_executable(day08 day08.cpp day08.hpp)
-add_executable(day09 day09.cpp day09.hpp)
-add_executable(day10 day10.cpp day10.hpp)
-add_executable(day11 day11.cpp day11.hpp)
-add_executable(day12 day12.cpp day12.hpp)
-add_executable(day13 day13.cpp day13.hpp)
-add_executable(day14 day14.cpp day14.hpp)
-add_executable(day16 day16.cpp day16.hpp)
-add_executable(day17 day17.cpp day17.hpp)
-add_executable(day19 day19.cpp day19.hpp)
+add_executable(day01 src/day01.cpp src/day01.hpp)
+add_executable(day02 src/day02.cpp src/day02.hpp)
+add_executable(day03 src/day03.cpp src/day03.hpp)
+add_executable(day04 src/day04.cpp src/day04.hpp)
+add_executable(day05 src/day05.cpp src/day05.hpp)
+add_executable(day06 src/day06.cpp src/day06.hpp)
+add_executable(day07 src/day07.cpp src/day07.hpp)
+add_executable(day08 src/day08.cpp src/day08.hpp)
+add_executable(day09 src/day09.cpp src/day09.hpp)
+add_executable(day10 src/day10.cpp src/day10.hpp)
+add_executable(day11 src/day11.cpp src/day11.hpp)
+add_executable(day12 src/day12.cpp src/day12.hpp)
+add_executable(day13 src/day13.cpp src/day13.hpp)
+add_executable(day14 src/day14.cpp src/day14.hpp)
+add_executable(day16 src/day16.cpp src/day16.hpp)
+add_executable(day17 src/day17.cpp src/day17.hpp)
+add_executable(day19 src/day19.cpp src/day19.hpp)
 
 target_link_libraries(day01 PRIVATE common)
 target_link_libraries(day02 PRIVATE common)
@@ -154,6 +154,6 @@ add_custom_target(run
 find_program(CLANG_FORMAT NAMES "clang-format")
 
 if(CLANG_FORMAT)
-  file(GLOB FILES_TO_FORMAT *.cpp *.hpp common/*.cpp common/*.hpp)
+  file(GLOB FILES_TO_FORMAT src/*.cpp src/*.hpp)
   add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
 endif()

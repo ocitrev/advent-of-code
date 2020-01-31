@@ -1,6 +1,6 @@
 #include "day09.hpp"
-#include "common/intcode.hpp"
-#include "common/terminal.hpp"
+#include "intcode.hpp"
+#include "terminal.hpp"
 #include <cassert>
 #include <fmt/format.h>
 

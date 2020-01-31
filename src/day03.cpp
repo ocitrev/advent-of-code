@@ -1,7 +1,7 @@
 #include "day03.hpp"
-#include "common/point.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
+#include "point.hpp"
+#include "string.hpp"
+#include "terminal.hpp"
 #include <algorithm>
 #include <cassert>
 #include <fmt/format.h>

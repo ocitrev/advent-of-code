@@ -1,6 +1,6 @@
 #include "day14.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
+#include "string.hpp"
+#include "terminal.hpp"
 #include <cassert>
 #include <fmt/format.h>
 #include <map>
