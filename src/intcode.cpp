@@ -2,16 +2,25 @@
 #include <sstream>
 #include <stdexcept>
 
-Intcode::Intcode(std::vector<Int> code)
-    : memory{std::move(code)}
+struct Intcode::Param
 {
-    if (memory.empty())
+    Int value;
+    Intcode *cpu;
+    Mode mode;
+    Param &operator=(Int value);
+    operator Int() const;
+};
+
+Intcode::Intcode(std::vector<Int> code)
+    : state{std::move(code)}
+{
+    if (state.memory.empty())
         throw std::invalid_argument("code cannot be empty.");
 }
 
 Intcode::Param Intcode::GetParam(Mode mode)
 {
-    return {memory[ip++], this, mode};
+    return {state.memory[state.ip++], this, mode};
 }
 
 Intcode::Param &Intcode::Param::operator=(Int value_)
@@ -22,12 +31,12 @@ Intcode::Param &Intcode::Param::operator=(Int value_)
     Int offset = value;
 
     if (mode == Mode::Relative)
-        offset += cpu->relOffset;
+        offset += cpu->state.relOffset;
 
-    if (offset >= static_cast<Int>(cpu->memory.size()))
-        cpu->memory.resize(static_cast<size_t>(offset) + 1);
+    if (offset >= static_cast<Int>(cpu->state.memory.size()))
+        cpu->state.memory.resize(static_cast<size_t>(offset) + 1);
 
-    cpu->memory[static_cast<size_t>(offset)] = value_;
+    cpu->state.memory[static_cast<size_t>(offset)] = value_;
     return *this;
 }
 
@@ -39,17 +48,17 @@ Intcode::Param::operator Int() const
     Int offset = value;
 
     if (mode == Mode::Relative)
-        offset += cpu->relOffset;
+        offset += cpu->state.relOffset;
 
-    if (offset >= static_cast<Int>(cpu->memory.size()))
+    if (offset >= static_cast<Int>(cpu->state.memory.size()))
         return 0;
 
-    return cpu->memory[static_cast<size_t>(offset)];
+    return cpu->state.memory[static_cast<size_t>(offset)];
 }
 
 std::pair<typename Intcode::OpCode, Int> Intcode::GetInstruction()
 {
-    Int instruction = memory[ip++];
+    Int instruction = state.memory[state.ip++];
     return {static_cast<OpCode>(instruction % 100), instruction / 100};
 }
 
@@ -105,7 +114,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
         auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
 
         if (a != 0)
-            ip = static_cast<size_t>(b);
+            state.ip = static_cast<size_t>(b);
 
         break;
     }
@@ -115,7 +124,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
         auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
 
         if (a == 0)
-            ip = static_cast<size_t>(b);
+            state.ip = static_cast<size_t>(b);
 
         break;
     }
@@ -138,11 +147,11 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
     case OpCode::SetRelBaseOffset:
     {
         auto a = GetParam(static_cast<Mode>(mode % 10));
-        relOffset += a;
+        state.relOffset += a;
         break;
     }
     case OpCode::Halt:
-        halted = true;
+        state.halted = true;
         break;
     default:
         throw std::domain_error("Invalid opcode");
@@ -151,7 +160,7 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 
 void Intcode::Run()
 {
-    while (!halted)
+    while (!state.halted)
     {
         auto [opcode, mode] = GetInstruction();
         RunStep(opcode, mode);
@@ -160,7 +169,7 @@ void Intcode::Run()
 
 Intcode::OutputFunc Intcode::RunUntilInput()
 {
-    while (!halted)
+    while (!state.halted)
     {
         auto [opcode, mode] = GetInstruction();
 
@@ -182,7 +191,7 @@ std::optional<Int> Intcode::RunUntilOuput(InputFunc &&inputFunc)
 {
     inputFunc_ = std::move(inputFunc);
 
-    while (!halted)
+    while (!state.halted)
     {
         auto [opcode, mode] = GetInstruction();
 
@@ -200,12 +209,12 @@ std::optional<Int> Intcode::RunUntilOuput(InputFunc &&inputFunc)
 
 Int Intcode::ReadMemory(std::size_t offset) const
 {
-    return memory.at(offset);
+    return state.memory.at(offset);
 }
 
 Int Intcode::WriteMemory(size_t offset, Int value)
 {
-    return std::exchange(memory[offset], value);
+    return std::exchange(state.memory[offset], value);
 }
 
 void Intcode::SetInput(InputFunc &&inputFunc)
@@ -216,4 +225,14 @@ void Intcode::SetInput(InputFunc &&inputFunc)
 void Intcode::SetOutput(OutputFunc &&outputFunc)
 {
     outputFunc_ = std::move(outputFunc);
+}
+
+Intcode::State Intcode::Backup() const
+{
+    return state;
+}
+
+void Intcode::Restore(Intcode::State const &backup)
+{
+    state = backup;
 }

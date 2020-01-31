@@ -106,6 +106,7 @@ add_executable(day11 src/day11.cpp src/day11.hpp)
 add_executable(day12 src/day12.cpp src/day12.hpp)
 add_executable(day13 src/day13.cpp src/day13.hpp)
 add_executable(day14 src/day14.cpp src/day14.hpp)
+add_executable(day15 src/day15.cpp src/day15.hpp)
 add_executable(day16 src/day16.cpp src/day16.hpp)
 add_executable(day17 src/day17.cpp src/day17.hpp)
 add_executable(day19 src/day19.cpp src/day19.hpp)
@@ -124,6 +125,7 @@ target_link_libraries(day11 PRIVATE common)
 target_link_libraries(day12 PRIVATE common)
 target_link_libraries(day13 PRIVATE common)
 target_link_libraries(day14 PRIVATE common)
+target_link_libraries(day15 PRIVATE common)
 target_link_libraries(day16 PRIVATE common)
 target_link_libraries(day17 PRIVATE common)
 target_link_libraries(day19 PRIVATE common)
@@ -142,13 +144,14 @@ add_custom_target(run11 day11 DEPENDS day11)
 add_custom_target(run12 day12 DEPENDS day12)
 add_custom_target(run13 day13 DEPENDS day13)
 add_custom_target(run14 day14 DEPENDS day14)
+add_custom_target(run15 day15 DEPENDS day15)
 add_custom_target(run16 day16 DEPENDS day16)
 add_custom_target(run17 day17 DEPENDS day17)
 add_custom_target(run19 day19 DEPENDS day19)
 
 add_custom_target(run
   DEPENDS run01 run02 run03 run04 run05 run06 run07 run08 run09 run10
-  run11 run12 run13 run14 run16 run17 run19
+  run11 run12 run13 run14 run15 run16 run17 run19
 )
 
 find_program(CLANG_FORMAT NAMES "clang-format")

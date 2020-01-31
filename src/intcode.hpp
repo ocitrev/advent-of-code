@@ -8,6 +8,16 @@ using Int = long long;
 
 class Intcode
 {
+public:
+    struct State
+    {
+        std::vector<Int> memory;
+        std::size_t ip = 0;
+        Int relOffset = 0;
+        bool halted = false;
+    };
+
+private:
     using InputFunc = std::function<Int()>;
     using OutputFunc = std::function<void(Int)>;
 
@@ -33,19 +43,9 @@ class Intcode
         Halt = 99,
     };
 
-    struct Param
-    {
-        Int value;
-        Intcode *cpu;
-        Mode mode;
-        Param &operator=(Int value);
-        operator Int() const;
-    };
+    struct Param;
 
-    std::vector<Int> memory;
-    std::size_t ip = 0;
-    Int relOffset = 0;
-    bool halted = false;
+    State state;
     InputFunc inputFunc_;
     OutputFunc outputFunc_;
 
@@ -71,6 +71,9 @@ public:
 
     [[nodiscard]] bool IsHalted() const
     {
-        return halted;
+        return state.halted;
     }
+
+    [[nodiscard]] State Backup() const;
+    void Restore(State const &backup);
 };
