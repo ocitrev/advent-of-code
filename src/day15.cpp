@@ -8,6 +8,7 @@
 #include <map>
 #include <optional>
 #include <set>
+#include <thread>
 
 static constexpr std::string_view kWall{"█"};
 static constexpr std::string_view kFloor{"."};
