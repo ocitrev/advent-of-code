@@ -88,7 +88,7 @@ bool IsTerminal(std::FILE *stream)
 
 bool IsTerminal(std::FILE *stream)
 {
-    return _isatty(_fileno(stream)) != 0;
+    return isatty(fileno(stream)) != 0;
 }
 
 #endif

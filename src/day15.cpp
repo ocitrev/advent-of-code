@@ -86,13 +86,8 @@ struct Robot
         return bounds;
     }
 
-    void Print()
+    void PrintFrame() const
     {
-        if (GetTile({0, 0}) != kDroid)
-        {
-            grid[{0, 0}] = kStart;
-        }
-
         auto const bounds = GetBounds();
         std::string frame;
 
@@ -107,6 +102,31 @@ struct Robot
         }
 
         fmt::print(frame);
+    }
+
+// https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
+#define CSI(x) "\x1b[" x // NOLINT: cppcoreguidelines-macro-usage
+
+    void Print(bool isTerminal)
+    {
+        if (isTerminal)
+        {
+            fmt::print(CSI("?1049h"));
+        }
+
+        if (GetTile({0, 0}) != kDroid)
+        {
+            grid[{0, 0}] = kStart;
+        }
+
+        PrintFrame();
+
+        if (isTerminal)
+        {
+            using namespace std::chrono_literals;
+            std::this_thread::sleep_for(5s);
+            fmt::print(CSI("?1049l"));
+        }
     }
 
     [[nodiscard]] std::string_view GetTile(Point p) const
@@ -124,7 +144,7 @@ struct Robot
 
         for (int i = 0; i != 4; ++i)
         {
-            if (!grid.contains(GetNextPos(i)))
+            if (grid.find(GetNextPos(i)) == end(grid))
             {
                 choices.push_back(i);
             }
@@ -180,7 +200,7 @@ struct Robot
             return true;
         }
 
-        if (GetTile(p) == kWall || visited.contains(p))
+        if (GetTile(p) == kWall || visited.find(p) != end(visited))
             return false;
 
         visited.insert(p);
