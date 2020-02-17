@@ -1,6 +1,8 @@
 #pragma once
+#include <cmath>
 #include <numeric>
 #include <ostream>
+#include <tuple>
 
 struct Point
 {
@@ -64,7 +66,7 @@ struct Point
 
     [[nodiscard]] double Slope() const
     {
-        return atan2(y, x);
+        return std::atan2(y, x);
     }
 
     friend std::ostream &operator<<(std::ostream &out, Point const &p)
@@ -74,6 +76,6 @@ struct Point
 
     [[nodiscard]] int Distance() const
     {
-        return abs(x) + abs(y);
+        return std::abs(x) + std::abs(y);
     }
 };
