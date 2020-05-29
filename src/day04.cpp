@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 
-static bool IsIncreasing(int n)
+static bool IsIncreasing(unsigned int n)
 {
     std::string sorted = std::to_string(n);
     std::sort(begin(sorted), end(sorted));
-    return n == std::stoi(sorted);
+    return n == static_cast<unsigned int>(std::stoi(sorted));
 }
 
-constexpr static bool HasDoubleDigit(int n)
+constexpr static bool HasDoubleDigit(unsigned int n)
 {
     std::array<int, 10> digitCount{};
 
@@ -29,7 +29,7 @@ constexpr static bool HasDoubleDigit(int n)
     return false;
 }
 
-constexpr static bool HasDoubleDigitExact(int n)
+constexpr static bool HasDoubleDigitExact(unsigned int n)
 {
     std::array<int, 10> digitCount{};
 
@@ -49,12 +49,12 @@ constexpr static bool HasDoubleDigitExact(int n)
 }
 
 #ifndef NDEBUG
-static bool IsValid1(int n)
+static bool IsValid1(unsigned int n)
 {
     return IsIncreasing(n) && HasDoubleDigit(n);
 }
 
-static bool IsValid2(int n)
+static bool IsValid2(unsigned int n)
 {
     return IsIncreasing(n) && HasDoubleDigitExact(n);
 }
@@ -83,10 +83,10 @@ int main()
     static_assert(!HasDoubleDigitExact(123444));
     static_assert(HasDoubleDigitExact(111122));
 
-    std::vector<int> loose;
-    std::vector<int> strict;
+    std::vector<unsigned int> loose;
+    std::vector<unsigned int> strict;
 
-    for (int i = input::begin; i != input::end; ++i)
+    for (unsigned int i = input::begin; i != input::end; ++i)
     {
         if (!IsIncreasing(i))
             continue;

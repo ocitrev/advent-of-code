@@ -41,9 +41,9 @@ struct Pos
 
     constexpr Pos() = default;
 
-    constexpr Pos(Int x, Int y)
-        : x{x}
-        , y{y}
+    constexpr Pos(Int x_, Int y_)
+        : x{x_}
+        , y{y_}
     {
     }
 
@@ -293,7 +293,7 @@ void Part2()
         });
     }
 
-    auto sendInputs = [](Intcode &cpu, std::string sequence) {
+    auto sendInputs = [&cpu](std::string sequence) {
         while (!sequence.empty())
         {
             cpu.RunUntilInput()(sequence.front());
@@ -301,11 +301,11 @@ void Part2()
         }
     };
 
-    sendInputs(cpu, "A,B,A,B,C,C,B,C,B,A\n");
-    sendInputs(cpu, "R,12,L,8,R,12\n");
-    sendInputs(cpu, "R,8,R,6,R,6,R,8\n");
-    sendInputs(cpu, "R,8,L,8,R,8,R,4,R,4\n");
-    sendInputs(cpu, "n\n");
+    sendInputs("A,B,A,B,C,C,B,C,B,A\n");
+    sendInputs("R,12,L,8,R,12\n");
+    sendInputs("R,8,R,6,R,6,R,8\n");
+    sendInputs("R,8,L,8,R,8,R,4,R,4\n");
+    sendInputs("n\n");
     cpu.Run();
 
     fmt::print("  Part2: {}\n", result);

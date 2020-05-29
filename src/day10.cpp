@@ -20,9 +20,9 @@ struct Ray
     double len;
     Point pos;
 
-    Ray(double len, Point pos)
-        : len(len)
-        , pos(pos)
+    Ray(double len_, Point pos_)
+        : len(len_)
+        , pos(pos_)
     {
     }
 };

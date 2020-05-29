@@ -18,8 +18,8 @@ struct PatternGenerator
     int step = 1;
     decltype(begin(PATTERN)) iter = begin(PATTERN);
 
-    explicit PatternGenerator(int nb)
-        : nb(nb)
+    explicit PatternGenerator(int nb_)
+        : nb(nb_)
     {
     }
 
@@ -76,7 +76,7 @@ std::string ProcessPhaseSlow(std::string_view numbers)
             sum += (n - '0') * p.next();
         }
 
-        ret[static_cast<size_t>(i)] = abs(sum) % 10 + '0';
+        ret[static_cast<size_t>(i)] = static_cast<char>('0' + abs(sum) % 10);
     }
 
     return ret;

@@ -13,10 +13,10 @@ struct Layer
     std::string_view pixels;
     std::array<int, 3> count{};
 
-    Layer(std::string_view pixels)
-        : pixels(pixels)
+    Layer(std::string_view pixels_)
+        : pixels(pixels_)
     {
-        for (auto const &p : pixels)
+        for (auto const &p : pixels_)
         {
             Assert(p == '0' || p == '1' || p == '2');
             ++count.at(static_cast<size_t>(p) - '0');
