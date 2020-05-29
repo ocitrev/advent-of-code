@@ -64,7 +64,8 @@ struct NanoFactory
 
         auto const &[result, composants] = reactions[name];
         auto n = static_cast<std::int64_t>(
-            ceil((static_cast<double>(count) - storage[name]) / static_cast<double>(result.count)));
+            ceil((static_cast<double>(count) - static_cast<double>(storage[name]))
+                 / static_cast<double>(result.count)));
 #if 0
         fmt::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
 #endif
