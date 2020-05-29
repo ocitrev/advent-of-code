@@ -4,9 +4,9 @@ std::vector<std::string> Split(std::string_view text, char sep)
 {
     std::vector<std::string> result;
 
-    auto const *first = begin(text);
-    auto const *iter = first;
-    auto const *last = end(text);
+    auto first = begin(text);
+    auto iter = first;
+    auto last = end(text);
 
     for (; iter != last; std::advance(iter, 1))
     {

@@ -85,7 +85,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
 
     std::vector<Result> crossing;
 
-    for (auto const [p, c] : grid)
+    for (auto const &[p, c] : grid)
     {
         if (c.flags == 0b11)
         {

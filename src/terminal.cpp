@@ -47,7 +47,7 @@ static bool EnableVTMode(HANDLE hStdHandle)
         return false;
     }
 
-    DWORD consoleMode;
+    DWORD consoleMode = 0;
 
     if (GetConsoleMode(hStdHandle, &consoleMode) != FALSE)
     {

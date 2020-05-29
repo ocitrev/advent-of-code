@@ -39,12 +39,6 @@ public:
         return moons;
     }
 
-    friend std::ostream &operator<<(std::ostream &out, Moon const &m)
-    {
-        return out << "pos{" << m.pos[0] << ", " << m.pos[1] << ", " << m.pos[2] << "}, vel{"
-                   << m.vel[0] << ", " << m.vel[1] << ", " << m.vel[2] << "}";
-    }
-
     bool operator==(Moon const &other) const
     {
         return pos == other.pos && vel == other.vel;

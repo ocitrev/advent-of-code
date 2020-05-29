@@ -12,8 +12,7 @@ using Map = std::pair<std::string, Int>;
 
 Int GetMapWidth(std::string_view map)
 {
-    auto const *const iter = std::find(begin(map), end(map), '\n');
-    return std::distance(begin(map), iter);
+    return std::distance(begin(map), std::find(begin(map), end(map), '\n'));
 }
 
 void CleanMap(Map &map)
