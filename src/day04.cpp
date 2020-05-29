@@ -1,8 +1,8 @@
 #include "day04.hpp"
+#include "assert.hpp"
 #include "terminal.hpp"
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <string>
 #include <vector>
@@ -64,15 +64,15 @@ int main()
 {
     fmt::print("Day 4: Secure Container\n");
 
-    assert(IsIncreasing(111123));
-    assert(IsIncreasing(135679));
+    Assert(IsIncreasing(111123));
+    Assert(IsIncreasing(135679));
 
-    assert(IsValid1(111111));
-    assert(!IsValid1(223450));
-    assert(!IsValid1(123789));
-    assert(IsValid2(112233));
-    assert(!IsValid2(123444));
-    assert(IsValid2(111122));
+    Assert(IsValid1(111111));
+    Assert(!IsValid1(223450));
+    Assert(!IsValid1(123789));
+    Assert(IsValid2(112233));
+    Assert(!IsValid2(123444));
+    Assert(IsValid2(111122));
 
     static_assert(HasDoubleDigit(111111));
     static_assert(HasDoubleDigit(112233));
@@ -101,8 +101,8 @@ int main()
     }
 
     fmt::print("  Part1: {}\n", loose.size());
-    assert(1169 == loose.size());
+    Assert(1169 == loose.size());
 
     fmt::print("  Part2: {}\n", strict.size());
-    assert(757 == strict.size());
+    Assert(757 == strict.size());
 }

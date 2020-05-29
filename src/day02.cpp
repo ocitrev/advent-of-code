@@ -1,7 +1,7 @@
 #include "day02.hpp"
+#include "assert.hpp"
 #include "intcode.hpp"
 #include "terminal.hpp"
-#include <cassert>
 #include <fmt/format.h>
 #include <vector>
 
@@ -25,7 +25,7 @@ void Part1(std::vector<Int> const &code)
 {
     auto part1 = Run(code, 12, 2);
     fmt::print("  Part1: {}\n", part1);
-    assert(3706713 == part1);
+    Assert(3706713 == part1);
 }
 
 void Part2(std::vector<Int> const &code)
@@ -38,7 +38,7 @@ void Part2(std::vector<Int> const &code)
             {
                 auto part2 = noun * 100 + verb;
                 fmt::print("  Part2: {}\n", part2);
-                assert(8609 == part2);
+                Assert(8609 == part2);
                 return;
             }
         }
@@ -49,10 +49,10 @@ int main()
 {
     fmt::print("Day 2: 1202 Program Alarm\n");
 
-    assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
-    assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
-    assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
-    assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
+    Assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
+    Assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
+    Assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
+    Assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
     Part1(input::data);
     Part2(input::data);

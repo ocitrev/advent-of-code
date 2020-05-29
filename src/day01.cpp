@@ -1,6 +1,6 @@
 #include "day01.hpp"
+#include "assert.hpp"
 #include "terminal.hpp"
-#include <cassert>
 #include <fmt/format.h>
 #include <fstream>
 #include <numeric>
@@ -48,8 +48,8 @@ int main()
     });
 
     fmt::print("  Part1: {}\n", part1);
-    assert(3538016 == part1);
+    Assert(3538016 == part1);
 
     fmt::print("  Part2: {}\n", part2);
-    assert(5304147 == part2);
+    Assert(5304147 == part2);
 }

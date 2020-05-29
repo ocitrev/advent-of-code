@@ -8,7 +8,7 @@
 #ifdef COROUTINE
 #    include <experimental/generator>
 #endif
-#include <cassert>
+#include "assert.hpp"
 
 static constexpr std::array<int, 4> PATTERN{0, 1, 0, -1};
 
@@ -142,23 +142,23 @@ int main()
 {
     fmt::print("Day 16: Flawed Frequency Transmission\n");
 
-    assert("48226158" == Process("12345678", 1));
-    assert("34040438" == Process("12345678", 2));
-    assert("03415518" == Process("12345678", 3));
-    assert("01029498" == Process("12345678", 4));
-    assert("24176176" == Process("80871224585914546619083218645595", 100));
-    assert("73745418" == Process("19617804207202209144916044189917", 100));
-    assert("52432133" == Process("69317163492948606335995924319873", 100));
+    Assert("48226158" == Process("12345678", 1));
+    Assert("34040438" == Process("12345678", 2));
+    Assert("03415518" == Process("12345678", 3));
+    Assert("01029498" == Process("12345678", 4));
+    Assert("24176176" == Process("80871224585914546619083218645595", 100));
+    Assert("73745418" == Process("19617804207202209144916044189917", 100));
+    Assert("52432133" == Process("69317163492948606335995924319873", 100));
 
-    assert("84462026" == ProcessWithOffsetTimes10000("03036732577212944063491565474664", 100));
-    assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
-    assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
+    Assert("84462026" == ProcessWithOffsetTimes10000("03036732577212944063491565474664", 100));
+    Assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
+    Assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
     auto part1 = Process(input::data, 100);
     fmt::print("  Part1: {}\n", part1);
-    assert("88323090" == part1);
+    Assert("88323090" == part1);
 
     auto part2 = ProcessWithOffsetTimes10000(input::data, 100);
     fmt::print("  Part2: {}\n", part2);
-    assert("50077964" == part2);
+    Assert("50077964" == part2);
 }

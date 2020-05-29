@@ -1,9 +1,9 @@
 #include "day15.hpp"
+#include "assert.hpp"
 #include "intcode.hpp"
 #include "point.hpp"
 #include "terminal.hpp"
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <map>
 #include <optional>
@@ -53,7 +53,7 @@ struct Robot
             return dir + 1;
         });
 
-        assert(r.has_value());
+        Assert(r.has_value());
         Point p = GetNextPos(dir);
 
         if (*r != 0)
@@ -187,7 +187,7 @@ struct Robot
 
         if (root)
         {
-            assert(oxygen.has_value());
+            Assert(oxygen.has_value());
             grid[*oxygen] = kOxygen;
         }
     }
@@ -251,7 +251,7 @@ struct Robot
         std::set<Point> visited;
         std::vector<Point> path;
         [[maybe_unused]] bool const solved = RecursiveSolve({0, 0}, visited, path, GetBounds());
-        assert(solved);
+        Assert(solved);
         return path;
     }
 
@@ -316,9 +316,9 @@ int main()
 
     auto const commands = r.Solve();
     fmt::print("  Part1: {} commands\n", commands.size() - 1);
-    assert(254 == commands.size() - 1);
+    Assert(254 == commands.size() - 1);
 
     auto const part2 = r.FillOxygen();
     fmt::print("  Part2: {} minutes\n", part2);
-    assert(268 == part2);
+    Assert(268 == part2);
 }

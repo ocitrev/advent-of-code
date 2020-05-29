@@ -19,7 +19,7 @@ if(NOT MSVC)
     set(CMAKE_CXX_CLANG_TIDY
       ${CLANG_TIDY}
       -checks=${CLANG_TIDY_CHECKS}
-      -header-filter=.
+      -header-filter=.*
       --format-style=file
       --warnings-as-errors=*
       )

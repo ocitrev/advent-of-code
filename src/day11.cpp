@@ -1,9 +1,9 @@
 #include "day11.hpp"
+#include "assert.hpp"
 #include "intcode.hpp"
 #include "point.hpp"
 #include "terminal.hpp"
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <map>
 
@@ -67,7 +67,7 @@ void Part1()
     Robot robot;
     robot.Run();
     fmt::print("Part1: {}\n", robot.grid.size());
-    assert(expected::part1 == robot.grid.size());
+    Assert(expected::part1 == robot.grid.size());
 }
 
 void Part2()
@@ -101,7 +101,7 @@ void Part2()
     }
 
     fmt::print("Part2:\n{}", result);
-    assert(expected::part2 == result);
+    Assert(expected::part2 == result);
 }
 
 int main()

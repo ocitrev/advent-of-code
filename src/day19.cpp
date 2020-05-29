@@ -1,7 +1,7 @@
 #include "day19.hpp"
+#include "assert.hpp"
 #include "intcode.hpp"
 #include "terminal.hpp"
-#include <cassert>
 #include <fmt/format.h>
 
 void Part1()
@@ -18,8 +18,8 @@ void Part1()
             beam.append(1, '.');
     };
 
-    Int a;
-    Int b;
+    Int a = 0;
+    Int b = 0;
     auto in = [&]() {
         return std::exchange(a, b);
     };
@@ -40,7 +40,7 @@ void Part1()
     }
 
     fmt::print("  Part1: {}\n", total);
-    assert(231 == total);
+    Assert(231 == total);
 
     if constexpr (false)
     {
@@ -54,7 +54,7 @@ Int Run(std::vector<Int> const &code, Int x, Int y)
         return std::exchange(x, y);
     };
 
-    Int result;
+    Int result = 0;
     auto out = [&](Int value) {
         result = value;
     };
@@ -129,7 +129,7 @@ void Part2()
 {
     auto part2 = FindSquare(100, 100);
     fmt::print("  Part2: {}\n", part2);
-    assert(9210745 == part2);
+    Assert(9210745 == part2);
 }
 
 int main()

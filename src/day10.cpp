@@ -1,10 +1,10 @@
 #include "day10.hpp"
+#include "assert.hpp"
 #include "combinations.hpp"
 #include "point.hpp"
 #include "string.hpp"
 #include "terminal.hpp"
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <fmt/format.h>
 #include <map>
@@ -83,7 +83,7 @@ struct Asteroid
                                       return a.rays.size() < b.rays.size();
                                   });
 
-    assert(maxIt != end(asteroids));
+    Assert(maxIt != end(asteroids));
 
     return *maxIt;
 }
@@ -98,17 +98,17 @@ int main()
 {
     fmt::print("Day 10: Monitoring Station\n");
 
-    assert(std::make_pair(8, Point{3, 4}) == GetBestFromMap(example::map1));
-    assert(std::make_pair(33, Point{5, 8}) == GetBestFromMap(example::map2));
-    assert(std::make_pair(35, Point{1, 2}) == GetBestFromMap(example::map3));
-    assert(std::make_pair(41, Point{6, 3}) == GetBestFromMap(example::map4));
-    assert(std::make_pair(210, Point{11, 13}) == GetBestFromMap(example::map5));
+    Assert(std::make_pair(8, Point{3, 4}) == GetBestFromMap(example::map1));
+    Assert(std::make_pair(33, Point{5, 8}) == GetBestFromMap(example::map2));
+    Assert(std::make_pair(35, Point{1, 2}) == GetBestFromMap(example::map3));
+    Assert(std::make_pair(41, Point{6, 3}) == GetBestFromMap(example::map4));
+    Assert(std::make_pair(210, Point{11, 13}) == GetBestFromMap(example::map5));
 
     auto map = ParseMap(input::map);
 
     auto best = GetAsteroidWithMostRays(map);
     fmt::print("  Part1: {}\n", best.rays.size());
-    assert(299 == best.rays.size());
+    Assert(299 == best.rays.size());
 
     std::vector<std::pair<Point, Ray>> r;
 
@@ -139,5 +139,5 @@ int main()
 
     int part2 = el200->second.pos.x * 100 + el200->second.pos.y;
     fmt::print("  Part2: {}\n", part2);
-    assert(1419 == part2);
+    Assert(1419 == part2);
 }

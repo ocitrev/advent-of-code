@@ -1,9 +1,9 @@
 #include "day08.hpp"
+#include "assert.hpp"
 #include "string.hpp"
 #include "terminal.hpp"
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <string_view>
 #include <vector>
@@ -18,7 +18,7 @@ struct Layer
     {
         for (auto const &p : pixels)
         {
-            assert(p == '0' || p == '1' || p == '2');
+            Assert(p == '0' || p == '1' || p == '2');
             ++count.at(static_cast<size_t>(p) - '0');
         }
     }
@@ -30,7 +30,7 @@ static std::vector<Layer> DecodeLayers(std::string_view pixels, size_t w, size_t
     auto const *last = pixels.data() + pixels.size();
     size_t chunkSize = w * h;
 
-    for (auto iter = pixels.data(); iter < last; std::advance(iter, chunkSize))
+    for (auto const *iter = pixels.data(); iter < last; std::advance(iter, chunkSize))
     {
         ret.emplace_back(std::string_view{iter, chunkSize});
     }
@@ -72,9 +72,9 @@ void Part1()
         return a.count[0] < b.count[0];
     });
 
-    assert(iterMin != end(layers));
+    Assert(iterMin != end(layers));
     fmt::print("  Part1: {}\n", iterMin->count[1] * iterMin->count[2]);
-    assert(2080 == iterMin->count[1] * iterMin->count[2]);
+    Assert(2080 == iterMin->count[1] * iterMin->count[2]);
 }
 
 void Part2()
@@ -98,13 +98,13 @@ void Part2()
     }
 
     fmt::print("  Part2:\n{}", result);
-    assert(expected::part2 == result);
+    Assert(expected::part2 == result);
 }
 
 int main()
 {
     fmt::print("Day 8: Space Image Format\n");
-    assert("0110" == Render("0222112222120000", 2, 2));
+    Assert("0110" == Render("0222112222120000", 2, 2));
 
     Part1();
     Part2();

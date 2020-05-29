@@ -1,9 +1,9 @@
 #include "day13.hpp"
+#include "assert.hpp"
 #include "intcode.hpp"
 #include "point.hpp"
 #include "terminal.hpp"
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <map>
 
@@ -45,7 +45,7 @@ void Part1()
     });
 
     fmt::print("  Part1: {}\n", result);
-    assert(expected::part1 == result);
+    Assert(expected::part1 == result);
 }
 
 static std::string GetTile(Tile tile)
@@ -160,7 +160,7 @@ void Part2(bool render)
     }
 
     fmt::print("  Part2: {}\n", score);
-    assert(expected::part2 == score);
+    Assert(expected::part2 == score);
 }
 
 int main()

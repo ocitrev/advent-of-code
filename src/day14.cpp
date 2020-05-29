@@ -1,7 +1,7 @@
 #include "day14.hpp"
+#include "assert.hpp"
 #include "string.hpp"
 #include "terminal.hpp"
-#include <cassert>
 #include <fmt/format.h>
 #include <map>
 
@@ -135,21 +135,21 @@ int main()
 {
     fmt::print("Day 14: Space Stoichiometry\n");
 
-    assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
-    assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());
-    assert(13312 == NanoFactory::Parse(example::ex3).ComputeOre());
-    assert(180697 == NanoFactory::Parse(example::ex4).ComputeOre());
-    assert(2210736 == NanoFactory::Parse(example::ex5).ComputeOre());
+    Assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
+    Assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());
+    Assert(13312 == NanoFactory::Parse(example::ex3).ComputeOre());
+    Assert(180697 == NanoFactory::Parse(example::ex4).ComputeOre());
+    Assert(2210736 == NanoFactory::Parse(example::ex5).ComputeOre());
 
-    assert(82892753 == NanoFactory::Parse(example::ex3).ComputeFuel());
-    assert(5586022 == NanoFactory::Parse(example::ex4).ComputeFuel());
-    assert(460664 == NanoFactory::Parse(example::ex5).ComputeFuel());
+    Assert(82892753 == NanoFactory::Parse(example::ex3).ComputeFuel());
+    Assert(5586022 == NanoFactory::Parse(example::ex4).ComputeFuel());
+    Assert(460664 == NanoFactory::Parse(example::ex5).ComputeFuel());
 
     auto part1 = NanoFactory::Parse(input::data).ComputeOre();
     fmt::print("  Part1: {}\n", part1);
-    assert(1967319 == part1);
+    Assert(1967319 == part1);
 
     auto part2 = NanoFactory::Parse(input::data).ComputeFuel();
     fmt::print("  Part2: {}\n", part2);
-    assert(1122036 == part2);
+    Assert(1122036 == part2);
 }

@@ -1,9 +1,9 @@
 #include "day12.hpp"
+#include "assert.hpp"
 #include "combinations.hpp"
 #include "string.hpp"
 #include "terminal.hpp"
 #include <array>
-#include <cassert>
 #include <fmt/format.h>
 #include <numeric>
 #include <regex>
@@ -155,17 +155,17 @@ int main()
 {
     fmt::print("Day 12: The N-Body Problem\n");
 
-    assert(179 == Simulate(example::one, 10));
-    assert(1940 == Simulate(example::two, 100));
+    Assert(179 == Simulate(example::one, 10));
+    Assert(1940 == Simulate(example::two, 100));
 
     auto part1 = Simulate(input::data, 1000);
     fmt::print("  Part1: {}\n", part1);
-    assert(8625 == part1);
+    Assert(8625 == part1);
 
-    assert(2772 == CountCycle(example::one));
-    assert(4686774924 == CountCycle(example::two));
+    Assert(2772 == CountCycle(example::one));
+    Assert(4686774924 == CountCycle(example::two));
 
     auto part2 = CountCycle(input::data);
     fmt::print("  Part2: {}\n", part2);
-    assert(332477126821644 == part2);
+    Assert(332477126821644 == part2);
 }
