@@ -3,10 +3,9 @@
 std::vector<std::string> Split(std::string_view text, char sep)
 {
     std::vector<std::string> result;
-
-    auto first = begin(text);
-    auto iter = first;
-    auto last = end(text);
+    std::string_view::const_iterator first = begin(text);
+    std::string_view::const_iterator iter = first;
+    std::string_view::const_iterator last = end(text);
 
     for (; iter != last; std::advance(iter, 1))
     {
@@ -18,6 +17,5 @@ std::vector<std::string> Split(std::string_view text, char sep)
     }
 
     result.emplace_back(first, iter);
-
     return result;
 }
