@@ -1,9 +1,9 @@
 #include "day10.hpp"
-#include "assert.hpp"
-#include "combinations.hpp"
-#include "point.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../combinations.hpp"
+#include "../point.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <cmath>
 #include <fmt/format.h>

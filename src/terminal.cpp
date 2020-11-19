@@ -20,11 +20,11 @@ static int ConsoleInit()
     return 0;
 }
 
-static int consoleInit = ConsoleInit();
+static int const consoleInit = ConsoleInit();
 
 extern "C"
 {
-    int __forceConsoleInit;
+    int __forceConsoleInit; // NOLINT
 }
 
 #    ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING

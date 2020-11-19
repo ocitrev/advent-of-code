@@ -1,7 +1,7 @@
 #include "day19.hpp"
-#include "assert.hpp"
-#include "intcode.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../intcode.hpp"
+#include "../terminal.hpp"
 #include <fmt/format.h>
 
 void Part1()

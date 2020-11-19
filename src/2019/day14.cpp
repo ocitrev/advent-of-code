@@ -1,7 +1,7 @@
 #include "day14.hpp"
-#include "assert.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <fmt/format.h>
 #include <map>
 

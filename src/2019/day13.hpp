@@ -9,7 +9,7 @@ namespace expected
 
 namespace input
 {
-    static std::initializer_list<long long> code = {
+    static constexpr std::initializer_list<long long> code = {
         1,     380,   379,   385,   1008,  2709,  526488, 381,   1005,  381,   12,    99,    109,
         2710,  1102,  0,     1,     383,   1102,  0,      1,     382,   21001, 382,   0,     1,
         21002, 383,   1,     2,     21102, 1,     37,     0,     1105,  1,     578,   4,     382,

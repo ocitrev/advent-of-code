@@ -1,8 +1,8 @@
 #include "day12.hpp"
-#include "assert.hpp"
-#include "combinations.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../combinations.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <array>
 #include <fmt/format.h>
 #include <numeric>

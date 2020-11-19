@@ -1,14 +1,14 @@
 #include "day06.hpp"
-#include "assert.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>
 #include <string>
 #include <vector>
 
-static std::map<std::string, int> countCache;
+static std::map<std::string, int> countCache; // NOLINT
 
 static int CountIndirect(std::vector<std::string> const &list, std::string const &name)
 {
@@ -33,7 +33,7 @@ static int CountIndirect(std::vector<std::string> const &list, std::string const
     throw std::invalid_argument{"Not found"};
 }
 
-static std::map<std::string, std::vector<std::string>> pathCache;
+static std::map<std::string, std::vector<std::string>> pathCache; // NOLINT
 
 static std::vector<std::string> GetPath(std::vector<std::string> const &list,
                                         std::string const &name)

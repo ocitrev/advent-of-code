@@ -1,8 +1,8 @@
 #include "day03.hpp"
-#include "assert.hpp"
-#include "point.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../point.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>

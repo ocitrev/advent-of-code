@@ -1,7 +1,7 @@
 #include "day09.hpp"
-#include "assert.hpp"
-#include "intcode.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../intcode.hpp"
+#include "../terminal.hpp"
 #include <fmt/format.h>
 
 std::vector<Int> Run(std::vector<Int> code, Int input = 0)

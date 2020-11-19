@@ -1,7 +1,7 @@
 #include "day08.hpp"
-#include "assert.hpp"
-#include "string.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../string.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>

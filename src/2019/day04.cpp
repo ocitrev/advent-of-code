@@ -1,6 +1,6 @@
 #include "day04.hpp"
-#include "assert.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>
@@ -39,7 +39,7 @@ constexpr static bool HasDoubleDigitExact(unsigned int n)
         n /= 10;
     } while (n != 0);
 
-    for (int i : digitCount)
+    for (int i : digitCount) // NOLINT, std::any_of is not constexpr
     {
         if (i == 2)
             return true;

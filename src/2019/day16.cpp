@@ -1,5 +1,6 @@
 #include "day16.hpp"
-#include "terminal.hpp"
+#include "../assert.hpp"
+#include "../terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>
@@ -8,7 +9,6 @@
 #ifdef COROUTINE
 #    include <experimental/generator>
 #endif
-#include "assert.hpp"
 
 static constexpr std::array<int, 4> PATTERN{0, 1, 0, -1};
 
