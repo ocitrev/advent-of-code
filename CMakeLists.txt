@@ -55,6 +55,8 @@ else()
   )
 endif()
 
+add_library(md5 OBJECT src/md5.c src/md5.h src/md5.hpp)
+
 add_library(common STATIC
   src/combinations.hpp
   src/intcode.cpp
@@ -64,6 +66,7 @@ add_library(common STATIC
   src/string.hpp
   src/terminal.cpp
   src/terminal.hpp
+  $<TARGET_OBJECTS:md5>
 )
 
 target_compile_definitions(common PUBLIC
@@ -95,6 +98,7 @@ target_link_libraries(common PUBLIC fmt$<$<CONFIG:Debug>:d>)
 add_executable(15-day01 src/2015/day01.cpp src/2015/day01.hpp)
 add_executable(15-day02 src/2015/day02.cpp src/2015/day02.hpp)
 add_executable(15-day03 src/2015/day03.cpp src/2015/day03.hpp)
+add_executable(15-day04 src/2015/day04.cpp src/2015/day04.hpp)
 
 add_executable(19-day01 src/2019/day01.cpp src/2019/day01.hpp)
 add_executable(19-day02 src/2019/day02.cpp src/2019/day02.hpp)
@@ -118,6 +122,7 @@ add_executable(19-day19 src/2019/day19.cpp src/2019/day19.hpp)
 target_link_libraries(15-day01 PRIVATE common)
 target_link_libraries(15-day02 PRIVATE common)
 target_link_libraries(15-day03 PRIVATE common)
+target_link_libraries(15-day04 PRIVATE common)
 
 target_link_libraries(19-day01 PRIVATE common)
 target_link_libraries(19-day02 PRIVATE common)
@@ -141,6 +146,7 @@ target_link_libraries(19-day19 PRIVATE common)
 add_custom_target(run-15-01 15-day01 DEPENDS 15-day01)
 add_custom_target(run-15-02 15-day02 DEPENDS 15-day02)
 add_custom_target(run-15-03 15-day03 DEPENDS 15-day03)
+add_custom_target(run-15-04 15-day04 DEPENDS 15-day04)
 
 add_custom_target(run-19-01 19-day01 DEPENDS 19-day01)
 add_custom_target(run-19-02 19-day02 DEPENDS 19-day02)
@@ -162,7 +168,7 @@ add_custom_target(run-19-17 19-day17 DEPENDS 19-day17)
 add_custom_target(run-19-19 19-day19 DEPENDS 19-day19)
 
 add_custom_target(run-15
-  DEPENDS run-15-01 run-15-02 run-15-03
+  DEPENDS run-15-01 run-15-02 run-15-03 run-15-04
 )
 
 add_custom_target(run-19

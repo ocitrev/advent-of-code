@@ -76,15 +76,10 @@ int main()
     // https://adventofcode.com/2015/day/3
     fmt::print("Day 3: Perfectly Spherical Houses in a Vacuum\n");
 
-    Assert(2 == GetNbVisitedHouses(">"));
-    Assert(4 == GetNbVisitedHouses("^>v<"));
-    Assert(2 == GetNbVisitedHouses("^v^v^v^v^v"));
+    Assert(2 == GetNbVisitedHouses(">", 1));
+    Assert(4 == GetNbVisitedHouses("^>v<", 1));
+    Assert(2 == GetNbVisitedHouses("^v^v^v^v^v", 1));
 
     fmt::print("  Part 1: {}\n", GetNbVisitedHouses(input::data, 1));
     fmt::print("  Part 2: {}\n", GetNbVisitedHouses(input::data, 2));
-
-    for (int i = 3; i < 100; ++i)
-    {
-        fmt::print("  Part {}: {}\n", i, GetNbVisitedHouses(input::data, i));
-    }
 }
