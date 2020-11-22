@@ -1,7 +1,7 @@
 #include "day14.hpp"
-#include "../assert.hpp"
-#include "../string.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/string.hpp"
+#include "../common/terminal.hpp"
 #include <fmt/format.h>
 #include <map>
 
@@ -63,9 +63,8 @@ struct NanoFactory
             return false;
 
         auto const &[result, composants] = reactions[name];
-        auto n = static_cast<std::int64_t>(
-            ceil((static_cast<double>(count) - static_cast<double>(storage[name]))
-                 / static_cast<double>(result.count)));
+        auto n = static_cast<std::int64_t>(ceil((static_cast<double>(count) - static_cast<double>(storage[name]))
+                                                / static_cast<double>(result.count)));
 #if 0
         fmt::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
 #endif

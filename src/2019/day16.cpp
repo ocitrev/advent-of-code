@@ -1,6 +1,6 @@
 #include "day16.hpp"
-#include "../assert.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>
@@ -10,13 +10,13 @@
 #    include <experimental/generator>
 #endif
 
-static constexpr std::array<int, 4> PATTERN{0, 1, 0, -1};
+static constexpr std::array kPattern{0, 1, 0, -1};
 
 struct PatternGenerator
 {
     int const nb;
     int step = 1;
-    decltype(begin(PATTERN)) iter = begin(PATTERN);
+    decltype(begin(kPattern)) iter = begin(kPattern);
 
     explicit PatternGenerator(int nb_)
         : nb(nb_)
@@ -29,8 +29,8 @@ struct PatternGenerator
         {
             step = 1;
 
-            if (++iter == end(PATTERN))
-                iter = begin(PATTERN);
+            if (++iter == end(kPattern))
+                iter = begin(kPattern);
         }
         else
         {
@@ -44,10 +44,8 @@ struct PatternGenerator
 #ifdef COROUTINE
 std::experimental::generator<int> GeneratePatternWithRepetitions(int nb)
 {
-    constexpr std::array PATTERN{0, 1, 0, -1};
-
     while (true)
-        for (int p : PATTERN)
+        for (int p : kPattern)
             for (int i = 0; i != nb; ++i)
                 co_yield p;
 }

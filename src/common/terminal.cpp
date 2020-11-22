@@ -1,6 +1,6 @@
 #include "terminal.hpp"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 #    include <Windows.h>
 #    include <crtdbg.h>
 #    include <cstdio>
@@ -57,8 +57,7 @@ static bool EnableVTMode(HANDLE hStdHandle)
             return true;
         }
 
-        return SetConsoleMode(hStdHandle, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)
-               != FALSE;
+        return SetConsoleMode(hStdHandle, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != FALSE;
     }
 
     return false;
@@ -69,8 +68,7 @@ constexpr To bit_cast(const From &src) noexcept
 {
     static_assert(sizeof(To) == sizeof(From));
     static_assert(std::is_trivially_copyable_v<From>);
-    static_assert(std::is_trivial_v<To>,
-                  "this implementation requires that To is trivially default constructible");
+    static_assert(std::is_trivial_v<To>, "this implementation requires that To is trivially default constructible");
 
     To dst;
     std::memcpy(&dst, &src, sizeof(To));

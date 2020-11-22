@@ -1,7 +1,7 @@
 #include "day02.hpp"
-#include "../assert.hpp"
-#include "../intcode.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/intcode.hpp"
+#include "../common/terminal.hpp"
 #include <fmt/format.h>
 #include <vector>
 

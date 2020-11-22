@@ -1,6 +1,6 @@
 #include "day02.hpp"
-#include "../assert.hpp"
-#include "../string.hpp"
+#include "../common/assert.hpp"
+#include "../common/string.hpp"
 #include <charconv>
 #include <fmt/format.h>
 #include <sstream>
@@ -28,8 +28,7 @@ struct Box
         int area_fb = width * height;
         int area_tb = width * depth;
         int area_lr = height * depth;
-        return 2 * area_fb + 2 * area_tb + 2 * area_lr
-               + std::min(area_fb, std::min(area_tb, area_lr));
+        return 2 * area_fb + 2 * area_tb + 2 * area_lr + std::min(area_fb, std::min(area_tb, area_lr));
     }
 
     [[nodiscard]] constexpr int length() const

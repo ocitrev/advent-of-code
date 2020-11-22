@@ -1,9 +1,9 @@
 #include "day10.hpp"
-#include "../assert.hpp"
-#include "../combinations.hpp"
-#include "../point.hpp"
-#include "../string.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/combinations.hpp"
+#include "../common/point.hpp"
+#include "../common/string.hpp"
+#include "../common/terminal.hpp"
 #include <algorithm>
 #include <cmath>
 #include <fmt/format.h>
@@ -78,10 +78,9 @@ struct Asteroid
 
 [[nodiscard]] Asteroid GetAsteroidWithMostRays(std::vector<Asteroid> const &asteroids)
 {
-    auto maxIt = std::max_element(begin(asteroids), end(asteroids),
-                                  [](Asteroid const &a, Asteroid const &b) {
-                                      return a.rays.size() < b.rays.size();
-                                  });
+    auto maxIt = std::max_element(begin(asteroids), end(asteroids), [](Asteroid const &a, Asteroid const &b) {
+        return a.rays.size() < b.rays.size();
+    });
 
     Assert(maxIt != end(asteroids));
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdio>
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 #    pragma comment(linker, "/include:__forceConsoleInit")
 #endif
 

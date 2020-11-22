@@ -1,8 +1,8 @@
 #include "day03.hpp"
-#include "../assert.hpp"
-#include "../point.hpp"
-#include "../string.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/point.hpp"
+#include "../common/string.hpp"
+#include "../common/terminal.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>
@@ -108,11 +108,9 @@ int main()
 {
     fmt::print("Day 3: Crossed Wires\n");
     Assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));
-    Assert((Result{159, 610}
-            == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
+    Assert((Result{159, 610} == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
     Assert((Result{135, 410}
-            == Solve("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51",
-                     "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
+            == Solve("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
 
     auto [closest, fastest] = Solve(input::wire1, input::wire2);
     fmt::print("  Part1: {}\n", closest);

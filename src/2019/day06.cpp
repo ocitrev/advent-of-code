@@ -1,7 +1,7 @@
 #include "day06.hpp"
-#include "../assert.hpp"
-#include "../string.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/string.hpp"
+#include "../common/terminal.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>
@@ -35,8 +35,7 @@ static int CountIndirect(std::vector<std::string> const &list, std::string const
 
 static std::map<std::string, std::vector<std::string>> pathCache; // NOLINT
 
-static std::vector<std::string> GetPath(std::vector<std::string> const &list,
-                                        std::string const &name)
+static std::vector<std::string> GetPath(std::vector<std::string> const &list, std::string const &name)
 {
     if (name == "COM")
         return {};
@@ -89,8 +88,8 @@ int main()
     std::sort(begin(san), end(san));
 
     std::vector<std::string> result;
-    std::set_symmetric_difference(begin(you), end(you), begin(san), end(san),
-                                  std::back_inserter(result), [](auto const &a, auto const &b) {
+    std::set_symmetric_difference(begin(you), end(you), begin(san), end(san), std::back_inserter(result),
+                                  [](auto const &a, auto const &b) {
                                       return a < b;
                                   });
 

@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include "day04.hpp"
-#include "../md5.hpp"
+#include "../common/md5.hpp"
 #include <array>
 #include <fmt/format.h>
 #include <vector>
@@ -25,6 +25,7 @@ static int Mine(std::string const &key, std::string_view start)
 
 int main()
 {
+    // https://adventofcode.com/2015/day/4
     fmt::print("Day 4: The Ideal Stocking Stuffer\n");
 
     fmt::print("  Part1: {}\n", Mine(std::string{input::data}, "00000"));

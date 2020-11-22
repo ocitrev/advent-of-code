@@ -1,6 +1,6 @@
 #include "day01.hpp"
-#include "../assert.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/terminal.hpp"
 #include <fmt/format.h>
 #include <fstream>
 #include <numeric>

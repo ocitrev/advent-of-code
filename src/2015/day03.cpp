@@ -1,6 +1,6 @@
 #include "day03.hpp"
-#include "../assert.hpp"
-#include "../point.hpp"
+#include "../common/assert.hpp"
+#include "../common/point.hpp"
 #include <fmt/format.h>
 #include <map>
 #include <vector>

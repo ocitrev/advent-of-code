@@ -36,8 +36,8 @@ public:
 
         for (unsigned char b : hashBytes)
         {
-            hashText[offset++] = kDigits[b >> 4];
-            hashText[offset++] = kDigits[b & 0xf];
+            hashText[offset++] = kDigits[static_cast<std::size_t>(b >> 4)];
+            hashText[offset++] = kDigits[static_cast<std::size_t>(b & 0xf)];
         }
 
         return hashText;

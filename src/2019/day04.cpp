@@ -1,6 +1,6 @@
 #include "day04.hpp"
-#include "../assert.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/terminal.hpp"
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>

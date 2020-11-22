@@ -1,8 +1,8 @@
 #include "day15.hpp"
-#include "../assert.hpp"
-#include "../intcode.hpp"
-#include "../point.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/intcode.hpp"
+#include "../common/point.hpp"
+#include "../common/terminal.hpp"
 #include <array>
 #include <fmt/format.h>
 #include <map>
@@ -72,9 +72,8 @@ struct Robot
 
     [[nodiscard]] std::pair<Point, Point> GetBounds() const
     {
-        std::pair<Point, Point> bounds{
-            {std::numeric_limits<int>::max(), std::numeric_limits<int>::max()},
-            {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
+        std::pair<Point, Point> bounds{{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()},
+                                       {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
 
         for (auto const &elem : grid)
         {

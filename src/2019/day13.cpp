@@ -1,8 +1,8 @@
 #include "day13.hpp"
-#include "../assert.hpp"
-#include "../intcode.hpp"
-#include "../point.hpp"
-#include "../terminal.hpp"
+#include "../common/assert.hpp"
+#include "../common/intcode.hpp"
+#include "../common/point.hpp"
+#include "../common/terminal.hpp"
 #include <array>
 #include <fmt/format.h>
 #include <map>
