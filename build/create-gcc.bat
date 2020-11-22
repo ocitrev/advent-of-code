@@ -1,5 +1,5 @@
 @echo off
-rmdir /s /q "%~dp0gcc-debug "
+rmdir /s /q "%~dp0gcc-debug"
 rmdir /s /q "%~dp0gcc-release"
 
 mkdir "%~dp0gcc-debug"
