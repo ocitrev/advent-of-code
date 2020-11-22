@@ -11,10 +11,10 @@ rmdir /s /q "%~dp0msvc-release"
 
 mkdir "%~dp0msvc-debug"
 pushd "%~dp0msvc-debug"
-cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
+cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
 popd
 
 mkdir "%~dp0msvc-release"
 pushd "%~dp0msvc-release"
-cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
+cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
 popd
