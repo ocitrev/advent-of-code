@@ -40,7 +40,7 @@ public:
                 auto const &out = parts.back();
                 auto const &in = parts.front();
                 wires[out] = Resolve(in);
-                //fmt::print("{} = {}\n", out, in);
+                // fmt::print("{} = {}\n", out, in);
             }
             else if (nb == 4)
             {
@@ -49,7 +49,7 @@ public:
                 if (op != "NOT")
                     throw std::runtime_error("Unknown instruction");
 
-                //fmt::print("{} = NOT {}\n", out, parts[1]);
+                // fmt::print("{} = NOT {}\n", out, parts[1]);
                 wires[out] = [val = Resolve(parts[1])]() {
                     return ~val();
                 };
@@ -58,7 +58,7 @@ public:
             {
                 auto const &op = parts[1];
                 auto const &out = parts.back();
-                //fmt::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
+                // fmt::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
 
                 if (op == "AND")
                 {
@@ -103,7 +103,7 @@ public:
             throw std::runtime_error("Invalid wire");
 
         unsigned short const value = iter->second();
-        //fmt::print("{} = {}\n", name, value);
+        // fmt::print("{} = {}\n", name, value);
         cache[name] = value;
         return value;
     }
