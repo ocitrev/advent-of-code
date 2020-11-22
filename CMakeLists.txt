@@ -88,7 +88,7 @@ find_package(fmt CONFIG REQUIRED)
 target_link_libraries(common PUBLIC fmt::fmt fmt::fmt-header-only)
 
 # 2015
-set(AoC2015 01 02 03 04 05 06 07)
+set(AoC2015 01 02 03 04 05 06 07 08)
 foreach(n IN LISTS AoC2015)
   add_executable(15-day${n} src/2015/day${n}.cpp src/2015/day${n}.hpp)
   target_link_libraries(15-day${n} PRIVATE common)
