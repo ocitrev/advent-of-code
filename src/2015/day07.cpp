@@ -12,7 +12,6 @@ class Circuit
 {
     std::map<std::string, std::function<unsigned short()>> wires;
     std::map<std::string, unsigned short> cache;
-    std::vector<std::string> instructions;
 
     std::function<unsigned short()> Resolve(std::string const &text)
     {
