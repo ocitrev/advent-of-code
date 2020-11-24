@@ -52,6 +52,7 @@ int Part2()
 
 int main()
 {
+    // https://adventofcode.com/2015/day/10
     fmt::print("Day 10: Elves Look, Elves Say\n");
 
     Assert("11" == LookAndSay("1"));
