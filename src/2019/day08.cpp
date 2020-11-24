@@ -27,12 +27,11 @@ struct Layer
 static std::vector<Layer> DecodeLayers(std::string_view pixels, size_t w, size_t h)
 {
     std::vector<Layer> ret;
-    auto const *last = pixels.data() + pixels.size();
-    size_t chunkSize = w * h;
+    size_t const chunkSize = w * h;
 
-    for (auto const *iter = pixels.data(); iter < last; std::advance(iter, chunkSize))
+    for (size_t i = 0; i < pixels.size(); i += chunkSize)
     {
-        ret.emplace_back(std::string_view{iter, chunkSize});
+        ret.emplace_back(pixels.substr(i, chunkSize));
     }
 
     return ret;
