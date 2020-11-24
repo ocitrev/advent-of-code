@@ -8,13 +8,6 @@
 #include <functional>
 #include <vector>
 
-static int svtoi(std::string_view text)
-{
-    int result = 0;
-    std::from_chars(text.data(), text.data() + text.size(), result);
-    return result;
-}
-
 struct Rect
 {
     int left;
