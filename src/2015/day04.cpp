@@ -1,5 +1,6 @@
 #include "day04.hpp"
 #include "../common/md5.hpp"
+#include "../common/string.hpp"
 #include <array>
 #include <fmt/format.h>
 #include <vector>
@@ -15,7 +16,7 @@ static int Mine(std::string const &key, std::string_view start)
 {
     for (int i = 0;; ++i)
     {
-        if (std::string const hash = MineOne(key, i); hash.starts_with(start))
+        if (std::string const hash = MineOne(key, i); starts_with(hash, start))
         {
             return i;
         }

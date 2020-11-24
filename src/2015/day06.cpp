@@ -53,17 +53,17 @@ class Grid
         Rect rc{};
         void (*op)(int &) = nullptr;
 
-        if (line.starts_with("turn on"))
+        if (starts_with(line, "turn on"))
         {
             rc = Rect::Parse(line.substr(8, throughPos - 8), line.substr(throughPos + 8, line.size()));
             op = turnOn;
         }
-        else if (line.starts_with("turn off"))
+        else if (starts_with(line, "turn off"))
         {
             rc = Rect::Parse(line.substr(9, throughPos - 9), line.substr(throughPos + 8, line.size()));
             op = turnOff;
         }
-        else if (line.starts_with("toggle"))
+        else if (starts_with(line, "toggle"))
         {
             rc = Rect::Parse(line.substr(7, throughPos - 7), line.substr(throughPos + 8, line.size()));
             op = toggle;
