@@ -2,7 +2,6 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include <fmt/format.h>
-#include <set>
 
 struct Route
 {
@@ -10,20 +9,22 @@ struct Route
     std::string b;
     int distance = 0;
 
-    explicit Route(std::string_view line)
+    static Route Parse(std::string_view line)
     {
         auto parts = Split(line, '=');
         auto &names = parts[0];
         auto distanceText = parts[1];
         trim(names);
         trim(distanceText);
-        distance = std::stoi(distanceText);
+        int distance = std::stoi(distanceText);
         auto pos = names.find(" to ");
-        a = names.substr(0, pos);
-        b = names.substr(pos + 4, names.size());
+        auto a = names.substr(0, pos);
+        auto b = names.substr(pos + 4, names.size());
 
         if (b < a)
             std::swap(a, b);
+
+        return {a, b, distance};
     }
 
     bool operator==(Route const &other) const
@@ -54,24 +55,37 @@ int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_
     return -1;
 }
 
+template <typename ContainerT, typename T>
+bool insert_sorted(ContainerT &container, T const &item)
+{
+    auto hint = std::lower_bound(begin(container), end(container), item);
+
+    if (hint == end(container) || item < *hint)
+    {
+        container.insert(hint, item);
+        return true;
+    }
+
+    return false;
+}
+
 template <typename PredicateT>
 int FindShortest(std::string_view data, PredicateT &&pred)
 {
-    std::vector<Route> routes;
     auto lines = Split(data, '\n');
+    std::vector<Route> routes;
     routes.reserve(lines.size());
-    std::set<std::string> citiySet;
+    std::vector<std::string> cities;
+    cities.reserve(lines.size() * 2);
 
     for (auto &&line : lines)
     {
-        Route &r = routes.emplace_back(line);
+        Route &r = routes.emplace_back(Route::Parse(line));
         // fmt::print("{} -> {} = {}\n", r.a, r.b, r.distance);
-        citiySet.insert(r.a);
-        citiySet.insert(r.b);
+        insert_sorted(cities, r.a);
+        insert_sorted(cities, r.b);
     }
 
-    std::vector<std::string> cities(begin(citiySet), end(citiySet));
-    std::sort(begin(cities), end(cities));
     int best = -1;
 
     do

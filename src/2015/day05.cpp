@@ -64,13 +64,12 @@ static int Part1()
 static bool HasRepeatingPair(std::string_view text)
 {
     std::map<std::pair<char, char>, size_t> pairs;
-
-    char last = text.front();
+    char last = text[0];
     size_t offset = 0;
 
-    for (auto iter = std::next(begin(text)); iter != end(text); ++iter)
+    for (char c : text.substr(1))
     {
-        auto const pair = std::make_pair(last, *iter);
+        auto const pair = std::make_pair(last, c);
         auto [it, inserted] = pairs.insert(std::make_pair(pair, offset));
 
         // gcc wrongly warns about null dereference here
@@ -83,7 +82,7 @@ static bool HasRepeatingPair(std::string_view text)
         }
 
         ++offset;
-        last = *iter;
+        last = c;
     }
 
     return false;
@@ -91,18 +90,17 @@ static bool HasRepeatingPair(std::string_view text)
 
 static bool HasSandwich(std::string_view text)
 {
-    auto iter = begin(text);
-    char last0 = *iter++;
-    char last1 = *iter++;
+    char last0 = text[0];
+    char last1 = text[1];
 
-    for (; iter != end(text); ++iter)
+    for (char c : text.substr(2))
     {
-        if (last0 == *iter)
+        if (last0 == c)
         {
             return true;
         }
 
-        last0 = std::exchange(last1, *iter);
+        last0 = std::exchange(last1, c);
     }
 
     return false;
