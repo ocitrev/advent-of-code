@@ -10,7 +10,7 @@ std::string Unescape(std::string_view text)
     Assert(text.back() == '"');
     text.remove_prefix(1);
     text.remove_suffix(1);
-    
+
     std::string unescaped;
     auto outIt = std::back_inserter(unescaped);
 
@@ -104,7 +104,7 @@ int main()
 {
     // https://adventofcode.com/2015/day/8
     fmt::print("Day 8: Matchsticks\n");
-    
+
     Assert(12 == Part1(input::example1));
     Assert(19 == Part2(input::example1));
 
