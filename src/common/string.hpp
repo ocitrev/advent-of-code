@@ -8,7 +8,7 @@
 #include <vector>
 
 #if __has_include(<version>)
-#include <version>
+#    include <version>
 #endif
 
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
@@ -85,13 +85,13 @@ inline int svtoi(std::string_view text)
 }
 
 #if __cpp_lib_starts_ends_with >= 201711
-    inline constexpr  bool starts_with(std::string_view text, std::string_view prefix)
-    {
-        return text.starts_with(prefix);
-    }
+inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
+{
+    return text.starts_with(prefix);
+}
 #else
-    inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
-    {
-        return text.size() >= prefix.size() && text.compare(prefix) == 0;
-    }
+inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
+{
+    return text.size() >= prefix.size() && text.compare(0, prefix.size(), prefix) == 0;
+}
 #endif
