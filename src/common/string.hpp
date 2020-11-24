@@ -6,7 +6,10 @@
 #include <string>
 #include <string_view>
 #include <vector>
+
+#if __has_include(<version>)
 #include <version>
+#endif
 
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
 
