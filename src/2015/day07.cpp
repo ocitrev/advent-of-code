@@ -18,7 +18,7 @@ class Circuit
         if (std::isdigit(text[0]) != 0)
         {
             return [n = std::stoi(text)]() {
-                return n;
+                return static_cast<unsigned short>(n);
             };
         }
 
@@ -50,7 +50,7 @@ public:
                     throw std::runtime_error("Unknown instruction");
 
                 // fmt::print("{} = NOT {}\n", out, parts[1]);
-                wires[out] = [val = Resolve(parts[1])]() {
+                wires[out] = [val = Resolve(parts[1])]() -> unsigned short {
                     return ~val();
                 };
             }
@@ -62,25 +62,25 @@ public:
 
                 if (op == "AND")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
                         return left() & right();
                     };
                 }
                 else if (op == "OR")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
                         return left() | right();
                     };
                 }
                 else if (op == "LSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
                         return left() << right();
                     };
                 }
                 else if (op == "RSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
                         return left() >> right();
                     };
                 }

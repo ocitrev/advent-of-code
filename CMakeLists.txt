@@ -8,7 +8,13 @@ endif()
 
 project(AdventOfCOde)
 
-if(NOT MSVC)
+if(MSVC)
+  find_program(CPPCHECK NAMES "cppcheck.exe")
+  if(CPPCHECK)
+    find_file(FMT_FORMAT_INL NAMES fmt/format-inl.h)
+    set(CMAKE_CXX_CPPCHECK ${CPPCHECK} -q --enable=all --suppress=*:${FMT_FORMAT_INL} --suppress=missingIncludeSystem)
+  endif()
+else()
   find_program(CLANG_TIDY NAMES "clang-tidy")
 
   if(CLANG_TIDY)
