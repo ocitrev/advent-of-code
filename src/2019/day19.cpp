@@ -69,60 +69,33 @@ Int FindSquare(Int width, Int height)
     Int minx = 0;
     Int miny = 10;
 
-    while (true)
+    for (;; ++miny)
     {
-        bool valid = true;
-
         // trouve le depart
         while (Run(code, minx, miny) == 0)
             ++minx;
 
         for (Int x = 1; x != width; ++x)
-        {
             if (Run(code, x + minx, miny) == 0)
-            {
-                valid = false;
-                break;
-            }
-        }
+                goto next;
 
-        if (valid)
-        {
-            for (Int y = 1; y != height; ++y)
-            {
-                if (Run(code, minx, miny - (height - y)) == 0)
-                {
-                    valid = false;
-                    break;
-                }
-            }
+        for (Int y = 1; y != height; ++y)
+            if (Run(code, minx, miny - (height - y)) == 0)
+                goto next;
 
-            if (valid)
-            {
-                for (Int x = 1; x != width; ++x)
-                {
-                    if (Run(code, minx + (width - x), miny - (height - 1)) == 0)
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
+        for (Int x = 1; x != width; ++x)
+            if (Run(code, minx + (width - x), miny - (height - 1)) == 0)
+                goto next;
 
-                if (valid)
-                {
-                    Int x = minx;
-                    Int y = miny - (height - 1);
-
-                    // fmt::print("{}, {}\n", x, y);
-                    return x * 10000 + y;
-                }
-            }
-        }
-
-        ++miny;
+        break;
+    next:;
     }
 
-    return 0;
+    Int x = minx;
+    Int y = miny - (height - 1);
+
+    // fmt::print("{}, {}\n", x, y);
+    return x * 10000 + y;
 }
 
 void Part2()
