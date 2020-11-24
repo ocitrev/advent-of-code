@@ -121,6 +121,7 @@ add_aoc(2015 06)
 add_aoc(2015 07)
 add_aoc(2015 08)
 add_aoc(2015 09)
+add_aoc(2015 10)
 
 add_aoc(2019 01)
 add_aoc(2019 02)
