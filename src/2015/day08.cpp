@@ -2,6 +2,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include <fmt/format.h>
+#include <string>
 
 std::string Unescape(std::string_view text)
 {
@@ -14,21 +15,21 @@ std::string Unescape(std::string_view text)
     std::string unescaped;
     auto outIt = std::back_inserter(unescaped);
 
-    for (auto iter = begin(text); iter != end(text); ++iter)
+    for (std::size_t i = 0; i < text.size(); ++i)
     {
-        char const c = *iter;
+        char const c = text[i];
 
         if (c == '\\')
         {
-            ++iter;
-            char const e = *iter;
+            ++i;
+            char const e = text[i];
 
             if (e == 'x' || e == 'X')
             {
-                ++iter;
-                std::string const hexString(iter, iter + 2);
+                ++i;
+                std::string const hexString(text.substr(i, 2));
                 *outIt++ = static_cast<char>(std::stoi(hexString, nullptr, 16));
-                ++iter;
+                ++i;
             }
             else if (e == '"' || e == '\\')
             {

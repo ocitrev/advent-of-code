@@ -2,6 +2,7 @@
 
 #include "md5.h"
 #include <array>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -29,7 +30,7 @@ public:
     {
         std::array<unsigned char, 16> hashBytes{};
         MD5_Final(hashBytes.data(), &ctx);
-        constexpr std::string_view kDigits = "0123456789abcdef";
+        constexpr std::string_view kDigits{"0123456789abcdef"};
 
         std::string hashText(hashBytes.size() * 2, '\0');
         std::size_t offset = 0;

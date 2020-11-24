@@ -17,7 +17,7 @@ void Increment(std::string &number, bool checkForbidden)
         }
         else
         {
-            *iter = *iter + 1;
+            *iter = ++(*iter);
             break;
         }
     }

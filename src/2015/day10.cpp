@@ -3,28 +3,31 @@
 #include <fmt/format.h>
 #include <gsl/gsl>
 #include <sstream>
+#include <string>
 
 std::string LookAndSay(std::string_view text)
 {
     std::string buffer;
     buffer.reserve(text.size() * 2);
-    auto prev = begin(text);
+    char prev = text[0];
+    text.remove_prefix(1);
     int count = 1;
 
-    for (auto iter = std::next(prev); iter != end(text); ++iter, ++count)
+    for (char c : text)
     {
-        if (*prev != *iter)
+        if (prev != c)
         {
             buffer.append(std::to_string(count));
-            buffer.append(1, *prev);
+            buffer.append(1, prev);
             count = 0;
         }
 
-        prev = iter;
+        prev = c;
+        ++count;
     }
 
     buffer.append(std::to_string(count));
-    buffer.append(1, *prev);
+    buffer.append(1, prev);
     return buffer;
 }
 

@@ -50,8 +50,8 @@ public:
                     throw std::runtime_error("Unknown instruction");
 
                 // fmt::print("{} = NOT {}\n", out, parts[1]);
-                wires[out] = [val = Resolve(parts[1])]() -> unsigned short {
-                    return ~val();
+                wires[out] = [val = Resolve(parts[1])]() {
+                    return static_cast<unsigned short>(~val());
                 };
             }
             else if (nb == 5)
@@ -74,14 +74,14 @@ public:
                 }
                 else if (op == "LSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
-                        return left() << right();
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                        return static_cast<unsigned short>(left() << right());
                     };
                 }
                 else if (op == "RSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
-                        return left() >> right();
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                        return static_cast<unsigned short>(left() >> right());
                     };
                 }
                 else
@@ -141,7 +141,7 @@ int main()
 
 #ifndef NDEBUG
     Circuit c{input::example};
-    assert(72 == c.GetWire("d"));
+    Assert(72 == c.GetWire("d"));
     Assert(507 == c.GetWire("e"));
     Assert(492 == c.GetWire("f"));
     Assert(114 == c.GetWire("g"));

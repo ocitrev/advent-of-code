@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include "day04.hpp"
 #include "../common/md5.hpp"
 #include <array>
