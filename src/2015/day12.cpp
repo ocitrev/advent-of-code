@@ -5,6 +5,11 @@
 #include <numeric>
 #include <regex>
 
+static std::string_view ToStringView(rapidjson::Value const &value)
+{
+    return {value.GetString(), value.GetStringLength()};
+}
+
 static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
 {
     switch (value.GetType())
@@ -27,8 +32,7 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
         if (checkExclusion)
         {
             bool const containsRed = std::any_of(obj.MemberBegin(), obj.MemberEnd(), [](auto const &member) {
-                using namespace std::string_view_literals;
-                return member.value.IsString() && member.value.GetString() == "red"sv;
+                return member.value.IsString() && ToStringView(member.value) == "red";
             });
 
             if (containsRed)
@@ -38,7 +42,6 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
         }
 
         return std::accumulate(obj.MemberBegin(), obj.MemberEnd(), 0, [checkExclusion](int total, auto const &member) {
-            // fmt::print("{}\n", member.name.GetString());
             return total + SumAllNumbers(member.value, checkExclusion);
         });
     }
