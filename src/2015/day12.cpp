@@ -20,9 +20,10 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
     case rapidjson::kArrayType:
     {
         auto const &arr = value.GetArray();
-        return std::accumulate(arr.Begin(), arr.End(), 0, [checkExclusion](int total, rapidjson::Value const &arrayValue) {
-            return total + SumAllNumbers(arrayValue, checkExclusion);
-        });
+        return std::accumulate(arr.Begin(), arr.End(), 0,
+                               [checkExclusion](int total, rapidjson::Value const &arrayValue) {
+                                   return total + SumAllNumbers(arrayValue, checkExclusion);
+                               });
     }
 
     case rapidjson::kObjectType:

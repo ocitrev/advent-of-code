@@ -68,7 +68,9 @@ int FindShortest(std::string_view data, PredicateT &&pred)
     for (auto &&line : lines)
     {
         Route &r = routes.emplace_back(Route::Parse(line));
-        // fmt::print("{} -> {} = {}\n", r.a, r.b, r.distance);
+#if DEBUG_PRINT
+        fmt::print("{} -> {} = {}\n", r.a, r.b, r.distance);
+#endif
         insert_sorted(cities, r.a);
         insert_sorted(cities, r.b);
     }
@@ -90,9 +92,11 @@ int FindShortest(std::string_view data, PredicateT &&pred)
         if (best == -1 || pred(total, best))
             best = total;
 
-        // for (auto &&city : cities)
-        //     fmt::print("{} -> ", city);
-        // fmt::print("{}\n", total);
+#if DEBUG_PRINT
+        for (auto &&city : cities)
+            fmt::print("{} -> ", city);
+        fmt::print("{}\n", total);
+#endif
     } while (std::next_permutation(begin(cities), end(cities)));
 
     return best;

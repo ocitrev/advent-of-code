@@ -22,10 +22,14 @@ struct Relation
     }
 };
 
+// https://stackoverflow.com/questions/9028250/generating-all-permutations-excluding-cyclic-rotations
+// https://stackoverflow.com/questions/960557/how-to-generate-permutations-of-a-list-without-reverse-duplicates-in-python-us
+// http://www.cis.uoguelph.ca/~sawada/papers/alph.pdf
 template <typename IterT>
-bool lyndon_word(IterT first, IterT last)
+bool next_necklace(IterT first, IterT last)
 {
-    return std::next_permutation(std::next(first), last);
+    auto const n = std::next(first);
+    return std::next_permutation(n, last) && *n <= *std::prev(last);
 }
 
 static int GetHappiness(std::vector<Relation> const &relations, std::string_view left, std::string_view right)
@@ -92,19 +96,23 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
                 totalHappiness += GetHappiness(relations, prev, person);
             }
 
-            // fmt::print("{} -> ", person);
+#if DEBUG_PRINT
+            fmt::print("{} -> ", person);
+#endif
             prev = person;
         }
 
         totalHappiness += GetHappiness(relations, prev, people.front());
         bestHappiness = std::max(bestHappiness, totalHappiness);
-        // fmt::print("{}\n", totalHappiness);
-    } while (lyndon_word(begin(people), end(people)));
+#if DEBUG_PRINT
+        fmt::print("{}\n", totalHappiness);
+#endif
+    } while (next_necklace(begin(people), end(people)));
 
     return bestHappiness;
 }
 
-[[maybe_unused]] static int ComputeBestHappiness(std::string_view text)
+static int ComputeBestHappiness(std::string_view text)
 {
     std::vector<Relation> relations = ParseRelations(text);
     std::vector<std::string> people = GetPeople(relations);
@@ -113,9 +121,7 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
 
 static int Part1()
 {
-    std::vector<Relation> relations = ParseRelations(input::data);
-    std::vector<std::string> people = GetPeople(relations);
-    return ComputeBestHappiness(relations, people);
+    return ComputeBestHappiness(input::data);
 }
 
 static int Part2()
@@ -138,7 +144,7 @@ int main()
     fmt::print("  Part 1: {}\n", part1);
     Assert(709 == part1);
 
-    int const part2 = Part2(); 
-    fmt::print("  Part 1: {}\n", part2);
+    int const part2 = Part2();
+    fmt::print("  Part 2: {}\n", part2);
     Assert(668 == part2);
 }
