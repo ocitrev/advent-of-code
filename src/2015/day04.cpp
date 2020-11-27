@@ -32,7 +32,7 @@ int main()
     int const part1 = Mine(std::string{input::data}, "00000");
     fmt::print("  Part1: {}\n", part1);
     Assert(117946 == part1);
-    
+
     int const part2 = Mine(std::string{input::data}, "000000");
     fmt::print("  Part2: {}\n", part2);
     Assert(3938038 == part2);

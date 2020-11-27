@@ -30,18 +30,22 @@ bool lyndon_word(IterT first, IterT last)
 
 static int GetHappiness(std::vector<Relation> const &relations, std::string_view left, std::string_view right)
 {
-    auto getHappiness = [](std::vector<Relation> const &relations, std::string_view left, std::string_view right) {
-        auto iter = std::find_if(begin(relations), end(relations), [&](Relation const &r) {
-            return r.left == left && r.right == right;
-        });
+    int totalHappiness = 0;
+    auto iter = std::find_if(begin(relations), end(relations), [&](Relation const &rel) {
+        return rel.left == left && rel.right == right;
+    });
 
-        if (iter == end(relations))
-            return 0;
+    if (iter != end(relations))
+        totalHappiness += iter->happiness;
 
-        return iter->happiness;
-    };
+    iter = std::find_if(begin(relations), end(relations), [&](Relation const &rel) {
+        return rel.left == right && rel.right == left;
+    });
 
-    return getHappiness(relations, left, right) + getHappiness(relations, right, left);
+    if (iter != end(relations))
+        totalHappiness += iter->happiness;
+
+    return totalHappiness;
 }
 
 static std::vector<Relation> ParseRelations(std::string_view text)
