@@ -53,6 +53,11 @@ int main()
     static_assert(1 == get_pos_at_depth(")", -1));
     static_assert(5 == get_pos_at_depth("()())", -1));
 
-    fmt::print("  Part1: {}\n", get_depth(input::data));
-    fmt::print("  Part2: {}\n", get_pos_at_depth(input::data, -1));
+    constexpr int part1 = get_depth(input::data);
+    static_assert(232 == part1);
+    fmt::print("  Part1: {}\n", part1);
+
+    constexpr int part2 = get_pos_at_depth(input::data, -1);
+    static_assert(1783 == part2);
+    fmt::print("  Part2: {}\n", part2);
 }

@@ -139,6 +139,11 @@ int main()
     Assert(!IsNice2("uurcxstgmygtbstg"));
     Assert(!IsNice2("ieodomkazucvgmuy"));
 
-    fmt::print("  Part1: {}\n", Part1());
-    fmt::print("  Part2: {}\n", Part2());
+    int const part1 = Part1();
+    fmt::print("  Part1: {}\n", part1);
+    Assert(238 == part1);
+
+    int const part2 = Part2();
+    fmt::print("  Part2: {}\n", part2);
+    Assert(69 == part2);
 }

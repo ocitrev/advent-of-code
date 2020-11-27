@@ -70,4 +70,7 @@ int main()
 
     fmt::print("  Part1: {}\n", area);
     fmt::print("  Part2: {}\n", length);
+
+    Assert(1586300 == area);
+    Assert(3737498 == length);
 }

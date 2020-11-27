@@ -177,6 +177,11 @@ int main()
     // https://adventofcode.com/2015/day/6
     fmt::print("Day 6: Probably a Fire Hazard\n");
 
-    fmt::print("  Part1: {}\n", Part1());
-    fmt::print("  Part2: {}\n", Part2());
+    int const part1 = Part1();
+    fmt::print("  Part1: {}\n", part1);
+    Assert(569999 == part1);
+
+    int const part2 = Part2();
+    fmt::print("  Part2: {}\n", part2);
+    Assert(17836115 == part2);
 }

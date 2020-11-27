@@ -241,7 +241,7 @@ std::string GetPath(Map const &map)
 void Part1()
 {
     auto m = GenerateMap();
-    auto part1 = MarkIntersections(m);
+    auto const part1 = MarkIntersections(m);
     fmt::print("  Part1: {}\n", part1);
     Assert(14332 == part1);
 }

@@ -100,7 +100,7 @@ Int FindSquare(Int width, Int height)
 
 void Part2()
 {
-    auto part2 = FindSquare(100, 100);
+    auto const part2 = FindSquare(100, 100);
     fmt::print("  Part2: {}\n", part2);
     Assert(9210745 == part2);
 }

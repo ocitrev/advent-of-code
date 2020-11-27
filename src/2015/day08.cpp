@@ -109,6 +109,11 @@ int main()
     Assert(12 == Part1(input::example1));
     Assert(19 == Part2(input::example1));
 
-    fmt::print("  Part 1: {}\n", Part1(input::data));
-    fmt::print("  Part 1: {}\n", Part2(input::data));
+    int const part1 = Part1(input::data);
+    fmt::print("  Part 1: {}\n", part1);
+    Assert(1333 == part1);
+
+    int const part2 = Part2(input::data);
+    fmt::print("  Part 1: {}\n", part2);
+    Assert(2046 == part2);
 }

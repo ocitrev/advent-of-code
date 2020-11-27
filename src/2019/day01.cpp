@@ -39,11 +39,11 @@ int main()
 {
     fmt::print("Day 1: The Tyranny of the Rocket Equation\n");
 
-    int part1 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
+    int const part1 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
         return r + GetFuel(mass);
     });
 
-    int part2 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
+    int const part2 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
         return r + GetRealFuel(mass);
     });
 

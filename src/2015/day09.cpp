@@ -1,6 +1,7 @@
 #include "day09.hpp"
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+#include "../common/utils.hpp"
 #include <fmt/format.h>
 
 struct Route
@@ -55,20 +56,6 @@ int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_
     return -1;
 }
 
-template <typename ContainerT, typename T>
-bool insert_sorted(ContainerT &container, T const &item)
-{
-    auto hint = std::lower_bound(begin(container), end(container), item);
-
-    if (hint == end(container) || item < *hint)
-    {
-        container.insert(hint, item);
-        return true;
-    }
-
-    return false;
-}
-
 template <typename PredicateT>
 int FindShortest(std::string_view data, PredicateT &&pred)
 {
@@ -119,6 +106,11 @@ int main()
     Assert(605 == FindShortest(input::example, std::less<>{}));
     Assert(982 == FindShortest(input::example, std::greater<>{}));
 
-    fmt::print("  Part 1: {}\n", FindShortest(input::data, std::less<>{}));
-    fmt::print("  Part 2: {}\n", FindShortest(input::data, std::greater<>{}));
+    int const part1 = FindShortest(input::data, std::less<>{});
+    fmt::print("  Part 1: {}\n", part1);
+    Assert(117 == part1);
+
+    int const part2 = FindShortest(input::data, std::greater<>{});
+    fmt::print("  Part 2: {}\n", part2);
+    Assert(909 == part2);
 }

@@ -80,6 +80,11 @@ int main()
     Assert(4 == GetNbVisitedHouses("^>v<", 1));
     Assert(2 == GetNbVisitedHouses("^v^v^v^v^v", 1));
 
-    fmt::print("  Part 1: {}\n", GetNbVisitedHouses(input::data, 1));
-    fmt::print("  Part 2: {}\n", GetNbVisitedHouses(input::data, 2));
+    int const part1 = GetNbVisitedHouses(input::data, 1);
+    fmt::print("  Part 1: {}\n", part1);
+    Assert(2572 == part1);
+
+    int const part2 = GetNbVisitedHouses(input::data, 2);
+    fmt::print("  Part 2: {}\n", part2);
+    Assert(2631 == part2);
 }

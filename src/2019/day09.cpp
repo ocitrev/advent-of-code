@@ -29,11 +29,11 @@ int main()
     Assert(std::vector<Int>{1219070632396864} == Run({1102, 34915192, 34915192, 7, 4, 7, 99, 0}));
     Assert(std::vector<Int>{1125899906842624} == Run({104, 1125899906842624, 99}));
 
-    auto part1 = Run(input::data, 1);
-    fmt::print("  Part1: {}\n", part1.front());
-    Assert(2890527621 == part1.front());
+    auto const part1 = Run(input::data, 1).front();
+    fmt::print("  Part1: {}\n", part1);
+    Assert(2890527621 == part1);
 
-    auto part2 = Run(input::data, 2);
-    fmt::print("  Part2: {}\n", part2.front());
-    Assert(66772 == part2.front());
+    auto const part2 = Run(input::data, 2).front();
+    fmt::print("  Part2: {}\n", part2);
+    Assert(66772 == part2);
 }

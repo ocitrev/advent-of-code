@@ -112,7 +112,7 @@ int main()
     Assert((Result{135, 410}
             == Solve("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
 
-    auto [closest, fastest] = Solve(input::wire1, input::wire2);
+    auto const [closest, fastest] = Solve(input::wire1, input::wire2);
     fmt::print("  Part1: {}\n", closest);
     Assert(245 == closest);
 

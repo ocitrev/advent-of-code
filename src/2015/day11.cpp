@@ -123,6 +123,11 @@ int main()
     Assert("abcdffaa" == NextPassword("abcdefgh"));
     Assert("ghjaabcc" == NextPassword("ghijklmn"));
 
-    fmt::print("  Part 1 = {}\n", NextPassword("hepxcrrq"));
-    fmt::print("  Part 2 = {}\n", NextPassword(NextPassword("hepxcrrq")));
+    auto const part1 = NextPassword("hepxcrrq");
+    fmt::print("  Part 1 = {}\n", part1);
+    Assert("hepxxyzz" == part1);
+
+    auto const part2 = NextPassword(part1);
+    fmt::print("  Part 2 = {}\n", part2);
+    Assert("heqaabcc" == part2);
 }

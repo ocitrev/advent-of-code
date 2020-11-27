@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cctype>
 #include <charconv>
+#include <functional>
 #include <locale>
 #include <string>
 #include <string_view>
@@ -14,38 +15,65 @@
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
 
 // trim from start (in place)
+template <typename PredicateT>
+inline void ltrim_if(std::string &s, PredicateT &&pred)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not_fn(std::forward<PredicateT>(pred))));
+}
+
+// trim from start (in place)
 inline void ltrim(std::string &s)
 {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-                return std::isspace(ch) == 0;
-            }));
+    return ltrim_if(s, [](int ch) {
+        return std::isspace(ch);
+    });
+}
+
+// trim from start (in place)
+template <typename PredicateT>
+inline void ltrim_if(std::string_view &s, PredicateT &&pred)
+{
+    s.remove_prefix(static_cast<std::size_t>(
+        std::distance(s.begin(), std::find_if(s.begin(), s.end(), std::not_fn(std::forward<PredicateT>(pred))))));
 }
 
 // trim from start (in place)
 inline void ltrim(std::string_view &s)
 {
-    s.remove_prefix(static_cast<std::size_t>(std::distance(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-                                                               return std::isspace(ch) == 0;
-                                                           }))));
+    ltrim_if(s, [](int ch) {
+        return std::isspace(ch);
+    });
+}
+
+// trim from end (in place)
+template <typename PredicateT>
+inline void rtrim_if(std::string &s, PredicateT &&pred)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not_fn(std::forward<PredicateT>(pred))).base(), s.end());
 }
 
 // trim from end (in place)
 inline void rtrim(std::string &s)
 {
-    s.erase(std::find_if(s.rbegin(), s.rend(),
-                         [](int ch) {
-                             return std::isspace(ch) == 0;
-                         })
-                .base(),
-            s.end());
+    rtrim_if(s, [](int ch) {
+        return std::isspace(ch);
+    });
+}
+
+// trim from end (in place)
+template <typename PredicateT>
+inline void rtrim_if(std::string_view &s, PredicateT &&pred)
+{
+    s.remove_suffix(static_cast<std::size_t>(
+        std::distance(s.rbegin(), std::find_if(s.rbegin(), s.rend(), std::not_fn(std::forward<PredicateT>(pred))))));
 }
 
 // trim from end (in place)
 inline void rtrim(std::string_view &s)
 {
-    s.remove_suffix(static_cast<std::size_t>(std::distance(s.rbegin(), std::find_if(s.rbegin(), s.rend(), [](int ch) {
-                                                               return std::isspace(ch) == 0;
-                                                           }))));
+    return rtrim_if(s, [](int ch) {
+        return std::isspace(ch);
+    });
 }
 
 // trim from both ends (in place)

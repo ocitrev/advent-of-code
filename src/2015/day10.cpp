@@ -64,6 +64,11 @@ int main()
     Assert("111221" == LookAndSay("1211"));
     Assert("312211" == LookAndSay("111221"));
 
-    fmt::print("  Part 1: {}\n", Part1());
-    fmt::print("  Part 2: {}\n", Part2());
+    int const part1 = Part1();
+    fmt::print("  Part 1: {}\n", part1);
+    Assert(252594 == part1);
+
+    int const part2 = Part2();
+    fmt::print("  Part 2: {}\n", part2);
+    Assert(3579328 == part2);
 }

@@ -1,4 +1,5 @@
 #include "day04.hpp"
+#include "../common/assert.hpp"
 #include "../common/md5.hpp"
 #include "../common/string.hpp"
 #include <array>
@@ -28,6 +29,11 @@ int main()
     // https://adventofcode.com/2015/day/4
     fmt::print("Day 4: The Ideal Stocking Stuffer\n");
 
-    fmt::print("  Part1: {}\n", Mine(std::string{input::data}, "00000"));
-    fmt::print("  Part2: {}\n", Mine(std::string{input::data}, "000000"));
+    int const part1 = Mine(std::string{input::data}, "00000");
+    fmt::print("  Part1: {}\n", part1);
+    Assert(117946 == part1);
+    
+    int const part2 = Mine(std::string{input::data}, "000000");
+    fmt::print("  Part2: {}\n", part2);
+    Assert(3938038 == part2);
 }

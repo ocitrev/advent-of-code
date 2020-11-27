@@ -105,7 +105,7 @@ int main()
 
     auto map = ParseMap(input::map);
 
-    auto best = GetAsteroidWithMostRays(map);
+    auto const best = GetAsteroidWithMostRays(map);
     fmt::print("  Part1: {}\n", best.rays.size());
     Assert(299 == best.rays.size());
 
@@ -133,10 +133,10 @@ int main()
         return slopeA < slopeB;
     };
 
-    auto el200 = begin(r) + 199;
+    auto const el200 = begin(r) + 199;
     std::nth_element(begin(r), el200, end(r), sortBySlope);
 
-    int part2 = el200->second.pos.x * 100 + el200->second.pos.y;
+    int const part2 = el200->second.pos.x * 100 + el200->second.pos.y;
     fmt::print("  Part2: {}\n", part2);
     Assert(1419 == part2);
 }
