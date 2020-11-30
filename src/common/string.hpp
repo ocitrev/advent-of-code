@@ -14,6 +14,24 @@
 
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
 
+template <typename IterT>
+std::string Join(IterT first, IterT last, std::string_view sep)
+{
+    std::string result;
+
+    if (first == last)
+        return result;
+
+    for (auto iter = first; iter != last; ++iter)
+    {
+        if (iter != first)
+            result += sep;
+        result += *iter;
+    }
+
+    return result;
+}
+
 // trim from start (in place)
 template <typename PredicateT>
 inline void ltrim_if(std::string &s, PredicateT &&pred)
@@ -101,6 +119,14 @@ inline std::string ltrim_copy(std::string s)
 inline std::string rtrim_copy(std::string s)
 {
     rtrim(s);
+    return s;
+}
+
+// trim from end (copying)
+template <typename PredicateT>
+inline std::string rtrim_copy_if(std::string s, PredicateT &&pred)
+{
+    rtrim_if(s, pred);
     return s;
 }
 
