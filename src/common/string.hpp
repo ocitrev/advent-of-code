@@ -15,7 +15,7 @@
 [[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
 
 template <typename IterT>
-std::string Join(IterT first, IterT last, std::string_view sep)
+inline std::string Join(IterT first, IterT last, std::string_view sep)
 {
     std::string result;
 
@@ -26,7 +26,27 @@ std::string Join(IterT first, IterT last, std::string_view sep)
     {
         if (iter != first)
             result += sep;
+
         result += *iter;
+    }
+
+    return result;
+}
+
+template <typename IterT, typename ToStringT>
+inline std::string Join(IterT first, IterT last, std::string_view sep, ToStringT &&toString)
+{
+    std::string result;
+
+    if (first == last)
+        return result;
+
+    for (auto iter = first; iter != last; ++iter)
+    {
+        if (iter != first)
+            result += sep;
+
+        result += toString(*iter);
     }
 
     return result;

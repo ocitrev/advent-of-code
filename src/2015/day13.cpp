@@ -22,16 +22,6 @@ struct Relation
     }
 };
 
-// https://stackoverflow.com/questions/9028250/generating-all-permutations-excluding-cyclic-rotations
-// https://stackoverflow.com/questions/960557/how-to-generate-permutations-of-a-list-without-reverse-duplicates-in-python-us
-// http://www.cis.uoguelph.ca/~sawada/papers/alph.pdf
-template <typename IterT>
-bool next_necklace(IterT first, IterT last)
-{
-    auto const n = std::next(first);
-    return std::next_permutation(n, last) && *n <= *std::prev(last);
-}
-
 static int GetHappiness(std::vector<Relation> const &relations, std::string_view left, std::string_view right)
 {
     int totalHappiness = 0;
