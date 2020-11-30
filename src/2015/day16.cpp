@@ -118,10 +118,10 @@ int main()
     fmt::print("Day 16: Aunt Sue\n");
 
     auto const part1 = Part1();
-    fmt::print("Part 1: {}\n", part1);
+    fmt::print("  Part 1: {}\n", part1);
     Assert(40 == part1);
 
     auto const part2 = Part2();
-    fmt::print("Part 2: {}\n", part2);
+    fmt::print("  Part 2: {}\n", part2);
     Assert(241 == part2);
 }

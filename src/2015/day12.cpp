@@ -1,6 +1,13 @@
 #include "day12.hpp"
 #include "../common/assert.hpp"
+#ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 5054)
+#endif
 #include "rapidjson/document.h"
+#ifdef _MSC_VER
+#    pragma warning(pop)
+#endif
 #include <fmt/format.h>
 #include <numeric>
 #include <regex>
