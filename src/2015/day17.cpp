@@ -4,7 +4,7 @@
 #include "../common/utils.hpp"
 #include <fmt/format.h>
 
-static auto HowManyCombinationsCanFit(std::vector<int> input, int limit)
+static auto HowManyCombinationsCanFit(std::vector<int> const &input, int limit)
 {
     int nbCombinationsTotal = 0;
     int nbCombinations = 0;
