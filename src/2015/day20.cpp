@@ -8,7 +8,7 @@ int Part1(int limit)
     // la somme des diviseurs est trop lente.
     int const size = limit / 10;
     std::vector<int> giftsPerHouse(static_cast<std::size_t>(size), 10);
-    
+
     for (int elve = 2; elve < size; ++elve)
         for (int i = elve; i < size; i += elve)
             giftsPerHouse[static_cast<std::size_t>(i)] += 10 * elve;
