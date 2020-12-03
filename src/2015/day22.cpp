@@ -177,7 +177,7 @@ static void Example()
         g1.boss = Character{14, 8};
         g1.wizard = Character{10, 250};
         Assert(339 == g1.Play(true));
-        
+
         Game g2;
         g2.hard = true;
         g2.boss = Character{14, 8};

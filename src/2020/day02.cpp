@@ -57,8 +57,8 @@ static void Examples()
 
 int main()
 {
-    // https://adventofcode.com/2020/day/02
-    fmt::print("Day 02: Password Philosophy\n");
+    // https://adventofcode.com/2020/day/2
+    fmt::print("Day 2: Password Philosophy\n");
 
     Examples();
 
