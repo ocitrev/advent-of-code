@@ -1,7 +1,6 @@
 #include "day22.hpp"
 #include "../common/assert.hpp"
 #include "game_character.hpp"
-#include "game_spells.hpp"
 #include <fmt/format.h>
 #include <map>
 
@@ -14,76 +13,81 @@ struct Game
 {
     Character boss = GetBoss();
     Character wizard{50};
-    std::map<std::string, Effect> effects;
-    std::vector<Spell> const spells{
-        Spell{"Recharge", 229, Effect{5, 0, 101, 0}},
-        Spell{"Shield", 113, Effect{6, 0, 0, 7}},
-        Spell{"Poison", 173, Effect{6, 3, 0, 0}},
-        Spell{"Drain", 73, 2, 2},
-        Spell{"Magic Missile", 53, 4},
+    int rechargeTimer = 0;
+    int shieldTimer = 0;
+    int poisonTimer = 0;
+    bool hard = false;
+
+    enum SpellId
+    {
+        Recharge,
+        Shield,
+        Poison,
+        Drain,
+        MagicMissile,
+    };
+
+    struct Spell
+    {
+        SpellId name;
+        int cost = 0;
+        int dammage = 0;
+        int heal = 0;
+        bool effect = false;
+    };
+
+    inline static std::vector<Spell> const spells{
+        Spell{SpellId::Recharge, 229, 0, 0, true},     Spell{SpellId::Shield, 113, 0, 0, true},
+        Spell{SpellId::Poison, 173, 0, 0, true},       Spell{SpellId::Drain, 73, 2, 2, false},
+        Spell{SpellId::MagicMissile, 53, 4, 0, false},
     };
 
     void ApplyEffects()
     {
-        wizard.armor = 0;
+        wizard.armor = shieldTimer != 0 ? 7 : 0;
 
-        for (auto &[name, eff] : effects)
-        {
-            boss.hp -= eff.dammage;
-            wizard.mana += eff.mana;
-            wizard.armor += eff.armor;
-            --eff.turns;
+        if (rechargeTimer > 0)
+            wizard.mana += 101;
 
-            if (eff.mana > 0)
-                fmt::print("{} provides {} mana; its timer is now {}.\n", name, eff.mana, eff.turns);
+        if (poisonTimer > 0)
+            boss.hp -= 3;
 
-            if (eff.armor > 0)
-                fmt::print("{}'s timer is now {}.\n", name, eff.turns);
+        rechargeTimer = std::max(0, rechargeTimer - 1);
+        shieldTimer = std::max(0, shieldTimer - 1);
+        poisonTimer = std::max(0, poisonTimer - 1);
+    }
 
-            if (eff.dammage > 0)
-                fmt::print("{} deals {} dammage; its timer is now {}.\n", name, eff.dammage, eff.turns);
-        }
+    [[nodiscard]] bool CanCast(Spell const &spell) const
+    {
+        // check if enough mana
+        if (wizard.mana < spell.cost)
+            return false;
 
-        for (auto iter = begin(effects); iter != end(effects);)
-        {
-            if (iter->second.turns == 0)
-            {
-                fmt::print("{} wears off.\n", iter->first);
-                iter = effects.erase(iter);
-            }
-            else
-            {
-                ++iter;
-            }
-        }
+        if (spell.name == SpellId::Recharge)
+            return rechargeTimer == 0;
+
+        if (spell.name == SpellId::Shield)
+            return shieldTimer == 0;
+
+        if (spell.name == SpellId::Poison)
+            return poisonTimer == 0;
+
+        return true;
     }
 
     bool CastSpell(Spell const &spell)
     {
-        if (wizard.mana < spell.cost)
-        {
-            // not enough mana
+        if (not CanCast(spell))
             return false;
-        }
 
-        if (spell.effect.has_value())
-        {
-            if (auto effectIt = effects.find(spell.name); effectIt != end(effects) && effectIt->second.turns > 0)
-            {
-                // same spell already active
-                return false;
-            }
+        if (spell.name == SpellId::Recharge)
+            rechargeTimer = 5;
 
-            effects.insert(std::make_pair(spell.name, *spell.effect));
-        }
+        if (spell.name == SpellId::Shield)
+            shieldTimer = 6;
 
-        if (spell.dammage > 0 && spell.heal > 0)
-            fmt::print("Player casts {}, dealing {} dammage and healing {} hit points.\n", spell.name, spell.dammage,
-                       spell.heal);
-        else if (spell.dammage > 0)
-            fmt::print("Player casts {}, dealing {} dammage.\n", spell.name, spell.dammage);
-        else
-            fmt::print("Player casts {}.\n", spell.name);
+        if (spell.name == SpellId::Poison)
+            poisonTimer = 6;
 
         boss.hp -= spell.dammage;
         wizard.mana -= spell.cost;
@@ -91,55 +95,123 @@ struct Game
         return true;
     }
 
-    void TurnStart(std::string_view turn)
+    int WizardTurn()
     {
-        fmt::print("\n-- {} turn --\n- Player has {} hit points, {} armor, {} mana\n- Boss has {} hit points\n", turn,
-                   wizard.hp, wizard.armor, wizard.mana, boss.hp);
+        if (hard)
+        {
+            --wizard.hp;
+
+            if (wizard.IsDead())
+                return 1 << 30;
+        }
 
         ApplyEffects();
-    }
 
-    void WizardTurn()
-    {
+        if (boss.IsDead())
+            return 0;
+
+        int best = 1 << 30;
+
         for (auto const &s : spells)
         {
-            if (CastSpell(s))
-                break;
+            if (s.cost > best)
+                continue;
+
+            if (CanCast(s))
+            {
+                Game subGame = *this;
+                subGame.CastSpell(s);
+                best = std::min(best, s.cost + subGame.Play(false));
+            }
         }
+
+        return best;
     }
 
-    void BossTurn()
+    int BossTurn()
     {
-        int const dammage = boss.Attack(wizard);
-        fmt::print("Boss attacks for {} - {} = {} damage,\n", boss.dammage, wizard.armor, dammage);
-    }
+        ApplyEffects();
 
-    bool Run()
-    {
-        while (true)
+        if (boss.IsDead())
+            return 0;
+
+        boss.Attack(wizard);
+
+        if (wizard.IsDead())
         {
-            TurnStart("Player");
-            if (boss.IsDead())
-                return true;
-            WizardTurn();
-            if (boss.IsDead())
-                return true;
-
-            TurnStart("Boss");
-            if (boss.IsDead())
-                return true;
-            BossTurn();
-            if (wizard.IsDead())
-                return false;
+            return 1 << 30;
         }
+
+        return Play(true);
+    }
+
+    int Play(bool playerTurn)
+    {
+        if (playerTurn)
+        {
+            return WizardTurn();
+        }
+
+        return BossTurn();
     }
 };
+
+static void Example()
+{
+#ifndef NDEBUG
+    {
+        Game g1;
+        g1.boss = Character{13, 8};
+        g1.wizard = Character{10, 250};
+        Assert(226 == g1.Play(true));
+
+        Game g2;
+        g2.hard = true;
+        g2.boss = Character{13, 8};
+        g2.wizard = Character{10, 250};
+        Assert(339 == g2.Play(true));
+    }
+
+    {
+        Game g1;
+        g1.boss = Character{14, 8};
+        g1.wizard = Character{10, 250};
+        Assert(339 == g1.Play(true));
+        
+        Game g2;
+        g2.hard = true;
+        g2.boss = Character{14, 8};
+        g2.wizard = Character{10, 250};
+        Assert(339 == g2.Play(true));
+    }
+#endif
+}
+
+static int Part1()
+{
+    Game g;
+    return g.Play(true);
+}
+
+static int Part2()
+{
+    Game g;
+    g.hard = true;
+    return g.Play(true);
+}
 
 int main()
 {
     // https://adventofcode.com/2015/day/22
     fmt::print("Day 22: Wizard Simulator 20XX\n");
 
-    Game g;
-    g.Run();
+    Example();
+
+    auto const part1 = Part1();
+    fmt::print("  Part 1: {}\n", part1);
+    Assert(1824 == part1);
+
+    auto const part2 = Part2();
+    fmt::print("  Part 2: {}\n", part2);
+    Assert(1937 == part2);
 }
