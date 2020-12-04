@@ -11,9 +11,9 @@ struct Box
     int height = 0;
     int depth = 0;
 
-    explicit Box(std::string const &boxText)
+    explicit Box(std::string_view boxText)
     {
-        std::istringstream ss(boxText);
+        std::istringstream ss(std::string{boxText});
         std::string valueText;
         std::getline(ss, valueText, 'x');
         width = std::stoi(valueText);

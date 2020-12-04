@@ -12,7 +12,13 @@
 #    include <version>
 #endif
 
-[[nodiscard]] std::vector<std::string> Split(std::string_view text, char sep);
+[[nodiscard]] std::vector<std::string_view> Split(std::string_view text, std::string_view sep);
+[[nodiscard]] std::vector<std::string_view> SplitFirstOf(std::string_view text, std::string_view sep);
+
+[[nodiscard]] inline std::vector<std::string_view> Split(std::string_view text, char sep)
+{
+    return Split(text, std::string_view{&sep, 1});
+}
 
 template <typename IterT>
 inline std::string Join(IterT first, IterT last, std::string_view sep)
@@ -167,5 +173,17 @@ inline constexpr bool starts_with(std::string_view text, std::string_view prefix
 inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
 {
     return text.size() >= prefix.size() && text.compare(0, prefix.size(), prefix) == 0;
+}
+#endif
+
+#if __cpp_lib_starts_ends_with >= 201711
+inline constexpr bool ends_with(std::string_view text, std::string_view prefix)
+{
+    return text.ends_with(prefix);
+}
+#else
+inline constexpr bool ends_with(std::string_view text, std::string_view suffix)
+{
+    return suffix.size() <= text.size() && text.compare(text.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 #endif

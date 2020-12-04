@@ -13,11 +13,11 @@ class Circuit
     std::map<std::string, std::function<unsigned short()>> wires;
     std::map<std::string, unsigned short> cache;
 
-    std::function<unsigned short()> Resolve(std::string const &text)
+    std::function<unsigned short()> Resolve(std::string_view text)
     {
         if (std::isdigit(text[0]) != 0)
         {
-            return [n = std::stoi(text)]() {
+            return [n = svtoi(text)]() {
                 return static_cast<unsigned short>(n);
             };
         }
@@ -37,7 +37,7 @@ public:
 
             if (nb == 3)
             {
-                auto const &out = parts.back();
+                std::string out{parts.back()};
                 auto const &in = parts.front();
                 wires[out] = Resolve(in);
                 // fmt::print("{} = {}\n", out, in);
@@ -45,7 +45,7 @@ public:
             else if (nb == 4)
             {
                 auto const &op = parts[0];
-                auto const &out = parts.back();
+                std::string out{parts.back()};
                 if (op != "NOT")
                     throw std::runtime_error("Unknown instruction");
 
@@ -57,7 +57,7 @@ public:
             else if (nb == 5)
             {
                 auto const &op = parts[1];
-                auto const &out = parts.back();
+                std::string out{parts.back()};
                 // fmt::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
 
                 if (op == "AND")
@@ -92,19 +92,20 @@ public:
         }
     }
 
-    [[nodiscard]] unsigned short GetWire(std::string const &name)
+    [[nodiscard]] unsigned short GetWire(std::string_view name)
     {
-        if (auto itCache = cache.find(name); itCache != end(cache))
+        std::string key{name};
+        if (auto itCache = cache.find(key); itCache != end(cache))
             return itCache->second;
 
-        auto iter = wires.find(name);
+        auto iter = wires.find(key);
 
         if (iter == end(wires))
             throw std::runtime_error("Invalid wire");
 
         unsigned short const value = iter->second();
         // fmt::print("{} = {}\n", name, value);
-        cache[name] = value;
+        cache[key] = value;
         return value;
     }
 

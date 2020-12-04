@@ -33,7 +33,7 @@ public:
 
         for (auto const &line : Split(data, '\n'))
         {
-            moons.emplace_back(line);
+            moons.emplace_back(std::string{line});
         }
 
         return moons;

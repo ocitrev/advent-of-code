@@ -17,7 +17,7 @@ struct Route
         auto distanceText = parts[1];
         trim(names);
         trim(distanceText);
-        int distance = std::stoi(distanceText);
+        int distance = svtoi(distanceText);
         auto pos = names.find(" to ");
         auto a = names.substr(0, pos);
         auto b = names.substr(pos + 4, names.size());
@@ -25,7 +25,7 @@ struct Route
         if (b < a)
             std::swap(a, b);
 
-        return {a, b, distance};
+        return {std::string{a}, std::string{b}, distance};
     }
 
     bool operator==(Route const &other) const

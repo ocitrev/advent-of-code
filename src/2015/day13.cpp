@@ -3,6 +3,7 @@
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
 #include <fmt/format.h>
+#include <string>
 #include <vector>
 
 struct Relation
@@ -11,9 +12,9 @@ struct Relation
     std::string right;
     int happiness;
 
-    Relation(std::string left_, std::string right_, int happiness_)
-        : left(std::move(left_))
-        , right(std::move(right_))
+    Relation(std::string_view left_, std::string_view right_, int happiness_)
+        : left(left_)
+        , right(right_)
         , happiness(happiness_)
     {
         rtrim_if(right, [](int ch) {
@@ -49,7 +50,7 @@ static std::vector<Relation> ParseRelations(std::string_view text)
     for (auto &&line : Split(text, '\n'))
     {
         auto const parts = Split(line, ' ');
-        Relation &r = relations.emplace_back(parts[0], parts[10], std::stoi(parts[3]));
+        Relation &r = relations.emplace_back(parts[0], parts[10], svtoi(parts[3]));
 
         if (parts[2] == "lose")
             r.happiness = -r.happiness;

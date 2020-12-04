@@ -11,7 +11,7 @@ static void ParseValue(Aunt &values, std::string_view text)
     auto parts = Split(text, ':');
     trim(parts[0]);
     trim(parts[1]);
-    values[parts[0]] = svtoi(parts[1]);
+    values[std::string{parts[0]}] = svtoi(parts[1]);
 }
 
 static Aunt ParseMFCSAM(std::string_view text)

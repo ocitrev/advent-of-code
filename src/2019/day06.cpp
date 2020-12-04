@@ -10,12 +10,14 @@
 
 static std::map<std::string, int> countCache; // NOLINT
 
-static int CountIndirect(std::vector<std::string> const &list, std::string const &name)
+static int CountIndirect(std::vector<std::string_view> const &list, std::string_view name)
 {
     if (name == "COM")
         return 0;
 
-    if (auto iter = countCache.find(name); iter != end(countCache))
+    std::string const key{name};
+
+    if (auto iter = countCache.find(key); iter != end(countCache))
         return iter->second;
 
     for (auto const &item : list)
@@ -25,7 +27,7 @@ static int CountIndirect(std::vector<std::string> const &list, std::string const
         if (parts[1] == name)
         {
             int ret = 1 + CountIndirect(list, parts[0]);
-            countCache[name] = ret;
+            countCache[key] = ret;
             return ret;
         }
     }
@@ -35,12 +37,14 @@ static int CountIndirect(std::vector<std::string> const &list, std::string const
 
 static std::map<std::string, std::vector<std::string>> pathCache; // NOLINT
 
-static std::vector<std::string> GetPath(std::vector<std::string> const &list, std::string const &name)
+static std::vector<std::string> GetPath(std::vector<std::string_view> const &list, std::string_view name)
 {
     if (name == "COM")
         return {};
 
-    if (auto iter = pathCache.find(name); iter != end(pathCache))
+    std::string const key{name};
+
+    if (auto iter = pathCache.find(key); iter != end(pathCache))
         return iter->second;
 
     for (auto const &item : list)
@@ -50,8 +54,8 @@ static std::vector<std::string> GetPath(std::vector<std::string> const &list, st
         if (parts[1] == name)
         {
             auto ret = GetPath(list, parts[0]);
-            ret.push_back(parts[0]);
-            pathCache[name] = ret;
+            ret.emplace_back(parts[0]);
+            pathCache[key] = ret;
             return ret;
         }
     }

@@ -21,10 +21,10 @@ struct Deer
 
         auto const parts = Split(text, ' ');
         return {
-            std::stoi(parts[speedIndex]),
-            std::stoi(parts[timeIndex]),
-            std::stoi(parts[restIndex]),
-            parts[nameIndex],
+            svtoi(parts[speedIndex]),
+            svtoi(parts[timeIndex]),
+            svtoi(parts[restIndex]),
+            std::string{parts[nameIndex]},
         };
     }
 

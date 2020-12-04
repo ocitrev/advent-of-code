@@ -57,12 +57,12 @@ struct Ingredient
         constexpr size_t caloriesIndex = 10;
 
         auto &ingredient = ingredients.emplace_back(Ingredient{
-            parts[nameIndex],
-            std::stoi(parts[capacityIndex]),
-            std::stoi(parts[durabilityIndex]),
-            std::stoi(parts[flavorIndex]),
-            std::stoi(parts[textureIndex]),
-            std::stoi(parts[caloriesIndex]),
+            std::string{parts[nameIndex]},
+            svtoi(parts[capacityIndex]),
+            svtoi(parts[durabilityIndex]),
+            svtoi(parts[flavorIndex]),
+            svtoi(parts[textureIndex]),
+            svtoi(parts[caloriesIndex]),
         });
 
         rtrim_if(ingredient.name, [](int ch) {
