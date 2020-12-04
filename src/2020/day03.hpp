@@ -5,7 +5,7 @@
 namespace example
 {
     using namespace std::string_view_literals;
-    constexpr std::array map{
+    [[maybe_unused]] static constexpr std::array map{
         "..##......."sv, "#...#...#.."sv, ".#....#..#."sv, "..#.#...#.#"sv, ".#...##..#."sv, "..#.##....."sv,
         ".#.#.#....#"sv, ".#........#"sv, "#.##...#..."sv, "#...##....#"sv, ".#..#...#.#"sv,
     };
@@ -14,7 +14,7 @@ namespace example
 namespace input
 {
     using namespace std::string_view_literals;
-    constexpr std::array map{
+    static constexpr std::array map{
         "...............#...#..#...#...."sv, "...#....##.....##...######..#.."sv, "....#.....#.##..#...#..#......."sv,
         "...#..........#.#....#......#.."sv, "....#.#...#.#.......#......##.#"sv, "....#.#..........#.....#.##...."sv,
         "##...#.#.##......#......#.#.#.."sv, "#.#.#........#....#..#.#......."sv, "..#...##..#..#.......#....###.."sv,
