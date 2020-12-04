@@ -3,12 +3,12 @@
 
 namespace example
 {
-    constexpr std::array numbers{1721, 979, 366, 299, 675, 1456};
+    [[maybe_unused]] static constexpr std::array numbers{1721, 979, 366, 299, 675, 1456};
 }
 
 namespace input
 {
-    constexpr std::array numbers{
+    static constexpr std::array numbers{
         1778, 1845, 1813, 1889, 1939, 1635, 1443, 796,  1799, 938,  1488, 1922, 1909, 1258, 1659, 1959, 1557,
         1085, 1379, 1174, 1782, 1482, 1702, 1180, 1992, 1815, 1802, 215,  1649, 782,  1847, 1673, 1823, 1836,
         1447, 1603, 1767, 1891, 1964, 1881, 1637, 1229, 1994, 1901, 1583, 1918, 1415, 1666, 1155, 1446, 1315,

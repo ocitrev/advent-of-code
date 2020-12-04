@@ -5,7 +5,7 @@
 namespace example
 {
     using namespace std::string_view_literals;
-    constexpr std::array passwords{
+    [[maybe_unused]] static constexpr std::array passwords{
         "1-3 a: abcde"sv,
         "1-3 b: cdefg"sv,
         "2-9 c: ccccccccc"sv,
@@ -15,7 +15,7 @@ namespace example
 namespace input
 {
     using namespace std::string_view_literals;
-    constexpr std::array passwords{
+    static constexpr std::array passwords{
         "2-8 t: pncmjxlvckfbtrjh"sv,
         "8-9 l: lzllllldsl"sv,
         "3-11 c: ccchcccccclxnkcmc"sv,
