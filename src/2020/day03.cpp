@@ -38,7 +38,7 @@ struct Slope
 
 int main()
 {
-    // https://adventofcode.com/2015/day/3
+    // https://adventofcode.com/2020/day/3
     fmt::print("Day 3: \n");
 
     constexpr std::array allSlopes{Slope{1, 1}, Slope{3, 1}, Slope{5, 1}, Slope{7, 1}, Slope{1, 2}};

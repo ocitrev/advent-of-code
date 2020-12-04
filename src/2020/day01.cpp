@@ -6,7 +6,7 @@
 
 static constexpr int kSumWanted = 2020;
 
-static int Find(auto const &numbers, std::size_t nb)
+static int Find(gsl::span<int const> numbers, std::size_t nb)
 {
     int result = 0;
     Combinations(numbers, nb, [&](auto const &values) {
