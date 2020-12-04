@@ -14,7 +14,7 @@ static auto HowManyCombinationsCanFit(std::vector<int> const &input, int limit)
     for (std::size_t i = 1; i < nb; ++i)
     {
         bool found = false;
-        Combinations(input, i, [&](auto const &values) {
+        Combinations(gsl::span{input}, i, [&](auto const &values) {
             if (std::accumulate(begin(values), end(values), 0) == limit)
             {
                 ++nbCombinationsTotal;
