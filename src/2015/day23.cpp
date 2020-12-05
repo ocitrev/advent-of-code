@@ -4,7 +4,6 @@
 #include <fmt/format.h>
 #include <gsl/gsl>
 
-
 struct VM
 {
     unsigned int a = 0;
@@ -13,14 +12,14 @@ struct VM
 
     gsl::span<std::string_view const> instructions;
 
-    unsigned int & GetRegister(std::string_view instruction)
+    unsigned int &GetRegister(std::string_view instruction)
     {
         if (instruction[4] == 'a')
             return a;
-        
+
         if (instruction[4] == 'b')
             return b;
-        
+
         throw std::runtime_error("invalid register");
     }
 
@@ -83,7 +82,6 @@ struct VM
             Step();
         }
     }
-
 };
 
 auto Example()
