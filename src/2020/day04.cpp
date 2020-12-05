@@ -18,8 +18,7 @@ bool IsPassportValid1(std::string_view passport)
         "pid"sv, // (Passport ID)
     };
 
-    return std::all_of(begin(required), end(required), [&passport](std::string_view field)
-    {
+    return std::all_of(begin(required), end(required), [&passport](std::string_view field) {
         return passport.find(field) != std::string_view::npos;
     });
 }
@@ -60,7 +59,7 @@ bool IsPassportValid2(std::string_view passport)
                 if (value < 150 || value > 193)
                     return false;
             }
-            else if (ends_with(parts[1], "in"sv)) 
+            else if (ends_with(parts[1], "in"sv))
             {
                 if (value < 59 || value > 76)
                     return false;
