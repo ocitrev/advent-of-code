@@ -79,7 +79,7 @@ int Part2()
         for (int c = 0; c < 8; ++c)
         {
             Seat const s{r, c};
-            
+
             if (seats.find(s) == end(seats))
             {
                 // fmt::print("Seat({}, {}) is missing.\n", s.row, s.col);
