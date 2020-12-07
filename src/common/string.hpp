@@ -134,6 +134,12 @@ inline void trim(std::string_view &s)
     rtrim(s);
 }
 
+inline std::string_view trim_copy(std::string_view s)
+{
+    trim(s);
+    return s;
+}
+
 // trim from start (copying)
 inline std::string ltrim_copy(std::string s)
 {
