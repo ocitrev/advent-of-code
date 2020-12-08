@@ -1,0 +1,95 @@
+#pragma once
+#include <array>
+#include <string_view>
+
+namespace example
+{
+    using namespace std::string_view_literals;
+    static constexpr std::array instructions{
+        "nop +0"sv, "acc +1"sv, "jmp +4"sv, "acc +3"sv, "jmp -3"sv, "acc -99"sv, "acc +1"sv, "jmp -4"sv, "acc +6"sv,
+    };
+}
+
+namespace input
+{
+    using namespace std::string_view_literals;
+    static constexpr std::array instructions{
+        "jmp +232"sv, "acc +21"sv,  "nop +120"sv, "jmp +239"sv, "acc +18"sv,  "acc +41"sv,  "jmp +72"sv,  "acc +47"sv,
+        "jmp +314"sv, "jmp +1"sv,   "acc +47"sv,  "nop +175"sv, "acc +33"sv,  "jmp +115"sv, "nop -5"sv,   "acc +37"sv,
+        "acc +25"sv,  "acc +18"sv,  "jmp +304"sv, "acc +0"sv,   "acc +16"sv,  "jmp +77"sv,  "acc +9"sv,   "acc -3"sv,
+        "jmp +93"sv,  "acc +16"sv,  "acc -15"sv,  "jmp +110"sv, "jmp +76"sv,  "acc +36"sv,  "acc +11"sv,  "acc -3"sv,
+        "jmp +258"sv, "jmp +241"sv, "acc +42"sv,  "jmp +514"sv, "nop +103"sv, "acc +36"sv,  "acc -18"sv,  "jmp +47"sv,
+        "acc +5"sv,   "acc +37"sv,  "jmp +480"sv, "acc -16"sv,  "jmp +1"sv,   "nop +498"sv, "jmp +1"sv,   "jmp +12"sv,
+        "acc +0"sv,   "acc +35"sv,  "jmp +437"sv, "jmp +326"sv, "acc -15"sv,  "acc -7"sv,   "nop -2"sv,   "jmp +548"sv,
+        "jmp -4"sv,   "jmp +395"sv, "jmp +258"sv, "acc +37"sv,  "acc +17"sv,  "acc -18"sv,  "jmp +345"sv, "acc -18"sv,
+        "acc +37"sv,  "acc +36"sv,  "jmp +217"sv, "acc -4"sv,   "acc +39"sv,  "jmp -35"sv,  "jmp +252"sv, "jmp +1"sv,
+        "nop +91"sv,  "jmp +402"sv, "nop -40"sv,  "jmp +371"sv, "jmp -72"sv,  "jmp +9"sv,   "acc +41"sv,  "jmp +95"sv,
+        "nop +252"sv, "nop +30"sv,  "jmp +240"sv, "nop +266"sv, "jmp +462"sv, "jmp +137"sv, "acc -14"sv,  "jmp +203"sv,
+        "jmp +1"sv,   "acc +45"sv,  "acc -14"sv,  "acc -6"sv,   "jmp -9"sv,   "acc -15"sv,  "acc +6"sv,   "nop +298"sv,
+        "jmp -56"sv,  "jmp +14"sv,  "acc +32"sv,  "jmp +40"sv,  "acc +17"sv,  "nop +62"sv,  "acc +14"sv,  "jmp +119"sv,
+        "acc +49"sv,  "jmp -29"sv,  "acc +27"sv,  "acc -12"sv,  "acc +14"sv,  "acc +19"sv,  "jmp +253"sv, "acc +19"sv,
+        "jmp +345"sv, "acc -17"sv,  "acc +39"sv,  "jmp +1"sv,   "jmp +133"sv, "jmp +268"sv, "acc -14"sv,  "acc -16"sv,
+        "acc +45"sv,  "jmp +373"sv, "jmp +116"sv, "jmp +245"sv, "acc -19"sv,  "acc +32"sv,  "jmp -22"sv,  "jmp +105"sv,
+        "acc -9"sv,   "acc +27"sv,  "acc +16"sv,  "nop +397"sv, "jmp +110"sv, "acc +13"sv,  "acc -10"sv,  "acc +10"sv,
+        "jmp -69"sv,  "jmp +29"sv,  "jmp +94"sv,  "acc +38"sv,  "acc +49"sv,  "acc +40"sv,  "jmp +261"sv, "acc +43"sv,
+        "acc -13"sv,  "jmp +214"sv, "acc -10"sv,  "nop -80"sv,  "acc +15"sv,  "jmp +228"sv, "acc +0"sv,   "jmp +275"sv,
+        "jmp -69"sv,  "acc +46"sv,  "acc +4"sv,   "acc +24"sv,  "acc +6"sv,   "jmp +279"sv, "acc -9"sv,   "nop +281"sv,
+        "jmp +286"sv, "acc -4"sv,   "jmp +306"sv, "jmp +342"sv, "acc -14"sv,  "jmp +357"sv, "acc -10"sv,  "nop -9"sv,
+        "acc +10"sv,  "acc +40"sv,  "jmp +427"sv, "acc +0"sv,   "acc +32"sv,  "jmp +405"sv, "acc +45"sv,  "acc +34"sv,
+        "nop +281"sv, "acc +34"sv,  "jmp +394"sv, "acc +41"sv,  "acc +20"sv,  "jmp -98"sv,  "jmp -60"sv,  "acc -3"sv,
+        "acc +17"sv,  "jmp +19"sv,  "acc +6"sv,   "nop +168"sv, "acc +35"sv,  "jmp -141"sv, "nop -62"sv,  "acc +8"sv,
+        "acc +16"sv,  "jmp +117"sv, "acc +34"sv,  "acc -8"sv,   "acc +35"sv,  "acc -15"sv,  "jmp +85"sv,  "acc +2"sv,
+        "acc -9"sv,   "acc -4"sv,   "acc +49"sv,  "jmp +394"sv, "nop -145"sv, "acc +47"sv,  "jmp +16"sv,  "acc +10"sv,
+        "acc +0"sv,   "jmp +87"sv,  "nop -88"sv,  "acc -9"sv,   "acc -16"sv,  "acc +45"sv,  "jmp +374"sv, "acc +28"sv,
+        "acc +38"sv,  "jmp -139"sv, "acc -13"sv,  "acc +13"sv,  "jmp +143"sv, "jmp -135"sv, "jmp -4"sv,   "jmp -130"sv,
+        "acc +5"sv,   "nop -196"sv, "jmp +48"sv,  "acc -10"sv,  "jmp +149"sv, "acc -14"sv,  "jmp +210"sv, "jmp +325"sv,
+        "acc +45"sv,  "acc +11"sv,  "acc -15"sv,  "jmp +97"sv,  "nop +107"sv, "jmp -98"sv,  "acc -7"sv,   "acc -18"sv,
+        "jmp -181"sv, "jmp +122"sv, "acc -15"sv,  "jmp -49"sv,  "jmp +1"sv,   "acc +36"sv,  "acc -10"sv,  "jmp +1"sv,
+        "jmp +62"sv,  "acc +39"sv,  "jmp +105"sv, "acc +19"sv,  "nop +253"sv, "acc -11"sv,  "acc -9"sv,   "jmp +77"sv,
+        "acc +50"sv,  "acc +3"sv,   "acc -18"sv,  "acc +17"sv,  "jmp +56"sv,  "nop -209"sv, "nop +272"sv, "acc -13"sv,
+        "jmp +270"sv, "nop +229"sv, "acc +12"sv,  "jmp +1"sv,   "jmp -44"sv,  "acc -13"sv,  "jmp +1"sv,   "nop +275"sv,
+        "acc +45"sv,  "jmp -254"sv, "acc -2"sv,   "acc -2"sv,   "nop -148"sv, "jmp -91"sv,  "acc +2"sv,   "nop -30"sv,
+        "acc -8"sv,   "acc +0"sv,   "jmp -96"sv,  "nop +1"sv,   "jmp -74"sv,  "acc -19"sv,  "acc +10"sv,  "acc +26"sv,
+        "acc +30"sv,  "jmp -280"sv, "acc +46"sv,  "acc -2"sv,   "acc -8"sv,   "jmp +277"sv, "acc -9"sv,   "jmp +205"sv,
+        "acc -13"sv,  "acc +10"sv,  "jmp +1"sv,   "jmp +219"sv, "acc +38"sv,  "acc +24"sv,  "acc +11"sv,  "jmp -129"sv,
+        "jmp -86"sv,  "jmp +1"sv,   "acc +0"sv,   "jmp +1"sv,   "acc +46"sv,  "jmp -135"sv, "nop +218"sv, "acc -14"sv,
+        "acc +0"sv,   "jmp +55"sv,  "acc +24"sv,  "jmp +213"sv, "acc +19"sv,  "acc +16"sv,  "jmp -266"sv, "acc +24"sv,
+        "acc +15"sv,  "jmp +158"sv, "acc +3"sv,   "jmp -94"sv,  "acc +16"sv,  "acc +24"sv,  "acc +42"sv,  "jmp +201"sv,
+        "jmp -32"sv,  "acc +34"sv,  "nop -321"sv, "jmp +212"sv, "acc +12"sv,  "acc +41"sv,  "jmp -212"sv, "acc +32"sv,
+        "jmp +236"sv, "acc +45"sv,  "nop +253"sv, "jmp +129"sv, "nop -3"sv,   "acc +38"sv,  "jmp +35"sv,  "acc -15"sv,
+        "acc +21"sv,  "acc -7"sv,   "acc -6"sv,   "jmp +46"sv,  "jmp -5"sv,   "acc +5"sv,   "acc +4"sv,   "acc +42"sv,
+        "jmp +142"sv, "acc +36"sv,  "jmp -180"sv, "acc +23"sv,  "jmp -46"sv,  "acc +12"sv,  "jmp +5"sv,   "jmp +201"sv,
+        "acc +36"sv,  "acc -14"sv,  "jmp -30"sv,  "jmp -338"sv, "acc +12"sv,  "acc +34"sv,  "acc +2"sv,   "jmp -310"sv,
+        "acc -15"sv,  "jmp -104"sv, "jmp -148"sv, "jmp +108"sv, "acc +37"sv,  "acc -6"sv,   "acc +0"sv,   "acc +13"sv,
+        "jmp -324"sv, "acc +49"sv,  "acc +37"sv,  "acc +37"sv,  "jmp +131"sv, "acc +2"sv,   "acc +30"sv,  "acc +12"sv,
+        "jmp -238"sv, "acc -12"sv,  "acc +4"sv,   "jmp -155"sv, "acc +45"sv,  "acc -10"sv,  "nop -168"sv, "nop +114"sv,
+        "jmp +113"sv, "acc +15"sv,  "acc +41"sv,  "acc +6"sv,   "acc +34"sv,  "jmp +25"sv,  "acc +46"sv,  "acc +28"sv,
+        "acc +44"sv,  "acc -3"sv,   "jmp -70"sv,  "acc +2"sv,   "acc +37"sv,  "jmp -101"sv, "jmp +51"sv,  "acc +45"sv,
+        "nop -399"sv, "nop -60"sv,  "jmp -391"sv, "acc +41"sv,  "jmp -57"sv,  "jmp -54"sv,  "acc +46"sv,  "jmp +90"sv,
+        "acc +6"sv,   "jmp +83"sv,  "acc +37"sv,  "jmp +1"sv,   "acc -6"sv,   "jmp -189"sv, "acc +0"sv,   "jmp -241"sv,
+        "acc +35"sv,  "jmp -396"sv, "acc +35"sv,  "acc +42"sv,  "acc +37"sv,  "acc +20"sv,  "jmp -81"sv,  "nop +74"sv,
+        "acc +41"sv,  "acc +23"sv,  "jmp +1"sv,   "jmp -349"sv, "jmp -232"sv, "acc +37"sv,  "acc +24"sv,  "jmp +121"sv,
+        "jmp -144"sv, "acc +35"sv,  "acc +39"sv,  "acc -12"sv,  "acc +14"sv,  "jmp -113"sv, "acc +2"sv,   "acc +29"sv,
+        "acc -6"sv,   "acc +0"sv,   "jmp -326"sv, "jmp -426"sv, "acc +18"sv,  "acc +39"sv,  "acc +22"sv,  "jmp +79"sv,
+        "jmp +23"sv,  "acc -17"sv,  "nop +42"sv,  "acc -8"sv,   "jmp -47"sv,  "acc -12"sv,  "jmp -276"sv, "jmp -126"sv,
+        "acc +20"sv,  "acc +3"sv,   "acc +41"sv,  "jmp -31"sv,  "acc -1"sv,   "jmp +1"sv,   "jmp -241"sv, "acc +9"sv,
+        "acc +12"sv,  "acc +0"sv,   "jmp +26"sv,  "acc +30"sv,  "nop +46"sv,  "jmp -134"sv, "jmp -361"sv, "acc +50"sv,
+        "nop -1"sv,   "nop -225"sv, "jmp -226"sv, "acc +42"sv,  "acc +0"sv,   "jmp +1"sv,   "jmp -170"sv, "acc +14"sv,
+        "acc +19"sv,  "jmp -199"sv, "nop +15"sv,  "acc -11"sv,  "acc +20"sv,  "jmp -161"sv, "nop -348"sv, "acc -6"sv,
+        "acc +49"sv,  "jmp -468"sv, "acc +11"sv,  "jmp -413"sv, "acc -11"sv,  "acc -1"sv,   "acc +45"sv,  "jmp -181"sv,
+        "jmp -380"sv, "nop -128"sv, "acc +40"sv,  "jmp -179"sv, "acc -9"sv,   "acc +24"sv,  "jmp -358"sv, "acc +50"sv,
+        "acc +13"sv,  "acc -15"sv,  "jmp +14"sv,  "acc +4"sv,   "acc +12"sv,  "jmp -365"sv, "nop -269"sv, "jmp -443"sv,
+        "nop -224"sv, "jmp -108"sv, "acc +46"sv,  "acc -11"sv,  "jmp -515"sv, "acc -8"sv,   "nop -284"sv, "jmp -444"sv,
+        "acc +15"sv,  "nop -11"sv,  "jmp -288"sv, "acc +28"sv,  "acc +35"sv,  "jmp -416"sv, "acc +27"sv,  "acc -8"sv,
+        "acc -10"sv,  "acc +0"sv,   "jmp -167"sv, "acc -9"sv,   "acc +42"sv,  "acc +20"sv,  "jmp -63"sv,  "jmp -107"sv,
+        "acc -6"sv,   "jmp -335"sv, "jmp -460"sv, "acc -2"sv,   "jmp -420"sv, "acc +27"sv,  "acc +6"sv,   "jmp -458"sv,
+        "acc +31"sv,  "nop +19"sv,  "nop -396"sv, "jmp -479"sv, "nop -234"sv, "acc +42"sv,  "jmp -142"sv, "jmp -511"sv,
+        "nop +28"sv,  "acc -9"sv,   "acc +36"sv,  "acc +38"sv,  "jmp +27"sv,  "acc -3"sv,   "acc +9"sv,   "acc -19"sv,
+        "acc +3"sv,   "jmp -133"sv, "jmp -503"sv, "jmp -267"sv, "acc +40"sv,  "acc +41"sv,  "acc +13"sv,  "nop -492"sv,
+        "jmp -327"sv, "jmp -339"sv, "acc +17"sv,  "acc +4"sv,   "acc +45"sv,  "acc +13"sv,  "jmp -419"sv, "acc +31"sv,
+        "acc +0"sv,   "acc +37"sv,  "acc -13"sv,  "jmp -210"sv, "jmp -517"sv, "acc -15"sv,  "jmp -47"sv,  "acc -16"sv,
+        "jmp -129"sv, "acc +16"sv,  "nop -455"sv, "nop -263"sv, "jmp -74"sv,  "acc +5"sv,   "acc +20"sv,  "acc +45"sv,
+        "acc +23"sv,  "jmp -490"sv, "jmp -53"sv,  "acc +40"sv,  "jmp +1"sv,   "acc -14"sv,  "acc -1"sv,   "jmp +1"sv,
+
+    };
+}
