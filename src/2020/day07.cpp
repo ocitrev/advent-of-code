@@ -124,7 +124,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/7
-    fmt::print("Day 07: Handy Haversacks\n");
+    fmt::print("Day 7: Handy Haversacks\n");
 
     Example();
 
