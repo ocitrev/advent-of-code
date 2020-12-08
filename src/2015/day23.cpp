@@ -129,5 +129,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(247 == part1);
+    Assert(247 == part2);
 }
