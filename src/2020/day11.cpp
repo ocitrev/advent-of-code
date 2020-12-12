@@ -93,7 +93,7 @@ struct Grid
                 if (c == '.')
                     continue;
 
-                return c == '#'? 1 : 0;
+                return c == '#' ? 1 : 0;
             }
 
             return 0;
