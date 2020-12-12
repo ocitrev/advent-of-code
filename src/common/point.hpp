@@ -29,10 +29,11 @@ struct Point
         return std::tie(a.x, a.y) != std::tie(b.x, b.y);
     }
 
-    Point operator+(Point const other) const
+    [[nodiscard]] Point operator+(Point const other) const
     {
         Point p = *this;
-        return p += other;
+        p += other;
+        return p;
     }
 
     Point &operator+=(Point const other)
@@ -42,10 +43,11 @@ struct Point
         return *this;
     }
 
-    Point operator-(Point const other) const
+    [[nodiscard]] Point operator-(Point const other) const
     {
         Point p = *this;
-        return p -= other;
+        p -= other;
+        return p;
     }
 
     Point &operator-=(Point const other)
@@ -53,6 +55,20 @@ struct Point
         x -= other.x;
         y -= other.y;
         return *this;
+    }
+
+    Point &operator*=(int magnitude)
+    {
+        x *= magnitude;
+        y *= magnitude;
+        return *this;
+    }
+
+    [[nodiscard]] Point operator*(int magnitude) const
+    {
+        Point p = *this;
+        p *= magnitude;
+        return p;
     }
 
     double Normalize()
@@ -77,6 +93,24 @@ struct Point
     [[nodiscard]] int Distance() const
     {
         return std::abs(x) + std::abs(y);
+    }
+
+    void Rotate90Left()
+    {
+        y = -y;
+        std::swap(x, y);
+    }
+
+    void Rotate90Right()
+    {
+        x = -x;
+        std::swap(x, y);
+    }
+
+    void Rotate180()
+    {
+        x = -x;
+        y = -y;
     }
 };
 
