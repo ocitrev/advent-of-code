@@ -47,7 +47,7 @@ llong Part2(gsl::span<llong const> numbers, llong weak)
 
         while (true)
         {
-            if (weak == std::accumulate(first, last, llong{0}))
+            if (weak == std::accumulate(first, last, 0LL))
             {
                 auto const [min, max] = std::minmax_element(first, last);
                 return *min + *max;

@@ -5,7 +5,7 @@
 namespace example
 {
     using namespace std::string_view_literals;
-    static constexpr std::array instructions{
+    [[maybe_unused]] static constexpr std::array instructions{
         "nop +0"sv, "acc +1"sv, "jmp +4"sv, "acc +3"sv, "jmp -3"sv, "acc -99"sv, "acc +1"sv, "jmp -4"sv, "acc +6"sv,
     };
 }
