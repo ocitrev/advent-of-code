@@ -10,8 +10,8 @@ struct Ship
     Point direction{1, 0};
     Point position{};
 
-    Ship(bool part2 = false)
-        : part2(part2)
+    Ship(bool part2_ = false)
+        : part2(part2_)
     {
         if (part2)
         {

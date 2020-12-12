@@ -5,7 +5,9 @@
 #include <gsl/gsl>
 #include <vector>
 
-int64_t FindOutlier(gsl::span<int64_t const> numbers, int preambleLength)
+using llong = long long;
+
+llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
 {
     auto preambleFirst = begin(numbers);
     auto preambleLast = preambleFirst + preambleLength;
@@ -33,7 +35,7 @@ int64_t FindOutlier(gsl::span<int64_t const> numbers, int preambleLength)
     return 0;
 }
 
-int64_t Part2(gsl::span<int64_t const> numbers, int64_t weak)
+llong Part2(gsl::span<llong const> numbers, llong weak)
 {
     int len = 1;
     int const total = static_cast<int>(numbers.size());
@@ -45,7 +47,7 @@ int64_t Part2(gsl::span<int64_t const> numbers, int64_t weak)
 
         while (true)
         {
-            if (weak == std::accumulate(first, last, int64_t{0}))
+            if (weak == std::accumulate(first, last, llong{0}))
             {
                 auto const [min, max] = std::minmax_element(first, last);
                 return *min + *max;
