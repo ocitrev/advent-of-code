@@ -15,7 +15,7 @@ struct GOL
 
     [[nodiscard]] std::size_t GetOffset(int x, int y) const
     {
-        return static_cast<std::size_t>(y * height + x);
+        return static_cast<std::size_t>(y * width + x);
     }
 
     [[nodiscard]] bool IsCorner(int x, int y) const
