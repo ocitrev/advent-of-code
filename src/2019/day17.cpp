@@ -154,7 +154,7 @@ void RenderMap(Map const &map)
     }
 }
 
-constexpr Pos GetDir(char robot)
+static Pos GetDir(char robot)
 {
     switch (robot)
     {
@@ -171,7 +171,7 @@ constexpr Pos GetDir(char robot)
     throw std::invalid_argument{"Invalid robot"};
 }
 
-constexpr std::array<std::pair<Pos, char>, 2> GetOtherDirs(Pos const &pos)
+static std::array<std::pair<Pos, char>, 2> GetOtherDirs(Pos const &pos)
 {
     if (pos == West)
         return {std::make_pair(South, 'L'), std::make_pair(North, 'R')};
