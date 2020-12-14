@@ -15,7 +15,7 @@ int Part1()
             continue;
 
         int const id = svtoi(idText);
-        
+
         if (id == 0)
             continue;
 

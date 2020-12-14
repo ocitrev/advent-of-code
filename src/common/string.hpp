@@ -162,9 +162,10 @@ inline std::string rtrim_copy_if(std::string s, PredicateT &&pred)
     return s;
 }
 
-inline int svtoi(std::string_view text)
+template <typename IntT = int>
+inline IntT svtoi(std::string_view text)
 {
-    int result = 0;
+    IntT result = 0;
     // NOLINTNEXTLINE cppcoreguidelines-pro-bounds-pointer-arithmetic
     std::from_chars(text.data(), text.data() + text.size(), result);
     return result;
