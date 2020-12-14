@@ -15,6 +15,10 @@ int Part1()
             continue;
 
         int const id = svtoi(idText);
+        
+        if (id == 0)
+            continue;
+
         int const start = input::earliest - (input::earliest % id) + id;
 
         if (min == 0)
