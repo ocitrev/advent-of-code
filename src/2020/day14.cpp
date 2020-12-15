@@ -49,7 +49,7 @@ struct VM
         {
             auto const address = svtoi<size_t>(instruction.substr(4));
             auto const value = svtoi<uint64_t>(instruction.substr(instruction.find('=') + 2));
-            auto const bits = std::bitset<kNbBits>{value} & maskValue | maskOnes;
+            auto const bits = (std::bitset<kNbBits>{value} & maskValue) | maskOnes;
             memory[address] = bits.to_ullong();
         }
     }

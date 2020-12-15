@@ -5,7 +5,7 @@
 namespace example
 {
     using namespace std::string_view_literals;
-    static constexpr std::array instructions{
+    [[maybe_unused]] static constexpr std::array instructions{
         "mask = 000000000000000000000000000000X1001X"sv,
         "mem[42] = 100"sv,
         "mask = 00000000000000000000000000000000X0XX"sv,
