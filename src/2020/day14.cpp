@@ -10,9 +10,10 @@
 
 struct VM
 {
+    inline static constexpr size_t kNbBits = 36;
     std::map<uint64_t, uint64_t> memory;
-    std::bitset<36> maskOnes;
-    std::bitset<36> maskValue{0xffffffffffffffff};
+    std::bitset<kNbBits> maskOnes;
+    std::bitset<kNbBits> maskValue{0xffffffffffffffff};
     std::string_view lastMask;
 
     void ParseMask(std::string_view mask)
@@ -34,8 +35,8 @@ struct VM
                 c = '0';
         }
 
-        maskValue = std::bitset<36>(mv);
-        maskOnes = std::bitset<36>(mo);
+        maskValue = std::bitset<kNbBits>(mv);
+        maskOnes = std::bitset<kNbBits>(mo);
     }
 
     void RunInstruction(std::string_view instruction)
@@ -46,9 +47,9 @@ struct VM
         }
         else if (starts_with(instruction, "mem"))
         {
-            auto address = svtoi<size_t>(instruction.substr(4));
-            auto value = svtoi<uint64_t>(instruction.substr(instruction.find('=') + 2));
-            auto const bits = std::bitset<36>{value} & maskValue | maskOnes;
+            auto const address = svtoi<size_t>(instruction.substr(4));
+            auto const value = svtoi<uint64_t>(instruction.substr(instruction.find('=') + 2));
+            auto const bits = std::bitset<kNbBits>{value} & maskValue | maskOnes;
             memory[address] = bits.to_ullong();
         }
     }
@@ -61,8 +62,8 @@ struct VM
         }
         else if (starts_with(instruction, "mem"))
         {
-            auto address = svtoi<uint64_t>(instruction.substr(4));
-            auto value = svtoi<uint64_t>(instruction.substr(instruction.find('=') + 2));
+            auto const address = svtoi<uint64_t>(instruction.substr(4));
+            auto const value = svtoi<uint64_t>(instruction.substr(instruction.find('=') + 2));
 
             for (auto m : GenerateAllBits(lastMask, address))
             {
@@ -83,7 +84,7 @@ struct VM
         std::vector<uint64_t> masks;
         auto const bitCount = static_cast<int>(std::count(begin(mask), end(mask), 'X'));
         int const max = 1 << bitCount;
-        std::string initialBits = std::bitset<36>{initial}.to_string();
+        std::string const initialBits = std::bitset<kNbBits>{initial}.to_string();
 
         for (int n = 0; n < max; ++n)
         {
@@ -92,7 +93,7 @@ struct VM
             std::string bitMask(mask);
             auto iter = begin(bits);
 
-            for (size_t bit = 0; bit < 36; ++bit)
+            for (size_t bit = 0; bit < kNbBits; ++bit)
             {
                 auto &c = bitMask[bit];
                 if (c == 'X')
@@ -101,7 +102,7 @@ struct VM
                     c = '1';
             }
 
-            masks.emplace_back(std::bitset<36>{bitMask}.to_ullong());
+            masks.emplace_back(std::bitset<kNbBits>{bitMask}.to_ullong());
         }
 
         return masks;
