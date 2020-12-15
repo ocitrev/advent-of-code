@@ -7,10 +7,11 @@
 
 struct Game
 {
-    std::vector<std::pair<unsigned int, unsigned int>> turns;
-    std::vector<unsigned int> spoken;
-    unsigned int last = 0;
-    unsigned int turnNumber = 0;
+    using Int = std::uint_fast32_t;
+    std::vector<std::pair<Int, Int>> turns;
+    std::vector<Int> spoken;
+    Int last = 0;
+    Int turnNumber = 0;
 
     Game(std::initializer_list<int> nums)
         : turns(1000)
@@ -18,11 +19,11 @@ struct Game
     {
         for (int n : nums)
         {
-            Speak(static_cast<unsigned int>(n));
+            Speak(static_cast<Int>(n));
         }
     }
 
-    void Speak(unsigned int num)
+    void Speak(Int num)
     {
         auto &p = turns[num];
         p.second = std::exchange(p.first, ++turnNumber);
@@ -30,14 +31,14 @@ struct Game
         last = num;
     }
 
-    unsigned int Turn()
+    Int Turn()
     {
-        unsigned int n = spoken[last] == 1 ? 0 : turnNumber - turns[last].second;
+        Int n = spoken[last] == 1 ? 0 : turnNumber - turns[last].second;
         Speak(n);
         return n;
     }
 
-    unsigned int GetTurn(unsigned int turn)
+    Int GetTurn(Int turn)
     {
         turns.resize(turn);
         spoken.resize(turn);
