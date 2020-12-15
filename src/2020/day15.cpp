@@ -7,10 +7,10 @@
 
 struct Game
 {
-    std::vector<std::pair<int, int>> turns;
-    std::vector<int> spoken;
-    int last = 0;
-    int turnNumber = 0;
+    std::vector<std::pair<unsigned int, unsigned int>> turns;
+    std::vector<unsigned int> spoken;
+    unsigned int last = 0;
+    unsigned int turnNumber = 0;
 
     Game(std::initializer_list<int> nums)
         : turns(1000)
@@ -18,29 +18,29 @@ struct Game
     {
         for (int n : nums)
         {
-            Speak(n);
+            Speak(static_cast<unsigned int>(n));
         }
     }
 
-    void Speak(int num)
+    void Speak(unsigned int num)
     {
-        auto &p = turns[static_cast<size_t>(num)];
+        auto &p = turns[num];
         p.second = std::exchange(p.first, ++turnNumber);
-        ++spoken[static_cast<size_t>(num)];
+        ++spoken[num];
         last = num;
     }
 
-    int Turn()
+    unsigned int Turn()
     {
-        int n = spoken[static_cast<size_t>(last)] == 1 ? 0 : turnNumber - turns[static_cast<size_t>(last)].second;
+        unsigned int n = spoken[last] == 1 ? 0 : turnNumber - turns[last].second;
         Speak(n);
         return n;
     }
 
-    int GetTurn(int turn)
+    unsigned int GetTurn(unsigned int turn)
     {
-        turns.resize(static_cast<size_t>(turn));
-        spoken.resize(static_cast<size_t>(turn));
+        turns.resize(turn);
+        spoken.resize(turn);
 
         while (turnNumber < turn - 1)
         {
