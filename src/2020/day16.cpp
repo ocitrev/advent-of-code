@@ -22,11 +22,11 @@ struct Rule
         if (not std::regex_match(begin(text), end(text), m, re))
             throw std::runtime_error{"Invalid rule text"};
 
-        name = std::string_view{m[1].first, m[1].second};
-        range1.first = svtoi({m[2].first, m[2].second});
-        range1.second = svtoi({m[3].first, m[3].second});
-        range2.first = svtoi({m[4].first, m[4].second});
-        range2.second = svtoi({m[5].first, m[5].second});
+        name = std::string_view{&*m[1].first, static_cast<size_t>(m[1].length())};
+        range1.first = svtoi({&*m[2].first, static_cast<size_t>(m[2].length())});
+        range1.second = svtoi({&*m[3].first, static_cast<size_t>(m[3].length())});
+        range2.first = svtoi({&*m[4].first, static_cast<size_t>(m[4].length())});
+        range2.second = svtoi({&*m[5].first, static_cast<size_t>(m[5].length())});
     }
 
     [[nodiscard]] bool IsValid(int n) const
