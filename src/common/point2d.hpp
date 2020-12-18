@@ -114,23 +114,20 @@ struct Point2d
     }
 };
 
-namespace std
+template <>
+struct std::hash<Point2d>
 {
-    template <>
-    struct hash<::Point2d>
+    template <class T>
+    static inline void hash_combine(std::size_t &seed, T const &v)
     {
-        template <class T>
-        static inline void hash_combine(std::size_t &seed, T const &v)
-        {
-            seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        }
+        seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    }
 
-        size_t operator()(::Point2d const &p) const noexcept
-        {
-            size_t hash = 0;
-            hash_combine(hash, p.x);
-            hash_combine(hash, p.y);
-            return hash;
-        }
-    };
-}
+    std::size_t operator()(Point2d const &p) const noexcept
+    {
+        std::size_t value = 0;
+        hash_combine(value, p.x);
+        hash_combine(value, p.y);
+        return value;
+    }
+};

@@ -99,25 +99,22 @@ struct Point4d
     }
 };
 
-namespace std
+template <>
+struct std::hash<Point4d>
 {
-    template <>
-    struct hash<::Point4d>
+    template <class T>
+    static inline void hash_combine(std::size_t &seed, T const &v)
     {
-        template <class T>
-        static inline void hash_combine(std::size_t &seed, T const &v)
-        {
-            seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        }
+        seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    }
 
-        size_t operator()(::Point4d const &p) const noexcept
-        {
-            size_t hash = 0;
-            hash_combine(hash, p.x);
-            hash_combine(hash, p.y);
-            hash_combine(hash, p.z);
-            hash_combine(hash, p.w);
-            return hash;
-        }
-    };
-}
+    std::size_t operator()(Point4d const &p) const noexcept
+    {
+        std::size_t value = 0;
+        hash_combine(value, p.x);
+        hash_combine(value, p.y);
+        hash_combine(value, p.z);
+        hash_combine(value, p.w);
+        return value;
+    }
+};
