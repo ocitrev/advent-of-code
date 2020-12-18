@@ -80,6 +80,7 @@ add_library(common STATIC
   src/common/intcode.hpp
   src/common/point2d.hpp
   src/common/point3d.hpp
+  src/common/point4d.hpp
   src/common/string.cpp
   src/common/string.hpp
   src/common/terminal.cpp
@@ -182,6 +183,7 @@ add_aoc(2020 13)
 add_aoc(2020 14)
 add_aoc(2020 15)
 add_aoc(2020 16)
+add_aoc(2020 17)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
