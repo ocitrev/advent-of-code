@@ -1,7 +1,7 @@
 #include "day10.hpp"
 #include "../common/assert.hpp"
 #include "../common/combinations.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
 #include <algorithm>
@@ -18,9 +18,9 @@ struct Result
 struct Ray
 {
     double len;
-    Point pos;
+    Point2d pos;
 
-    Ray(double len_, Point pos_)
+    Ray(double len_, Point2d pos_)
         : len(len_)
         , pos(pos_)
     {
@@ -29,8 +29,8 @@ struct Ray
 
 struct Asteroid
 {
-    Point pos;
-    std::map<Point, std::vector<Ray>> rays;
+    Point2d pos;
+    std::map<Point2d, std::vector<Ray>> rays;
 
     Asteroid(int x, int y)
         : pos{x, y}
@@ -39,7 +39,7 @@ struct Asteroid
 
     void AddRay(Asteroid const &other)
     {
-        Point ray = other.pos - pos;
+        Point2d ray = other.pos - pos;
         double len = ray.Normalize();
         rays[ray].emplace_back(len, other.pos);
     }
@@ -87,7 +87,7 @@ struct Asteroid
     return *maxIt;
 }
 
-std::pair<int, Point> GetBestFromMap(std::string_view map)
+std::pair<int, Point2d> GetBestFromMap(std::string_view map)
 {
     auto best = GetAsteroidWithMostRays(ParseMap(map));
     return {static_cast<int>(best.rays.size()), best.pos};
@@ -97,11 +97,11 @@ int main()
 {
     fmt::print("Day 10: Monitoring Station\n");
 
-    Assert(std::make_pair(8, Point{3, 4}) == GetBestFromMap(example::map1));
-    Assert(std::make_pair(33, Point{5, 8}) == GetBestFromMap(example::map2));
-    Assert(std::make_pair(35, Point{1, 2}) == GetBestFromMap(example::map3));
-    Assert(std::make_pair(41, Point{6, 3}) == GetBestFromMap(example::map4));
-    Assert(std::make_pair(210, Point{11, 13}) == GetBestFromMap(example::map5));
+    Assert(std::make_pair(8, Point2d{3, 4}) == GetBestFromMap(example::map1));
+    Assert(std::make_pair(33, Point2d{5, 8}) == GetBestFromMap(example::map2));
+    Assert(std::make_pair(35, Point2d{1, 2}) == GetBestFromMap(example::map3));
+    Assert(std::make_pair(41, Point2d{6, 3}) == GetBestFromMap(example::map4));
+    Assert(std::make_pair(210, Point2d{11, 13}) == GetBestFromMap(example::map5));
 
     auto map = ParseMap(input::map);
 
@@ -109,7 +109,7 @@ int main()
     fmt::print("  Part1: {}\n", best.rays.size());
     Assert(299 == best.rays.size());
 
-    std::vector<std::pair<Point, Ray>> r;
+    std::vector<std::pair<Point2d, Ray>> r;
 
     for (auto const &elem : best.rays)
     {

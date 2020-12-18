@@ -1,11 +1,11 @@
 #include "day06.hpp"
 #include "../common/assert.hpp"
-#include "../common/point.hpp"
 #include "../common/string.hpp"
 #include <array>
 #include <charconv>
 #include <fmt/format.h>
 #include <functional>
+#include <numeric>
 #include <vector>
 
 struct Rect

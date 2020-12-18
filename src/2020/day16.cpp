@@ -116,12 +116,12 @@ int64_t Part2()
         {
             if (rule.possibleIndex.size() != 1)
                 continue;
-            
+
             int const toRemove = *rule.possibleIndex.begin();
 
             if (done.contains(toRemove))
                 continue;
-            
+
             done.insert(toRemove);
 
             for (auto &&r : rules)

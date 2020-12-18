@@ -78,7 +78,8 @@ add_library(common STATIC
   src/common/combinations.hpp
   src/common/intcode.cpp
   src/common/intcode.hpp
-  src/common/point.hpp
+  src/common/point2d.hpp
+  src/common/point3d.hpp
   src/common/string.cpp
   src/common/string.hpp
   src/common/terminal.cpp

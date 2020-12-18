@@ -1,19 +1,19 @@
 #include "day03.hpp"
 #include "../common/assert.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include <fmt/format.h>
 #include <map>
 #include <vector>
 
 class HouseVisitor
 {
-    std::map<Point, int> visitedHouses;
+    std::map<Point2d, int> visitedHouses;
     std::size_t currentPosition = 0;
-    std::vector<Point> positions;
+    std::vector<Point2d> positions;
 
-    Point Move(char direction)
+    Point2d Move(char direction)
     {
-        Point &pos = positions[currentPosition];
+        Point2d &pos = positions[currentPosition];
         ++currentPosition;
 
         if (currentPosition == positions.size())
@@ -50,7 +50,7 @@ public:
             p = {};
 
         visitedHouses.clear();
-        visitedHouses[Point{0, 0}] += static_cast<int>(positions.size());
+        visitedHouses[Point2d{0, 0}] += static_cast<int>(positions.size());
 
         for (char direction : path)
         {

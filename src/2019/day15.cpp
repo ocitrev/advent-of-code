@@ -1,7 +1,7 @@
 #include "day15.hpp"
 #include "../common/assert.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/terminal.hpp"
 #include <array>
 #include <fmt/format.h>
@@ -19,10 +19,10 @@ static constexpr std::string_view kStart{"S"};
 struct Robot
 {
     Intcode cpu;
-    Point pos;
-    std::map<Point, std::string_view> grid;
-    static constexpr std::array<Point, 4> dirs{{{0, -1}, {0, +1}, {-1, 0}, {+1, 0}}};
-    std::optional<Point> oxygen;
+    Point2d pos;
+    std::map<Point2d, std::string_view> grid;
+    static constexpr std::array<Point2d, 4> dirs{{{0, -1}, {0, +1}, {-1, 0}, {+1, 0}}};
+    std::optional<Point2d> oxygen;
 
     Robot()
         : cpu(input::code)
@@ -34,15 +34,15 @@ struct Robot
         return std::make_tuple(cpu.Backup(), pos);
     }
 
-    void Restore(std::tuple<Intcode::State, Point> const &backup)
+    void Restore(std::tuple<Intcode::State, Point2d> const &backup)
     {
         grid[pos] = kFloor;
-        pos = std::get<Point>(backup);
+        pos = std::get<Point2d>(backup);
         grid[pos] = kDroid;
         cpu.Restore(std::get<Intcode::State>(backup));
     }
 
-    [[nodiscard]] Point GetNextPos(int dir) const
+    [[nodiscard]] Point2d GetNextPos(int dir) const
     {
         return pos + dirs.at(static_cast<std::size_t>(dir));
     }
@@ -54,7 +54,7 @@ struct Robot
         });
 
         Assert(r.has_value());
-        Point p = GetNextPos(dir);
+        Point2d p = GetNextPos(dir);
 
         if (*r != 0)
         {
@@ -70,10 +70,10 @@ struct Robot
         return *r;
     }
 
-    [[nodiscard]] std::pair<Point, Point> GetBounds() const
+    [[nodiscard]] std::pair<Point2d, Point2d> GetBounds() const
     {
-        std::pair<Point, Point> bounds{{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()},
-                                       {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
+        std::pair<Point2d, Point2d> bounds{{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()},
+                                           {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
 
         for (auto const &elem : grid)
         {
@@ -129,7 +129,7 @@ struct Robot
         }
     }
 
-    [[nodiscard]] std::string_view GetTile(Point p) const
+    [[nodiscard]] std::string_view GetTile(Point2d p) const
     {
         auto iter = grid.find(p);
         if (iter != end(grid))
@@ -191,8 +191,8 @@ struct Robot
         }
     }
 
-    bool RecursiveSolve(Point p, std::set<Point> &visited, std::vector<Point> &path,
-                        std::pair<Point, Point> const &bounds) const
+    bool RecursiveSolve(Point2d p, std::set<Point2d> &visited, std::vector<Point2d> &path,
+                        std::pair<Point2d, Point2d> const &bounds) const
     {
         if (p == *oxygen)
         {
@@ -245,10 +245,10 @@ struct Robot
         return false;
     }
 
-    [[nodiscard]] std::vector<Point> Solve() const
+    [[nodiscard]] std::vector<Point2d> Solve() const
     {
-        std::set<Point> visited;
-        std::vector<Point> path;
+        std::set<Point2d> visited;
+        std::vector<Point2d> path;
         [[maybe_unused]] bool const solved = RecursiveSolve({0, 0}, visited, path, GetBounds());
         Assert(solved);
         return path;
@@ -261,9 +261,9 @@ struct Robot
         });
     }
 
-    std::vector<Point> FindCandidates()
+    std::vector<Point2d> FindCandidates()
     {
-        std::vector<Point> candidates;
+        std::vector<Point2d> candidates;
 
         for (auto const &cell : grid)
         {

@@ -1,7 +1,7 @@
 #include "day11.hpp"
 #include "../common/assert.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/terminal.hpp"
 #include <array>
 #include <fmt/format.h>
@@ -9,10 +9,10 @@
 
 struct Robot
 {
-    Point pos{0, 0};
-    std::map<Point, Int> grid;
-    std::array<Point, 4> dirs = {{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}};
-    Point dir = dirs.front();
+    Point2d pos{0, 0};
+    std::map<Point2d, Int> grid;
+    std::array<Point2d, 4> dirs = {{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}};
+    Point2d dir = dirs.front();
     bool paint = true;
 
     void RotateLeft()
@@ -76,8 +76,8 @@ void Part2()
     robot.grid[{0, 0}] = 1;
     robot.Run();
 
-    Point min;
-    Point max;
+    Point2d min;
+    Point2d max;
 
     for (auto const &elem : robot.grid)
     {

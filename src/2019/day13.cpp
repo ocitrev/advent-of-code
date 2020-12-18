@@ -1,7 +1,7 @@
 #include "day13.hpp"
 #include "../common/assert.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/terminal.hpp"
 #include <array>
 #include <fmt/format.h>
@@ -18,8 +18,8 @@ enum class Tile
 
 void Part1()
 {
-    Point pos;
-    std::map<Point, Tile> grid;
+    Point2d pos;
+    std::map<Point2d, Tile> grid;
 
     auto setX = [&](Int value) {
         pos.x = static_cast<int>(value);
@@ -73,14 +73,14 @@ void Part2(bool render)
     Intcode cpu(input::code);
     cpu.WriteMemory(0, 2);
 
-    Point inputPos;
-    std::map<Point, Tile> grid;
+    Point2d inputPos;
+    std::map<Point2d, Tile> grid;
     Int score = 0;
-    Point ballPos;
-    Point paddlePos;
+    Point2d ballPos;
+    Point2d paddlePos;
     Int nextInput = 0;
-    Point min;
-    Point max;
+    Point2d min;
+    Point2d max;
 
     auto setX = [&](Int value) {
         inputPos.x = static_cast<int>(value);

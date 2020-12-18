@@ -1,21 +1,21 @@
 #include "day12.hpp"
 #include "../common/assert.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/string.hpp"
 #include <fmt/format.h>
 
 struct Ship
 {
     bool part2;
-    Point direction{1, 0};
-    Point position{};
+    Point2d direction{1, 0};
+    Point2d position{};
 
     Ship(bool part2_ = false)
         : part2(part2_)
     {
         if (part2)
         {
-            direction = Point{10, 1};
+            direction = Point2d{10, 1};
         }
     }
 
@@ -56,7 +56,7 @@ struct Ship
         position += direction * n;
     }
 
-    void Move(Point const &dir, int n)
+    void Move(Point2d const &dir, int n)
     {
         if (part2)
         {
@@ -83,16 +83,16 @@ struct Ship
             Move(n);
             break;
         case 'N':
-            Move(Point{0, 1}, n);
+            Move(Point2d{0, 1}, n);
             break;
         case 'S':
-            Move(Point{0, -1}, n);
+            Move(Point2d{0, -1}, n);
             break;
         case 'E':
-            Move(Point{1, 0}, n);
+            Move(Point2d{1, 0}, n);
             break;
         case 'W':
-            Move(Point{-1, 0}, n);
+            Move(Point2d{-1, 0}, n);
             break;
         }
     }

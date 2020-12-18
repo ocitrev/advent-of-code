@@ -4,69 +4,69 @@
 #include <ostream>
 #include <tuple>
 
-struct Point
+struct Point2d
 {
     int x = 0;
     int y = 0;
 
-    friend bool operator<(Point const &a, Point const &b)
+    friend bool operator<(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) < std::tie(b.x, b.y);
     }
 
-    friend bool operator>(Point const &a, Point const &b)
+    friend bool operator>(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) > std::tie(b.x, b.y);
     }
 
-    friend bool operator==(Point const &a, Point const &b)
+    friend bool operator==(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) == std::tie(b.x, b.y);
     }
 
-    friend bool operator!=(Point const &a, Point const &b)
+    friend bool operator!=(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) != std::tie(b.x, b.y);
     }
 
-    [[nodiscard]] Point operator+(Point const other) const
+    [[nodiscard]] Point2d operator+(Point2d const other) const
     {
-        Point p = *this;
+        Point2d p = *this;
         p += other;
         return p;
     }
 
-    Point &operator+=(Point const other)
+    Point2d &operator+=(Point2d const other)
     {
         x += other.x;
         y += other.y;
         return *this;
     }
 
-    [[nodiscard]] Point operator-(Point const other) const
+    [[nodiscard]] Point2d operator-(Point2d const other) const
     {
-        Point p = *this;
+        Point2d p = *this;
         p -= other;
         return p;
     }
 
-    Point &operator-=(Point const other)
+    Point2d &operator-=(Point2d const other)
     {
         x -= other.x;
         y -= other.y;
         return *this;
     }
 
-    Point &operator*=(int magnitude)
+    Point2d &operator*=(int magnitude)
     {
         x *= magnitude;
         y *= magnitude;
         return *this;
     }
 
-    [[nodiscard]] Point operator*(int magnitude) const
+    [[nodiscard]] Point2d operator*(int magnitude) const
     {
-        Point p = *this;
+        Point2d p = *this;
         p *= magnitude;
         return p;
     }
@@ -85,7 +85,7 @@ struct Point
         return std::atan2(y, x);
     }
 
-    friend std::ostream &operator<<(std::ostream &out, Point const &p)
+    friend std::ostream &operator<<(std::ostream &out, Point2d const &p)
     {
         return out << '(' << p.x << ", " << p.y << ')';
     }
@@ -117,13 +117,20 @@ struct Point
 namespace std
 {
     template <>
-    struct hash<::Point>
+    struct hash<::Point2d>
     {
-        size_t operator()(::Point const &p) const noexcept
+        template <class T>
+        static inline void hash_combine(std::size_t &seed, T const &v)
         {
-            auto h1 = hash<int>{}(p.x);
-            auto h2 = hash<int>{}(p.y);
-            return h1 ^ (h2 << 1);
+            seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        }
+
+        size_t operator()(::Point2d const &p) const noexcept
+        {
+            size_t hash = 0;
+            hash_combine(hash, p.x);
+            hash_combine(hash, p.y);
+            return hash;
         }
     };
 }

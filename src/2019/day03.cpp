@@ -1,6 +1,6 @@
 #include "day03.hpp"
 #include "../common/assert.hpp"
-#include "../common/point.hpp"
+#include "../common/point2d.hpp"
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
 #include <algorithm>
@@ -15,7 +15,7 @@ struct Cell
     int length = 0;
 };
 
-using Grid = std::map<Point, Cell>;
+using Grid = std::map<Point2d, Cell>;
 
 struct Result
 {
@@ -28,7 +28,7 @@ struct Result
     }
 };
 
-static Point GetDirection(char action)
+static Point2d GetDirection(char action)
 {
     switch (action)
     {
@@ -45,9 +45,9 @@ static Point GetDirection(char action)
     return {0, 0};
 }
 
-static void Run(std::string_view action, unsigned int mask, Point &pos, int &length, Grid &grid)
+static void Run(std::string_view action, unsigned int mask, Point2d &pos, int &length, Grid &grid)
 {
-    Point dir = GetDirection(action.front());
+    Point2d dir = GetDirection(action.front());
     int dist = svtoi(action.substr(1));
 
     for (int i = 0; i != dist; ++i)
@@ -67,7 +67,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
 
     {
         int length = 0;
-        Point pos;
+        Point2d pos;
         for (auto const &action : Split(wire1, ','))
         {
             Run(action, 0b01, pos, length, grid);
@@ -76,7 +76,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
 
     {
         int length = 0;
-        Point pos;
+        Point2d pos;
         for (auto const &action : Split(wire2, ','))
         {
             Run(action, 0b10, pos, length, grid);
