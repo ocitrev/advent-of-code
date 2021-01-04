@@ -119,7 +119,7 @@ int64_t Part2()
 
             int const toRemove = *rule.possibleIndex.begin();
 
-            if (done.contains(toRemove))
+            if (done.find(toRemove) != end(done))
                 continue;
 
             done.insert(toRemove);
