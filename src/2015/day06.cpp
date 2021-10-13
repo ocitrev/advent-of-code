@@ -175,7 +175,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/6
-    fmt::print("Day 6: Probably a Fire Hazard\n");
+    fmt::print("Day 6, 2015: Probably a Fire Hazard\n");
 
     int const part1 = Part1();
     fmt::print("  Part1: {}\n", part1);

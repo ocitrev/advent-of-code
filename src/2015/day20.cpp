@@ -48,7 +48,7 @@ int Part2(int limit)
 int main()
 {
     // https://adventofcode.com/2015/day/20
-    fmt::print("Day 20: Infinite Elves and Infinite Houses\n");
+    fmt::print("Day 20, 2015: Infinite Elves and Infinite Houses\n");
 
     Assert(2 == Part1(30));
     Assert(3 == Part1(40));

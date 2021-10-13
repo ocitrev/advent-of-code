@@ -138,7 +138,7 @@ std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
 
 int main()
 {
-    fmt::print("Day 16: Flawed Frequency Transmission\n");
+    fmt::print("Day 16, 2019: Flawed Frequency Transmission\n");
 
     Assert("48226158" == Process("12345678", 1));
     Assert("34040438" == Process("12345678", 2));

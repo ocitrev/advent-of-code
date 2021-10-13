@@ -341,7 +341,7 @@ Int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/18
-    fmt::print("Day 18: Operation Order\n");
+    fmt::print("Day 18, 2020: Operation Order\n");
 
     Assert(51 == Eval1("1 + (2 * 3) + (4 * (5 + 6))"));
     Assert(26 == Eval1("2 * 3 + (4 * 5)"));

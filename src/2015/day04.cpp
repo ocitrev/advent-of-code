@@ -27,7 +27,7 @@ static int Mine(std::string const &key, std::string_view start)
 int main()
 {
     // https://adventofcode.com/2015/day/4
-    fmt::print("Day 4: The Ideal Stocking Stuffer\n");
+    fmt::print("Day 4, 2015: The Ideal Stocking Stuffer\n");
 
     int const part1 = Mine(std::string{input::data}, "00000");
     fmt::print("  Part1: {}\n", part1);

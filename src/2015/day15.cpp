@@ -154,7 +154,7 @@ static std::pair<int, int> Run()
 int main()
 {
     // https://adventofcode.com/2015/day/15
-    fmt::print("Day 15: Science for Hungry People\n");
+    fmt::print("Day 15, 2015: Science for Hungry People\n");
 
     Tests();
 

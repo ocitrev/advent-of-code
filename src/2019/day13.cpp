@@ -166,7 +166,7 @@ void Part2(bool render)
 int main()
 {
     bool const isTerminal = IsTerminal(stdout);
-    fmt::print("Day 13: Care Package\n");
+    fmt::print("Day 13, 2019: Care Package\n");
 
     Part1();
 

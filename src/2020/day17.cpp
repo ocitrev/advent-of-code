@@ -234,7 +234,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/17
-    fmt::print("Day 17: Conway Cubes\n");
+    fmt::print("Day 17, 2020: Conway Cubes\n");
 
     Example();
 
@@ -244,4 +244,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
+    Assert(2340 == part1);
 }

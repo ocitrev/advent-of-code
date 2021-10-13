@@ -127,7 +127,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/5
-    fmt::print("Day 5: Doesn't He Have Intern-Elves For This?\n");
+    fmt::print("Day 5, 2015: Doesn't He Have Intern-Elves For This?\n");
 
     Assert(IsNice1("ugknbfddgicrmopn"));
     Assert(IsNice1("aaa"));

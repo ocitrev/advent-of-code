@@ -105,7 +105,7 @@ int FindShortest(std::string_view data, PredicateT &&pred)
 int main()
 {
     // https://adventofcode.com/2015/day/9
-    fmt::print("Day 9: All in a Single Night\n");
+    fmt::print("Day 9, 2015: All in a Single Night\n");
 
     Assert(605 == FindShortest(input::example, std::less<>{}));
     Assert(982 == FindShortest(input::example, std::greater<>{}));

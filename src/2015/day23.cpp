@@ -119,7 +119,7 @@ auto Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/23
-    fmt::print("Day 23: Opening the Turing Lock\n");
+    fmt::print("Day 23, 2015: Opening the Turing Lock\n");
 
     Assert(2 == Example());
 

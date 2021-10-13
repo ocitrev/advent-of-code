@@ -115,7 +115,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/16
-    fmt::print("Day 16: Aunt Sue\n");
+    fmt::print("Day 16, 2015: Aunt Sue\n");
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);

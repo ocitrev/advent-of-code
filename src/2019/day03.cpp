@@ -106,7 +106,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
 
 int main()
 {
-    fmt::print("Day 3: Crossed Wires\n");
+    fmt::print("Day 3, 2019: Crossed Wires\n");
     Assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));
     Assert((Result{159, 610} == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
     Assert((Result{135, 410}

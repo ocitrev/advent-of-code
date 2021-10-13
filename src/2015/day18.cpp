@@ -162,7 +162,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/18
-    fmt::print("Day 18: Like a GIF For Your Yard\n");
+    fmt::print("Day 18, 2015: Like a GIF For Your Yard\n");
 
     Example();
 

@@ -127,7 +127,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/13
-    fmt::print("Day 13: Knights of the Dinner Table\n");
+    fmt::print("Day 13, 2015: Knights of the Dinner Table\n");
 
     Assert(330 == ComputeBestHappiness(example::data));
 

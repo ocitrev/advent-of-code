@@ -59,7 +59,7 @@ int64_t GetBestFit(gsl::span<int const> numbers, int nbPackages)
 int main()
 {
     // https://adventofcode.com/2015/day/24
-    fmt::print("Day 24: It Hangs in the Balance\n");
+    fmt::print("Day 24, 2015: It Hangs in the Balance\n");
 
     Assert(99 == GetBestFit(example::numbers, 3));
     Assert(44 == GetBestFit(example::numbers, 4));

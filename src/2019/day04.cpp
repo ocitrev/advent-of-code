@@ -62,7 +62,7 @@ static bool IsValid2(unsigned int n)
 
 int main()
 {
-    fmt::print("Day 4: Secure Container\n");
+    fmt::print("Day 4, 2019: Secure Container\n");
 
     Assert(IsIncreasing(111123));
     Assert(IsIncreasing(135679));

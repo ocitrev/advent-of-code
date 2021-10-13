@@ -101,7 +101,7 @@ int GetNumberOfSteps(Grammar const &grammar, std::string_view input)
 int main()
 {
     // https://adventofcode.com/2015/day/19
-    fmt::print("Day 19: Medicine for Rudolph\n");
+    fmt::print("Day 19, 2015: Medicine for Rudolph\n");
 
     Assert(4 == CountMolecules(ParseGrammar(example::grammar1), example::molecule1));
     Assert(7 == CountMolecules(ParseGrammar(example::grammar1), example::molecule2));

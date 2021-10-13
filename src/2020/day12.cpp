@@ -130,7 +130,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/12
-    fmt::print("Day 12: Rain Risk\n");
+    fmt::print("Day 12, 2020: Rain Risk\n");
 
     Assert(25 == Ship{}.Execute(example::instructions).Distance());
     Assert(286 == Ship{true}.Execute(example::instructions).Distance());

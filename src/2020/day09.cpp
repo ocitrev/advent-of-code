@@ -67,7 +67,7 @@ llong Part2(gsl::span<llong const> numbers, llong weak)
 int main()
 {
     // https://adventofcode.com/2020/day/9
-    fmt::print("Day 9: Encoding Error\n");
+    fmt::print("Day 9, 2020: Encoding Error\n");
 
     auto const part1 = FindOutlier(input::numbers, input::preamble);
     fmt::print("  Part 1: {}\n", part1);

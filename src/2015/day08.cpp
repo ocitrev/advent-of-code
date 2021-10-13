@@ -104,7 +104,7 @@ int Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/8
-    fmt::print("Day 8: Matchsticks\n");
+    fmt::print("Day 8, 2015: Matchsticks\n");
 
     Assert(12 == Part1(input::example1));
     Assert(19 == Part2(input::example1));

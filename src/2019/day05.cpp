@@ -48,7 +48,7 @@ void Part2(std::vector<Int> const &code)
 
 int main()
 {
-    fmt::print("Day 5: Sunny with a Chance of Asteroids\n");
+    fmt::print("Day 5, 2019: Sunny with a Chance of Asteroids\n");
 
     Assert(0 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 7));
     Assert(1 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 8));

@@ -77,7 +77,7 @@
 int main()
 {
     // https://adventofcode.com/2020/day/6
-    fmt::print("Day 6: Custom Customs\n");
+    fmt::print("Day 6, 2020: Custom Customs\n");
 
     Assert(11 == GetSum1(example::answers));
     Assert(6 == GetSum2(example::answers));

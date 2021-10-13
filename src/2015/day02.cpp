@@ -59,7 +59,7 @@ std::pair<int, int> calculate()
 int main()
 {
     // https://adventofcode.com/2015/day/2
-    fmt::print("Day 2: I Was Told There Would Be No Math\n");
+    fmt::print("Day 2, 2015: I Was Told There Would Be No Math\n");
 
     Assert(58 == Box{"2x3x4"}.area());
     Assert(43 == Box{"1x1x10"}.area());

@@ -122,7 +122,7 @@ int Run2(gsl::span<std::string_view const> instructions)
 int main()
 {
     // https://adventofcode.com/2020/day/8
-    fmt::print("Day 8: \n");
+    fmt::print("Day 8, 2020: \n");
 
     Assert(5 == Run1(example::instructions));
     Assert(8 == Run2(example::instructions));

@@ -83,7 +83,7 @@ int64_t Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/13
-    fmt::print("Day 13: Shuttle Search\n");
+    fmt::print("Day 13, 2020: Shuttle Search\n");
 
     Assert(3417 == GetNextStart("17,x,13,19"));
     Assert(754018 == GetNextStart("67,7,59,61"));

@@ -102,7 +102,7 @@ void Part2()
 
 int main()
 {
-    fmt::print("Day 8: Space Image Format\n");
+    fmt::print("Day 8, 2019: Space Image Format\n");
     Assert("0110" == Render("0222112222120000", 2, 2));
 
     Part1();

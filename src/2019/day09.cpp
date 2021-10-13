@@ -22,7 +22,7 @@ std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 
 int main()
 {
-    fmt::print("Day 9: Sensor Boost\n");
+    fmt::print("Day 9, 2019: Sensor Boost\n");
 
     Assert((std::vector<Int>{109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99}
             == Run({109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99})));

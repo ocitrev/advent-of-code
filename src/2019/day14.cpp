@@ -132,7 +132,7 @@ struct NanoFactory
 
 int main()
 {
-    fmt::print("Day 14: Space Stoichiometry\n");
+    fmt::print("Day 14, 2019: Space Stoichiometry\n");
 
     Assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
     Assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());

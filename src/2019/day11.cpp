@@ -106,7 +106,7 @@ void Part2()
 
 int main()
 {
-    fmt::print("Day 11: Space Police\n");
+    fmt::print("Day 11, 2019: Space Police\n");
 
     Part1();
     Part2();

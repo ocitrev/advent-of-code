@@ -114,7 +114,7 @@ std::string NextPassword(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/11
-    fmt::print("Day 11: Corporate Policy\n");
+    fmt::print("Day 11, 2015: Corporate Policy\n");
 
     Assert(HasStraight("hijklmmn"));
     Assert(HasRepeats("abbceffg"));

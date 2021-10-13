@@ -97,7 +97,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/14
-    fmt::print("Day 14: Reindeer Olympics\n");
+    fmt::print("Day 14, 2015: Reindeer Olympics\n");
 
 #ifndef NDEBUG
     auto const deers = ParseDeers(example::text);

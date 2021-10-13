@@ -53,7 +53,7 @@ static auto Parts()
 int main()
 {
     // https://adventofcode.com/2015/day/17
-    fmt::print("Day 17: No Such Thing as Too Much\n");
+    fmt::print("Day 17, 2015: No Such Thing as Too Much\n");
 
     Example();
 

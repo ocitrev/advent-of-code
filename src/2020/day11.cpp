@@ -194,7 +194,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/11
-    fmt::print("Day 11: Seating System\n");
+    fmt::print("Day 11, 2020: Seating System\n");
 
     Example();
 

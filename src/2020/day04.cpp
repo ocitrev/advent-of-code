@@ -108,7 +108,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/4
-    fmt::print("Day 4: Passport Processing\n"sv);
+    fmt::print("Day 4, 2020: Passport Processing\n"sv);
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);

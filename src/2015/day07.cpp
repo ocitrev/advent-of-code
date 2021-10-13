@@ -138,7 +138,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/7
-    fmt::print("Day 7: Some Assembly Required\n");
+    fmt::print("Day 7, 2015: Some Assembly Required\n");
 
 #ifndef NDEBUG
     Circuit c{input::example};

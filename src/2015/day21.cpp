@@ -97,7 +97,7 @@ int RunGame(bool condition, PredT &&pred)
 int main()
 {
     // https://adventofcode.com/2015/day/21
-    fmt::print("Day 21: RPG Simulator 20XX\n");
+    fmt::print("Day 21, 2015: RPG Simulator 20XX\n");
 
     auto const part1 = RunGame(true, std::less<int>{});
     fmt::print("  Part 1: {}\n", part1);

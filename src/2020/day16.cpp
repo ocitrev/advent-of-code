@@ -155,7 +155,7 @@ int64_t Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/16
-    fmt::print("Day 16: Ticket Translation\n");
+    fmt::print("Day 16, 2020: Ticket Translation\n");
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);

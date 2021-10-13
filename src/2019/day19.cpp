@@ -107,7 +107,7 @@ void Part2()
 
 int main()
 {
-    fmt::print("Day 19: Tractor Beam\n");
+    fmt::print("Day 19, 2019: Tractor Beam\n");
     Part1();
     Part2();
 }

@@ -73,7 +73,7 @@ int64_t Part2(std::vector<int> adapters)
 int main()
 {
     // https://adventofcode.com/2020/day/10
-    fmt::print("Day 10: Adapter Array\n");
+    fmt::print("Day 10, 2020: Adapter Array\n");
     Assert(35 == Part1({begin(example::adapters1), end(example::adapters1)}));
     Assert(220 == Part1({begin(example::adapters2), end(example::adapters2)}));
 

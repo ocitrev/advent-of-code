@@ -74,7 +74,7 @@ int GetNbVisitedHouses(std::string_view path, int playerCount)
 int main()
 {
     // https://adventofcode.com/2015/day/3
-    fmt::print("Day 3: Perfectly Spherical Houses in a Vacuum\n");
+    fmt::print("Day 3, 2015: Perfectly Spherical Houses in a Vacuum\n");
 
     Assert(2 == GetNbVisitedHouses(">", 1));
     Assert(4 == GetNbVisitedHouses("^>v<", 1));

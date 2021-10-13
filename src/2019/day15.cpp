@@ -306,7 +306,7 @@ int main()
 {
     [[maybe_unused]] bool const isTerminal = IsTerminal(stdout);
 
-    fmt::print("Day 15: Oxygen System\n");
+    fmt::print("Day 15, 2019: Oxygen System\n");
 
     Robot r;
     r.ExploreAll();

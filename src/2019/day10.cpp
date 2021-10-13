@@ -95,7 +95,7 @@ std::pair<int, Point2d> GetBestFromMap(std::string_view map)
 
 int main()
 {
-    fmt::print("Day 10: Monitoring Station\n");
+    fmt::print("Day 10, 2019: Monitoring Station\n");
 
     Assert(std::make_pair(8, Point2d{3, 4}) == GetBestFromMap(example::map1));
     Assert(std::make_pair(33, Point2d{5, 8}) == GetBestFromMap(example::map2));

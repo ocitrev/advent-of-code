@@ -321,7 +321,7 @@ Map ParseMap(std::string_view mapData)
 
 int main()
 {
-    fmt::print("Day 17: Set and Forget\n");
+    fmt::print("Day 17, 2019: Set and Forget\n");
     Assert(13 == GetMapWidth(example::map1));
     Assert(76 == MarkIntersections(ParseMap(example::map1)));
     Assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2" == GetPath(ParseMap(example::map2)));

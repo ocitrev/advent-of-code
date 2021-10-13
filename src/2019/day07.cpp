@@ -107,7 +107,7 @@ void Part2()
 
 int main()
 {
-    fmt::print("Day 7: Amplification Circuit\n");
+    fmt::print("Day 7, 2019: Amplification Circuit\n");
 
     Assert(example::N1::result == Amplify1(example::N1::code, example::N1::sequence));
     Assert(example::N2::result == Amplify1(example::N2::code, example::N2::sequence));

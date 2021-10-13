@@ -147,7 +147,7 @@ long long CountCycle(std::string_view data)
 
 int main()
 {
-    fmt::print("Day 12: The N-Body Problem\n");
+    fmt::print("Day 12, 2019: The N-Body Problem\n");
 
     Assert(179 == Simulate(example::one, 10));
     Assert(1940 == Simulate(example::two, 100));

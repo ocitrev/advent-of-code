@@ -99,7 +99,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/5
-    fmt::print("Day 5: Binary Boarding\n");
+    fmt::print("Day 5, 2020: Binary Boarding\n");
 
     Assert(357 == GetSeat("FBFBBFFRLR").GetId());
     Assert(567 == GetSeat("BFFFBBFRRR").GetId());

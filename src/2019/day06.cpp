@@ -65,7 +65,7 @@ static std::vector<std::string> GetPath(std::vector<std::string_view> const &lis
 
 int main()
 {
-    fmt::print("Day 6: Universal Orbit Map\n");
+    fmt::print("Day 6, 2019: Universal Orbit Map\n");
     Assert(3 == CountIndirect(Split(example::data, '\n'), "D"));
     Assert(7 == CountIndirect(Split(example::data, '\n'), "L"));
     Assert(0 == CountIndirect(Split(example::data, '\n'), "COM"));

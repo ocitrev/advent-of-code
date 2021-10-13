@@ -76,7 +76,7 @@ static int SumAllNumbersNoRed(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/12
-    fmt::print("Day 12: JSAbacusFramework.io\n");
+    fmt::print("Day 12, 2015: JSAbacusFramework.io\n");
 
     Assert(6 == SumAllNumbers(R"([1,2,3])"));
     Assert(6 == SumAllNumbers(R"({"a":2,"b":4})"));

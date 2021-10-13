@@ -41,7 +41,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/1
-    fmt::print("Day 1: Report Repair\n");
+    fmt::print("Day 1, 2020: Report Repair\n");
 
     Example();
 

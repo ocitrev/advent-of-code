@@ -147,7 +147,7 @@ void Example()
 int main()
 {
     // https://adventofcode.com/2020/day/14
-    fmt::print("Day 14: Docking Data\n");
+    fmt::print("Day 14, 2020: Docking Data\n");
 
     Example();
 

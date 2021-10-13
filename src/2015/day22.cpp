@@ -203,7 +203,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/22
-    fmt::print("Day 22: Wizard Simulator 20XX\n");
+    fmt::print("Day 22, 2015: Wizard Simulator 20XX\n");
 
     Example();
 

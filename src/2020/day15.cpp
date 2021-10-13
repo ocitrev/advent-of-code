@@ -55,7 +55,7 @@ struct Game
 int main()
 {
     // https://adventofcode.com/2020/day/15
-    fmt::print("Day 15: Rambunctious Recitation\n");
+    fmt::print("Day 15, 2020: Rambunctious Recitation\n");
 
     Assert((1 == Game{1, 3, 2}.GetTurn(2020)));
     Assert((10 == Game{2, 1, 3}.GetTurn(2020)));

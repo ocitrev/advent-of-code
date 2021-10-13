@@ -46,7 +46,7 @@ int64_t GetValue(int c, int r, GetNextT &&getNext)
 int main()
 {
     // https://adventofcode.com/2015/day/25
-    fmt::print("Day 25: Let It Snow\n");
+    fmt::print("Day 25, 2015: Let It Snow\n");
 
     Assert(1 == GetValue(1, 1, &GetNextSimple));
     Assert(3 == GetValue(2, 1, &GetNextSimple));

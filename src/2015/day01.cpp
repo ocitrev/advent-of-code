@@ -40,7 +40,7 @@ constexpr int get_pos_at_depth(std::string_view data, int const depth)
 int main()
 {
     // https://adventofcode.com/2015/day/1
-    fmt::print("Day 1: Not Quite Lisp\n");
+    fmt::print("Day 1, 2015: Not Quite Lisp\n");
 
     static_assert(0 == get_depth("(())"));
     static_assert(0 == get_depth("()()"));
