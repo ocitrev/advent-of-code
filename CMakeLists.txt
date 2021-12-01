@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.20)
 
 # integrate with vcpkg
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -93,13 +93,13 @@ target_compile_definitions(common PUBLIC
   WIN32_LEAN_AND_MEAN
 )
 
-target_compile_features(common PUBLIC cxx_std_20)
+target_compile_features(common PUBLIC cxx_std_23)
 target_link_libraries(common PUBLIC project_warnings)
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
 target_link_libraries(common PUBLIC Microsoft.GSL::GSL)
 find_package(fmt CONFIG REQUIRED)
-target_link_libraries(common PUBLIC fmt::fmt fmt::fmt-header-only)
+target_link_libraries(common PUBLIC fmt::fmt-header-only)
 find_package(RapidJSON CONFIG REQUIRED)
 target_include_directories(common PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
@@ -184,6 +184,9 @@ add_aoc(2020 15)
 add_aoc(2020 16)
 add_aoc(2020 17)
 add_aoc(2020 18)
+add_aoc(2020 19)
+
+add_aoc(2021 01)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
