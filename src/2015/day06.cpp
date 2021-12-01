@@ -158,7 +158,7 @@ public:
         {
             for (std::size_t x = 0; x < 1'000; ++x)
             {
-                fmt::print(grid[y * 1000 + x] == 0 ? " " : "#");
+                fmt::print("{}", grid[y * 1'000 + x] == 0 ? ' ' : '#');
             }
 
             fmt::print("\n");
