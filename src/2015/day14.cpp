@@ -58,9 +58,11 @@ int Part1()
 {
     auto const deers = ParseDeers(input::text);
     std::vector<int> distances(deers.size());
-    std::transform(begin(deers), end(deers), begin(distances), [](Deer const &deer) {
-        return deer.GetDistance(input::limit);
-    });
+    std::transform(begin(deers), end(deers), begin(distances),
+                   [](Deer const &deer)
+                   {
+                       return deer.GetDistance(input::limit);
+                   });
 
     return *std::max_element(begin(distances), end(distances));
 }
@@ -73,9 +75,11 @@ int Part1()
 
     for (int s = 0; s < limit; ++s)
     {
-        std::transform(begin(deers), end(deers), begin(distances), [elapsed = s + 1](Deer const &deer) {
-            return deer.GetDistance(elapsed);
-        });
+        std::transform(begin(deers), end(deers), begin(distances),
+                       [elapsed = s + 1](Deer const &deer)
+                       {
+                           return deer.GetDistance(elapsed);
+                       });
 
         int max = *std::max_element(begin(distances), end(distances));
 

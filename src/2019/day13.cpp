@@ -21,28 +21,35 @@ void Part1()
     Point2d pos;
     std::map<Point2d, Tile> grid;
 
-    auto setX = [&](Int value) {
+    auto setX = [&](Int value)
+    {
         pos.x = static_cast<int>(value);
     };
 
-    auto setY = [&](Int value) {
+    auto setY = [&](Int value)
+    {
         pos.y = static_cast<int>(value);
     };
 
-    auto setTitle = [&](Int value) {
+    auto setTitle = [&](Int value)
+    {
         grid[pos] = static_cast<Tile>(value);
     };
 
     std::array<std::function<void(Int)>, 3> states = {setX, setY, setTitle};
 
-    Intcode::Run(input::code, nullptr, [&](Int value) {
-        states.front()(value);
-        std::rotate(begin(states), begin(states) + 1, end(states));
-    });
+    Intcode::Run(input::code, nullptr,
+                 [&](Int value)
+                 {
+                     states.front()(value);
+                     std::rotate(begin(states), begin(states) + 1, end(states));
+                 });
 
-    auto result = std::count_if(begin(grid), end(grid), [](auto const &elem) {
-        return elem.second == Tile::Block;
-    });
+    auto result = std::count_if(begin(grid), end(grid),
+                                [](auto const &elem)
+                                {
+                                    return elem.second == Tile::Block;
+                                });
 
     fmt::print("  Part1: {}\n", result);
     Assert(expected::part1 == result);
@@ -82,19 +89,22 @@ void Part2(bool render)
     Point2d min;
     Point2d max;
 
-    auto setX = [&](Int value) {
+    auto setX = [&](Int value)
+    {
         inputPos.x = static_cast<int>(value);
         min.x = std::min(min.x, inputPos.x);
         max.x = std::max(max.x, inputPos.x);
     };
 
-    auto setY = [&](Int value) {
+    auto setY = [&](Int value)
+    {
         inputPos.y = static_cast<int>(value);
         min.y = std::min(min.y, inputPos.y);
         max.y = std::max(max.y, inputPos.y);
     };
 
-    auto setTitle = [&](Int value) {
+    auto setTitle = [&](Int value)
+    {
         if (inputPos.x == -1 && inputPos.y == 0)
         {
             score = value;
@@ -135,15 +145,19 @@ void Part2(bool render)
         }
     };
 
-    cpu.SetInput([&]() {
-        return std::exchange(nextInput, 0);
-    });
+    cpu.SetInput(
+        [&]()
+        {
+            return std::exchange(nextInput, 0);
+        });
 
     std::array<std::function<void(Int)>, 3> states = {setX, setY, setTitle};
-    cpu.SetOutput([&](Int value) {
-        states.front()(value);
-        std::rotate(begin(states), begin(states) + 1, end(states));
-    });
+    cpu.SetOutput(
+        [&](Int value)
+        {
+            states.front()(value);
+            std::rotate(begin(states), begin(states) + 1, end(states));
+        });
 
     if (render)
     {

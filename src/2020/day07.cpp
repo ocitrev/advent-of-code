@@ -84,9 +84,11 @@ int CountBags(std::vector<Rule> const &rules, std::string_view bag)
 {
     int total = 0;
 
-    auto iter = std::find_if(begin(rules), end(rules), [&](Rule const &rule) {
-        return rule.color == bag;
-    });
+    auto iter = std::find_if(begin(rules), end(rules),
+                             [&](Rule const &rule)
+                             {
+                                 return rule.color == bag;
+                             });
 
     for (auto &&child : iter->contains)
     {

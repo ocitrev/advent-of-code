@@ -68,19 +68,23 @@ struct Asteroid
         ++y;
     }
 
-    ForEachCombinations(asteroids, [](Asteroid &a, Asteroid &b) {
-        a.AddRay(b);
-        b.AddRay(a);
-    });
+    ForEachCombinations(asteroids,
+                        [](Asteroid &a, Asteroid &b)
+                        {
+                            a.AddRay(b);
+                            b.AddRay(a);
+                        });
 
     return asteroids;
 }
 
 [[nodiscard]] Asteroid GetAsteroidWithMostRays(std::vector<Asteroid> const &asteroids)
 {
-    auto maxIt = std::max_element(begin(asteroids), end(asteroids), [](Asteroid const &a, Asteroid const &b) {
-        return a.rays.size() < b.rays.size();
-    });
+    auto maxIt = std::max_element(begin(asteroids), end(asteroids),
+                                  [](Asteroid const &a, Asteroid const &b)
+                                  {
+                                      return a.rays.size() < b.rays.size();
+                                  });
 
     Assert(maxIt != end(asteroids));
 
@@ -116,7 +120,8 @@ int main()
         r.emplace_back(elem.first, elem.second.front());
     }
 
-    auto sortBySlope = [](auto const &a, auto const &b) {
+    auto sortBySlope = [](auto const &a, auto const &b)
+    {
         double slopeA = a.first.Slope() + M_PI_2;
         double slopeB = b.first.Slope() + M_PI_2;
 

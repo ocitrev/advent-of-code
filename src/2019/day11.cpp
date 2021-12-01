@@ -27,7 +27,8 @@ struct Robot
 
     void Run()
     {
-        auto getPanel = [&]() -> Int {
+        auto getPanel = [&]() -> Int
+        {
             auto iter = grid.find(pos);
             if (iter != end(grid))
                 return iter->second;
@@ -35,7 +36,8 @@ struct Robot
             return 0;
         };
 
-        auto readOutput = [&](Int value) {
+        auto readOutput = [&](Int value)
+        {
             if (paint)
             {
                 paint = false;

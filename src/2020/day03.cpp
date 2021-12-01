@@ -31,9 +31,11 @@ struct Slope
 
 [[nodiscard]] auto CountTreesInSlopes(gsl::span<std::string_view const> map, gsl::span<Slope const> slopes)
 {
-    return std::accumulate(begin(slopes), end(slopes), int64_t{1}, [&](auto total, Slope s) {
-        return total * CountTrees(map, s);
-    });
+    return std::accumulate(begin(slopes), end(slopes), int64_t{1},
+                           [&](auto total, Slope s)
+                           {
+                               return total * CountTrees(map, s);
+                           });
 }
 
 int main()

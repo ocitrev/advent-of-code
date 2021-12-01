@@ -93,7 +93,8 @@ int main()
 
     std::vector<std::string> result;
     std::set_symmetric_difference(begin(you), end(you), begin(san), end(san), std::back_inserter(result),
-                                  [](auto const &a, auto const &b) {
+                                  [](auto const &a, auto const &b)
+                                  {
                                       return a < b;
                                   });
 

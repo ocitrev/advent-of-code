@@ -17,12 +17,14 @@ class Circuit
     {
         if (std::isdigit(text[0]) != 0)
         {
-            return [n = svtoi(text)]() {
+            return [n = svtoi(text)]()
+            {
                 return static_cast<unsigned short>(n);
             };
         }
 
-        return [this, n = text]() {
+        return [this, n = text]()
+        {
             return GetWire(n);
         };
     }
@@ -50,7 +52,8 @@ public:
                     throw std::runtime_error("Unknown instruction");
 
                 // fmt::print("{} = NOT {}\n", out, parts[1]);
-                wires[out] = [val = Resolve(parts[1])]() {
+                wires[out] = [val = Resolve(parts[1])]()
+                {
                     return static_cast<unsigned short>(~val());
                 };
             }
@@ -62,25 +65,29 @@ public:
 
                 if (op == "AND")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short
+                    {
                         return left() & right();
                     };
                 }
                 else if (op == "OR")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() -> unsigned short
+                    {
                         return left() | right();
                     };
                 }
                 else if (op == "LSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]()
+                    {
                         return static_cast<unsigned short>(left() << right());
                     };
                 }
                 else if (op == "RSHIFT")
                 {
-                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]() {
+                    wires[out] = [left = Resolve(parts[0]), right = Resolve(parts[2])]()
+                    {
                         return static_cast<unsigned short>(left() >> right());
                     };
                 }

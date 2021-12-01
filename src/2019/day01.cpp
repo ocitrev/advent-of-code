@@ -39,13 +39,17 @@ int main()
 {
     fmt::print("Day 1, 2019: The Tyranny of the Rocket Equation\n");
 
-    int const part1 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
-        return r + GetFuel(mass);
-    });
+    int const part1 = std::accumulate(begin(input::data), end(input::data), 0,
+                                      [](int r, int mass)
+                                      {
+                                          return r + GetFuel(mass);
+                                      });
 
-    int const part2 = std::accumulate(begin(input::data), end(input::data), 0, [](int r, int mass) {
-        return r + GetRealFuel(mass);
-    });
+    int const part2 = std::accumulate(begin(input::data), end(input::data), 0,
+                                      [](int r, int mass)
+                                      {
+                                          return r + GetRealFuel(mass);
+                                      });
 
     fmt::print("  Part1: {}\n", part1);
     Assert(3538016 == part1);

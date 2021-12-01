@@ -16,15 +16,17 @@ llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
     {
         auto const n = *iter;
         bool isOk = false;
-        Combinations(gsl::span{&*preambleFirst, &*preambleLast}, 2, [n, &isOk](auto const &values) {
-            if (n == values[0] + values[1])
-            {
-                isOk = true;
-                return false;
-            }
+        Combinations(gsl::span{&*preambleFirst, &*preambleLast}, 2,
+                     [n, &isOk](auto const &values)
+                     {
+                         if (n == values[0] + values[1])
+                         {
+                             isOk = true;
+                             return false;
+                         }
 
-            return true;
-        });
+                         return true;
+                     });
 
         if (not isOk)
         {

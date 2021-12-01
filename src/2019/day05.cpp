@@ -10,10 +10,12 @@ Int Run(std::vector<Int> const &code, Int input)
     Int outValue = 0;
     Intcode::Run(
         code,
-        [input]() {
+        [input]()
+        {
             return input;
         },
-        [&](Int output) {
+        [&](Int output)
+        {
             outValue = output;
         });
     return outValue;
@@ -23,10 +25,12 @@ void Part1(std::vector<Int> const &code)
 {
     Intcode::Run(
         code,
-        []() {
+        []()
+        {
             return 1;
         },
-        [](Int value) {
+        [](Int value)
+        {
             fmt::print("  Part1: {}\n", value);
             // 0 is outputed
             Assert(value == 0 || 13285749 == value);
@@ -37,10 +41,12 @@ void Part2(std::vector<Int> const &code)
 {
     Intcode::Run(
         code,
-        []() {
+        []()
+        {
             return 5;
         },
-        [](Int value) {
+        [](Int value)
+        {
             fmt::print("  Part2: {}\n", value);
             Assert(5000972 == value);
         });

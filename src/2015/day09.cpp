@@ -46,9 +46,11 @@ struct Route
 
 int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_view b)
 {
-    auto iter = std::find_if(begin(routes), end(routes), [&](Route const &r) {
-        return (r.a == a && r.b == b) || (r.a == b && r.b == a);
-    });
+    auto iter = std::find_if(begin(routes), end(routes),
+                             [&](Route const &r)
+                             {
+                                 return (r.a == a && r.b == b) || (r.a == b && r.b == a);
+                             });
 
     if (iter != end(routes))
         return iter->distance;

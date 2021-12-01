@@ -24,7 +24,8 @@ Map GenerateMap()
 {
     Map ret;
 
-    auto out = [&](Int value) {
+    auto out = [&](Int value)
+    {
         ret.first.append(1, static_cast<char>(value));
     };
 
@@ -262,7 +263,8 @@ void Part2()
         std::string ret;
         Int prev = 0;
 
-        auto outDebug = [&](Int value) {
+        auto outDebug = [&](Int value)
+        {
             if (value > 0x7f)
             {
                 result = value;
@@ -288,12 +290,15 @@ void Part2()
     }
     else
     {
-        cpu.SetOutput([&](Int value) {
-            result = value;
-        });
+        cpu.SetOutput(
+            [&](Int value)
+            {
+                result = value;
+            });
     }
 
-    auto sendInputs = [&cpu](std::string sequence) {
+    auto sendInputs = [&cpu](std::string sequence)
+    {
         while (!sequence.empty())
         {
             cpu.RunUntilInput()(sequence.front());

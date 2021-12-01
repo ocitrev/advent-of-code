@@ -80,7 +80,8 @@ struct Grid
 
     [[nodiscard]] int CountVisibleOccupiedFrom(int x, int y) const
     {
-        auto loop = [this, x, y](int incX, int incY) {
+        auto loop = [this, x, y](int incX, int incY)
+        {
             int xx = x;
             int yy = y;
 

@@ -8,11 +8,13 @@ std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 {
     std::vector<Int> result;
 
-    auto in = [input]() {
+    auto in = [input]()
+    {
         return input;
     };
 
-    auto out = [&result](Int value) {
+    auto out = [&result](Int value)
+    {
         result.push_back(value);
     };
 

@@ -89,13 +89,16 @@ public:
     {
         ParseLine(
             line,
-            [](int &value) {
+            [](int &value)
+            {
                 value = 1;
             },
-            [](int &value) {
+            [](int &value)
+            {
                 value = 0;
             },
-            [](int &value) {
+            [](int &value)
+            {
                 value = value == 0 ? 1 : 0;
             });
     }
@@ -104,14 +107,17 @@ public:
     {
         ParseLine(
             line,
-            [](int &value) {
+            [](int &value)
+            {
                 ++value;
             },
-            [](int &value) {
+            [](int &value)
+            {
                 if (value > 0)
                     --value;
             },
-            [](int &value) {
+            [](int &value)
+            {
                 value += 2;
             });
     }
@@ -134,9 +140,11 @@ public:
 
     [[nodiscard]] int HowManyOn() const
     {
-        return std::accumulate(begin(grid), end(grid), 0, [](int sum, int v) {
-            return sum + (v == 0 ? 0 : 1);
-        });
+        return std::accumulate(begin(grid), end(grid), 0,
+                               [](int sum, int v)
+                               {
+                                   return sum + (v == 0 ? 0 : 1);
+                               });
     }
 
     [[nodiscard]] int TotalBrightness() const

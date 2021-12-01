@@ -49,9 +49,11 @@ struct Robot
 
     Int Move(int dir)
     {
-        auto r = cpu.RunUntilOuput([dir]() {
-            return dir + 1;
-        });
+        auto r = cpu.RunUntilOuput(
+            [dir]()
+            {
+                return dir + 1;
+            });
 
         Assert(r.has_value());
         Point2d p = GetNextPos(dir);
@@ -101,7 +103,7 @@ struct Robot
             frame.append("\n");
         }
 
-        fmt::print(frame);
+        fmt::print("{}", frame);
     }
 
 // https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
@@ -256,9 +258,11 @@ struct Robot
 
     [[nodiscard]] bool IsFilling() const
     {
-        return std::any_of(begin(grid), end(grid), [](auto const &elem) {
-            return elem.second == kFloor;
-        });
+        return std::any_of(begin(grid), end(grid),
+                           [](auto const &elem)
+                           {
+                               return elem.second == kFloor;
+                           });
     }
 
     std::vector<Point2d> FindCandidates()

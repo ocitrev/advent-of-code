@@ -68,9 +68,11 @@ inline void ltrim_if(std::string &s, PredicateT &&pred)
 // trim from start (in place)
 inline void ltrim(std::string &s)
 {
-    return ltrim_if(s, [](int ch) {
-        return std::isspace(ch);
-    });
+    return ltrim_if(s,
+                    [](int ch)
+                    {
+                        return std::isspace(ch);
+                    });
 }
 
 // trim from start (in place)
@@ -84,9 +86,11 @@ inline void ltrim_if(std::string_view &s, PredicateT &&pred)
 // trim from start (in place)
 inline void ltrim(std::string_view &s)
 {
-    ltrim_if(s, [](int ch) {
-        return std::isspace(ch);
-    });
+    ltrim_if(s,
+             [](int ch)
+             {
+                 return std::isspace(ch);
+             });
 }
 
 // trim from end (in place)
@@ -99,9 +103,11 @@ inline void rtrim_if(std::string &s, PredicateT &&pred)
 // trim from end (in place)
 inline void rtrim(std::string &s)
 {
-    rtrim_if(s, [](int ch) {
-        return std::isspace(ch);
-    });
+    rtrim_if(s,
+             [](int ch)
+             {
+                 return std::isspace(ch);
+             });
 }
 
 // trim from end (in place)
@@ -115,9 +121,11 @@ inline void rtrim_if(std::string_view &s, PredicateT &&pred)
 // trim from end (in place)
 inline void rtrim(std::string_view &s)
 {
-    return rtrim_if(s, [](int ch) {
-        return std::isspace(ch);
-    });
+    return rtrim_if(s,
+                    [](int ch)
+                    {
+                        return std::isspace(ch);
+                    });
 }
 
 // trim from both ends (in place)

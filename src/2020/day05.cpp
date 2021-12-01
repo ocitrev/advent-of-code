@@ -57,9 +57,11 @@ Seat GetSeat(std::string_view boardingPass)
 int Part1()
 {
     std::array<int, input::passes.size()> ids{};
-    std::transform(begin(input::passes), end(input::passes), begin(ids), [](auto pass) {
-        return GetSeat(pass).GetId();
-    });
+    std::transform(begin(input::passes), end(input::passes), begin(ids),
+                   [](auto pass)
+                   {
+                       return GetSeat(pass).GetId();
+                   });
 
     return *std::max_element(begin(ids), end(ids));
 }

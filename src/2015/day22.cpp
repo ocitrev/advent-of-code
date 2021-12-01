@@ -3,6 +3,7 @@
 #include "game_character.hpp"
 #include <fmt/format.h>
 #include <map>
+#include <vector>
 
 static Character GetBoss()
 {

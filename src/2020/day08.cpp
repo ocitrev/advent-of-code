@@ -72,9 +72,11 @@ int Run2(gsl::span<std::string_view const> instructions)
 
     while (true)
     {
-        first = std::find_if(first, last, [](std::string_view const &i) {
-            return starts_with(i, "jmp");
-        });
+        first = std::find_if(first, last,
+                             [](std::string_view const &i)
+                             {
+                                 return starts_with(i, "jmp");
+                             });
 
         if (first == last)
             break;
@@ -95,9 +97,11 @@ int Run2(gsl::span<std::string_view const> instructions)
 
     while (true)
     {
-        first = std::find_if(first, last, [](std::string_view const &i) {
-            return starts_with(i, "nop");
-        });
+        first = std::find_if(first, last,
+                             [](std::string_view const &i)
+                             {
+                                 return starts_with(i, "nop");
+                             });
 
         if (first == last)
             break;

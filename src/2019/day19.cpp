@@ -9,7 +9,8 @@ void Part1()
     Int total = 0;
     std::string beam;
 
-    auto out = [&](Int value) {
+    auto out = [&](Int value)
+    {
         total += value;
 
         if (value == 1)
@@ -20,7 +21,8 @@ void Part1()
 
     Int a = 0;
     Int b = 0;
-    auto in = [&]() {
+    auto in = [&]()
+    {
         return std::exchange(a, b);
     };
 
@@ -50,12 +52,14 @@ void Part1()
 
 Int Run(std::vector<Int> const &code, Int x, Int y)
 {
-    auto in = [&]() {
+    auto in = [&]()
+    {
         return std::exchange(x, y);
     };
 
     Int result = 0;
-    auto out = [&](Int value) {
+    auto out = [&](Int value)
+    {
         result = value;
     };
 

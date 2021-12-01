@@ -94,22 +94,26 @@ static int FindBestMatch(GetPredicateFunc &&getPredicate)
 
 static int Part1()
 {
-    return FindBestMatch([]([[maybe_unused]] std::string const &name) {
-        return std::not_equal_to{};
-    });
+    return FindBestMatch(
+        []([[maybe_unused]] std::string const &name)
+        {
+            return std::not_equal_to{};
+        });
 }
 
 static int Part2()
 {
-    return FindBestMatch([](std::string const &name) -> std::function<bool(int, int)> {
-        if (name == "cats" || name == "trees")
-            return std::less_equal{};
+    return FindBestMatch(
+        [](std::string const &name) -> std::function<bool(int, int)>
+        {
+            if (name == "cats" || name == "trees")
+                return std::less_equal{};
 
-        if (name == "pomeranians" || name == "goldfish")
-            return std::greater_equal{};
+            if (name == "pomeranians" || name == "goldfish")
+                return std::greater_equal{};
 
-        return std::not_equal_to{};
-    });
+            return std::not_equal_to{};
+        });
 }
 
 int main()

@@ -65,9 +65,11 @@ struct Ingredient
             svtoi(parts[caloriesIndex]),
         });
 
-        rtrim_if(ingredient.name, [](int ch) {
-            return std::ispunct(ch);
-        });
+        rtrim_if(ingredient.name,
+                 [](int ch)
+                 {
+                     return std::ispunct(ch);
+                 });
     }
 
     return ingredients;

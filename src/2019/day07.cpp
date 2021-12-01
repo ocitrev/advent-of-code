@@ -14,11 +14,13 @@ Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
     {
         bool first = true;
 
-        auto out = [&](Int value) {
+        auto out = [&](Int value)
+        {
             param = value;
         };
 
-        auto in = [&]() {
+        auto in = [&]()
+        {
             if (first)
             {
                 first = false;
@@ -59,7 +61,8 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
     {
         bool first = true;
 
-        auto in = [&]() {
+        auto in = [&]()
+        {
             if (first)
             {
                 first = false;
@@ -72,7 +75,8 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
         param = *cpus.at(i).RunUntilOuput(in);
     }
 
-    auto getParam = [&]() {
+    auto getParam = [&]()
+    {
         return param;
     };
 

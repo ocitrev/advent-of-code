@@ -103,7 +103,8 @@ struct GOL
 static void Example()
 {
 #ifndef NDEBUG
-    auto ParseMap = [](std::string_view mapText) {
+    auto ParseMap = [](std::string_view mapText)
+    {
         GOL gol;
         gol.LoadMap(mapText);
         return gol.map;

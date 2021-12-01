@@ -176,7 +176,8 @@ Intcode::OutputFunc Intcode::RunUntilInput()
         if (opcode == OpCode::Input)
         {
             auto a = GetParam(static_cast<Mode>(mode % 10));
-            return [a](Int value) mutable {
+            return [a](Int value) mutable
+            {
                 a = value;
             };
         }

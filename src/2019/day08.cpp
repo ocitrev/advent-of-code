@@ -49,7 +49,8 @@ static std::string Render(std::string_view pixels, size_t w, size_t h)
         for (auto iter = begin(layers) + 1; iter != last; ++iter)
         {
             std::transform(begin(iter->pixels), end(iter->pixels), begin(canvas), begin(canvas),
-                           [](auto source, auto dest) {
+                           [](auto source, auto dest)
+                           {
                                if (dest == '2')
                                    return source;
                                return dest;
@@ -67,9 +68,11 @@ void Part1()
 {
     auto layers = DecodeLayers(input::data, W, H);
 
-    auto iterMin = std::min_element(begin(layers), end(layers), [](Layer const &a, Layer const &b) {
-        return a.count[0] < b.count[0];
-    });
+    auto iterMin = std::min_element(begin(layers), end(layers),
+                                    [](Layer const &a, Layer const &b)
+                                    {
+                                        return a.count[0] < b.count[0];
+                                    });
 
     Assert(iterMin != end(layers));
     fmt::print("  Part1: {}\n", iterMin->count[1] * iterMin->count[2]);
