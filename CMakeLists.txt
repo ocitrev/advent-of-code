@@ -15,28 +15,27 @@ if(MSVC)
     set(CMAKE_CXX_CPPCHECK ${CPPCHECK} -q --enable=all --suppress=*:${FMT_FORMAT_INL} --suppress=missingIncludeSystem)
   endif()
 else()
-  find_program(CLANG_TIDY NAMES "clang-tidy")
-
-  if(CLANG_TIDY)
-    set(CLANG_TIDY_CHECK_LIST
-      cppcoreguidelines-*
-      -cppcoreguidelines-avoid-magic-numbers
-      modernize-*
-      -modernize-use-trailing-return-type
-      performance-*
-      readability-*
-      -readability-braces-around-statements # ne fonctionne pas avec le style Alleman
-      -readability-magic-numbers
-      )
-    list(JOIN CLANG_TIDY_CHECK_LIST "," CLANG_TIDY_CHECKS)
-    set(CMAKE_CXX_CLANG_TIDY
-      ${CLANG_TIDY}
-      -checks=${CLANG_TIDY_CHECKS}
-      -header-filter=.*
-      --format-style=file
-      --warnings-as-errors=*
-      )
-  endif()
+  # find_program(CLANG_TIDY NAMES "clang-tidy")
+  # if(CLANG_TIDY)
+  #   set(CLANG_TIDY_CHECK_LIST
+  #     cppcoreguidelines-*
+  #     -cppcoreguidelines-avoid-magic-numbers
+  #     modernize-*
+  #     -modernize-use-trailing-return-type
+  #     performance-*
+  #     readability-*
+  #     -readability-braces-around-statements # ne fonctionne pas avec le style Alleman
+  #     -readability-magic-numbers
+  #     )
+  #   list(JOIN CLANG_TIDY_CHECK_LIST "," CLANG_TIDY_CHECKS)
+  #   set(CMAKE_CXX_CLANG_TIDY
+  #     ${CLANG_TIDY}
+  #     -checks=${CLANG_TIDY_CHECKS}
+  #     -header-filter=.*
+  #     --format-style=file
+  #     --warnings-as-errors=*
+  #     )
+  # endif()
 endif()
 
 add_library(project_warnings INTERFACE)
