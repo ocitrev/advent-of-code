@@ -64,5 +64,5 @@ int main()
 
     auto const part2 = Part2(input::directions);
     fmt::print("  Part 2: {}\n", part2);
-    // Assert(1344 == part2);
+    Assert(1698850445 == part2);
 }
