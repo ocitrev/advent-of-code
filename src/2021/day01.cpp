@@ -56,7 +56,7 @@ static int Part2(std::span<int const> values)
 int main()
 {
     // https://adventofcode.com/2021/day/1
-    fmt::print("Day 1, 2020: Report Repair\n");
+    fmt::print("Day 1, 2021: Sonar Sweep\n");
 
     Assert(7 == Part1(example::numbers));
     Assert(5 == Part2(example::numbers));
