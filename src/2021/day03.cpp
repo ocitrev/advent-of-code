@@ -4,7 +4,7 @@
 #include <span>
 #include <vector>
 
-unsigned int GetBitCount(std::span<unsigned int const> numbers)
+static unsigned int GetBitCount(std::span<unsigned int const> numbers)
 {
     unsigned int nbBits = 0;
 
@@ -16,7 +16,7 @@ unsigned int GetBitCount(std::span<unsigned int const> numbers)
     return nbBits;
 }
 
-bool GetMostPopular(std::span<unsigned int const> numbers, unsigned int bitMask)
+static bool GetMostPopular(std::span<unsigned int const> numbers, unsigned int bitMask)
 {
     size_t count = 0;
 
@@ -32,7 +32,7 @@ bool GetMostPopular(std::span<unsigned int const> numbers, unsigned int bitMask)
     return count > numbers.size() / 2;
 }
 
-unsigned int Part1(std::span<unsigned int const> numbers)
+static unsigned int Part1(std::span<unsigned int const> numbers)
 {
     unsigned int const nbBits = GetBitCount(numbers);
     unsigned int gamma = 0;
@@ -57,7 +57,7 @@ enum struct Rating
     RemovePopular,
 };
 
-unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
+static unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
 {
     unsigned int const nbBits = GetBitCount(numbers);
 
@@ -95,7 +95,7 @@ unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
     return 0;
 }
 
-unsigned int Part2(std::vector<unsigned int> numbers)
+static unsigned int Part2(std::vector<unsigned int> numbers)
 {
     unsigned int const oxygen = GetPart2(numbers, Rating::KeepPopular);
     unsigned int const co2 = GetPart2(numbers, Rating::RemovePopular);

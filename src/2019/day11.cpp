@@ -64,7 +64,7 @@ struct Robot
     }
 };
 
-void Part1()
+static void Part1()
 {
     Robot robot;
     robot.Run();
@@ -72,7 +72,7 @@ void Part1()
     Assert(expected::part1 == robot.grid.size());
 }
 
-void Part2()
+static void Part2()
 {
     Robot robot;
     robot.grid[{0, 0}] = 1;

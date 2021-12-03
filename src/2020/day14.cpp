@@ -111,7 +111,7 @@ struct VM
     }
 };
 
-uint64_t Part1()
+static uint64_t Part1()
 {
     VM vm;
     for (auto &&ins : input::instructions)
@@ -122,7 +122,7 @@ uint64_t Part1()
     return vm.Sum();
 }
 
-uint64_t Part2()
+static uint64_t Part2()
 {
     VM vm;
     for (auto &&ins : input::instructions)
@@ -133,7 +133,7 @@ uint64_t Part2()
     return vm.Sum();
 }
 
-void Example()
+static void Example()
 {
 #ifndef NDEBUG
     VM vm;

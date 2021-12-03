@@ -1,7 +1,8 @@
 #include "day03.hpp"
 #include "../common/assert.hpp"
 #include <fmt/format.h>
-#include <gsl/gsl>
+#include <numeric>
+#include <span>
 
 struct Slope
 {
@@ -9,7 +10,7 @@ struct Slope
     int down = 1;
 };
 
-[[nodiscard]] int CountTrees(gsl::span<std::string_view const> map, Slope slope)
+[[nodiscard]] static int CountTrees(std::span<std::string_view const> map, Slope slope)
 {
     std::size_t x = 0;
     std::size_t y = 0;
@@ -29,7 +30,7 @@ struct Slope
     return trees;
 }
 
-[[nodiscard]] auto CountTreesInSlopes(gsl::span<std::string_view const> map, gsl::span<Slope const> slopes)
+[[nodiscard]] static auto CountTreesInSlopes(std::span<std::string_view const> map, std::span<Slope const> slopes)
 {
     return std::accumulate(begin(slopes), end(slopes), int64_t{1},
                            [&](auto total, Slope s)

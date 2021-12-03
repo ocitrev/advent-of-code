@@ -64,7 +64,7 @@ public:
     }
 };
 
-int GetNbVisitedHouses(std::string_view path, int playerCount)
+static int GetNbVisitedHouses(std::string_view path, int playerCount)
 {
     HouseVisitor houseVisitor(playerCount);
     houseVisitor.Run(path);

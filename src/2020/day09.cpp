@@ -7,7 +7,7 @@
 
 using llong = long long;
 
-llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
+static llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
 {
     auto preambleFirst = begin(numbers);
     auto preambleLast = preambleFirst + preambleLength;
@@ -37,7 +37,7 @@ llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
     return 0;
 }
 
-llong Part2(gsl::span<llong const> numbers, llong weak)
+static llong Part2(gsl::span<llong const> numbers, llong weak)
 {
     int len = 1;
     int const total = static_cast<int>(numbers.size());

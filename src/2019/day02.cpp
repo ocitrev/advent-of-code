@@ -5,14 +5,15 @@
 #include <fmt/format.h>
 #include <vector>
 
-Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
+WARNING_SUPPRESS_UNUSED_FUNCTION()
+static Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
 {
     Intcode a{code};
     a.Run();
     return a.ReadMemory(offset);
 }
 
-Int Run(std::vector<Int> const &code, Int noun, Int verb)
+static Int Run(std::vector<Int> const &code, Int noun, Int verb)
 {
     Intcode a{code};
     a.WriteMemory(1, noun);
@@ -21,14 +22,14 @@ Int Run(std::vector<Int> const &code, Int noun, Int verb)
     return a.ReadMemory(0);
 }
 
-void Part1(std::vector<Int> const &code)
+static void Part1(std::vector<Int> const &code)
 {
     auto part1 = Run(code, 12, 2);
     fmt::print("  Part1: {}\n", part1);
     Assert(3706713 == part1);
 }
 
-void Part2(std::vector<Int> const &code)
+static void Part2(std::vector<Int> const &code)
 {
     for (Int noun = 0; noun != 100; ++noun)
     {

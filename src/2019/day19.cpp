@@ -4,7 +4,7 @@
 #include "../common/terminal.hpp"
 #include <fmt/format.h>
 
-void Part1()
+static void Part1()
 {
     Int total = 0;
     std::string beam;
@@ -50,7 +50,7 @@ void Part1()
     }
 }
 
-Int Run(std::vector<Int> const &code, Int x, Int y)
+static Int Run(std::vector<Int> const &code, Int x, Int y)
 {
     auto in = [&]()
     {
@@ -67,7 +67,7 @@ Int Run(std::vector<Int> const &code, Int x, Int y)
     return result;
 }
 
-Int FindSquare(Int width, Int height)
+static Int FindSquare(Int width, Int height)
 {
     std::vector<Int> const code{input::data};
     Int minx = 0;
@@ -102,7 +102,7 @@ Int FindSquare(Int width, Int height)
     return x * 10000 + y;
 }
 
-void Part2()
+static void Part2()
 {
     auto const part2 = FindSquare(100, 100);
     fmt::print("  Part2: {}\n", part2);

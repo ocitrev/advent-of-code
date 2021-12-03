@@ -212,7 +212,8 @@ struct GOL4d
                                               }));
     }
 };
-void Example()
+
+static void Example()
 {
 #ifndef NDEBUG
     GOL3d conwaysCube;
@@ -225,14 +226,14 @@ void Example()
 #endif
 }
 
-int Part1()
+static int Part1()
 {
     GOL3d conwaysCube;
     conwaysCube.Parse(input::start);
     return conwaysCube.BootSequence();
 }
 
-int Part2()
+static int Part2()
 {
     GOL4d conwaysCube;
     conwaysCube.Parse(input::start);

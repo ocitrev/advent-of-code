@@ -85,7 +85,7 @@ public:
     }
 };
 
-void StepAxis(std::vector<Moon> &moons, size_t axis)
+static void StepAxis(std::vector<Moon> &moons, size_t axis)
 {
     ForEachCombinations(moons,
                         [axis](Moon &a, Moon &b)
@@ -99,7 +99,7 @@ void StepAxis(std::vector<Moon> &moons, size_t axis)
     }
 }
 
-void Step(std::vector<Moon> &moons)
+static void Step(std::vector<Moon> &moons)
 {
     ForEachCombinations(moons,
                         [](Moon &a, Moon &b)
@@ -113,7 +113,7 @@ void Step(std::vector<Moon> &moons)
     }
 }
 
-long long Simulate(std::string_view data, int steps)
+static long long Simulate(std::string_view data, int steps)
 {
     std::vector moons = Moon::ReadMoons(data);
 
@@ -129,7 +129,7 @@ long long Simulate(std::string_view data, int steps)
                            });
 }
 
-long long CountCycle(std::string_view data)
+static long long CountCycle(std::string_view data)
 {
     std::vector const moons = Moon::ReadMoons(data);
     std::array<long long, 3> count{};

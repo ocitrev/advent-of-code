@@ -5,7 +5,8 @@
 #include <fmt/format.h>
 #include <vector>
 
-Int Run(std::vector<Int> const &code, Int input)
+WARNING_SUPPRESS_UNUSED_FUNCTION()
+static Int Run(std::vector<Int> const &code, Int input)
 {
     Int outValue = 0;
     Intcode::Run(
@@ -21,7 +22,7 @@ Int Run(std::vector<Int> const &code, Int input)
     return outValue;
 }
 
-void Part1(std::vector<Int> const &code)
+static void Part1(std::vector<Int> const &code)
 {
     Intcode::Run(
         code,
@@ -37,7 +38,7 @@ void Part1(std::vector<Int> const &code)
         });
 }
 
-void Part2(std::vector<Int> const &code)
+static void Part2(std::vector<Int> const &code)
 {
     Intcode::Run(
         code,

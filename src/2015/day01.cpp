@@ -1,7 +1,7 @@
 #include "day01.hpp"
 #include <fmt/format.h>
 
-constexpr int get_depth(std::string_view data)
+static constexpr int get_depth(std::string_view data)
 {
     int depth = 0;
 
@@ -16,7 +16,7 @@ constexpr int get_depth(std::string_view data)
     return depth;
 }
 
-constexpr int get_pos_at_depth(std::string_view data, int const depth)
+static constexpr int get_pos_at_depth(std::string_view data, int const depth)
 {
     int pos = 0;
     int currentDepth = 0;

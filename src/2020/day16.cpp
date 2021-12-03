@@ -41,7 +41,7 @@ struct Rule
     }
 };
 
-int Part1()
+static int Part1()
 {
     std::vector<Rule> rules;
     for (auto &&line : Split(input::rules, "\n"))
@@ -83,7 +83,7 @@ static bool IsValidTicket(gsl::span<int const> ticket, gsl::span<Rule> rules)
     return true;
 }
 
-int64_t Part2()
+static int64_t Part2()
 {
     std::vector<Rule> rules;
     for (auto &&line : Split(input::rules, "\n"))

@@ -166,14 +166,14 @@ public:
     }
 };
 
-int Part1()
+static int Part1()
 {
     Grid grid;
     grid.ParseInstructions1(input::data);
     return grid.HowManyOn();
 }
 
-int Part2()
+static int Part2()
 {
     Grid grid;
     grid.ParseInstructions2(input::data);

@@ -55,7 +55,7 @@ struct VM
     }
 };
 
-int Run1(gsl::span<std::string_view const> instructions)
+static int Run1(gsl::span<std::string_view const> instructions)
 {
     VM vm;
     vm.instructions = instructions;
@@ -63,7 +63,7 @@ int Run1(gsl::span<std::string_view const> instructions)
     return vm.acc;
 }
 
-int Run2(gsl::span<std::string_view const> instructions)
+static int Run2(gsl::span<std::string_view const> instructions)
 {
     std::vector<std::string_view> copy(begin(instructions), end(instructions));
 

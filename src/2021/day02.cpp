@@ -3,7 +3,7 @@
 #include "../common/string.hpp"
 #include <fmt/format.h>
 
-int Part1(std::string_view text)
+static int Part1(std::string_view text)
 {
     int pos = 0;
     int depth = 0;
@@ -21,7 +21,7 @@ int Part1(std::string_view text)
     return pos * depth;
 }
 
-int Part2(std::string_view text)
+static int Part2(std::string_view text)
 {
     int pos = 0;
     int depth = 0;

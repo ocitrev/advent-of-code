@@ -7,7 +7,7 @@
 
 using Int = int64_t;
 
-void Apply(Int &left, char op, Int right)
+static void Apply(Int &left, char op, Int right)
 {
     if (op == '+')
         left += right;
@@ -17,7 +17,7 @@ void Apply(Int &left, char op, Int right)
         left = right;
 }
 
-Int Eval1(std::string_view expression, char const *&parentC)
+static Int Eval1(std::string_view expression, char const *&parentC)
 {
     Int value = 0;
     char op = '=';
@@ -56,7 +56,7 @@ Int Eval1(std::string_view expression, char const *&parentC)
     return value;
 }
 
-Int Eval1(std::string_view expression)
+static Int Eval1(std::string_view expression)
 {
     char const *dummy = nullptr;
     return Eval1(expression, dummy);
@@ -309,14 +309,14 @@ public:
     }
 };
 
-Int Eval2(std::string_view expression)
+static Int Eval2(std::string_view expression)
 {
     Parser p(expression);
     auto ast = p.Parse();
     return ast->Eval();
 }
 
-Int Part1()
+static Int Part1()
 {
     Int result = 0;
     for (auto &&expr : input::equations)
@@ -327,7 +327,7 @@ Int Part1()
     return result;
 }
 
-Int Part2()
+static Int Part2()
 {
     Int result = 0;
     for (auto &&expr : input::equations)

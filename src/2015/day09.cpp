@@ -44,7 +44,7 @@ struct Route
     }
 };
 
-int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_view b)
+static int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_view b)
 {
     auto iter = std::find_if(begin(routes), end(routes),
                              [&](Route const &r)
@@ -59,7 +59,7 @@ int FindRoute(std::vector<Route> const &routes, std::string_view a, std::string_
 }
 
 template <typename PredicateT>
-int FindShortest(std::string_view data, PredicateT &&pred)
+static int FindShortest(std::string_view data, PredicateT &&pred)
 {
     auto lines = Split(data, '\n');
     std::vector<Route> routes;

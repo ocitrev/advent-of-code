@@ -4,7 +4,7 @@
 #include <fmt/format.h>
 #include <string>
 
-std::string Unescape(std::string_view text)
+static std::string Unescape(std::string_view text)
 {
     // remove surrounding quotes
     Assert(text.front() == '"');
@@ -49,7 +49,7 @@ std::string Unescape(std::string_view text)
     return unescaped;
 }
 
-std::string Escape(std::string_view text)
+static std::string Escape(std::string_view text)
 {
     std::string escaped;
     auto outIt = std::back_inserter(escaped);
@@ -77,7 +77,7 @@ std::string Escape(std::string_view text)
     return escaped;
 }
 
-int Part1(std::string_view text)
+static int Part1(std::string_view text)
 {
     std::size_t total = 0;
 
@@ -89,7 +89,7 @@ int Part1(std::string_view text)
     return static_cast<int>(total);
 }
 
-int Part2(std::string_view text)
+static int Part2(std::string_view text)
 {
     std::size_t total = 0;
 

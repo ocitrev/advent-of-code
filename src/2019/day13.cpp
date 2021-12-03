@@ -16,7 +16,7 @@ enum class Tile
     Ball,   // The ball moves diagonally and bounces off objects.
 };
 
-void Part1()
+static void Part1()
 {
     Point2d pos;
     std::map<Point2d, Tile> grid;
@@ -75,7 +75,7 @@ static std::string GetTile(Tile tile)
 // https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
 #define CSI(x) "\x1b[" x // NOLINT: cppcoreguidelines-macro-usage
 
-void Part2(bool render)
+static void Part2(bool render)
 {
     Intcode cpu(input::code);
     cpu.WriteMemory(0, 2);

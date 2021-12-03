@@ -10,17 +10,17 @@
 
 using Map = std::pair<std::string, Int>;
 
-Int GetMapWidth(std::string_view map)
+static Int GetMapWidth(std::string_view map)
 {
     return std::distance(begin(map), std::find(begin(map), end(map), '\n'));
 }
 
-void CleanMap(Map &map)
+static void CleanMap(Map &map)
 {
     map.first.erase(std::remove(begin(map.first), end(map.first), '\n'), end(map.first));
 }
 
-Map GenerateMap()
+static Map GenerateMap()
 {
     Map ret;
 
@@ -89,12 +89,12 @@ constexpr static Pos East{+1, 0};
 constexpr static Pos North{0, -1};
 constexpr static Pos South{0, +1};
 
-Int GetMapHeight(Map const &map)
+static Int GetMapHeight(Map const &map)
 {
     return static_cast<Int>(map.first.size()) / map.second;
 }
 
-char GetTile(Map const &map, Pos const &p)
+static char GetTile(Map const &map, Pos const &p)
 {
     if (p.x < 0 || p.y < 0 || p.x >= map.second)
         return '\0';
@@ -107,7 +107,7 @@ char GetTile(Map const &map, Pos const &p)
     return map.first[static_cast<size_t>(p.y * map.second + p.x)];
 }
 
-Int MarkIntersections(Map const &map)
+static Int MarkIntersections(Map const &map)
 {
     Int result = 0;
     Int const height = static_cast<Int>(map.first.size()) / map.second;
@@ -138,7 +138,8 @@ Int MarkIntersections(Map const &map)
     return result;
 }
 
-void RenderMap(Map const &map)
+#if 0
+static void RenderMap(Map const &map)
 {
     std::string line(static_cast<size_t>(map.second), '\0');
     auto iter = begin(line);
@@ -154,6 +155,7 @@ void RenderMap(Map const &map)
         }
     }
 }
+#endif
 
 static Pos GetDir(char robot)
 {
@@ -189,7 +191,7 @@ static std::array<std::pair<Pos, char>, 2> GetOtherDirs(Pos const &pos)
     throw std::invalid_argument{"Invalid robot"};
 }
 
-void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
+static void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
 {
     while (true)
     {
@@ -227,7 +229,8 @@ void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
     }
 }
 
-std::string GetPath(Map const &map)
+WARNING_SUPPRESS_UNUSED_FUNCTION()
+static std::string GetPath(Map const &map)
 {
     using namespace std::string_view_literals;
     auto pos = map.first.find('^');
@@ -239,7 +242,7 @@ std::string GetPath(Map const &map)
     return path;
 }
 
-void Part1()
+static void Part1()
 {
     auto m = GenerateMap();
     auto const part1 = MarkIntersections(m);
@@ -247,7 +250,7 @@ void Part1()
     Assert(14332 == part1);
 }
 
-void Part2()
+static void Part2()
 {
     constexpr bool debug = false;
 

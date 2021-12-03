@@ -45,7 +45,7 @@ struct Asteroid
     }
 };
 
-[[nodiscard]] std::vector<Asteroid> ParseMap(std::string_view map)
+[[nodiscard]] static std::vector<Asteroid> ParseMap(std::string_view map)
 {
     auto lines = Split(map, '\n');
     std::vector<Asteroid> asteroids;
@@ -78,7 +78,7 @@ struct Asteroid
     return asteroids;
 }
 
-[[nodiscard]] Asteroid GetAsteroidWithMostRays(std::vector<Asteroid> const &asteroids)
+[[nodiscard]] static Asteroid GetAsteroidWithMostRays(std::vector<Asteroid> const &asteroids)
 {
     auto maxIt = std::max_element(begin(asteroids), end(asteroids),
                                   [](Asteroid const &a, Asteroid const &b)
@@ -91,7 +91,8 @@ struct Asteroid
     return *maxIt;
 }
 
-std::pair<int, Point2d> GetBestFromMap(std::string_view map)
+WARNING_SUPPRESS_UNUSED_FUNCTION()
+static std::pair<int, Point2d> GetBestFromMap(std::string_view map)
 {
     auto best = GetAsteroidWithMostRays(ParseMap(map));
     return {static_cast<int>(best.rays.size()), best.pos};

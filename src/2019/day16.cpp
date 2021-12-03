@@ -59,7 +59,7 @@ static int next(T &it)
 }
 #endif
 
-std::string ProcessPhaseSlow(std::string_view numbers)
+static std::string ProcessPhaseSlow(std::string_view numbers)
 {
     std::string ret(numbers.size(), '\0');
     int const numCount = static_cast<int>(numbers.size());
@@ -85,7 +85,7 @@ static int GetDigit(char c)
     return c - '0';
 }
 
-std::string Process(std::string_view numbers, int count)
+static std::string Process(std::string_view numbers, int count)
 {
     std::string ret{numbers.data(), numbers.size()};
 
@@ -100,7 +100,7 @@ std::string Process(std::string_view numbers, int count)
     return ret;
 }
 
-std::string ProcessPhaseCheat(std::string_view numbers)
+static std::string ProcessPhaseCheat(std::string_view numbers)
 {
     std::string ret(numbers.size(), '\0');
     char prev = '\0';
@@ -119,7 +119,7 @@ std::string ProcessPhaseCheat(std::string_view numbers)
     return ret;
 }
 
-std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
+static std::string ProcessWithOffsetTimes10000(std::string_view numbers, int count)
 {
     int ncount = static_cast<int>(numbers.size());
     std::string first7{numbers.begin(), numbers.begin() + 7};

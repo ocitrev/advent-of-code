@@ -25,7 +25,7 @@ struct Seat
     }
 };
 
-Seat GetSeat(std::string_view boardingPass)
+static Seat GetSeat(std::string_view boardingPass)
 {
     int low = 0;
     int high = 127;
@@ -54,7 +54,7 @@ Seat GetSeat(std::string_view boardingPass)
     return Seat{low, left};
 }
 
-int Part1()
+static int Part1()
 {
     std::array<int, input::passes.size()> ids{};
     std::transform(begin(input::passes), end(input::passes), begin(ids),
@@ -66,7 +66,7 @@ int Part1()
     return *std::max_element(begin(ids), end(ids));
 }
 
-int Part2()
+static int Part2()
 {
     std::set<Seat> seats;
     for (auto &&pass : input::passes)

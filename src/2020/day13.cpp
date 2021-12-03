@@ -4,7 +4,7 @@
 #include <fmt/format.h>
 #include <vector>
 
-int Part1()
+static int Part1()
 {
     int min = 0;
     int bestId = 0;
@@ -36,7 +36,7 @@ int Part1()
     return bestId * (min - input::earliest);
 }
 
-int64_t GetNextStart(std::string_view busIds)
+static int64_t GetNextStart(std::string_view busIds)
 {
     // fortement inspiré de cette solution: https://github.com/colinodell/advent-2020/blob/main/day13/day13.go
     std::vector<int> offsets;
@@ -75,7 +75,7 @@ int64_t GetNextStart(std::string_view busIds)
     }
 }
 
-int64_t Part2()
+static int64_t Part2()
 {
     return GetNextStart(input::busIds);
 }

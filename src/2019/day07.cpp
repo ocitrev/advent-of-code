@@ -6,7 +6,7 @@
 #include <fmt/format.h>
 #include <vector>
 
-Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
+static Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
     Int param = 0;
 
@@ -36,7 +36,7 @@ Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
     return param;
 }
 
-void Part1()
+static void Part1()
 {
     std::vector<Int> const code{input::data};
     std::array<Int, 5> sequence{0, 1, 2, 3, 4};
@@ -51,7 +51,7 @@ void Part1()
     Assert(30940 == maxValue);
 }
 
-Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
+static Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
     Int param = 0;
 
@@ -94,7 +94,7 @@ Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
     return param;
 }
 
-void Part2()
+static void Part2()
 {
     std::vector<Int> const code{input::data};
     std::array<Int, 5> sequence{5, 6, 7, 8, 9};

@@ -64,7 +64,7 @@ static std::vector<std::string_view> GetParents(std::vector<Rule> const &rules, 
     return parents;
 }
 
-void GetAllParents(std::vector<Rule> const &rules, std::string_view bag, std::set<std::string_view> &parents)
+static void GetAllParents(std::vector<Rule> const &rules, std::string_view bag, std::set<std::string_view> &parents)
 {
     for (auto &&p : GetParents(rules, bag))
     {
@@ -73,14 +73,14 @@ void GetAllParents(std::vector<Rule> const &rules, std::string_view bag, std::se
     }
 }
 
-int GetAllParentsCount(std::vector<Rule> const &rules, std::string_view bag)
+static int GetAllParentsCount(std::vector<Rule> const &rules, std::string_view bag)
 {
     std::set<std::string_view> parents;
     GetAllParents(rules, bag, parents);
     return static_cast<int>(parents.size());
 }
 
-int CountBags(std::vector<Rule> const &rules, std::string_view bag)
+static int CountBags(std::vector<Rule> const &rules, std::string_view bag)
 {
     int total = 0;
 
@@ -99,7 +99,7 @@ int CountBags(std::vector<Rule> const &rules, std::string_view bag)
     return total;
 }
 
-void Example()
+static void Example()
 {
 #ifndef NDEBUG
     auto const rules1 = ParseRules(example::rules1);
@@ -111,13 +111,13 @@ void Example()
 #endif
 }
 
-int Part1()
+static int Part1()
 {
     auto const rules = ParseRules(input::rules);
     return GetAllParentsCount(rules, input::mybag);
 }
 
-int Part2()
+static int Part2()
 {
     auto const rules = ParseRules(input::rules);
     return CountBags(rules, input::mybag);

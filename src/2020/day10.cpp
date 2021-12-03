@@ -5,7 +5,7 @@
 #include <fmt/format.h>
 #include <gsl/gsl>
 
-int Part1(std::vector<int> adapters)
+static int Part1(std::vector<int> adapters)
 {
     std::sort(begin(adapters), end(adapters));
     adapters.push_back(adapters.back() + 3);
@@ -21,7 +21,7 @@ int Part1(std::vector<int> adapters)
     return diffs[1] * diffs[3];
 }
 
-int Tribbonacci(int n)
+static int Tribbonacci(int n)
 {
     if (n < 2)
         return 0;
@@ -41,7 +41,7 @@ int Tribbonacci(int n)
     return third;
 }
 
-int64_t Part2(std::vector<int> adapters)
+static int64_t Part2(std::vector<int> adapters)
 {
     // fortement inspiré de cette solution: https://github.com/colinodell/advent-2020/blob/main/day10/day10.go
     adapters.insert(begin(adapters), 0);

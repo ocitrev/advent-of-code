@@ -6,7 +6,7 @@
 
 using namespace std::string_view_literals;
 
-bool IsPassportValid1(std::string_view passport)
+static bool IsPassportValid1(std::string_view passport)
 {
     static constexpr std::array required{
         "byr"sv, // (Birth Year)
@@ -25,7 +25,7 @@ bool IsPassportValid1(std::string_view passport)
                        });
 }
 
-bool IsPassportValid2(std::string_view passport)
+static bool IsPassportValid2(std::string_view passport)
 {
     if (not IsPassportValid1(passport))
         return false;
@@ -95,13 +95,13 @@ bool IsPassportValid2(std::string_view passport)
     return true;
 }
 
-int Part1()
+static int Part1()
 {
     auto passports = Split(input::batchFile, "\n\n");
     return static_cast<int>(std::count_if(begin(passports), end(passports), &IsPassportValid1));
 }
 
-int Part2()
+static int Part2()
 {
     auto passports = Split(input::batchFile, "\n\n");
     return static_cast<int>(std::count_if(begin(passports), end(passports), &IsPassportValid2));

@@ -4,7 +4,7 @@
 #include "../common/terminal.hpp"
 #include <fmt/format.h>
 
-std::vector<Int> Run(std::vector<Int> code, Int input = 0)
+static std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 {
     std::vector<Int> result;
 

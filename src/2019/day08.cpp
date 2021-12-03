@@ -64,7 +64,7 @@ static std::string Render(std::string_view pixels, size_t w, size_t h)
 static constexpr size_t W = 25;
 static constexpr size_t H = 6;
 
-void Part1()
+static void Part1()
 {
     auto layers = DecodeLayers(input::data, W, H);
 
@@ -79,7 +79,7 @@ void Part1()
     Assert(2080 == iterMin->count[1] * iterMin->count[2]);
 }
 
-void Part2()
+static void Part2()
 {
     auto const canvas = Render(input::data, W, H);
     std::string result;

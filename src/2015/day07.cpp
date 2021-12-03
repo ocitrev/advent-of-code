@@ -127,13 +127,13 @@ public:
     }
 };
 
-int Part1()
+static int Part1()
 {
     Circuit c(input::data);
     return c.GetWire("a");
 }
 
-int Part2()
+static int Part2()
 {
     Circuit c(input::data);
     auto const a = c.GetWire("a");
