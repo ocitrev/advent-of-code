@@ -53,7 +53,7 @@ int Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2021/day/2
-    fmt::print("Day 2, 2021: \n");
+    fmt::print("Day 2, 2021: Dive!\n");
 
     Assert(150 == Part1(example::directions));
     Assert(900 == Part2(example::directions));
