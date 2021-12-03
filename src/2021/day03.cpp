@@ -67,9 +67,9 @@ unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
         auto last = end(numbers);
 
         bool const popular = GetMostPopular(numbers, bitMask);
-        bool const removePopular = rating == Rating::KeepPopular ? popular : not popular;
+        bool const keepPopular = rating == Rating::KeepPopular ? popular : not popular;
 
-        if (removePopular)
+        if (keepPopular)
         {
             last = std::remove_if(begin(numbers), end(numbers),
                                   [bitMask](unsigned int n)
