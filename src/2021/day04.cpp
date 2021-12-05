@@ -146,7 +146,7 @@ static int Part2(std::span<int const> draw, std::string_view boardsText)
 int main()
 {
     // https://adventofcode.com/2021/day/4
-    fmt::print("Day 4, 2021: \n");
+    fmt::print("Day 4, 2021: Giant Squid\n");
 
     Assert(4512 == Part1(example::draw, example::boards));
     Assert(1924 == Part2(example::draw, example::boards));
