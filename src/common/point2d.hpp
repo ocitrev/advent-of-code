@@ -114,6 +114,24 @@ struct Point2d
     }
 };
 
+[[nodiscard]] inline double Distance(Point2d a, Point2d b) noexcept
+{
+    return sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+}
+
+inline constexpr bool equals(double a, double b, double toler = 1.0e-6) noexcept
+{
+    return fabs(b - a) < toler;
+}
+
+inline bool IsOnLine(Point2d a, Point2d b, Point2d c) noexcept
+{
+    double const ac = Distance(a, c);
+    double const bc = Distance(b, c);
+    double const ab = Distance(a, b);
+    return equals(ac + bc, ab);
+}
+
 template <>
 struct std::hash<Point2d>
 {
