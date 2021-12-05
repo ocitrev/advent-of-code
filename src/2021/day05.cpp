@@ -154,5 +154,5 @@ int main()
 
     auto const part2 = Part2(input::lines);
     fmt::print("  Part 2: {}\n", part2);
-    // Assert(13884 == part2);
+    Assert(17013 == part2);
 }
