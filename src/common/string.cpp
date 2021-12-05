@@ -8,7 +8,9 @@ std::vector<std::string_view> Split(std::string_view text, std::string_view sep)
 
     while (pos != std::string_view::npos)
     {
-        result.emplace_back(text.substr(offset, pos - offset));
+        if (pos != offset)
+            result.emplace_back(text.substr(offset, pos - offset));
+
         offset = pos + sep.size();
         pos = text.find(sep, offset);
     }
