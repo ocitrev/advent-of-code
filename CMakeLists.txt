@@ -93,7 +93,7 @@ target_compile_definitions(common PUBLIC
   WIN32_LEAN_AND_MEAN
 )
 
-target_compile_features(common PUBLIC cxx_std_23)
+target_compile_features(common PUBLIC cxx_std_20)
 target_link_libraries(common PUBLIC project_warnings)
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
