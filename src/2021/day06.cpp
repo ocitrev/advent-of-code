@@ -6,9 +6,9 @@
 #include <numeric>
 #include <span>
 
-static size_t Run(std::span<int8_t const> fishes, int const days)
+static uint64_t Run(std::span<int8_t const> fishes, int const days)
 {
-    std::array<size_t, 9> counters{};
+    std::array<uint64_t, 9> counters{};
 
     for (int8_t f : fishes)
     {
@@ -21,15 +21,15 @@ static size_t Run(std::span<int8_t const> fishes, int const days)
         counters[6] += counters[8];
     }
 
-    return std::accumulate(begin(counters), end(counters), size_t{0});
+    return std::accumulate(begin(counters), end(counters), uint64_t{0});
 }
 
-static size_t Part1(std::span<int8_t const> fishes)
+static uint64_t Part1(std::span<int8_t const> fishes)
 {
     return Run(fishes, 80);
 }
 
-static size_t Part2(std::span<int8_t const> fishes)
+static uint64_t Part2(std::span<int8_t const> fishes)
 {
     return Run(fishes, 256);
 }
