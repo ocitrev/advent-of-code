@@ -5,8 +5,7 @@
 #include <fmt/format.h>
 #include <vector>
 
-WARNING_SUPPRESS_UNUSED_FUNCTION()
-static Int Run(std::vector<Int> const &code, Int input)
+[[maybe_unused]] static Int Run(std::vector<Int> const &code, Int input)
 {
     Int outValue = 0;
     Intcode::Run(

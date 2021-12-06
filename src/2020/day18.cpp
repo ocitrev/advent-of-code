@@ -64,7 +64,7 @@ static Int Eval1(std::string_view expression)
 
 enum class TokenType
 {
-    Int,
+    Integer,
     Plus,
     Mul,
     LParen,
@@ -151,7 +151,7 @@ public:
                 continue;
 
             if (std::isdigit(currentChar) != 0)
-                return {TokenType::Int, Integer()};
+                return {TokenType::Integer, Integer()};
 
             if (currentChar == '+')
             {
@@ -261,9 +261,9 @@ private:
     std::shared_ptr<AST> Factor()
     {
         auto token = currentToken;
-        if (token.type == TokenType::Int)
+        if (token.type == TokenType::Integer)
         {
-            Eat(TokenType::Int);
+            Eat(TokenType::Integer);
             return std::make_shared<Number>(token.value);
         }
 

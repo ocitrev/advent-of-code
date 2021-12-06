@@ -91,8 +91,7 @@ struct Asteroid
     return *maxIt;
 }
 
-WARNING_SUPPRESS_UNUSED_FUNCTION()
-static std::pair<int, Point2d> GetBestFromMap(std::string_view map)
+[[maybe_unused]] static std::pair<int, Point2d> GetBestFromMap(std::string_view map)
 {
     auto best = GetAsteroidWithMostRays(ParseMap(map));
     return {static_cast<int>(best.rays.size()), best.pos};

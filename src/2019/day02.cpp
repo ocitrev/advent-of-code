@@ -5,8 +5,7 @@
 #include <fmt/format.h>
 #include <vector>
 
-WARNING_SUPPRESS_UNUSED_FUNCTION()
-static Int RunAndGetValue(std::vector<Int> const &code, size_t offset)
+[[maybe_unused]] static Int RunAndGetValue(std::vector<Int> code, size_t offset)
 {
     Intcode a{code};
     a.Run();

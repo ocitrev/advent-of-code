@@ -229,8 +229,7 @@ static void FillPath(std::string &path, Map const &map, Pos start, Pos dir)
     }
 }
 
-WARNING_SUPPRESS_UNUSED_FUNCTION()
-static std::string GetPath(Map const &map)
+[[maybe_unused]] static std::string GetPath(Map const &map)
 {
     using namespace std::string_view_literals;
     auto pos = map.first.find('^');
