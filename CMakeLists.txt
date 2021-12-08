@@ -120,6 +120,7 @@ function(add_aoc year day)
   else()
     add_custom_target(run DEPENDS run-${year}-${day})
   endif()
+  set_property(TARGET ${year}-day${day} APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${year}-day${day}.pdb)
 endfunction()
 
 add_aoc(2015 1)
