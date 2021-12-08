@@ -77,6 +77,7 @@ add_library(common STATIC
   src/common/combinations.hpp
   src/common/intcode.cpp
   src/common/intcode.hpp
+  src/common/numbers.hpp
   src/common/point2d.hpp
   src/common/point3d.hpp
   src/common/point4d.hpp
@@ -192,6 +193,7 @@ add_aoc(2021 03)
 add_aoc(2021 04)
 add_aoc(2021 05)
 add_aoc(2021 06)
+add_aoc(2021 07)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
