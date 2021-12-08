@@ -72,18 +72,18 @@ static unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
         if (keepPopular)
         {
             last = std::remove_if(begin(numbers), end(numbers),
-                                  [bitMask](unsigned int n)
-                                  {
-                                      return (n & bitMask) == 0;
-                                  });
+                [bitMask](unsigned int n)
+                {
+                    return (n & bitMask) == 0;
+                });
         }
         else
         {
             last = std::remove_if(begin(numbers), end(numbers),
-                                  [bitMask](unsigned int n)
-                                  {
-                                      return (n & bitMask) != 0;
-                                  });
+                [bitMask](unsigned int n)
+                {
+                    return (n & bitMask) != 0;
+                });
         }
 
         numbers.erase(last, end(numbers));

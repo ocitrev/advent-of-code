@@ -66,10 +66,10 @@ struct Ingredient
         });
 
         rtrim_if(ingredient.name,
-                 [](int ch)
-                 {
-                     return std::ispunct(ch);
-                 });
+            [](int ch)
+            {
+                return std::ispunct(ch);
+            });
     }
 
     return ingredients;

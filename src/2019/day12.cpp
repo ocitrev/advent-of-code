@@ -88,10 +88,10 @@ public:
 static void StepAxis(std::vector<Moon> &moons, size_t axis)
 {
     ForEachCombinations(moons,
-                        [axis](Moon &a, Moon &b)
-                        {
-                            a.ApplyGravityAxis(b, axis);
-                        });
+        [axis](Moon &a, Moon &b)
+        {
+            a.ApplyGravityAxis(b, axis);
+        });
 
     for (Moon &m : moons)
     {
@@ -102,10 +102,10 @@ static void StepAxis(std::vector<Moon> &moons, size_t axis)
 static void Step(std::vector<Moon> &moons)
 {
     ForEachCombinations(moons,
-                        [](Moon &a, Moon &b)
-                        {
-                            a.ApplyGravity(b);
-                        });
+        [](Moon &a, Moon &b)
+        {
+            a.ApplyGravity(b);
+        });
 
     for (Moon &m : moons)
     {
@@ -123,10 +123,10 @@ static long long Simulate(std::string_view data, int steps)
     }
 
     return std::accumulate(begin(moons), end(moons), 0LL,
-                           [](long long total, Moon const &m)
-                           {
-                               return total + m.GetEnergy();
-                           });
+        [](long long total, Moon const &m)
+        {
+            return total + m.GetEnergy();
+        });
 }
 
 static long long CountCycle(std::string_view data)

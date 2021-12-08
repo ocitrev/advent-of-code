@@ -2,15 +2,61 @@
 #include <array>
 #include <string_view>
 
+namespace example
+{
+    static constexpr std::string_view instructions{R"(inc a
+jio a, +2
+tpl a
+inc a)"};
+}
+
 namespace input
 {
-    using namespace std::string_view_literals;
-    static constexpr std::array instructions{
-        "jio a, +16"sv, "inc a"sv, "inc a"sv, "tpl a"sv,  "tpl a"sv, "tpl a"sv,  "inc a"sv,     "inc a"sv,
-        "tpl a"sv,      "inc a"sv, "inc a"sv, "tpl a"sv,  "tpl a"sv, "tpl a"sv,  "inc a"sv,     "jmp +23"sv,
-        "tpl a"sv,      "inc a"sv, "inc a"sv, "tpl a"sv,  "inc a"sv, "inc a"sv,  "tpl a"sv,     "tpl a"sv,
-        "inc a"sv,      "inc a"sv, "tpl a"sv, "inc a"sv,  "tpl a"sv, "inc a"sv,  "tpl a"sv,     "inc a"sv,
-        "inc a"sv,      "tpl a"sv, "inc a"sv, "tpl a"sv,  "tpl a"sv, "inc a"sv,  "jio a, +8"sv, "inc b"sv,
-        "jie a, +4"sv,  "tpl a"sv, "inc a"sv, "jmp +2"sv, "hlf a"sv, "jmp -7"sv,
-    };
+    static constexpr std::string_view instructions{
+        R"(jio a, +16",
+inc a
+inc a
+tpl a
+tpl a
+tpl a
+inc a
+inc a
+tpl a
+inc a
+inc a
+tpl a
+tpl a
+tpl a
+inc a
+jmp +23
+tpl a
+inc a
+inc a
+tpl a
+inc a
+inc a
+tpl a
+tpl a
+inc a
+inc a
+tpl a
+inc a
+tpl a
+inc a
+tpl a
+inc a
+inc a
+tpl a
+inc a
+tpl a
+tpl a
+inc a
+jio a, +8
+inc b
+jie a, +4
+tpl a
+inc a
+jmp +2
+hlf a
+jmp -7)"};
 }

@@ -94,18 +94,16 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
     }
 
     auto d = std::min_element(begin(crossing), end(crossing),
-                              [](auto const &a, auto const &b)
-                              {
-                                  return a.Dist < b.Dist;
-                              })
-                 ->Dist;
+        [](auto const &a, auto const &b)
+        {
+            return a.Dist < b.Dist;
+        })->Dist;
 
     auto l = std::min_element(begin(crossing), end(crossing),
-                              [](auto const &a, auto const &b)
-                              {
-                                  return a.Length < b.Length;
-                              })
-                 ->Length;
+        [](auto const &a, auto const &b)
+        {
+            return a.Length < b.Length;
+        })->Length;
 
     return {d, l};
 }

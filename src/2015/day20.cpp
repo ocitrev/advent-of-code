@@ -14,10 +14,10 @@ int Part1(int limit)
             giftsPerHouse[static_cast<std::size_t>(i)] += 10 * elve;
 
     auto iter = std::find_if(begin(giftsPerHouse), end(giftsPerHouse),
-                             [limit](int i)
-                             {
-                                 return i >= limit;
-                             });
+        [limit](int i)
+        {
+            return i >= limit;
+        });
 
     return static_cast<int>(std::distance(begin(giftsPerHouse), iter));
 }
@@ -41,10 +41,10 @@ int Part2(int limit)
     }
 
     auto iter = std::find_if(begin(giftsPerHouse), end(giftsPerHouse),
-                             [limit](int i)
-                             {
-                                 return i >= limit;
-                             });
+        [limit](int i)
+        {
+            return i >= limit;
+        });
 
     return static_cast<int>(std::distance(begin(giftsPerHouse), iter));
 }

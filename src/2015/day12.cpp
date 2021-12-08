@@ -28,10 +28,10 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
     {
         auto const &arr = value.GetArray();
         return std::accumulate(arr.Begin(), arr.End(), 0,
-                               [checkExclusion](int total, rapidjson::Value const &arrayValue)
-                               {
-                                   return total + SumAllNumbers(arrayValue, checkExclusion);
-                               });
+            [checkExclusion](int total, rapidjson::Value const &arrayValue)
+            {
+                return total + SumAllNumbers(arrayValue, checkExclusion);
+            });
     }
 
     case rapidjson::kObjectType:
@@ -40,12 +40,11 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
 
         if (checkExclusion)
         {
-            bool const containsRed
-                = std::any_of(obj.MemberBegin(), obj.MemberEnd(),
-                              [](auto const &member)
-                              {
-                                  return member.value.IsString() && ToStringView(member.value) == "red";
-                              });
+            bool const containsRed = std::any_of(obj.MemberBegin(), obj.MemberEnd(),
+                [](auto const &member)
+                {
+                    return member.value.IsString() && ToStringView(member.value) == "red";
+                });
 
             if (containsRed)
             {
@@ -54,10 +53,10 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
         }
 
         return std::accumulate(obj.MemberBegin(), obj.MemberEnd(), 0,
-                               [checkExclusion](int total, auto const &member)
-                               {
-                                   return total + SumAllNumbers(member.value, checkExclusion);
-                               });
+            [checkExclusion](int total, auto const &member)
+            {
+                return total + SumAllNumbers(member.value, checkExclusion);
+            });
     }
 
     default:

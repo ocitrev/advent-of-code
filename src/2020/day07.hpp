@@ -18,9 +18,12 @@ namespace example
     };
 
     [[maybe_unused]] static constexpr std::array rules2{
-        "shiny gold bags contain 2 dark red bags."sv,     "dark red bags contain 2 dark orange bags."sv,
-        "dark orange bags contain 2 dark yellow bags."sv, "dark yellow bags contain 2 dark green bags."sv,
-        "dark green bags contain 2 dark blue bags."sv,    "dark blue bags contain 2 dark violet bags."sv,
+        "shiny gold bags contain 2 dark red bags."sv,
+        "dark red bags contain 2 dark orange bags."sv,
+        "dark orange bags contain 2 dark yellow bags."sv,
+        "dark yellow bags contain 2 dark green bags."sv,
+        "dark green bags contain 2 dark blue bags."sv,
+        "dark blue bags contain 2 dark violet bags."sv,
         "dark violet bags contain no other bags."sv,
     };
 }

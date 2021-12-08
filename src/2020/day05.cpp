@@ -1,8 +1,10 @@
 #include "day05.hpp"
 #include "../common/assert.hpp"
+#include "../common/string.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <set>
+#include <vector>
 
 struct Seat
 {
@@ -56,20 +58,24 @@ static Seat GetSeat(std::string_view boardingPass)
 
 static int Part1()
 {
-    std::array<int, input::passes.size()> ids{};
-    std::transform(begin(input::passes), end(input::passes), begin(ids),
-                   [](auto pass)
-                   {
-                       return GetSeat(pass).GetId();
-                   });
+    auto const lines = Split(input::passes, '\n');
+    std::vector<int> ids(lines.size());
+
+    std::transform(begin(lines), end(lines), begin(ids),
+        [](auto pass)
+        {
+            return GetSeat(pass).GetId();
+        });
 
     return *std::max_element(begin(ids), end(ids));
 }
 
 static int Part2()
 {
+    auto const lines = Split(input::passes, '\n');
+
     std::set<Seat> seats;
-    for (auto &&pass : input::passes)
+    for (auto &&pass : lines)
     {
         seats.insert(GetSeat(pass));
     }
@@ -114,4 +120,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
+    Assert(532 == part2);
 }

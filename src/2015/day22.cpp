@@ -38,8 +38,10 @@ struct Game
     };
 
     inline static std::vector<Spell> const spells{
-        Spell{SpellId::Recharge, 229, 0, 0, true},     Spell{SpellId::Shield, 113, 0, 0, true},
-        Spell{SpellId::Poison, 173, 0, 0, true},       Spell{SpellId::Drain, 73, 2, 2, false},
+        Spell{SpellId::Recharge, 229, 0, 0, true},
+        Spell{SpellId::Shield, 113, 0, 0, true},
+        Spell{SpellId::Poison, 173, 0, 0, true},
+        Spell{SpellId::Drain, 73, 2, 2, false},
         Spell{SpellId::MagicMissile, 53, 4, 0, false},
     };
 

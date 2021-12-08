@@ -74,7 +74,7 @@ struct Grid
     [[nodiscard]] int CountSurroundingOccupiedFrom(int x, int y) const
     {
         std::array const neighbors{GetCell(x - 1, y - 1), GetCell(x, y - 1), GetCell(x + 1, y - 1), GetCell(x + 1, y),
-                                   GetCell(x + 1, y + 1), GetCell(x, y + 1), GetCell(x - 1, y + 1), GetCell(x - 1, y)};
+            GetCell(x + 1, y + 1), GetCell(x, y + 1), GetCell(x - 1, y + 1), GetCell(x - 1, y)};
         return static_cast<int>(std::count(begin(neighbors), end(neighbors), '#'));
     }
 

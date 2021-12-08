@@ -75,10 +75,10 @@ struct VM
     [[nodiscard]] uint64_t Sum() const
     {
         return std::accumulate(begin(memory), end(memory), uint64_t{0},
-                               [](uint64_t total, auto const &item)
-                               {
-                                   return total + item.second;
-                               });
+            [](uint64_t total, auto const &item)
+            {
+                return total + item.second;
+            });
     }
 
     [[nodiscard]] static std::vector<uint64_t> GenerateAllBits(std::string_view mask, uint64_t initial)

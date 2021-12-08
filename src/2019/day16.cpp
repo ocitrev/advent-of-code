@@ -106,15 +106,15 @@ static std::string ProcessPhaseCheat(std::string_view numbers)
     char prev = '\0';
 
     std::transform(rbegin(numbers), rend(numbers), rbegin(ret),
-                   [&](char c) -> char
-                   {
-                       if (prev == '\0')
-                           prev = c;
-                       else
-                           prev = static_cast<char>((GetDigit(prev) + GetDigit(c)) % 10 + '0');
+        [&](char c) -> char
+        {
+            if (prev == '\0')
+                prev = c;
+            else
+                prev = static_cast<char>((GetDigit(prev) + GetDigit(c)) % 10 + '0');
 
-                       return prev;
-                   });
+            return prev;
+        });
 
     return ret;
 }

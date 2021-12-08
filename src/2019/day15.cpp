@@ -75,7 +75,7 @@ struct Robot
     [[nodiscard]] std::pair<Point2d, Point2d> GetBounds() const
     {
         std::pair<Point2d, Point2d> bounds{{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()},
-                                           {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
+            {std::numeric_limits<int>::min(), std::numeric_limits<int>::min()}};
 
         for (auto const &elem : grid)
         {
@@ -194,7 +194,7 @@ struct Robot
     }
 
     bool RecursiveSolve(Point2d p, std::set<Point2d> &visited, std::vector<Point2d> &path,
-                        std::pair<Point2d, Point2d> const &bounds) const
+        std::pair<Point2d, Point2d> const &bounds) const
     {
         if (p == *oxygen)
         {
@@ -259,10 +259,10 @@ struct Robot
     [[nodiscard]] bool IsFilling() const
     {
         return std::any_of(begin(grid), end(grid),
-                           [](auto const &elem)
-                           {
-                               return elem.second == kFloor;
-                           });
+            [](auto const &elem)
+            {
+                return elem.second == kFloor;
+            });
     }
 
     std::vector<Point2d> FindCandidates()

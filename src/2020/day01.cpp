@@ -10,16 +10,16 @@ static int Find(gsl::span<int const> numbers, std::size_t nb)
 {
     int result = 0;
     Combinations(numbers, nb,
-                 [&](auto const &values)
-                 {
-                     if (kSumWanted == std::accumulate(begin(values), end(values), 0, std::plus{}))
-                     {
-                         result = std::accumulate(begin(values), end(values), 1, std::multiplies{});
-                         return false; // break
-                     }
+        [&](auto const &values)
+        {
+            if (kSumWanted == std::accumulate(begin(values), end(values), 0, std::plus{}))
+            {
+                result = std::accumulate(begin(values), end(values), 1, std::multiplies{});
+                return false; // break
+            }
 
-                     return true; // continue
-                 });
+            return true; // continue
+        });
 
     return result;
 }

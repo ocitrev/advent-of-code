@@ -39,17 +39,17 @@ static void Part1()
     std::array<std::function<void(Int)>, 3> states = {setX, setY, setTitle};
 
     Intcode::Run(input::code, nullptr,
-                 [&](Int value)
-                 {
-                     states.front()(value);
-                     std::rotate(begin(states), begin(states) + 1, end(states));
-                 });
+        [&](Int value)
+        {
+            states.front()(value);
+            std::rotate(begin(states), begin(states) + 1, end(states));
+        });
 
     auto result = std::count_if(begin(grid), end(grid),
-                                [](auto const &elem)
-                                {
-                                    return elem.second == Tile::Block;
-                                });
+        [](auto const &elem)
+        {
+            return elem.second == Tile::Block;
+        });
 
     fmt::print("  Part1: {}\n", result);
     Assert(expected::part1 == result);

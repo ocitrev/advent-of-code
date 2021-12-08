@@ -53,10 +53,10 @@ static int Part1()
         for (auto id : ticket)
         {
             if (not std::any_of(begin(rules), end(rules),
-                                [id](Rule const &r)
-                                {
-                                    return r.IsValid(id);
-                                }))
+                    [id](Rule const &r)
+                    {
+                        return r.IsValid(id);
+                    }))
             {
                 invalidIds.push_back(id);
             }
@@ -71,10 +71,10 @@ static bool IsValidTicket(gsl::span<int const> ticket, gsl::span<Rule> rules)
     for (auto id : ticket)
     {
         if (not std::any_of(begin(rules), end(rules),
-                            [id](Rule const &r)
-                            {
-                                return r.IsValid(id);
-                            }))
+                [id](Rule const &r)
+                {
+                    return r.IsValid(id);
+                }))
         {
             return false;
         }
@@ -92,10 +92,10 @@ static int64_t Part2()
     int const nbRules = static_cast<int>(rules.size());
     std::vector<gsl::span<int const>> validTickets{begin(input::nearbyTickets), end(input::nearbyTickets)};
     auto last = std::remove_if(begin(validTickets), end(validTickets),
-                               [&](auto &&ticket)
-                               {
-                                   return not IsValidTicket(ticket, rules);
-                               });
+        [&](auto &&ticket)
+        {
+            return not IsValidTicket(ticket, rules);
+        });
     validTickets.erase(last, end(validTickets));
     validTickets.emplace_back(input::myTicket);
 
@@ -104,10 +104,10 @@ static int64_t Part2()
         for (int r = 0; r != nbRules; ++r)
         {
             if (std::all_of(begin(validTickets), end(validTickets),
-                            [&](auto const &ticket)
-                            {
-                                return rule.IsValid(gsl::at(ticket, r));
-                            }))
+                    [&](auto const &ticket)
+                    {
+                        return rule.IsValid(gsl::at(ticket, r));
+                    }))
             {
                 rule.possibleIndex.insert(r);
             }

@@ -70,9 +70,9 @@ struct GOL
                 }
 
                 auto const cell = GetCell(x, y);
-                std::array const neighbors{GetCell(x - 1, y - 1), GetCell(x, y - 1),     GetCell(x + 1, y - 1),
-                                           GetCell(x + 1, y),     GetCell(x + 1, y + 1), GetCell(x, y + 1),
-                                           GetCell(x - 1, y + 1), GetCell(x - 1, y)};
+                std::array const neighbors{GetCell(x - 1, y - 1), GetCell(x, y - 1), GetCell(x + 1, y - 1),
+                    GetCell(x + 1, y), GetCell(x + 1, y + 1), GetCell(x, y + 1), GetCell(x - 1, y + 1),
+                    GetCell(x - 1, y)};
 
                 auto const nbAlive = std::accumulate(begin(neighbors), end(neighbors), 0);
 

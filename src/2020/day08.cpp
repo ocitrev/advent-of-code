@@ -2,13 +2,13 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include <fmt/format.h>
-#include <gsl/gsl>
 #include <set>
+#include <span>
 #include <vector>
 
 struct VM
 {
-    gsl::span<std::string_view const> instructions;
+    std::span<std::string_view const> instructions;
 
     int ip = 0;
     int acc = 0;
@@ -55,7 +55,7 @@ struct VM
     }
 };
 
-static int Run1(gsl::span<std::string_view const> instructions)
+static int Run1(std::span<std::string_view const> instructions)
 {
     VM vm;
     vm.instructions = instructions;
@@ -63,7 +63,13 @@ static int Run1(gsl::span<std::string_view const> instructions)
     return vm.acc;
 }
 
-static int Run2(gsl::span<std::string_view const> instructions)
+static int Run1(std::string_view instructions)
+{
+    auto const lines = Split(instructions, '\n');
+    return Run1(lines);
+}
+
+static int Run2(std::span<std::string_view const> instructions)
 {
     std::vector<std::string_view> copy(begin(instructions), end(instructions));
 
@@ -73,10 +79,10 @@ static int Run2(gsl::span<std::string_view const> instructions)
     while (true)
     {
         first = std::find_if(first, last,
-                             [](std::string_view const &i)
-                             {
-                                 return starts_with(i, "jmp");
-                             });
+            [](std::string_view const &i)
+            {
+                return starts_with(i, "jmp");
+            });
 
         if (first == last)
             break;
@@ -98,10 +104,10 @@ static int Run2(gsl::span<std::string_view const> instructions)
     while (true)
     {
         first = std::find_if(first, last,
-                             [](std::string_view const &i)
-                             {
-                                 return starts_with(i, "nop");
-                             });
+            [](std::string_view const &i)
+            {
+                return starts_with(i, "nop");
+            });
 
         if (first == last)
             break;
@@ -121,6 +127,12 @@ static int Run2(gsl::span<std::string_view const> instructions)
     }
 
     return 0;
+}
+
+static int Run2(std::string_view instructions)
+{
+    auto const lines = Split(instructions, '\n');
+    return Run2(lines);
 }
 
 int main()

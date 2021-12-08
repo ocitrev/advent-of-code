@@ -2,7 +2,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include <fmt/format.h>
-#include <gsl/gsl>
+#include <span>
 
 struct VM
 {
@@ -10,7 +10,7 @@ struct VM
     unsigned int b = 0;
     int ip = 0;
 
-    gsl::span<std::string_view const> instructions;
+    std::span<std::string_view const> instructions;
 
     unsigned int &GetRegister(std::string_view instruction)
     {
@@ -86,31 +86,28 @@ struct VM
 
 auto Example()
 {
+    auto const instructions = Split(example::instructions, '\n');
     using namespace std::string_view_literals;
     VM vm;
-    vm.instructions = std::array{
-        "inc a"sv,
-        "jio a, +2"sv,
-        "tpl a"sv,
-        "inc a"sv,
-    };
-
+    vm.instructions = instructions;
     vm.Run();
     return vm.a;
 }
 
 auto Part1()
 {
+    auto const instructions = Split(input::instructions, '\n');
     VM vm;
-    vm.instructions = input::instructions;
+    vm.instructions = instructions;
     vm.Run();
     return vm.b;
 }
 
 auto Part2()
 {
+    auto const instructions = Split(input::instructions, '\n');
     VM vm;
-    vm.instructions = input::instructions;
+    vm.instructions = instructions;
     vm.a = 1;
     vm.Run();
     return vm.b;

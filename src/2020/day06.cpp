@@ -51,8 +51,8 @@
         std::copy(begin(line), end(line), std::inserter(current, end(current)));
 
         std::set<char> intersection;
-        std::set_intersection(begin(prev), end(prev), begin(current), end(current),
-                              std::inserter(intersection, end(intersection)));
+        std::set_intersection(
+            begin(prev), end(prev), begin(current), end(current), std::inserter(intersection, end(intersection)));
 
         if (intersection.empty())
             return 0;

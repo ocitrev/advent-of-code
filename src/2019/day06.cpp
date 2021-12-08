@@ -93,10 +93,10 @@ int main()
 
     std::vector<std::string> result;
     std::set_symmetric_difference(begin(you), end(you), begin(san), end(san), std::back_inserter(result),
-                                  [](auto const &a, auto const &b)
-                                  {
-                                      return a < b;
-                                  });
+        [](auto const &a, auto const &b)
+        {
+            return a < b;
+        });
 
     fmt::print("  Part2: {}\n", result.size());
     Assert(442 == result.size());

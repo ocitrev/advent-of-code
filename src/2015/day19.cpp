@@ -64,10 +64,10 @@ int GetNumberOfSteps(Grammar const &grammar, std::string_view input)
 
     // du plus grand au plus petit, pour favoriser un algo "greedy"
     std::sort(begin(tos), end(tos),
-              [](std::string const &a, std::string const &b)
-              {
-                  return std::make_pair(a.size(), a) > std::make_pair(b.size(), b);
-              });
+        [](std::string const &a, std::string const &b)
+        {
+            return std::make_pair(a.size(), a) > std::make_pair(b.size(), b);
+        });
 
     while (molecule != "e")
     {

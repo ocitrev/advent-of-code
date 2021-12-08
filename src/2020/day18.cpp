@@ -319,7 +319,7 @@ static Int Eval2(std::string_view expression)
 static Int Part1()
 {
     Int result = 0;
-    for (auto &&expr : input::equations)
+    for (auto &&expr : Split(input::equations, '\n'))
     {
         result += Eval1(expr);
     }
@@ -330,7 +330,8 @@ static Int Part1()
 static Int Part2()
 {
     Int result = 0;
-    for (auto &&expr : input::equations)
+
+    for (auto &&expr : Split(input::equations, '\n'))
     {
         result += Eval2(expr);
     }

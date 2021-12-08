@@ -141,10 +141,10 @@ public:
     [[nodiscard]] int HowManyOn() const
     {
         return std::accumulate(begin(grid), end(grid), 0,
-                               [](int sum, int v)
-                               {
-                                   return sum + (v == 0 ? 0 : 1);
-                               });
+            [](int sum, int v)
+            {
+                return sum + (v == 0 ? 0 : 1);
+            });
     }
 
     [[nodiscard]] int TotalBrightness() const

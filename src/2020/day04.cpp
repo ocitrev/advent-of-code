@@ -19,10 +19,10 @@ static bool IsPassportValid1(std::string_view passport)
     };
 
     return std::all_of(begin(required), end(required),
-                       [&passport](std::string_view field)
-                       {
-                           return passport.find(field) != std::string_view::npos;
-                       });
+        [&passport](std::string_view field)
+        {
+            return passport.find(field) != std::string_view::npos;
+        });
 }
 
 static bool IsPassportValid2(std::string_view passport)

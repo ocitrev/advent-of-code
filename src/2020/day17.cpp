@@ -66,10 +66,10 @@ struct GOL3d
         std::vector<Point3d> points(map.size());
 
         std::transform(begin(map), end(map), begin(points),
-                       [](auto const &pair)
-                       {
-                           return pair.first;
-                       });
+            [](auto const &pair)
+            {
+                return pair.first;
+            });
 
         const auto [min, max] = std::minmax_element(begin(points), end(points));
 
@@ -103,10 +103,10 @@ struct GOL3d
     [[nodiscard]] int CountAlive() const
     {
         return static_cast<int>(std::count_if(begin(map), end(map),
-                                              [](auto const &elem)
-                                              {
-                                                  return elem.second;
-                                              }));
+            [](auto const &elem)
+            {
+                return elem.second;
+            }));
     }
 };
 
@@ -168,10 +168,10 @@ struct GOL4d
         std::vector<Point4d> points(map.size());
 
         std::transform(begin(map), end(map), begin(points),
-                       [](auto const &pair)
-                       {
-                           return pair.first;
-                       });
+            [](auto const &pair)
+            {
+                return pair.first;
+            });
 
         const auto [min, max] = std::minmax_element(begin(points), end(points));
 
@@ -206,10 +206,10 @@ struct GOL4d
     [[nodiscard]] int CountAlive() const
     {
         return static_cast<int>(std::count_if(begin(map), end(map),
-                                              [](auto const &elem)
-                                              {
-                                                  return elem.second;
-                                              }));
+            [](auto const &elem)
+            {
+                return elem.second;
+            }));
     }
 };
 

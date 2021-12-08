@@ -69,11 +69,11 @@ struct Asteroid
     }
 
     ForEachCombinations(asteroids,
-                        [](Asteroid &a, Asteroid &b)
-                        {
-                            a.AddRay(b);
-                            b.AddRay(a);
-                        });
+        [](Asteroid &a, Asteroid &b)
+        {
+            a.AddRay(b);
+            b.AddRay(a);
+        });
 
     return asteroids;
 }
@@ -81,10 +81,10 @@ struct Asteroid
 [[nodiscard]] static Asteroid GetAsteroidWithMostRays(std::vector<Asteroid> const &asteroids)
 {
     auto maxIt = std::max_element(begin(asteroids), end(asteroids),
-                                  [](Asteroid const &a, Asteroid const &b)
-                                  {
-                                      return a.rays.size() < b.rays.size();
-                                  });
+        [](Asteroid const &a, Asteroid const &b)
+        {
+            return a.rays.size() < b.rays.size();
+        });
 
     Assert(maxIt != end(asteroids));
 

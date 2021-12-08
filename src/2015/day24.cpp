@@ -18,13 +18,13 @@ static std::vector<std::vector<int>> FindGroups(gsl::span<int const> ints, int n
     {
         size_t const oldSize = groups.size();
         Combinations(ints, i,
-                     [&](auto const &values)
-                     {
-                         if (std::accumulate(begin(values), end(values), 0) == groupSum)
-                             groups.push_back(values);
+            [&](auto const &values)
+            {
+                if (std::accumulate(begin(values), end(values), 0) == groupSum)
+                    groups.push_back(values);
 
-                         return true;
-                     });
+                return true;
+            });
 
         if (not groups.empty() && groups.size() == oldSize)
             break;
@@ -43,21 +43,21 @@ int64_t GetBestFit(gsl::span<int const> numbers, int nbPackages)
     for (auto &&g : groups)
     {
         auto list = Join(begin(g), end(g), " ",
-                         [](auto v)
-                         {
-                             return std::to_string(v);
-                         });
+            [](auto v)
+            {
+                return std::to_string(v);
+            });
         fmt::print("{:<12} (QE={:3})\n", list, std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
     }
 #endif
 
     std::vector<std::pair<int, int64_t>> groupWithQE;
     std::transform(begin(groups), end(groups), std::back_inserter(groupWithQE),
-                   [](auto const &g)
-                   {
-                       return std::make_pair(static_cast<int>(g.size()),
-                                             std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
-                   });
+        [](auto const &g)
+        {
+            return std::make_pair(
+                static_cast<int>(g.size()), std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
+        });
 
     auto best = std::min_element(begin(groupWithQE), end(groupWithQE));
     return best->second;

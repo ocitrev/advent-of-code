@@ -1,5 +1,7 @@
 #include "day03.hpp"
 #include "../common/assert.hpp"
+#include "../common/string.hpp"
+#include <array>
 #include <fmt/format.h>
 #include <numeric>
 #include <span>
@@ -30,13 +32,25 @@ struct Slope
     return trees;
 }
 
+[[nodiscard]] static int CountTrees(std::string_view map, Slope slope)
+{
+    auto const lines = Split(map, '\n');
+    return CountTrees(lines, slope);
+}
+
 [[nodiscard]] static auto CountTreesInSlopes(std::span<std::string_view const> map, std::span<Slope const> slopes)
 {
     return std::accumulate(begin(slopes), end(slopes), int64_t{1},
-                           [&](auto total, Slope s)
-                           {
-                               return total * CountTrees(map, s);
-                           });
+        [&](auto total, Slope s)
+        {
+            return total * CountTrees(map, s);
+        });
+}
+
+[[nodiscard]] static auto CountTreesInSlopes(std::string_view map, std::span<Slope const> slopes)
+{
+    auto const lines = Split(map, '\n');
+    return CountTreesInSlopes(lines, slopes);
 }
 
 int main()
@@ -55,4 +69,5 @@ int main()
 
     auto const part2 = CountTreesInSlopes(input::map, allSlopes);
     fmt::print("  Part 2: {}\n", part2);
+    Assert(3952291680 == part2);
 }

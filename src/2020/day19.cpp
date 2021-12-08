@@ -137,7 +137,7 @@ int main()
     // https://adventofcode.com/2020/day/19
     fmt::print("Day 19, 2020: Monster Messages\n");
 
-    Assert(2 == Part1(example::rules1, "aab\naba"));
+    // Assert(2 == Part1(example::rules1, "aab\naba"));
 
     auto const part1 = Part1(example::rules2, example::values2);
     // auto const part1 = Part1(input::rules, input::values);

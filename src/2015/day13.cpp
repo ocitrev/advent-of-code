@@ -18,10 +18,10 @@ struct Relation
         , happiness(happiness_)
     {
         rtrim_if(right,
-                 [](int ch)
-                 {
-                     return ch == '.';
-                 });
+            [](int ch)
+            {
+                return ch == '.';
+            });
     }
 };
 
@@ -29,19 +29,19 @@ static int GetHappiness(std::vector<Relation> const &relations, std::string_view
 {
     int totalHappiness = 0;
     auto iter = std::find_if(begin(relations), end(relations),
-                             [&](Relation const &rel)
-                             {
-                                 return rel.left == left && rel.right == right;
-                             });
+        [&](Relation const &rel)
+        {
+            return rel.left == left && rel.right == right;
+        });
 
     if (iter != end(relations))
         totalHappiness += iter->happiness;
 
     iter = std::find_if(begin(relations), end(relations),
-                        [&](Relation const &rel)
-                        {
-                            return rel.left == right && rel.right == left;
-                        });
+        [&](Relation const &rel)
+        {
+            return rel.left == right && rel.right == left;
+        });
 
     if (iter != end(relations))
         totalHappiness += iter->happiness;
