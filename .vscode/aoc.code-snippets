@@ -17,7 +17,7 @@
 	// }
 
 	"Advent Of Code Main": {
-		"scope": "cpp",
+		"scope": "cpp,hpp",
 		"prefix": "aoc",
 		"body": [
 			"#include \"day${1:${CURRENT_DATE/^0?(.+)$/$1/}}.hpp\"",
@@ -50,7 +50,7 @@
 		]
 	},
 	"Namespace": {
-		"scope": "cpp",
+		"scope": "cpp,hpp",
 		"prefix": "ns",
 		"body": [
 			"namespace ${1:input}",
@@ -60,7 +60,7 @@
 		]
 	},
 	"string_view": {
-		"scope": "cpp",
+		"scope": "cpp,hpp",
 		"prefix": "sv",
 		"body": "std::string_view"
 	}
