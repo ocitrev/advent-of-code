@@ -9,19 +9,19 @@
 static int GetFuelCostSimple(std::span<int const> numbers, int position)
 {
     return std::transform_reduce(begin(numbers), end(numbers), 0, std::plus{},
-                                 [position](int n)
-                                 {
-                                     return abs(n - position);
-                                 });
+        [position](int n)
+        {
+            return abs(n - position);
+        });
 }
 
 static int GetFuelCostTriangular(std::span<int const> numbers, int position)
 {
     return std::transform_reduce(begin(numbers), end(numbers), 0, std::plus{},
-                                 [position](int n)
-                                 {
-                                     return Triangular(abs(n - position));
-                                 });
+        [position](int n)
+        {
+            return Triangular(abs(n - position));
+        });
 }
 
 template <typename FuelCostFunc>

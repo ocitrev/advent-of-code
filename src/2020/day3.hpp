@@ -18,7 +18,6 @@ namespace example
 
 namespace input
 {
-
     static constexpr std::string_view map{R"(...............#...#..#...#....
 ...#....##.....##...######..#..
 ....#.....#.##..#...#..#.......
