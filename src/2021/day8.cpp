@@ -4,6 +4,7 @@
 #include "../common/utils.hpp"
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <fmt/format.h>
 #include <numeric>
 #include <set>
@@ -38,119 +39,103 @@ static int Part1(std::string_view entries)
     return count;
 }
 
-static std::unordered_map<std::string, int> Analyze(std::string_view signalPatterns)
+using Segments = std::bitset<7>;
+
+static Segments ToSegments(std::string_view text)
+{
+    Segments result;
+
+    for (char c : text)
+    {
+        result[static_cast<size_t>(c - 'a')] = true;
+    }
+
+    return result;
+}
+
+static std::array<Segments, 10> Analyze(std::string_view signalPatterns)
 {
     auto patterns = Split(signalPatterns, ' ');
-    std::sort(begin(patterns), end(patterns),
-        [](auto const &a, auto const &b)
-        {
-            auto const as = a.size();
-            auto const bs = b.size();
+    std::vector<Segments> segments(patterns.size());
+    std::transform(begin(patterns), end(patterns), begin(segments), &ToSegments);
+    std::array<Segments, 10> digits;
 
-            if (as == bs)
-                return a < b;
-
-            return as < bs;
-        });
-
-    std::vector<std::string> sortedPatterns(patterns.size());
-    std::transform(begin(patterns), end(patterns), begin(sortedPatterns),
-        [](std::string_view const &s)
-        {
-            std::string p{s};
-            std::sort(begin(p), end(p));
-            return p;
-        });
-
-    std::unordered_map<std::string, int> mapping;
-    std::array<std::string, 10> digits;
-
-    for (auto p : sortedPatterns)
+    for (auto const &s : segments)
     {
-        auto const s = p.size();
+        auto const count = s.count();
 
-        if (s == 2)
-        {
-            mapping[p] = 1;
-            digits[1] = p;
-        }
-        else if (s == 3)
-        {
-            mapping[p] = 7;
-            digits[7] = p;
-        }
-        else if (s == 4)
-        {
-            mapping[p] = 4;
-            digits[4] = p;
-        }
-        else if (s == 7)
-        {
-            mapping[p] = 8;
-            digits[8] = p;
-        }
+        if (count == 2)
+            digits[1] = s;
+        else if (count == 3)
+            digits[7] = s;
+        else if (count == 4)
+            digits[4] = s;
+        else if (count == 7)
+            digits[8] = s;
     }
 
-    char topLeft = '\0';
-    char middle = '\0';
+    std::erase(segments, digits[1]);
+    std::erase(segments, digits[4]);
+    std::erase(segments, digits[7]);
+    std::erase(segments, digits[8]);
 
-    for (auto p : sortedPatterns)
+    Segments topLeft;
+    Segments middle;
+
+    for (auto const &s : segments)
     {
-        auto const s = p.size();
+        auto const count = s.count();
 
-        if (s == 5)
+        if (count == 5)
         {
             // 3 doit contenir tous les digits de 1 contrairement a 2 et 5
-            if (std::all_of(begin(digits[1]), end(digits[1]),
-                    [&p](char c)
-                    {
-                        return p.find(c) != std::string::npos;
-                    }))
+            if ((s & digits[1]) == digits[1])
             {
-                mapping[p] = 3;
-                digits[3] = p;
+                digits[3] = s;
 
                 // trouve le segment de 4 qui n'est pas dans 3
-                std::set_difference(begin(digits[4]), end(digits[4]), begin(p), end(p), &topLeft);
+                topLeft = digits[4] & ~digits[3];
 
                 // trouve le segment de 4 qui n'est pas dans 7, moins le segment precedant
-                std::set<char> tmp;
-                std::set_difference(
-                    begin(digits[4]), end(digits[4]), begin(digits[7]), end(digits[7]), std::inserter(tmp, tmp.end()));
-                tmp.erase(topLeft);
-                middle = *begin(tmp);
+                middle = digits[4] & ~digits[7] & ~topLeft;
             }
         }
-        else if (s == 6)
+        else if (count == 6)
         {
             // 6 ne doit pas contenir tous les digits de 7 contrairement a 0 et 9
-            if (not std::all_of(begin(digits[7]), end(digits[7]),
-                    [&p](char c)
-                    {
-                        return p.find(c) != std::string::npos;
-                    }))
+            if ((s & digits[7]) != digits[7])
             {
-                mapping[p] = 6;
-                digits[6] = p;
+                digits[6] = s;
             }
         }
     }
 
-    for (auto p : sortedPatterns)
-    {
-        auto const s = p.size();
+    std::erase(segments, digits[3]);
+    std::erase(segments, digits[6]);
 
-        if (s == 5 && digits[3] != p)
+    for (auto const &s : segments)
+    {
+        auto const count = s.count();
+
+        if (count == 5)
         {
-            mapping[p] = p.find(topLeft) == std::string::npos ? 2 : 5;
+            // 5 contiens le segment haut gauche, pas 2
+            if ((s & topLeft) == topLeft)
+                digits[5] = s;
+            else
+                digits[2] = s;
         }
-        if (s == 6 && digits[6] != p)
+        else if (count == 6)
         {
-            mapping[p] = p.find(middle) == std::string::npos ? 0 : 9;
+            // 9 contiens le segment du milieu, pas 0
+            if ((s & middle) == middle)
+                digits[9] = s;
+            else
+                digits[0] = s;
         }
     }
 
-    return mapping;
+    return digits;
 }
 
 static int MapNumber(auto const &mapping, std::string_view text)
@@ -160,9 +145,9 @@ static int MapNumber(auto const &mapping, std::string_view text)
 
     for (auto const &n : Split(text, ' '))
     {
-        std::string sorted_n{n};
-        std::sort(begin(sorted_n), end(sorted_n));
-        result += mapping.find(sorted_n)->second * mult;
+        auto const s = ToSegments(n);
+        auto const digit = static_cast<int>(std::find(begin(mapping), end(mapping), s) - begin(mapping));
+        result += digit * mult;
         mult /= 10;
     }
 
