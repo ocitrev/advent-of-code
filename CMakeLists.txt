@@ -88,11 +88,13 @@ add_library(common STATIC
   $<TARGET_OBJECTS:md5>
 )
 
-target_compile_definitions(common PUBLIC
-  _USE_MATH_DEFINES
-  NOMINMAX
-  WIN32_LEAN_AND_MEAN
-)
+if(WIN32)
+  target_compile_definitions(common PUBLIC
+    _USE_MATH_DEFINES
+    NOMINMAX
+    WIN32_LEAN_AND_MEAN
+  )
+endif()
 
 target_compile_features(common PUBLIC cxx_std_20)
 target_link_libraries(common PUBLIC project_warnings)
