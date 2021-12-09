@@ -7,7 +7,7 @@
 struct Ship
 {
     bool part2;
-    Point2d direction{1, 0};
+    Point2d direction = Point2d::EAST;
     Point2d position{};
 
     Ship(bool part2_ = false)
@@ -15,7 +15,7 @@ struct Ship
     {
         if (part2)
         {
-            direction = Point2d{10, 1};
+            direction = Point2d::EAST * 10 + Point2d::NORTH;
         }
     }
 
@@ -83,16 +83,16 @@ struct Ship
             Move(n);
             break;
         case 'N':
-            Move(Point2d{0, 1}, n);
+            Move(Point2d::NORTH, n);
             break;
         case 'S':
-            Move(Point2d{0, -1}, n);
+            Move(Point2d::SOUTH, n);
             break;
         case 'E':
-            Move(Point2d{1, 0}, n);
+            Move(Point2d::EAST, n);
             break;
         case 'W':
-            Move(Point2d{-1, 0}, n);
+            Move(Point2d::WEST, n);
             break;
         }
     }

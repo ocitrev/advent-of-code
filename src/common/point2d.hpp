@@ -9,6 +9,11 @@ struct Point2d
     int x = 0;
     int y = 0;
 
+    static Point2d const NORTH;
+    static Point2d const SOUTH;
+    static Point2d const EAST;
+    static Point2d const WEST;
+
     friend bool operator<(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) < std::tie(b.x, b.y);
@@ -71,6 +76,14 @@ struct Point2d
         return p;
     }
 
+    [[nodiscard]] Point2d operator*(Point2d const &right) const
+    {
+        Point2d left = *this;
+        left.x *= right.x;
+        left.y *= right.y;
+        return left;
+    }
+
     double Normalize()
     {
         double vecLength = std::hypot(x, y);
@@ -90,21 +103,19 @@ struct Point2d
         return out << '(' << p.x << ", " << p.y << ')';
     }
 
-    [[nodiscard]] int Distance() const
+    [[nodiscard]] int Distance() const noexcept
     {
         return std::abs(x) + std::abs(y);
     }
 
     void Rotate90Left()
     {
-        y = -y;
-        std::swap(x, y);
+        y = -std::exchange(x, y);
     }
 
     void Rotate90Right()
     {
-        x = -x;
-        std::swap(x, y);
+        y = std::exchange(x, -y);
     }
 
     void Rotate180()
@@ -113,6 +124,11 @@ struct Point2d
         y = -y;
     }
 };
+
+inline constexpr Point2d Point2d::NORTH{0, -1};
+inline constexpr Point2d Point2d::SOUTH{0, 1};
+inline constexpr Point2d Point2d::EAST{1, 0};
+inline constexpr Point2d Point2d::WEST{-1, 0};
 
 [[nodiscard]] inline double Distance(Point2d a, Point2d b) noexcept
 {
