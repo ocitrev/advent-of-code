@@ -135,7 +135,7 @@ inline constexpr Point2d Point2d::WEST{-1, 0};
     return sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
 }
 
-inline constexpr bool equals(double a, double b, double toler = 1.0e-6) noexcept
+inline bool equals(double a, double b, double toler = 1.0e-6) noexcept
 {
     return fabs(b - a) < toler;
 }

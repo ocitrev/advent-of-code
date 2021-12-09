@@ -57,9 +57,8 @@ struct Map
                 surrounding.push_back(GetValue(pos + Point2d::WEST));
                 surrounding.push_back(GetValue(pos + Point2d::EAST));
                 surrounding.push_back(GetValue(pos + Point2d::SOUTH));
-                int const here = GetValue(pos);
                 bool const isLowSpot = std::all_of(begin(surrounding), end(surrounding),
-                    [here](int v)
+                    [here = GetValue(pos)](int v)
                     {
                         return here < v;
                     });
@@ -75,7 +74,7 @@ struct Map
     int ComputeRiskLevel() const
     {
         auto const lowSpots = GetLowSpots();
-        return std::transform_reduce(begin(lowSpots), end(lowSpots), 0, std::plus<>{},
+        return std::transform_reduce(begin(lowSpots), end(lowSpots), 0, std::plus{},
             [this](auto const &p)
             {
                 return GetValue(p) + 1;
@@ -121,8 +120,8 @@ struct Map
 
         auto first = begin(sizes);
         auto topn = first + nb;
-        std::nth_element(first, topn, end(sizes), std::greater<>{});
-        return std::accumulate(first, topn, 1, std::multiplies<>{});
+        std::nth_element(first, topn, end(sizes), std::greater{});
+        return std::accumulate(first, topn, 1, std::multiplies{});
     }
 };
 
