@@ -151,6 +151,8 @@ add_aoc(2015 23)
 add_aoc(2015 24)
 add_aoc(2015 25)
 
+add_aoc(2016 1)
+
 add_aoc(2019 1)
 add_aoc(2019 2)
 add_aoc(2019 3)
@@ -198,6 +200,7 @@ add_aoc(2021 5)
 add_aoc(2021 6)
 add_aoc(2021 7)
 add_aoc(2021 8)
+add_aoc(2021 9)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
