@@ -35,7 +35,7 @@ struct Map
         height = y;
     }
 
-    int GetValue(Point2d p) const
+    int GetValue(Point2d const &p) const
     {
         if (auto iter = map.find(p); iter != end(map))
             return iter->second;
@@ -74,25 +74,12 @@ struct Map
 
     int ComputeRiskLevel() const
     {
-        int riskLevel = 0;
-
-        for (auto p : GetLowSpots())
-        {
-            riskLevel += GetValue(p) + 1;
-        }
-
-        return riskLevel;
-    }
-
-    Bassin *GetBassin(Point2d pos)
-    {
-        for (auto &b : bassins)
-        {
-            if (b.find(pos) != end(b))
-                return &b;
-        }
-
-        return nullptr;
+        auto const lowSpots = GetLowSpots();
+        return std::transform_reduce(begin(lowSpots), end(lowSpots), 0, std::plus<>{},
+            [this](auto const &p)
+            {
+                return GetValue(p) + 1;
+            });
     }
 
     void FillBassin(Bassin &bassin, Point2d pos) const
@@ -118,22 +105,24 @@ struct Map
         }
     }
 
-    int GetSizeOfLargestBassins(int nb)
+    static int BassinSize(Bassin const &b)
     {
-        auto first = begin(bassins);
+        return static_cast<int>(b.size());
+    }
+
+    int GetSizeOfLargestBassins(int nb) const
+    {
+        std::vector<int> sizes(bassins.size());
+        std::transform(begin(bassins), end(bassins), begin(sizes),
+            [](Bassin const &b)
+            {
+                return static_cast<int>(b.size());
+            });
+
+        auto first = begin(sizes);
         auto topn = first + nb;
-
-        std::nth_element(first, topn, end(bassins),
-            [](Bassin const &a, Bassin const &b)
-            {
-                return b.size() < a.size();
-            });
-
-        return std::accumulate(first, topn, 1,
-            [](int total, auto const &bassin)
-            {
-                return total * static_cast<int>(bassin.size());
-            });
+        std::nth_element(first, topn, end(sizes), std::greater<>{});
+        return std::accumulate(first, topn, 1, std::multiplies<>{});
     }
 };
 
