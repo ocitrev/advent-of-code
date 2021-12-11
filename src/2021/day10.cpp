@@ -129,16 +129,14 @@ static int64_t Part2(std::string_view lines)
         if (GetCorruptedChar(line, stack) != '\0')
             continue;
 
-        std::reverse(begin(stack), end(stack));
+        std::ranges::reverse(stack);
         auto const score = AutoCompleteScore(stack);
         scores.push_back(score);
     }
 
-    auto first = begin(scores);
-    auto last = end(scores);
-    auto middle = first + (last - first) / 2;
-    std::nth_element(first, middle, last);
-    return *middle;
+    size_t const middle = scores.size() / 2;
+    std::ranges::nth_element(scores, begin(scores) + static_cast<ptrdiff_t>(middle));
+    return scores[middle];
 }
 
 int main()
