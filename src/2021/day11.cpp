@@ -50,14 +50,14 @@ struct Environment
             return;
 
         flashed.insert(p);
-        Increase(p + Point2d::WEST + Point2d::NORTH);
         Increase(p + Point2d::NORTH);
-        Increase(p + Point2d::NORTH + Point2d::EAST);
-        Increase(p + Point2d::WEST);
+        Increase(p + Point2d::NORTH_EAST);
         Increase(p + Point2d::EAST);
-        Increase(p + Point2d::WEST + Point2d::SOUTH);
+        Increase(p + Point2d::SOUTH_EAST);
         Increase(p + Point2d::SOUTH);
-        Increase(p + Point2d::SOUTH + Point2d::EAST);
+        Increase(p + Point2d::SOUTH_WEST);
+        Increase(p + Point2d::WEST);
+        Increase(p + Point2d::NORTH_WEST);
     }
 
     int Step()

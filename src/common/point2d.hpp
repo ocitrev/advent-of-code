@@ -13,70 +13,75 @@ struct Point2d
     static Point2d const SOUTH;
     static Point2d const EAST;
     static Point2d const WEST;
+    static Point2d const NORTH_EAST;
+    static Point2d const NORTH_WEST;
+    static Point2d const SOUTH_EAST;
+    static Point2d const SOUTH_WEST;
 
-    friend bool operator<(Point2d const &a, Point2d const &b)
+
+    constexpr friend bool operator<(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) < std::tie(b.x, b.y);
     }
 
-    friend bool operator>(Point2d const &a, Point2d const &b)
+    constexpr friend bool operator>(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) > std::tie(b.x, b.y);
     }
 
-    friend bool operator==(Point2d const &a, Point2d const &b)
+    constexpr friend bool operator==(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) == std::tie(b.x, b.y);
     }
 
-    friend bool operator!=(Point2d const &a, Point2d const &b)
+    constexpr friend bool operator!=(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) != std::tie(b.x, b.y);
     }
 
-    [[nodiscard]] Point2d operator+(Point2d const other) const
+    [[nodiscard]] constexpr Point2d operator+(Point2d const other) const
     {
         Point2d p = *this;
         p += other;
         return p;
     }
 
-    Point2d &operator+=(Point2d const other)
+    constexpr Point2d &operator+=(Point2d const other)
     {
         x += other.x;
         y += other.y;
         return *this;
     }
 
-    [[nodiscard]] Point2d operator-(Point2d const other) const
+    [[nodiscard]] constexpr Point2d operator-(Point2d const other) const
     {
         Point2d p = *this;
         p -= other;
         return p;
     }
 
-    Point2d &operator-=(Point2d const other)
+    constexpr Point2d &operator-=(Point2d const other)
     {
         x -= other.x;
         y -= other.y;
         return *this;
     }
 
-    Point2d &operator*=(int magnitude)
+    constexpr Point2d &operator*=(int magnitude)
     {
         x *= magnitude;
         y *= magnitude;
         return *this;
     }
 
-    [[nodiscard]] Point2d operator*(int magnitude) const
+    [[nodiscard]] constexpr Point2d operator*(int magnitude) const
     {
         Point2d p = *this;
         p *= magnitude;
         return p;
     }
 
-    [[nodiscard]] Point2d operator*(Point2d const &right) const
+    [[nodiscard]] constexpr Point2d operator*(Point2d const &right) const
     {
         Point2d left = *this;
         left.x *= right.x;
@@ -93,7 +98,7 @@ struct Point2d
         return vecLength;
     }
 
-    [[nodiscard]] double Slope() const
+    [[nodiscard]] constexpr double Slope() const
     {
         return std::atan2(y, x);
     }
@@ -108,27 +113,31 @@ struct Point2d
         return std::abs(x) + std::abs(y);
     }
 
-    void Rotate90Left()
+    constexpr void Rotate90Left()
     {
         y = -std::exchange(x, y);
     }
 
-    void Rotate90Right()
+    constexpr void Rotate90Right()
     {
         y = std::exchange(x, -y);
     }
 
-    void Rotate180()
+    constexpr void Rotate180()
     {
         x = -x;
         y = -y;
     }
 };
 
-inline constexpr Point2d Point2d::NORTH{0, -1};
-inline constexpr Point2d Point2d::SOUTH{0, 1};
-inline constexpr Point2d Point2d::EAST{1, 0};
-inline constexpr Point2d Point2d::WEST{-1, 0};
+inline constexpr Point2d const Point2d::NORTH{0, -1};
+inline constexpr Point2d const Point2d::SOUTH{0, 1};
+inline constexpr Point2d const Point2d::EAST{1, 0};
+inline constexpr Point2d const Point2d::WEST{-1, 0};
+inline constexpr Point2d const Point2d::NORTH_EAST = Point2d::NORTH + Point2d::EAST;
+inline constexpr Point2d const Point2d::NORTH_WEST = Point2d::NORTH + Point2d::WEST;
+inline constexpr Point2d const Point2d::SOUTH_EAST = Point2d::SOUTH + Point2d::EAST;
+inline constexpr Point2d const Point2d::SOUTH_WEST = Point2d::SOUTH + Point2d::WEST;
 
 [[nodiscard]] inline double Distance(Point2d a, Point2d b) noexcept
 {
