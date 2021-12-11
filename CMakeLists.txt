@@ -74,6 +74,7 @@ add_library(md5 OBJECT
 )
 
 add_library(common STATIC
+  src/common.hpp
   src/common/combinations.hpp
   src/common/intcode.cpp
   src/common/intcode.hpp
@@ -202,6 +203,7 @@ add_aoc(2021 7)
 add_aoc(2021 8)
 add_aoc(2021 9)
 add_aoc(2021 10)
+add_aoc(2021 11)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
