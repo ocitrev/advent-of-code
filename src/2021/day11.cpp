@@ -29,21 +29,22 @@ struct Environment
         height = y;
     }
 
-    void Increase(Point2d p)
+    void Increase(Point2d const &p)
     {
-        if (auto iter = map.find(p); iter != end(map))
-        {
-            auto &level = iter->second;
-            ++level;
+        auto iter = map.find(p);
+        if (iter == end(map))
+            return;
 
-            if (level > 9)
-            {
-                Flash(p);
-            }
+        auto &level = iter->second;
+        ++level;
+
+        if (level > 9)
+        {
+            Flash(p);
         }
     }
 
-    void Flash(Point2d p)
+    void Flash(Point2d const &p)
     {
         if (flashed.find(p) != end(flashed))
             return;
@@ -64,25 +65,12 @@ struct Environment
         flashed.clear();
 
         for (auto &[p, l] : map)
-        {
-            ++l;
-        }
-
-        for (auto &[p, l] : map)
-        {
-            if (l > 9)
-            {
+            if (++l > 9)
                 Flash(p);
-            }
-        }
 
         for (auto &[p, l] : map)
-        {
             if (l > 9)
-            {
                 l = 0;
-            }
-        }
 
         return static_cast<int>(flashed.size());
     }
@@ -100,9 +88,7 @@ static int Part1(std::string_view lines, int n)
     int flashCount = 0;
 
     for (int i = 0; i != n; ++i)
-    {
         flashCount += env.Step();
-    }
 
     return flashCount;
 }
