@@ -3,48 +3,89 @@
 
 using namespace std::string_view_literals;
 
-static constexpr auto kStart = "start"sv;
-static constexpr auto kEnd = "end"sv;
-
-static bool IsLower(std::string_view text)
+struct Cave
 {
-    return std::all_of(begin(text), end(text), &islower);
-}
+    static Cave const Start;
+    static Cave const End;
+    inline static std::hash<std::string_view> const hasher;
+
+    size_t id;
+    bool lower;
+    std::string_view cave_;
+
+    Cave(std::string_view cave)
+        : id{hasher(cave)}
+        , lower{std::all_of(begin(cave), end(cave), &islower)}
+        , cave_(std::move(cave))
+    {
+    }
+
+    bool IsStart() const
+    {
+        return id == Start.id;
+    }
+
+    bool IsEnd() const
+    {
+        return id == End.id;
+    }
+
+    bool operator==(Cave const &c) const
+    {
+        return id == c.id;
+    }
+
+    bool operator<(Cave const &c) const
+    {
+        return id < c.id;
+    }
+};
+
+Cave const Cave::Start{"start"sv};
+Cave const Cave::End{"end"sv};
+
+template <>
+struct std::hash<Cave>
+{
+    std::size_t operator()(Cave const &c) const noexcept
+    {
+        return c.id;
+    }
+};
 
 struct Paths
 {
-    std::unordered_map<std::string_view, std::vector<std::string_view>> paths;
+    std::unordered_map<Cave, std::vector<Cave>> paths;
 
     void Parse(std::string_view map)
     {
         for (auto line : Split(map, '\n'))
         {
             auto parts = Split(line, '-');
-            auto const &left = parts[0];
-            auto const &right = parts[1];
+            Cave const left = parts[0];
+            Cave const right = parts[1];
 
-            if (right != kStart && left != kEnd)
+            if (not right.IsStart() && not left.IsEnd())
                 paths[left].push_back(right);
 
-            if (left != kStart && right != kEnd)
+            if (not left.IsStart() && not right.IsEnd())
                 paths[right].push_back(left);
         }
     }
 
     auto FindAllPaths(int maxCount)
     {
-        std::vector<std::string> allPaths;
-        FindAllPaths(kStart, {}, allPaths, maxCount);
+        int allPaths = 0;
+        FindAllPaths(Cave::Start, {}, allPaths, maxCount);
         return allPaths;
     }
 
-    void FindAllPaths(std::string_view start, std::vector<std::string_view> parents, std::vector<std::string> &allPaths,
-        int maxCount)
+private:
+    void FindAllPaths(Cave const &start, std::vector<Cave> parents, int &nbPaths, int maxCount)
     {
-        if (start == kEnd)
+        if (start.IsEnd())
         {
-            parents.push_back(start);
-            allPaths.push_back(Join(begin(parents), end(parents), ","));
+            ++nbPaths;
             return;
         }
 
@@ -54,13 +95,13 @@ struct Paths
             return;
 
         // only visit samll caves once
-        if (IsLower(start))
+        if (start.lower)
         {
             auto const visitedCount = std::count(begin(parents), end(parents), start);
 
             if (maxCount == 1 && visitedCount >= 1)
-                return; 
-            
+                return;
+
             if (visitedCount > 0)
                 --maxCount;
         }
@@ -69,7 +110,7 @@ struct Paths
 
         for (auto p : iter->second)
         {
-            FindAllPaths(p, parents, allPaths, maxCount);
+            FindAllPaths(p, parents, nbPaths, maxCount);
         }
     }
 };
@@ -78,16 +119,14 @@ static int Part1(std::string_view map)
 {
     Paths p;
     p.Parse(map);
-    auto const allPaths = p.FindAllPaths(1);
-    return static_cast<int>(allPaths.size());
+    return p.FindAllPaths(1);
 }
 
 static int Part2(std::string_view map)
 {
     Paths p;
     p.Parse(map);
-    auto const allPaths = p.FindAllPaths(2);
-    return static_cast<int>(allPaths.size());
+    return p.FindAllPaths(2);
 }
 
 int main()
