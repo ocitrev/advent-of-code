@@ -10,34 +10,34 @@ struct Point3d
     int y = 0;
     int z = 0;
 
-    friend bool operator<(Point3d const &a, Point3d const &b)
+    constexpr friend bool operator<(Point3d const &a, Point3d const &b)
     {
         return std::tie(a.x, a.y, a.z) < std::tie(b.x, b.y, b.z);
     }
 
-    friend bool operator>(Point3d const &a, Point3d const &b)
+    constexpr friend bool operator>(Point3d const &a, Point3d const &b)
     {
         return std::tie(a.x, a.y, a.z) > std::tie(b.x, b.y, b.z);
     }
 
-    friend bool operator==(Point3d const &a, Point3d const &b)
+    constexpr friend bool operator==(Point3d const &a, Point3d const &b)
     {
         return std::tie(a.x, a.y, a.z) == std::tie(b.x, b.y, b.z);
     }
 
-    friend bool operator!=(Point3d const &a, Point3d const &b)
+    constexpr friend bool operator!=(Point3d const &a, Point3d const &b)
     {
         return std::tie(a.x, a.y, a.z) != std::tie(b.x, b.y, b.z);
     }
 
-    [[nodiscard]] Point3d operator+(Point3d const other) const
+    [[nodiscard]] constexpr Point3d operator+(Point3d const other) const
     {
         Point3d p = *this;
         p += other;
         return p;
     }
 
-    Point3d &operator+=(Point3d const other)
+    constexpr Point3d &operator+=(Point3d const other)
     {
         x += other.x;
         y += other.y;
@@ -45,14 +45,14 @@ struct Point3d
         return *this;
     }
 
-    [[nodiscard]] Point3d operator-(Point3d const other) const
+    [[nodiscard]] constexpr Point3d operator-(Point3d const other) const
     {
         Point3d p = *this;
         p -= other;
         return p;
     }
 
-    Point3d &operator-=(Point3d const other)
+    constexpr Point3d &operator-=(Point3d const other)
     {
         x -= other.x;
         y -= other.y;
@@ -60,7 +60,7 @@ struct Point3d
         return *this;
     }
 
-    Point3d &operator*=(int magnitude)
+    constexpr Point3d &operator*=(int magnitude)
     {
         x *= magnitude;
         y *= magnitude;
@@ -68,14 +68,14 @@ struct Point3d
         return *this;
     }
 
-    [[nodiscard]] Point3d operator*(int magnitude) const
+    [[nodiscard]] constexpr Point3d operator*(int magnitude) const
     {
         Point3d p = *this;
         p *= magnitude;
         return p;
     }
 
-    double Normalize()
+    double Normalize() noexcept
     {
         double const xx = x;
         double const yy = y;

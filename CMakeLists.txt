@@ -204,6 +204,7 @@ add_aoc(2021 8)
 add_aoc(2021 9)
 add_aoc(2021 10)
 add_aoc(2021 11)
+add_aoc(2021 12)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 

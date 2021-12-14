@@ -21,8 +21,7 @@
 		"prefix": "aoc",
 		"body": [
 			"#include \"day${1:${CURRENT_DATE/^0?(.+)$/$1/}}.hpp\"",
-			"#include \"../common/assert.hpp\"",
-			"#include <fmt/format.h>",
+			"#include \"../common.hpp\"",
 			"",
 			"static int Part1()",
 			"{",

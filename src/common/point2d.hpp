@@ -18,7 +18,6 @@ struct Point2d
     static Point2d const SOUTH_EAST;
     static Point2d const SOUTH_WEST;
 
-
     constexpr friend bool operator<(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) < std::tie(b.x, b.y);
