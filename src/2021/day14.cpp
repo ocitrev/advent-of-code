@@ -1,5 +1,19 @@
 #include "day14.hpp"
 #include "../common.hpp"
+#include <bit>
+
+static int16_t ToInt16(std::pair<char, char> const &p)
+{
+    static_assert(sizeof(std::pair<char, char>) == sizeof(int16_t));
+    int16_t v;
+    memcpy(&v, &p, sizeof(v));
+    return v;
+}
+
+static int16_t ToInt16(char a, char b)
+{
+    return ToInt16(std::pair{a, b});
+}
 
 struct PolymerTemplate
 {
@@ -23,48 +37,54 @@ struct PolymerTemplate
         }
     }
 
-    void StepOnce()
+    size_t Step(int nb)
     {
+        std::unordered_map<char, size_t> letters;
+
+        for (char c : polymer)
+        {
+            ++letters[c];
+        }
+
+        std::unordered_map<int16_t, size_t> pairs;
         auto const last = std::prev(end(polymer));
-        std::string result;
-        result.reserve(polymer.size() * 2);
 
         for (auto iter = begin(polymer); iter != last; ++iter)
         {
-            std::string_view pair{iter, iter + 2};
-
-            result.push_back(pair[0]);
-            if (auto it = mapping.find(pair); it != end(mapping))
-                result.push_back(it->second);
+            auto const a = *iter;
+            auto const b = *(iter + 1);
+            ++pairs[ToInt16(std::make_pair(a, b))];
         }
 
-        result.push_back(polymer.back());
-        polymer = std::move(result);
-    }
-
-    size_t Step(int nb)
-    {
         for (int i = 0; i < nb; ++i)
         {
-            StepOnce();
-        }
+            auto previousPairs = pairs;
 
-        std::unordered_map<char, size_t> counts{};
-        for (char c : polymer)
-        {
-            ++counts[c];
-        }
-
-        auto [min, max] = std::ranges::minmax_element(counts,
-            [](auto const &a, auto const &b)
+            for (auto const &[p, c] : mapping)
             {
-                return a.second < b.second;
+                auto const ab = ToInt16(p[0], p[1]);
+
+                if (auto it = previousPairs.find(ab); it != end(previousPairs))
+                {
+                    auto const ac = ToInt16(p[0], c);
+                    auto const cb = ToInt16(c, p[1]);
+                    auto const count = it->second;
+                    pairs[ab] -= count;
+                    pairs[ac] += count;
+                    pairs[cb] += count;
+                    letters[c] += count;
+                }
+            }
+        }
+
+        std::vector<size_t> counts(letters.size());
+        std::transform(begin(letters), end(letters), begin(counts),
+            [](auto const &elm)
+            {
+                return elm.second;
             });
-
-        if (min == end(counts) || max == end(counts))
-            return 0;
-
-        return max->second - min->second;
+        auto const [min, max] = std::ranges::minmax(counts);
+        return max - min;
     }
 };
 
@@ -79,7 +99,7 @@ static auto Part2(std::string_view text)
 {
     PolymerTemplate t;
     t.Parse(text);
-    return t.Step(31);
+    return t.Step(40);
 }
 
 int main()
@@ -88,12 +108,13 @@ int main()
     fmt::print("Day 14, 2021: Extended Polymerization\n");
 
     Assert(1588 == Part1(example::polymer));
+    Assert(2188189693529 == Part2(example::polymer));
 
     auto const part1 = Part1(input::polymer);
     fmt::print("  Part 1: {}\n", part1);
     Assert(3587 == part1);
 
-    auto const part2 = Part2(example::polymer);
+    auto const part2 = Part2(input::polymer);
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(3906445077999 == part2);
 }
