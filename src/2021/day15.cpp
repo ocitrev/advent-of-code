@@ -1,6 +1,5 @@
 #include "day15.hpp"
 #include "../common.hpp"
-#include "../common/point3d.hpp"
 
 template <typename KeyT, typename ValueT>
 struct DictWithDefault
@@ -70,9 +69,10 @@ struct Map
         }
     };
 
-    static std::array<Point2d, 4> Neighbors(Point2d current)
+    static auto Neighbors(Point2d current)
     {
-        return {current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
+        return std::array{
+            current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
     }
 
     double Weight([[maybe_unused]] Point2d const &from, Point2d to) const
@@ -93,12 +93,14 @@ struct Map
         return p.x >= start.x && p.y >= start.y && p.x <= goal.x && p.y <= goal.y;
     }
 
-    std::vector<Point2d> Dijkstra(Point2d start, Point2d goal)
+    int Dijkstra(Point2d const &start, Point2d const &goal)
     {
+        size_t const h = static_cast<size_t>(goal.y - start.y) + 1;
+        size_t const w = static_cast<size_t>(goal.x - start.x) + 1;
+
         DictWithDefault<Point2d, double> dist{std::numeric_limits<double>::infinity()};
         std::unordered_map<Point2d, Point2d> prev;
         std::vector<std::tuple<Point2d, double>> queue;
-
         auto updatePriority = [&queue](Point2d const &p, double c)
         {
             std::erase_if(queue,
@@ -117,6 +119,7 @@ struct Map
             queue.insert(iter, t);
         };
 
+        queue.reserve(w * h);
         for (int y = start.y; y <= goal.y; ++y)
         {
             for (int x = start.x; x <= goal.x; ++x)
@@ -129,7 +132,7 @@ struct Map
                 queue.push_back(std::make_tuple(p, std::numeric_limits<double>::infinity()));
             }
         }
-
+        
         dist.Set(start, 0);
         queue.push_back(std::make_tuple(start, 0.0));
 
@@ -140,16 +143,7 @@ struct Map
 
             if (current == goal)
             {
-                std::vector<Point2d> path;
-                path.push_back(goal);
-
-                for (auto iter = prev.find(goal); iter != end(prev);)
-                {
-                    path.push_back(iter->second);
-                    iter = prev.find(iter->second);
-                }
-
-                return path;
+                return static_cast<int>(dist.Get(goal));
             }
 
             for (auto neighbor : Neighbors(current))
@@ -173,68 +167,21 @@ struct Map
     {
         return ((score - 1) % 9) + 1;
     }
-
-    int GetRiskScore(std::vector<Point2d> const &path) const
-    {
-        if (path.empty())
-            return 0;
-
-        return std::accumulate(begin(path), std::prev(end(path)), 0,
-            [this](int total, Point2d p)
-            {
-                int const offset = p.x / width + p.y / height;
-                p.x %= width;
-                p.y %= height;
-
-                if (auto iter = map.find(p); iter != end(map))
-                    return total + LimitScore(iter->second + offset);
-
-                return total;
-            });
-    }
-
-    [[maybe_unused]] void Print(std::vector<Point2d> const &path) const
-    {
-        double total = 0;
-        std::string output;
-        for (int y = 0; y < height * 5; ++y)
-        {
-            for (int x = 0; x < width * 5; ++x)
-            {
-                Point2d const p{x, y};
-                auto const w = Weight({}, p);
-                char const c = static_cast<char>(w) + '0';
-
-                if (std::find(begin(path), end(path), p) != end(path))
-                {
-                    output.append(fmt::format("\033[37m{}\033[m", c));
-                    total += w;
-                }
-                else
-                    output.append(fmt::format("\033[30;1m{}\033[m", c));
-            }
-
-            output.push_back('\n');
-        }
-
-        fmt::print("{}\nScore: {}\n", output, total);
-    }
 };
 
 static int Part1(std::string_view text)
 {
     Map m;
     m.Parse(text);
-    auto const path = m.Dijkstra({0, 0}, {m.width - 1, m.height - 1});
-    return m.GetRiskScore(path);
+    auto const cost = m.Dijkstra({0, 0}, {m.width - 1, m.height - 1});
+    return cost;
 }
 
 static int Part2(std::string_view text)
 {
     Map m;
     m.Parse(text);
-    auto const path = m.Dijkstra({0, 0}, {m.width * 5 - 1, m.height * 5 - 1});
-    return m.GetRiskScore(path);
+    return m.Dijkstra({0, 0}, {m.width * 5 - 1, m.height * 5 - 1});
 }
 
 int main()
