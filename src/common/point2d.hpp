@@ -127,6 +127,22 @@ struct Point2d
         x = -x;
         y = -y;
     }
+
+    constexpr bool IsVertical() const
+    {
+        if (x == 0)
+            return true;
+
+        return fabs(static_cast<double>(y) / static_cast<double>(x)) > 1.0;
+    }
+
+    constexpr bool IsHorizontal() const
+    {
+        if (y == 0)
+            return true;
+
+        return fabs(static_cast<double>(y) / static_cast<double>(x)) < 1.0;
+    }
 };
 
 inline constexpr Point2d const Point2d::NORTH{0, -1};
@@ -140,7 +156,8 @@ inline constexpr Point2d const Point2d::SOUTH_WEST = Point2d::SOUTH + Point2d::W
 
 [[nodiscard]] inline double Distance(Point2d a, Point2d b) noexcept
 {
-    return sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+    auto const d = a - b;
+    return std::hypot(d.x, d.y);
 }
 
 inline bool equals(double a, double b, double toler = 1.0e-6) noexcept
