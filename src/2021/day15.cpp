@@ -132,7 +132,7 @@ struct Map
                 queue.push_back(std::make_tuple(p, std::numeric_limits<double>::infinity()));
             }
         }
-        
+
         dist.Set(start, 0);
         queue.push_back(std::make_tuple(start, 0.0));
 
