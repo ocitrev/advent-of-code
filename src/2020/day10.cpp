@@ -4,6 +4,7 @@
 #include <array>
 #include <fmt/format.h>
 #include <gsl/gsl>
+#include <vector>
 
 static int Part1(std::vector<int> adapters)
 {

@@ -1,5 +1,6 @@
 #include "day3.hpp"
 #include "../common/assert.hpp"
+#include <algorithm>
 #include <fmt/format.h>
 #include <span>
 #include <vector>
@@ -10,7 +11,7 @@ static unsigned int GetBitCount(std::span<unsigned int const> numbers)
 
     for (auto n : numbers)
     {
-        nbBits = std::max(std::bit_width(n), nbBits);
+        nbBits = std::max(static_cast<unsigned int>(std::bit_width(n)), nbBits);
     }
 
     return nbBits;

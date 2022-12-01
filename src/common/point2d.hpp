@@ -9,6 +9,14 @@ struct Point2d
     int x = 0;
     int y = 0;
 
+    constexpr Point2d() noexcept = default;
+
+    constexpr Point2d(int x_, int y_) noexcept
+        : x(x_)
+        , y(y_)
+    {
+    }
+
     static Point2d const NORTH;
     static Point2d const SOUTH;
     static Point2d const EAST;
