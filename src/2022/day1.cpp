@@ -43,7 +43,7 @@ static auto Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2022/day/1
-    fmt::print("Day 1, 2022: \n");
+    fmt::print("Day 1, 2022: Calorie Counting\n");
 
     Assert(24000 == Part1(example::lines));
     Assert(45000 == Part2(example::lines));
