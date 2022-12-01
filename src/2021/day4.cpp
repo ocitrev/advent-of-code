@@ -26,6 +26,9 @@ struct Board
 
             for (auto number : Split(line, ' '))
             {
+                if (number.empty())
+                    continue;
+                    
                 col->number = svtoi(number);
                 ++col;
             }
