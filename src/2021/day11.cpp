@@ -18,7 +18,7 @@ struct Environment
 
             for (char c : line)
             {
-                map[{x, y}] = c - '0';
+                map[{x, y}] = static_cast<int8_t>(c - '0');
                 ++x;
             }
 

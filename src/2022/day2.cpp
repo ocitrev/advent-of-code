@@ -40,6 +40,8 @@ constexpr int Game(Shape player1, Shape player2)
     case Shape::Scissors:
         return player2 == Shape::Rock ? 6 : 0;
     }
+
+    throw std::invalid_argument("player1");
 }
 
 constexpr int Score(Shape player1, Shape player2)
@@ -87,6 +89,8 @@ constexpr Shape WinnerFor(Shape input)
     case Shape::Scissors:
         return Shape::Rock;
     }
+
+    throw std::invalid_argument("input");
 }
 
 constexpr Shape LoserFor(Shape input)
@@ -100,6 +104,8 @@ constexpr Shape LoserFor(Shape input)
     case Shape::Scissors:
         return Shape::Paper;
     }
+
+    throw std::invalid_argument("input");
 }
 
 static_assert(Shape::Rock == WinnerFor(Shape::Scissors));
@@ -142,7 +148,7 @@ static int Part1(std::string_view lines)
     return total;
 }
 
-constexpr int Part2(std::string_view lines)
+static int Part2(std::string_view lines)
 {
     int total = 0;
 
