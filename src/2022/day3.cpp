@@ -17,7 +17,7 @@ static int ParseLine(std::string_view line)
 {
     std::vector<char> chars(begin(line), end(line));
     auto first = begin(chars);
-    auto mid = first + chars.size() / 2;
+    auto mid = first + static_cast<ptrdiff_t>(chars.size() / 2);
     auto last = end(chars);
     std::sort(first, mid);
     std::sort(mid, last);
