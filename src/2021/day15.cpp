@@ -1,29 +1,10 @@
 #include "day15.hpp"
 #include "../common.hpp"
 
-template <typename KeyT, typename ValueT>
-struct DictWithDefault
+struct State
 {
-    std::unordered_map<KeyT, ValueT> dict;
-    ValueT defaultValue;
-
-    explicit DictWithDefault(ValueT defaultValue_)
-        : defaultValue(std::move(defaultValue_))
-    {
-    }
-
-    void Set(KeyT const &key, ValueT value)
-    {
-        dict[key] = std::move(value);
-    }
-
-    ValueT Get(KeyT const &key) const
-    {
-        if (auto iter = dict.find(key); iter != end(dict))
-            return iter->second;
-
-        return defaultValue;
-    }
+    int risk;
+    Point2d current;
 };
 
 struct Map
@@ -53,119 +34,87 @@ struct Map
         height = y;
     }
 
-    struct Score
+    int Risk(Point2d p) const
     {
-        double value = std::numeric_limits<double>::infinity();
+        int const offset = p.x / width + p.y / height;
+        p.x %= width;
+        p.y %= height;
+        auto iterTo = map.find(p);
+        
+        if (iterTo == end(map))
+            throw std::invalid_argument("p");
 
-        Score() = default;
-        Score(double d)
-            : value(d)
-        {
-        }
+        return LimitScore(iterTo->second + offset);
+    }
 
-        operator double() const
-        {
-            return value;
-        }
-    };
+    static int LimitScore(int score)
+    {
+        return ((score - 1) % 9) + 1;
+    }
 
     static auto Neighbors(Point2d current)
     {
         return std::array{
             current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
     }
-
-    double Weight([[maybe_unused]] Point2d const &from, Point2d to) const
+    
+    static size_t GetOffset(Point2d p, int w)
     {
-        int const offset = to.x / width + to.y / height;
-        to.x %= width;
-        to.y %= height;
-        auto iterTo = map.find(to);
-
-        if (iterTo == end(map))
-            return std::numeric_limits<double>::infinity();
-
-        return LimitScore(iterTo->second + offset);
+        return static_cast<size_t>(p.y * w + p.x);
     }
 
-    static bool Inbound(Point2d const &p, Point2d const &start, Point2d const &goal)
+    static bool Inbound(Point2d const &p, Point2d const &goal)
     {
-        return p.x >= start.x && p.y >= start.y && p.x <= goal.x && p.y <= goal.y;
+        return p.x >= 0 && p.y >= 0 && p.x <= goal.x && p.y <= goal.y;
     }
-
-    int Dijkstra(Point2d const &start, Point2d const &goal)
+ 
+    int Solve(int factor) const
     {
-        size_t const h = static_cast<size_t>(goal.y - start.y) + 1;
-        size_t const w = static_cast<size_t>(goal.x - start.x) + 1;
+        // based on: https://github.com/willkill07/AdventOfCode2021/blob/main/days/Day15.cpp
+        int const w = width * factor;
+        int const h = height * factor;
+        Point2d const goal{w - 1, h - 1};
+        std::vector<std::uint8_t> seen(static_cast<size_t>(w * h));
+        std::vector<std::vector<State>> queues(10);
 
-        DictWithDefault<Point2d, double> dist{std::numeric_limits<double>::infinity()};
-        std::unordered_map<Point2d, Point2d> prev;
-        std::vector<std::tuple<Point2d, double>> queue;
-        auto updatePriority = [&queue](Point2d const &p, double c)
+        for (auto &q : queues)
         {
-            std::erase_if(queue,
-                [&p](auto const &t)
-                {
-                    return get<Point2d>(t) == p;
-                });
-
-            auto t = std::make_tuple(p, c);
-            auto iter = std::lower_bound(begin(queue), end(queue), t,
-                [](std::tuple<Point2d, double> const &a, std::tuple<Point2d, double> const &b)
-                {
-                    return get<double>(b) < get<double>(a);
-                });
-
-            queue.insert(iter, t);
-        };
-
-        queue.reserve(w * h);
-        for (int y = start.y; y <= goal.y; ++y)
-        {
-            for (int x = start.x; x <= goal.x; ++x)
-            {
-                Point2d const p{x, y};
-
-                if (p == start)
-                    continue;
-
-                queue.push_back(std::make_tuple(p, std::numeric_limits<double>::infinity()));
-            }
+            q.reserve(static_cast<size_t>((w + h) * 2));
         }
 
-        dist.Set(start, 0);
-        queue.push_back(std::make_tuple(start, 0.0));
-
-        while (not queue.empty())
+        queues.front().push_back({0, Point2d{}});
+        
+        while (true)
         {
-            auto const &[current, d] = queue.back();
-            queue.pop_back();
-
-            if (current == goal)
+            for (auto &q : queues)
             {
-                return static_cast<int>(dist.Get(goal));
-            }
-
-            for (auto neighbor : Neighbors(current))
-            {
-                if (not Inbound(neighbor, start, goal))
-                    continue;
-
-                if (auto const alt = dist.Get(current) + Weight(current, neighbor); alt < dist.Get(neighbor))
+                while (not q.empty())
                 {
-                    dist.Set(neighbor, alt);
-                    prev[neighbor] = current;
-                    updatePriority(neighbor, alt);
+                    auto const [risk, current] = q.back();
+                    q.pop_back();
+
+                    if (current == goal)
+                        return risk;
+
+                    if (seen[GetOffset(current, w)])
+                        continue;
+
+                    seen[GetOffset(current, w)] = 1U;
+                    
+                    for (auto n : Neighbors(current))
+                    {
+                        if (not Inbound(n, goal))
+                            continue;
+
+                        if (not seen[GetOffset(n, w)])
+                        {
+                            auto const newRisk = risk + Risk(n);
+                            queues[static_cast<size_t>(newRisk % 10)].push_back({newRisk, n});
+                        }
+                    }
                 }
             }
         }
-
-        return {};
-    }
-
-    static int LimitScore(int score)
-    {
-        return ((score - 1) % 9) + 1;
     }
 };
 
@@ -173,15 +122,14 @@ static int Part1(std::string_view text)
 {
     Map m;
     m.Parse(text);
-    auto const cost = m.Dijkstra({0, 0}, {m.width - 1, m.height - 1});
-    return cost;
+    return m.Solve(1);
 }
 
 static int Part2(std::string_view text)
 {
     Map m;
     m.Parse(text);
-    return m.Dijkstra({0, 0}, {m.width * 5 - 1, m.height * 5 - 1});
+    return m.Solve(5);
 }
 
 int main()
