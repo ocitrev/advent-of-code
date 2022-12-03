@@ -67,7 +67,10 @@ static int Part1()
             return GetSeat(pass).GetId();
         });
 
-    return *std::max_element(begin(ids), end(ids));
+    if (auto maxIter = std::max_element(begin(ids), end(ids)); maxIter != end(ids))
+        return *maxIter;
+
+    return 0;
 }
 
 static int Part2()
