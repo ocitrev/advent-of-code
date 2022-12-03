@@ -37,16 +37,16 @@ struct PolymerTemplate
         }
     }
 
-    size_t Step(int nb)
+    int64_t Step(int nb)
     {
-        std::unordered_map<char, size_t> letters;
+        std::unordered_map<char, int64_t> letters;
 
         for (char c : polymer)
         {
             ++letters[c];
         }
 
-        std::unordered_map<int16_t, size_t> pairs;
+        std::unordered_map<int16_t, int64_t> pairs;
         auto const last = std::prev(end(polymer));
 
         for (auto iter = begin(polymer); iter != last; ++iter)
@@ -77,7 +77,7 @@ struct PolymerTemplate
             }
         }
 
-        std::vector<size_t> counts(letters.size());
+        std::vector<int64_t> counts(letters.size());
         std::transform(begin(letters), end(letters), begin(counts),
             [](auto const &elm)
             {
