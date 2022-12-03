@@ -59,24 +59,24 @@ constexpr int Score(std::string_view round)
     return Score(Parse(round[0]), Parse(round[2]));
 }
 
-static_assert(Score(Shape::Paper, Shape::Rock) == 1);
-static_assert(Score(Shape::Scissors, Shape::Paper) == 2);
-static_assert(Score(Shape::Rock, Shape::Scissors) == 3);
-static_assert(Score(Shape::Rock, Shape::Rock) == 4);
-static_assert(Score(Shape::Paper, Shape::Paper) == 5);
-static_assert(Score(Shape::Scissors, Shape::Scissors) == 6);
-static_assert(Score(Shape::Scissors, Shape::Rock) == 7);
-static_assert(Score(Shape::Rock, Shape::Paper) == 8);
-static_assert(Score(Shape::Paper, Shape::Scissors) == 9);
-static_assert(Score("B X") == 1);
-static_assert(Score("C Y") == 2);
-static_assert(Score("A Z") == 3);
-static_assert(Score("A X") == 4);
-static_assert(Score("B Y") == 5);
-static_assert(Score("C Z") == 6);
-static_assert(Score("C X") == 7);
-static_assert(Score("A Y") == 8);
-static_assert(Score("B Z") == 9);
+static_assert(1 == Score(Shape::Paper, Shape::Rock));
+static_assert(2 == Score(Shape::Scissors, Shape::Paper));
+static_assert(3 == Score(Shape::Rock, Shape::Scissors));
+static_assert(4 == Score(Shape::Rock, Shape::Rock));
+static_assert(5 == Score(Shape::Paper, Shape::Paper));
+static_assert(6 == Score(Shape::Scissors, Shape::Scissors));
+static_assert(7 == Score(Shape::Scissors, Shape::Rock));
+static_assert(8 == Score(Shape::Rock, Shape::Paper));
+static_assert(9 == Score(Shape::Paper, Shape::Scissors));
+static_assert(1 == Score("B X"));
+static_assert(2 == Score("C Y"));
+static_assert(3 == Score("A Z"));
+static_assert(4 == Score("A X"));
+static_assert(5 == Score("B Y"));
+static_assert(6 == Score("C Z"));
+static_assert(7 == Score("C X"));
+static_assert(8 == Score("A Y"));
+static_assert(9 == Score("B Z"));
 
 constexpr Shape WinnerFor(Shape input)
 {
@@ -132,6 +132,10 @@ constexpr int Score2(std::string_view round)
     Shape const player2 = Parse2(round[2], player1);
     return Score(player1, player2);
 }
+
+static_assert(4 == Score2("A Y"));
+static_assert(1 == Score2("B X"));
+static_assert(7 == Score2("C Z"));
 
 static int Part1(std::string_view lines)
 {
