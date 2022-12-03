@@ -64,6 +64,7 @@ else()
     -Wshadow
     -Wsign-conversion
     -Wunused
+    -Wno-psabi
   )
 endif()
 
