@@ -115,24 +115,21 @@ static_assert(Shape::Rock == LoserFor(Shape::Paper));
 static_assert(Shape::Paper == LoserFor(Shape::Scissors));
 static_assert(Shape::Scissors == LoserFor(Shape::Rock));
 
+constexpr Shape Parse2(char letter, Shape input)
+{
+    if (letter == 'X')
+        return LoserFor(input);
+
+    if (letter == 'Z')
+        return WinnerFor(input);
+    
+    return input;
+}
+
 constexpr int Score2(std::string_view round)
 {
     Shape const player1 = Parse(round[0]);
-    Shape player2;
-
-    switch (round[2])
-    {
-    case 'X':
-        player2 = LoserFor(player1);
-        break;
-    case 'Y':
-        player2 = player1;
-        break;
-    case 'Z':
-        player2 = WinnerFor(player1);
-        break;
-    }
-
+    Shape const player2 = Parse2(round[2], player1);
     return Score(player1, player2);
 }
 
