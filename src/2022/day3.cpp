@@ -6,7 +6,7 @@ static int GetPriority(char c)
 {
     if (c >= 'a' && c <= 'z')
         return c - 'a' + 1;
-    
+
     if (c >= 'A' && c <= 'Z')
         return c - 'A' + 27;
 
@@ -15,72 +15,43 @@ static int GetPriority(char c)
 
 static int ParseLine(std::string_view line)
 {
-    std::vector<char> chars(begin(line), end(line));
-    auto first = begin(chars);
-    auto mid = first + static_cast<ptrdiff_t>(chars.size() / 2);
-    auto last = end(chars);
-    std::sort(first, mid);
-    std::sort(mid, last);
+    auto const first = begin(line);
+    auto const mid = first + static_cast<ptrdiff_t>(line.size() / 2);
+    auto const last = end(line);
+    std::set<char> const half1(first, mid);
+    std::set<char> const half2(mid, last);
     char intersection;
-    std::set_intersection(first, mid, mid, last, &intersection);
+    std::set_intersection(begin(half1), end(half1), begin(half2), end(half2), &intersection);
     return GetPriority(intersection);
 }
 
 static int PraseLines(std::string_view lines)
 {
-    int total = 0;
-
-    for (auto line : Split(lines, '\n'))
-    {
-        total += ParseLine(line);
-    }
-
-    return total;
+    return TransformReduceLines(lines, 0, std::plus{}, &ParseLine);
 }
 
 static int ParseGroup(std::string_view bag1, std::string_view bag2, std::string_view bag3)
 {
-    std::set<char> set1(begin(bag1), end(bag1));
-    std::set<char> set2(begin(bag2), end(bag2));
-    std::set<char> set3(begin(bag3), end(bag3));
-
-    std::set<char> common12;
-    std::set<char> common23;
-    std::set<char> common13;
-    std::set_intersection(begin(set1), end(set1), begin(set2), end(set2), std::inserter(common12, common12.end()));
-    std::set_intersection(begin(set2), end(set2), begin(set3), end(set3), std::inserter(common23, common23.end()));
-    std::set_intersection(begin(set1), end(set1), begin(set3), end(set3), std::inserter(common13, common13.end()));
-
-    std::unordered_map<char, int> counts;
-    
-    for (char c : common12)
-    {
-        ++counts[c];
-    }
-
-    for (char c : common23)
-    {
-        ++counts[c];
-    }
-
-    for (char c : common13)
-    {
-        if (++counts[c] == 3)
-            return GetPriority(c);
-    }
-
-    return 0;
+    std::set<char> const set1(begin(bag1), end(bag1));
+    std::set<char> const set2(begin(bag2), end(bag2));
+    std::set<char> const set3(begin(bag3), end(bag3));
+    std::set<char> intermediate;
+    char intersection;
+    std::set_intersection(
+        begin(set1), end(set1), begin(set2), end(set2), std::inserter(intermediate, intermediate.end()));
+    std::set_intersection(begin(intermediate), end(intermediate), begin(set3), end(set3), &intersection);
+    return GetPriority(intersection);
 }
 
 static int ParseGroups(std::string_view lines)
 {
     auto const list = Split(lines, '\n');
-    
+
     if (list.size() % 3 != 0)
         throw std::invalid_argument("lines");
 
     int total = 0;
-    
+
     for (auto iter = begin(list); iter != end(list); iter += 3)
     {
         total += ParseGroup(*iter, *(iter + 1), *(iter + 2));

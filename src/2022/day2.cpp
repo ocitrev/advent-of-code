@@ -54,7 +54,7 @@ constexpr int Score(char player1, char player2)
     return Score(Parse(player1), Parse(player2));
 }
 
-constexpr int Score(std::string_view round)
+constexpr int ScoreLine(std::string_view round)
 {
     return Score(Parse(round[0]), Parse(round[2]));
 }
@@ -68,15 +68,15 @@ static_assert(6 == Score(Shape::Scissors, Shape::Scissors));
 static_assert(7 == Score(Shape::Scissors, Shape::Rock));
 static_assert(8 == Score(Shape::Rock, Shape::Paper));
 static_assert(9 == Score(Shape::Paper, Shape::Scissors));
-static_assert(1 == Score("B X"));
-static_assert(2 == Score("C Y"));
-static_assert(3 == Score("A Z"));
-static_assert(4 == Score("A X"));
-static_assert(5 == Score("B Y"));
-static_assert(6 == Score("C Z"));
-static_assert(7 == Score("C X"));
-static_assert(8 == Score("A Y"));
-static_assert(9 == Score("B Z"));
+static_assert(1 == ScoreLine("B X"));
+static_assert(2 == ScoreLine("C Y"));
+static_assert(3 == ScoreLine("A Z"));
+static_assert(4 == ScoreLine("A X"));
+static_assert(5 == ScoreLine("B Y"));
+static_assert(6 == ScoreLine("C Z"));
+static_assert(7 == ScoreLine("C X"));
+static_assert(8 == ScoreLine("A Y"));
+static_assert(9 == ScoreLine("B Z"));
 
 constexpr Shape WinnerFor(Shape input)
 {
@@ -122,7 +122,7 @@ constexpr Shape Parse2(char letter, Shape input)
 
     if (letter == 'Z')
         return WinnerFor(input);
-    
+
     return input;
 }
 
@@ -139,26 +139,12 @@ static_assert(7 == Score2("C Z"));
 
 static int Part1(std::string_view lines)
 {
-    int total = 0;
-
-    for (auto line : Split(lines, '\n'))
-    {
-        total += Score(line);
-    }
-
-    return total;
+    return TransformReduceLines(lines, 0, std::plus{}, &ScoreLine);
 }
 
 static int Part2(std::string_view lines)
 {
-    int total = 0;
-
-    for (auto line : Split(lines, '\n'))
-    {
-        total += Score2(line);
-    }
-
-    return total;
+    return TransformReduceLines(lines, 0, std::plus{}, &Score2);
 }
 
 int main()

@@ -1,9 +1,9 @@
 #pragma once
-#include <algorithm>
 #include <cctype>
 #include <charconv>
 #include <functional>
 #include <locale>
+#include <numeric>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -20,8 +20,16 @@
     return Split(text, std::string_view{&sep, 1});
 }
 
+template <class T, class BinaryReductionOp, class UnaryTransformOp>
+inline auto TransformReduceLines(std::string_view text, T &&init, BinaryReductionOp &&r, UnaryTransformOp &&t)
+{
+    auto const lines = Split(text, '\n');
+    return std::transform_reduce(begin(lines), end(lines), std::forward<T>(init), std::forward<BinaryReductionOp>(r),
+        std::forward<UnaryTransformOp>(t));
+}
+
 template <typename IterT>
-inline std::string Join(IterT first, IterT last, std::string_view sep)
+[[nodiscard]] inline std::string Join(IterT first, IterT last, std::string_view sep)
 {
     std::string result;
 

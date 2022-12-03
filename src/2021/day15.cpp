@@ -40,7 +40,7 @@ struct Map
         p.x %= width;
         p.y %= height;
         auto iterTo = map.find(p);
-        
+
         if (iterTo == end(map))
             throw std::invalid_argument("p");
 
@@ -57,7 +57,7 @@ struct Map
         return std::array{
             current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
     }
-    
+
     static size_t GetOffset(Point2d p, int w)
     {
         return static_cast<size_t>(p.y * w + p.x);
@@ -67,7 +67,7 @@ struct Map
     {
         return p.x >= 0 && p.y >= 0 && p.x <= goal.x && p.y <= goal.y;
     }
- 
+
     int Solve(int factor) const
     {
         // based on: https://github.com/willkill07/AdventOfCode2021/blob/main/days/Day15.cpp
@@ -83,7 +83,7 @@ struct Map
         }
 
         queues.front().push_back({0, Point2d{}});
-        
+
         while (true)
         {
             for (auto &q : queues)
@@ -100,7 +100,7 @@ struct Map
                         continue;
 
                     seen[GetOffset(current, w)] = 1U;
-                    
+
                     for (auto n : Neighbors(current))
                     {
                         if (not Inbound(n, goal))
