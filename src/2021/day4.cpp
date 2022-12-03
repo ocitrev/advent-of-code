@@ -28,7 +28,7 @@ struct Board
             {
                 if (number.empty())
                     continue;
-                    
+
                 col->number = svtoi(number);
                 ++col;
             }
