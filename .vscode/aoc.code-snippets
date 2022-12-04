@@ -48,6 +48,26 @@
 			"}"
 		]
 	},
+	"Header": {
+		"scope": "cpp,hpp",
+		"prefix": "aoch",
+		"body": [
+			"#pragma once",
+			"#include <string_view>",
+			"",
+			"namespace example",
+			"{",
+			"    using namespace std::literals;",
+			"    static constexpr auto ${1:text} = R\"($2)\"sv;",
+			"}",
+			"",
+			"namespace input",
+			"{",
+			"    using namespace std::literals;",
+			"    static constexpr auto ${1:text} = R\"($4)\"sv;",
+			"}"
+		]
+	},
 	"Namespace": {
 		"scope": "cpp,hpp",
 		"prefix": "ns",
