@@ -87,5 +87,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(804 == part2);
 }
