@@ -78,7 +78,7 @@ static_assert(7 == ScoreLine("C X"));
 static_assert(8 == ScoreLine("A Y"));
 static_assert(9 == ScoreLine("B Z"));
 
-constexpr Shape WinnerFor(Shape input)
+constexpr Shape WinnerAgainst(Shape input)
 {
     switch (input)
     {
@@ -93,7 +93,7 @@ constexpr Shape WinnerFor(Shape input)
     throw std::invalid_argument("input");
 }
 
-constexpr Shape LoserFor(Shape input)
+constexpr Shape LoserAgainst(Shape input)
 {
     switch (input)
     {
@@ -108,20 +108,20 @@ constexpr Shape LoserFor(Shape input)
     throw std::invalid_argument("input");
 }
 
-static_assert(Shape::Rock == WinnerFor(Shape::Scissors));
-static_assert(Shape::Paper == WinnerFor(Shape::Rock));
-static_assert(Shape::Scissors == WinnerFor(Shape::Paper));
-static_assert(Shape::Rock == LoserFor(Shape::Paper));
-static_assert(Shape::Paper == LoserFor(Shape::Scissors));
-static_assert(Shape::Scissors == LoserFor(Shape::Rock));
+static_assert(Shape::Rock == WinnerAgainst(Shape::Scissors));
+static_assert(Shape::Paper == WinnerAgainst(Shape::Rock));
+static_assert(Shape::Scissors == WinnerAgainst(Shape::Paper));
+static_assert(Shape::Rock == LoserAgainst(Shape::Paper));
+static_assert(Shape::Paper == LoserAgainst(Shape::Scissors));
+static_assert(Shape::Scissors == LoserAgainst(Shape::Rock));
 
 constexpr Shape Parse2(char letter, Shape input)
 {
     if (letter == 'X')
-        return LoserFor(input);
+        return LoserAgainst(input);
 
     if (letter == 'Z')
-        return WinnerFor(input);
+        return WinnerAgainst(input);
 
     return input;
 }
