@@ -31,9 +31,19 @@ struct Point2d
         return std::tie(a.x, a.y) < std::tie(b.x, b.y);
     }
 
+    constexpr friend bool operator<=(Point2d const &a, Point2d const &b)
+    {
+        return std::tie(a.x, a.y) <= std::tie(b.x, b.y);
+    }
+    
     constexpr friend bool operator>(Point2d const &a, Point2d const &b)
     {
         return std::tie(a.x, a.y) > std::tie(b.x, b.y);
+    }
+
+    constexpr friend bool operator>=(Point2d const &a, Point2d const &b)
+    {
+        return std::tie(a.x, a.y) >= std::tie(b.x, b.y);
     }
 
     constexpr friend bool operator==(Point2d const &a, Point2d const &b)

@@ -22,16 +22,19 @@ RRRDRLRURLRRLUURDRLDUURURLRDRRUDLLUUDURULLUURDLLDRRLURRUDUUDRRURLRRDULLDDLRRRUDU
 DLLLRDDURDULRRLULURRDULDLUDLURDDURRLLRRLLULRDLDRDULRLLRDRUUULURRRLLRLDDDRDRRULDRRLLLLDLUULRRRURDDRULLULDDDLULRLRRRUDRURULUDDRULDUDRLDRRLURULRUULLLRUURDURLLULUURUULUUDLUDLRRULLLRRLRURDRRURDRULRURRUDUDDDRDDULDLURUDRDURLDLDLUDURLLRUULLURLDDDURDULRLUUUDLLRRLLUURRDUUDUUDUURURDRRRRRRRRRUDULDLULURUDUURDDULDUDDRDDRDRLRUUUUDLDLRDUURRLRUUDDDDURLRRULURDUUDLUUDUUURUUDRURDRDDDDULRLLRURLRLRDDLRUULLULULRRURURDDUULRDRRDRDLRDRRLDUDDULLDRUDDRRRD)"sv;
 }
 
-static constexpr std::array<std::array<char, 3>, 3> keypad1{{
-    {'1', '2', '3'},
-    {'4', '5', '6'},
-    {'7', '8', '9'},
-}};
+namespace details
+{
+    using namespace std::literals;
+    static constexpr std::string_view keypad1 = R"(1 2 3
+4 5 6
+7 8 9)"sv;
 
-static constexpr std::array<std::array<char, 5>, 5> keypad2{{
-    {' ', ' ', '1', ' ', ' '},
-    {' ', '2', '3', '4', ' '},
-    {'5', '6', '7', '8', '9'},
-    {' ', 'A', 'B', 'C', ' '},
-    {' ', ' ', 'D', ' ', ' '},
-}};
+    static constexpr std::string_view keypad2 = R"(    1
+  2 3 4
+5 6 7 8 9
+  A B C
+    D)"sv;
+}
+
+using details::keypad1;
+using details::keypad2;

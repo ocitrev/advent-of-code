@@ -1,120 +1,143 @@
 #include "day2.hpp"
 #include "../common.hpp"
+#include <optional>
 
-constexpr int MoveUp(int current)
+class Keypad
 {
-    if (current <= 3)
-        return current;
+    int width_ = 0;
+    int height_ = 0;
+    std::vector<char> buttons_;
 
-    return current - 3;
-}
+    Keypad(int width, int height)
+        : width_{width}
+        , height_{height}
+        , buttons_(static_cast<size_t>(width * height), ' ')
+    {
+    }
 
-constexpr int MoveDown(int current)
-{
-    if (current >= 7)
-        return current;
+public:
+    static Keypad Parse(std::string_view text)
+    {
+        int height = 0;
+        int width = 0;
 
-    return current + 3;
-}
+        auto const lines = Split(text, '\n');
 
-constexpr int MoveLeft(int current)
-{
-    if (current == 1 || current == 4 || current == 7)
-        return current;
+        for (auto line : lines)
+        {
+            int const len = static_cast<int>(line.size());
+            width = std::max<int>(width, (len + len % 2) / 2);
+            ++height;
+        }
 
-    return current - 1;
-}
+        Keypad keypad{width, height};
+        int y = 0;
 
-constexpr int MoveRight(int current)
-{
-    if (current == 3 || current == 6 || current == 9)
-        return current;
+        for (auto line : lines)
+        {
+            int x = 0;
 
-    return current + 1;
-}
+            for (auto iter = begin(line); iter < end(line);)
+            {
+                keypad.buttons_[static_cast<size_t>(y * width + x)] = *iter;
+                ++x;
 
-constexpr int Move(int current, char dir)
+                if (++iter == end(line))
+                    break;
+                else
+                    ++iter;
+            }
+
+            ++y;
+        }
+
+        return keypad;
+    }
+
+    std::optional<Point2d> FindPosition(char key) const
+    {
+        for (int y = 0; y != height_; ++y)
+        {
+            for (int x = 0; x != width_; ++x)
+            {
+                Point2d p{x, y};
+
+                if (GetKey(p) == key)
+                {
+                    return p;
+                }
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    char GetKey(Point2d pos) const
+    {
+        if (pos.x >= 0 && pos.y >= 0 && pos.x < width_ && pos.y < height_)
+        {
+            auto const offset = static_cast<size_t>(pos.y * width_ + pos.x);
+            return buttons_.at(offset);
+        }
+
+        return ' ';
+    }
+
+    Point2d Move(Point2d cursor, Point2d dir) const
+    {
+        auto const newPos = cursor + dir;
+        auto const candidate = GetKey(newPos);
+
+        if (candidate == ' ')
+            return cursor;
+
+        return newPos;
+    }
+};
+
+static Point2d ParseDir(char dir)
 {
     switch (dir)
     {
     case 'U':
-        return MoveUp(current);
+        return Point2d::NORTH;
     case 'D':
-        return MoveDown(current);
+        return Point2d::SOUTH;
     case 'L':
-        return MoveLeft(current);
+        return Point2d::WEST;
     case 'R':
-        return MoveRight(current);
+        return Point2d::EAST;
     }
 
-    return current;
+    throw std::invalid_argument("dir");
 }
 
-static_assert(1 == Move(1, 'U'));
-static_assert(2 == Move(2, 'U'));
-static_assert(3 == Move(3, 'U'));
-static_assert(1 == Move(4, 'U'));
-static_assert(2 == Move(5, 'U'));
-static_assert(3 == Move(6, 'U'));
-static_assert(4 == Move(7, 'U'));
-static_assert(5 == Move(8, 'U'));
-static_assert(6 == Move(9, 'U'));
-static_assert(4 == Move(1, 'D'));
-static_assert(5 == Move(2, 'D'));
-static_assert(6 == Move(3, 'D'));
-static_assert(7 == Move(4, 'D'));
-static_assert(8 == Move(5, 'D'));
-static_assert(9 == Move(6, 'D'));
-static_assert(7 == Move(7, 'D'));
-static_assert(8 == Move(8, 'D'));
-static_assert(9 == Move(9, 'D'));
-static_assert(1 == Move(1, 'L'));
-static_assert(1 == Move(2, 'L'));
-static_assert(2 == Move(3, 'L'));
-static_assert(4 == Move(4, 'L'));
-static_assert(4 == Move(5, 'L'));
-static_assert(5 == Move(6, 'L'));
-static_assert(7 == Move(7, 'L'));
-static_assert(7 == Move(8, 'L'));
-static_assert(8 == Move(9, 'L'));
-static_assert(2 == Move(1, 'R'));
-static_assert(3 == Move(2, 'R'));
-static_assert(3 == Move(3, 'R'));
-static_assert(5 == Move(4, 'R'));
-static_assert(6 == Move(5, 'R'));
-static_assert(6 == Move(6, 'R'));
-static_assert(8 == Move(7, 'R'));
-static_assert(9 == Move(8, 'R'));
-static_assert(9 == Move(9, 'R'));
-
-static int ParseInstructions(std::string_view insctructions)
+static std::string ParseInstructions(std::string_view insctructions, Keypad const &keypad)
 {
-    int key = 5;
-    int code = 0;
+    std::string code;
+    Point2d cursor = keypad.FindPosition('5').value();
 
     for (auto line : Split(insctructions, '\n'))
     {
-        code *= 10;
-
         for (char d : line)
         {
-            key = Move(key, d);
+            cursor = keypad.Move(cursor, ParseDir(d));
         }
 
-        code += key;
+        code.append(1, keypad.GetKey(cursor));
     }
 
     return code;
 }
 
-static int Part1()
+static std::string Part1()
 {
-    return ParseInstructions(input::instructions);
+    return ParseInstructions(input::instructions, Keypad::Parse(keypad1));
 }
 
-static int Part2()
+static std::string Part2()
 {
-    return 0;
+    return ParseInstructions(input::instructions, Keypad::Parse(keypad2));
 }
 
 int main()
@@ -122,11 +145,12 @@ int main()
     // https://adventofcode.com/2016/day/2
     fmt::print("Day 2, 2016: Bathroom Security\n");
 
-    Assert(1985 == ParseInstructions(example::instructions));
+    Assert("1985" == ParseInstructions(example::instructions, Keypad::Parse(keypad1)));
+    Assert("5DB3" == ParseInstructions(example::instructions, Keypad::Parse(keypad2)));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(36629 == part1);
+    Assert("36629" == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
