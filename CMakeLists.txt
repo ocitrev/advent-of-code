@@ -155,6 +155,7 @@ add_aoc(2015 25)
 
 add_aoc(2016 1)
 add_aoc(2016 2)
+add_aoc(2016 3)
 
 add_aoc(2019 1)
 add_aoc(2019 2)
