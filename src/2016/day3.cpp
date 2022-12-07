@@ -6,7 +6,7 @@ using Triangle = std::array<int, 3>;
 static Triangle ParseTriangle(std::string_view triangleText)
 {
     auto numbers = Split(triangleText, ' ');
-    auto last = std::remove(begin(numbers), end(numbers), std::string_view{});
+    std::remove(begin(numbers), end(numbers), std::string_view{});
     Triangle triangle;
     triangle[0] = svtoi(numbers[0]);
     triangle[1] = svtoi(numbers[1]);
