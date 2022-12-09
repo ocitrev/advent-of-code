@@ -219,6 +219,7 @@ add_aoc(2022 4)
 add_aoc(2022 5)
 add_aoc(2022 6)
 add_aoc(2022 7)
+add_aoc(2022 8)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 

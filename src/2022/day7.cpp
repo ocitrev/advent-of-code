@@ -45,7 +45,6 @@ struct Terminal
 
     void ChangeDir(std::string_view dir)
     {
-
         if (dir == ".."sv)
         {
             if (cwd->parent != nullptr)
