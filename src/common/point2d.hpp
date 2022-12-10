@@ -56,28 +56,28 @@ struct Point2d
         return std::tie(a.x, a.y) != std::tie(b.x, b.y);
     }
 
-    [[nodiscard]] constexpr Point2d operator+(Point2d const other) const
+    [[nodiscard]] constexpr Point2d operator+(Point2d const &other) const
     {
         Point2d p = *this;
         p += other;
         return p;
     }
 
-    constexpr Point2d &operator+=(Point2d const other)
+    constexpr Point2d &operator+=(Point2d const &other)
     {
         x += other.x;
         y += other.y;
         return *this;
     }
 
-    [[nodiscard]] constexpr Point2d operator-(Point2d const other) const
+    [[nodiscard]] constexpr Point2d operator-(Point2d const &other) const
     {
         Point2d p = *this;
         p -= other;
         return p;
     }
 
-    constexpr Point2d &operator-=(Point2d const other)
+    constexpr Point2d &operator-=(Point2d const &other)
     {
         x -= other.x;
         y -= other.y;
@@ -88,6 +88,13 @@ struct Point2d
     {
         x *= magnitude;
         y *= magnitude;
+        return *this;
+    }
+
+    constexpr Point2d &operator/=(int magnitute)
+    {
+        x /= magnitute;
+        y /= magnitute;
         return *this;
     }
 
@@ -104,6 +111,13 @@ struct Point2d
         left.x *= right.x;
         left.y *= right.y;
         return left;
+    }
+
+    [[nodiscard]] constexpr Point2d operator/(int magnitude) const
+    {
+        Point2d p = *this;
+        p /= magnitude;
+        return p;
     }
 
     double Normalize()

@@ -133,7 +133,6 @@ static int CountVisibleTrees(std::string_view mapText)
     return map.CountVisible();
 }
 
-
 static int GetBestScore(std::string_view mapText)
 {
     auto map = ParseMap(mapText);
