@@ -18,9 +18,17 @@ struct Map
         return grid[p];
     }
 
+    int8_t GetHeight(Point2d pos) const
+    {
+        if (auto iter = grid.find(pos); iter != end(grid))
+            return iter->second.height;
+
+        throw std::invalid_argument("pos");
+    }
+
     bool IsVisible(Point2d pos, Point2d dir)
     {
-        auto const h = grid.find(pos)->second.height;
+        auto const h = GetHeight(pos);
         int8_t other = 0;
 
         while (true)
@@ -30,7 +38,7 @@ struct Map
             if (pos.x < 0 || pos.y < 0 || pos.x == width || pos.y == height)
                 break;
 
-            auto const t = grid.find(pos)->second.height;
+            auto const t = GetHeight(pos);
 
             if (h < t)
                 return false;
@@ -53,7 +61,7 @@ struct Map
                 break;
 
             ++count;
-            auto const other = grid.find(pos)->second.height;
+            auto const other = GetHeight(pos);
 
             if (h <= other)
                 break;
@@ -64,7 +72,7 @@ struct Map
 
     int GetScore(Point2d pos) const
     {
-        auto const h = grid.find(pos)->second.height;
+        auto const h = GetHeight(pos);
         return CountSmaller(h, pos, Point2d::WEST) * CountSmaller(h, pos, Point2d::NORTH)
                * CountSmaller(h, pos, Point2d::EAST) * CountSmaller(h, pos, Point2d::SOUTH);
     }
