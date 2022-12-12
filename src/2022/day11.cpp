@@ -2,20 +2,22 @@
 #include "../common.hpp"
 #include <ranges>
 
-static std::vector<int> ParseItems(std::string_view line)
+using Item = std::int64_t;
+
+static std::vector<Item> ParseItems(std::string_view line)
 {
-    std::vector<int> items;
+    std::vector<Item> items;
 
     for (auto startItem : Split(Split(line, ':')[1], ','))
     {
         trim(startItem);
-        items.push_back(svtoi(startItem));
+        items.push_back(svtoi<Item>(startItem));
     }
 
     return items;
 }
 
-std::function<int(int)> ParseOperation(std::string_view line)
+std::function<Item(Item)> ParseOperation(std::string_view line)
 {
     auto opParts = Split(trim_copy(Split(line, '=')[1]), ' ');
 
@@ -23,14 +25,14 @@ std::function<int(int)> ParseOperation(std::string_view line)
     {
         if (opParts[2] == "old")
         {
-            return [](int v)
+            return [](Item v)
             {
                 return v * v;
             };
         }
 
-        int operand = svtoi(opParts[2]);
-        return [operand](int v)
+        Item const operand = svtoi<Item>(opParts[2]);
+        return [operand](Item v)
         {
             return v * operand;
         };
@@ -39,14 +41,14 @@ std::function<int(int)> ParseOperation(std::string_view line)
     {
         if (opParts[2] == "old")
         {
-            return [](int v)
+            return [](Item v)
             {
                 return v + v;
             };
         }
 
-        int operand = svtoi(opParts[2]);
-        return [operand](int v)
+        Item const operand = svtoi<Item>(opParts[2]);
+        return [operand](Item v)
         {
             return v + operand;
         };
@@ -55,9 +57,9 @@ std::function<int(int)> ParseOperation(std::string_view line)
     throw std::invalid_argument("line");
 }
 
-static int ParseTest(std::string_view line)
+static Item ParseTest(std::string_view line)
 {
-    return svtoi(Split(line, ' ').back());
+    return svtoi<Item>(Split(line, ' ').back());
 }
 
 static std::pair<int, int> ParseRules(std::string_view line1, std::string_view line2)
@@ -69,14 +71,12 @@ static std::pair<int, int> ParseRules(std::string_view line1, std::string_view l
     return std::make_pair(throwFalse, throwTrue);
 }
 
-using Item = int;
-
 struct Monkey
 {
     int id = 0;
     std::vector<Item> items;
     std::function<Item(Item)> operation;
-    int divisble = 0;
+    Item divisble = 0;
     std::pair<int, int> rules;
     int nbInspections = 0;
 
@@ -95,7 +95,7 @@ struct Monkey
     Item Inspect(Item item)
     {
         ++nbInspections;
-        return operation(item) / 3;
+        return operation(item);
     }
 };
 
@@ -111,21 +111,23 @@ struct Game
         }
     }
 
-    void Round()
+    template <class WorryManager>
+    void Round(WorryManager &&wm)
     {
         for (Monkey &monkey : monkeys)
         {
-            Turn(monkey);
+            Turn(monkey, wm);
         }
     }
 
-    void Turn(Monkey &monkey)
+    template <class WorryManager>
+    void Turn(Monkey &monkey, WorryManager &&wm)
     {
         auto items = std::exchange(monkey.items, {});
 
-        for (int &item : items)
+        for (auto &item : items)
         {
-            item = monkey.Inspect(item);
+            item = wm(monkey.Inspect(item));
             auto const monkeyIndex
                 = static_cast<size_t>(item % monkey.divisble == 0 ? monkey.rules.second : monkey.rules.first);
             monkeys.at(monkeyIndex).items.push_back(item);
@@ -133,18 +135,10 @@ struct Game
     }
 };
 
-static int PlayGame(std::string_view notes, int rounds)
+static std::uint64_t GetScore(Game const &game)
 {
-    Game g;
-    g.ParseNotes(notes);
-
-    for (int i = 0; i != rounds; ++i)
-    {
-        g.Round();
-    }
-
-    std::vector<int> inspections(g.monkeys.size());
-    std::transform(begin(g.monkeys), end(g.monkeys), begin(inspections),
+    std::vector<std::uint64_t> inspections(game.monkeys.size());
+    std::transform(begin(game.monkeys), end(game.monkeys), begin(inspections),
         [](Monkey const &monkey)
         {
             return monkey.nbInspections;
@@ -153,14 +147,56 @@ static int PlayGame(std::string_view notes, int rounds)
     return inspections[0] * inspections[1];
 }
 
-static int Part1()
+static auto PlayGameDivideBy3(std::string_view notes, int rounds)
 {
-    return PlayGame(input::notes, 20);
+    Game game;
+    game.ParseNotes(notes);
+
+    auto divideBy3 = [](Item value)
+    {
+        return value / Item{3};
+    };
+
+    for (int i = 0; i != rounds; ++i)
+    {
+        game.Round(divideBy3);
+    }
+
+    return GetScore(game);
 }
 
-static int Part2()
+static auto PlayGameModulo(std::string_view notes, int rounds)
 {
-    return 0;
+    Game game;
+    game.ParseNotes(notes);
+
+    Item const common = std::transform_reduce(begin(game.monkeys), end(game.monkeys), Item{1}, &std::lcm<Item, Item>,
+        [](Monkey const &monkey)
+        {
+            return monkey.divisble;
+        });
+
+    auto wm = [common](Item value)
+    {
+        return value % common;
+    };
+
+    for (int i = 0; i != rounds; ++i)
+    {
+        game.Round(wm);
+    }
+
+    return GetScore(game);
+}
+
+static auto Part1()
+{
+    return PlayGameDivideBy3(input::notes, 20);
+}
+
+static auto Part2()
+{
+    return PlayGameModulo(input::notes, 10'000);
 }
 
 int main()
@@ -168,13 +204,17 @@ int main()
     // https://adventofcode.com/2022/day/11
     fmt::print("Day 11, 2022: Monkey in the Middle\n");
 
-    Assert(10605 == PlayGame(example::notes, 20));
+    Assert(10'605 == PlayGameDivideBy3(example::notes, 20));
+    Assert(6 * 4 == PlayGameModulo(example::notes, 1));
+    Assert(103 * 99 == PlayGameModulo(example::notes, 20));
+    Assert(5'204 * 5'192 == PlayGameModulo(example::notes, 1'000));
+    Assert(2'713'310'158 == PlayGameModulo(example::notes, 10'000));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(50830 == part1);
+    Assert(50'830 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(14'399'640'002 == part2);
 }
