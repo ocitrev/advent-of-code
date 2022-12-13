@@ -1,16 +1,48 @@
 #include "day4.hpp"
 #include "../common.hpp"
 
+using namespace std::literals;
+
 static std::string_view pop_back(std::string_view text)
 {
     text.remove_suffix(1);
     return text;
 }
 
+struct Decryptor
+{
+    int key;
+
+    Decryptor(int key_)
+        : key{key_}
+    {
+    }
+
+    char operator()(char c) const
+    {
+        return ((c - 'a') + key) % 26 + 'a';
+    }
+
+    std::string operator()(std::string_view text) const
+    {
+        std::string result(text.size(), '\0');
+        std::transform(begin(text), end(text), begin(result), *this);
+        return result;
+    }
+};
+
 struct Room
 {
     int sector = 0;
     bool real = false;
+    std::vector<std::string> words;
+
+    std::string Decrypt() const
+    {
+        std::vector<std::string> result(words.size());
+        std::transform(begin(words), end(words), begin(result), Decryptor{sector});
+        return Join(begin(result), end(result), " "sv);
+    }
 };
 
 static Room ParseRoom(std::string_view room)
@@ -19,13 +51,15 @@ static Room ParseRoom(std::string_view room)
     auto parts = Split(room, '-');
     auto const sectorChecksum = Split(parts.back(), '[');
     result.sector = svtoi(sectorChecksum[0]);
-    auto const roomChecksum = pop_back(sectorChecksum[1]);
+    auto const roomChecksum = sectorChecksum.size() > 1 ? pop_back(sectorChecksum[1]) : std::string_view{};
 
     parts.pop_back();
     std::unordered_map<char, int> letterMap{};
 
     for (auto letters : parts)
     {
+        result.words.emplace_back(letters);
+
         for (char c : letters)
         {
             ++letterMap[c];
@@ -33,7 +67,6 @@ static Room ParseRoom(std::string_view room)
     }
 
     std::vector<std::pair<char, int>> sortedLetters(letterMap.size());
-
     auto first = begin(sortedLetters);
     auto mid = first + 5;
 
@@ -74,6 +107,7 @@ static std::vector<Room> ParseRooms(std::string_view rooms)
 static auto SumSectorIdOfRealRooms(std::string_view rooms)
 {
     int sum = 0;
+    
     for (Room r : ParseRooms(rooms))
     {
         if (r.real)
@@ -85,6 +119,24 @@ static auto SumSectorIdOfRealRooms(std::string_view rooms)
     return sum;
 }
 
+static int FindSectorIdForRoom(std::string_view rooms, std::string_view compare)
+{
+    for (Room r : ParseRooms(rooms))
+    {
+        auto const roomName = r.Decrypt();
+#if 0
+        fmt::print("{}-{}\n", roomName, r.sector);
+#endif
+
+        if (roomName.find(compare) != std::string_view::npos)
+        {
+            return r.sector;
+        }
+    }
+
+    return 0;
+}
+
 static auto Part1()
 {
     return SumSectorIdOfRealRooms(input::rooms);
@@ -92,7 +144,7 @@ static auto Part1()
 
 static auto Part2()
 {
-    return 0;
+    return FindSectorIdForRoom(input::rooms, "object"sv);
 }
 
 int main()
@@ -104,6 +156,7 @@ int main()
     Assert(ParseRoom(example::room2).real);
     Assert(ParseRoom(example::room3).real);
     Assert(not ParseRoom(example::room4).real);
+    Assert("very encrypted name" == ParseRoom(example::room5).Decrypt());
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
@@ -111,5 +164,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(501 == part2);
 }
