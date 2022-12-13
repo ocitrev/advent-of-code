@@ -144,6 +144,11 @@ struct Point2d
         return std::abs(x) + std::abs(y);
     }
 
+    [[nodiscard]] int Distance(Point2d other) const noexcept
+    {
+        return std::abs(other.x - x) + std::abs(other.y - y);
+    }
+
     constexpr void Rotate90Left()
     {
         y = -std::exchange(x, y);
