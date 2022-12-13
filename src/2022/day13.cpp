@@ -19,14 +19,16 @@ static std::string ReadInput()
 struct Packet
 {
     std::vector<std::variant<Packet, int>> items;
+    bool marker = false;
 };
 
-Packet ParsePacket(std::string_view text)
+Packet ParsePacket(std::string_view text, bool marker = false)
 {
     text.remove_prefix(1);
     text.remove_suffix(1);
 
     std::vector<Packet> stack(1);
+    stack.back().marker = marker;
     auto const last = end(text);
     auto start = begin(text);
     auto stop = start;
@@ -171,14 +173,61 @@ static int SumOrderedPairs(std::string_view input)
     return sum;
 }
 
-static auto Part1(std::string_view input)
+static std::vector<Packet> ParsePackets(std::string_view input)
 {
-    return SumOrderedPairs(input);
+    std::vector<Packet> packets;
+    packets.push_back(ParsePacket("[[2]]", 2));
+    packets.push_back(ParsePacket("[[6]]", 6));
+
+    for (auto line : Split(input, '\n'))
+    {
+        if (line.empty())
+            continue;
+
+        packets.push_back(ParsePacket(line));
+    }
+
+    return packets;
+}
+
+static void SortPackets(std::vector<Packet> &packets)
+{
+    std::sort(begin(packets), end(packets),
+        [](Packet const &left, Packet const right)
+        {
+            return Compare(left, right) < 0;
+        });
+}
+
+static int FindDecoderKey(std::string_view input)
+{
+    auto packets = ParsePackets(input);
+    SortPackets(packets);
+
+    int key = 1;
+    int index = 0;
+
+    for (auto const &p : packets)
+    {
+        ++index;
+
+        if (p.marker)
+        {
+            key *= index;
+        }
+    }
+
+    return key;
+}
+
+static auto Part1()
+{
+    return SumOrderedPairs(ReadInput());
 }
 
 static auto Part2()
 {
-    return 0;
+    return FindDecoderKey(ReadInput());
 }
 
 int main()
@@ -187,14 +236,13 @@ int main()
     fmt::print("Day 13, 2022: Distress Signal\n");
 
     Assert(13 == SumOrderedPairs(example::signal));
+    Assert(140 == FindDecoderKey(example::signal));
 
-    auto const input = ReadInput();
-
-    auto const part1 = Part1(input);
+    auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
     Assert(6484 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(19305 == part2);
 }
