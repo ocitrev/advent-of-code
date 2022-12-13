@@ -9,11 +9,11 @@ static std::string ReadInput()
     if (input.bad())
         throw std::invalid_argument("Failed to open file");
 
-    auto const fileSize = input.tellg();
-    input.seekg(0, std::ios_base::beg);
-    std::string fileContent(static_cast<size_t>(fileSize), '\0');
-    input.read(fileContent.data(), fileSize);
-    return fileContent;
+    std::string result;
+    result.reserve(static_cast<size_t>(input.tellg()));
+    input.seekg(0, std::ios::beg);
+    result.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+    return result;
 }
 
 struct Packet
