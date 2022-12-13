@@ -77,6 +77,8 @@ add_library(md5 OBJECT
 add_library(common STATIC
   src/common.hpp
   src/common/combinations.hpp
+  src/common/defaultdict.hpp
+  src/common/dijkstra.hpp
   src/common/intcode.cpp
   src/common/intcode.hpp
   src/common/numbers.hpp
