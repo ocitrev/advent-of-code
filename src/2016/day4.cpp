@@ -107,7 +107,7 @@ static std::vector<Room> ParseRooms(std::string_view rooms)
 static auto SumSectorIdOfRealRooms(std::string_view rooms)
 {
     int sum = 0;
-    
+
     for (Room r : ParseRooms(rooms))
     {
         if (r.real)
