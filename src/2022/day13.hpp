@@ -1,5 +1,6 @@
 #pragma once
 #include <string_view>
+#include <input-bytes.h>
 
 namespace example
 {

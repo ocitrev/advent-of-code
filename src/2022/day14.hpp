@@ -1,6 +1,7 @@
 #pragma once
 #include "../common/point2d.hpp"
 #include <string_view>
+#include <input-bytes.h>
 
 namespace example
 {

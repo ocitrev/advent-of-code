@@ -239,18 +239,18 @@ static int Simulate(std::string_view scanlines, bool withFloor)
         ++count;
     }
 
-    map.Draw();
+    // map.Draw();
     return count;
 }
 
 static auto Part1()
 {
-    return Simulate(ReadInput(14), false);
+    return Simulate(ReadInput(), false);
 }
 
 static auto Part2()
 {
-    return Simulate(ReadInput(14), true);
+    return Simulate(ReadInput(), true);
 }
 
 int main()

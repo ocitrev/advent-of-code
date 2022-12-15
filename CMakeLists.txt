@@ -111,11 +111,43 @@ target_link_libraries(common PUBLIC fmt::fmt-header-only)
 find_package(RapidJSON CONFIG REQUIRED)
 target_include_directories(common PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
+function(add_resource resource_file header_folder)
+  if (NOT EXISTS ${header_folder})
+    file(MAKE_DIRECTORY ${header_folder})
+  endif ()
+
+  file(READ ${resource_file} hex_content HEX)
+  string(REPEAT "[0-9a-f]" 32 column_pattern)
+  string(REGEX REPLACE "(${column_pattern})" "\\1\n" content "${hex_content}")
+  string(REGEX REPLACE "([0-9a-f][0-9a-f])" "0x\\1, " content "${content}")
+  string(REGEX REPLACE ", $" "" content "${content}")
+  set(source "// Auto generated file
+#include <string_view>
+
+static constexpr char inputBytes[]{
+${content}
+}\;
+
+inline std::string_view ReadInput()
+{
+    return {inputBytes, sizeof(inputBytes)}\;
+}
+")
+  file(WRITE ${header_folder}/input-bytes.h ${source})
+
+  add_custom_command(OUTPUT ${header_folder}/input-bytes.h DEPENDS ${resource_file})
+endfunction()
+
 function(add_aoc year day)
-  add_executable(${year}-day${day} src/${year}/day${day}.cpp src/${year}/day${day}.hpp)
-  target_link_libraries(${year}-day${day} PRIVATE common)
-  add_custom_target(run-${year}-${day} ${year}-day${day} DEPENDS ${year}-day${day})
+  set(aoc ${year}-day${day})
+  add_executable(${aoc} src/${year}/day${day}.cpp src/${year}/day${day}.hpp)
+  target_link_libraries(${aoc} PRIVATE common)
+  add_custom_target(run-${year}-${day} ${aoc} DEPENDS ${aoc})
   
+  set(generated_input_folder ${CMAKE_BINARY_DIR}/inputs/${year}/${day})
+  add_resource(inputs/${year}/day${day}.txt ${generated_input_folder})
+  target_include_directories(${aoc} PUBLIC ${generated_input_folder})
+
   if(TARGET run-${year})
     add_dependencies(run-${year} run-${year}-${day})
   else()
@@ -127,7 +159,7 @@ function(add_aoc year day)
   else()
     add_custom_target(run DEPENDS run-${year}-${day})
   endif()
-  set_property(TARGET ${year}-day${day} APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${year}-day${day}.pdb)
+  set_property(TARGET ${aoc} APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${aoc}.pdb ${generated_input_folder}/input-bytes.h)
 endfunction()
 
 add_aoc(2015 1)
