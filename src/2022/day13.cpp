@@ -1,20 +1,6 @@
 #include "day13.hpp"
 #include "../common.hpp"
-#include <fstream>
 #include <variant>
-
-static std::string ReadInput()
-{
-    std::ifstream input("../inputs/2022/day13.txt", std::ios_base::ate);
-    if (input.bad())
-        throw std::invalid_argument("Failed to open file");
-
-    std::string result;
-    result.reserve(static_cast<size_t>(input.tellg()));
-    input.seekg(0, std::ios::beg);
-    result.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
-    return result;
-}
 
 struct Packet
 {
@@ -222,12 +208,12 @@ static int FindDecoderKey(std::string_view input)
 
 static auto Part1()
 {
-    return SumOrderedPairs(ReadInput());
+    return SumOrderedPairs(ReadInput(13));
 }
 
 static auto Part2()
 {
-    return FindDecoderKey(ReadInput());
+    return FindDecoderKey(ReadInput(13));
 }
 
 int main()

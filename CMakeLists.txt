@@ -79,6 +79,7 @@ add_library(common STATIC
   src/common/combinations.hpp
   src/common/defaultdict.hpp
   src/common/dijkstra.hpp
+  src/common/input.hpp
   src/common/intcode.cpp
   src/common/intcode.hpp
   src/common/numbers.hpp
@@ -228,6 +229,7 @@ add_aoc(2022 10)
 add_aoc(2022 11)
 add_aoc(2022 12)
 add_aoc(2022 13)
+add_aoc(2022 14)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 

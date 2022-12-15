@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/assert.hpp"
+#include "common/input.hpp"
 #include "common/point2d.hpp"
 #include "common/string.hpp"
 #include "common/utils.hpp"
