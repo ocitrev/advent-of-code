@@ -5,27 +5,23 @@ struct Line
 {
     Point2d start;
     Point2d end;
-
-    auto Slope() const
-    {
-        return (end - start).Slope();
-    }
-
-    bool IsOrthogonal() const
-    {
-        auto const vec = end - start;
-        return vec.x == 0 || vec.y == 0;
-    }
 };
+
+static constexpr Point2d const dropLocation{500,0};
 
 struct Map
 {
     std::unordered_map<Point2d, char> grid;
-    Point2d dropLocation;
-    Point2d min;
-    Point2d max;
+    int floorHeight = 0;
+    Point2d min = dropLocation;
+    Point2d max = dropLocation;
 
-    static constexpr char Air = ' ';
+    Map()
+    {
+        grid[dropLocation] = Crack;
+    }
+
+    static constexpr char Air = '.';
     static constexpr char Rock = '#';
     static constexpr char Crack = '+';
     static constexpr char Sand = 'o';
@@ -54,8 +50,6 @@ struct Map
             auto const points = ParseScanLine(line);
             AddLineStrip(points);
         }
-
-        CalcBounds();
     }
 
     void AddLineStrip(std::vector<Point2d> const &points)
@@ -78,7 +72,7 @@ struct Map
 
             for (int y = startY; y <= endY; ++y)
             {
-                grid[{wall.start.x, y}] = Rock;
+                SetCell({wall.start.x, y}, Rock);
             }
         }
         else if (wall.start.y == wall.end.y)
@@ -88,7 +82,7 @@ struct Map
 
             for (int x = startX; x <= endX; ++x)
             {
-                grid[{x, wall.start.y}] = Rock;
+                SetCell({x, wall.start.y}, Rock);
             }
         }
         else
@@ -100,35 +94,11 @@ struct Map
     void SetCell(Point2d p, char value)
     {
         grid[p] = value;
+
         min.x = std::min(min.x, p.x);
         min.y = std::min(min.y, p.y);
         max.x = std::max(max.x, p.x);
         max.y = std::max(max.y, p.y);
-    }
-
-    void SetDropLocation(Point2d dropLocation_)
-    {
-        dropLocation = dropLocation_;
-        SetCell(dropLocation, Crack);
-    }
-
-    void CalcBounds()
-    {
-        int minX = std::numeric_limits<int>::max();
-        int maxX = std::numeric_limits<int>::min();
-        int minY = std::numeric_limits<int>::max();
-        int maxY = std::numeric_limits<int>::min();
-
-        for (auto const &[p, _] : grid)
-        {
-            minX = std::min(p.x, minX);
-            maxX = std::max(p.x, maxX);
-            minY = std::min(p.y, minY);
-            maxY = std::max(p.y, maxY);
-        }
-
-        min = {minX, minY};
-        max = {maxX, maxY};
     }
 
     char GetCell(Point2d pos) const
@@ -170,7 +140,12 @@ struct Map
     {
         Point2d const candidate = sand + Point2d::SOUTH;
 
-        if (sand.y > max.y + 1)
+        if (floorHeight != 0 && candidate.y == floorHeight)
+        {
+            return State::Stop;
+        }
+
+        if (candidate.y > max.y + 2)
         {
             return State::Drop;
         }
@@ -212,7 +187,7 @@ struct Map
 
     bool StepSimulation()
     {
-        Point2d sand = dropLocation + Point2d::SOUTH;
+        Point2d sand = dropLocation;
         State state = State::Fall;
 
         while (true)
@@ -233,40 +208,49 @@ struct Map
 
             case State::Stop:
                 SetCell(sand, Sand);
-                return true;
+                return sand != dropLocation;
 
             case State::Drop:
                 return false;
             }
         }
     }
+
+    void AddFloor()
+    {
+        floorHeight = max.y + 2;
+    }
 };
 
-static int Simulate(std::string_view scanlines, Point2d dropLocation)
+static int Simulate(std::string_view scanlines, bool withFloor)
 {
     Map map;
     map.ParseScanLines(scanlines);
-    map.SetDropLocation(dropLocation);
 
-    int count = 0;
+    if (withFloor)
+    {
+        map.AddFloor();
+    }
+
+    int count = withFloor? 1 : 0;
 
     while (map.StepSimulation())
     {
         ++count;
     }
 
-    // map.Draw();
+    map.Draw();
     return count;
 }
 
 static auto Part1()
 {
-    return Simulate(ReadInput(14), example::dropLocation);
+    return Simulate(ReadInput(14), false);
 }
 
 static auto Part2()
 {
-    return 0;
+    return Simulate(ReadInput(14), true);
 }
 
 int main()
@@ -274,7 +258,8 @@ int main()
     // https://adventofcode.com/2022/day/14
     fmt::print("Day 14, 2022: Regolith Reservoir\n");
 
-    Assert(24 == Simulate(example::scanlines, example::dropLocation));
+    Assert(24 == Simulate(example::scanlines, false));
+    Assert(93 == Simulate(example::scanlines, true));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
