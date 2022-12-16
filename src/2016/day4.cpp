@@ -20,7 +20,7 @@ struct Decryptor
 
     char operator()(char c) const
     {
-        return ((c - 'a') + key) % 26 + 'a';
+        return static_cast<char>(((c - 'a') + key) % 26 + 'a');
     }
 
     std::string operator()(std::string_view text) const
