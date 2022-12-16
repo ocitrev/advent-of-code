@@ -67,9 +67,6 @@ static std::string GetTile(Tile tile)
     }
 }
 
-// https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
-#define CSI(x) "\x1b[" x // NOLINT: cppcoreguidelines-macro-usage
-
 static void Part2(bool render)
 {
     Intcode cpu(ParseInputNumbers<Int, ','>());

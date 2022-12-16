@@ -28,13 +28,23 @@ struct Range
         return false;
     }
 
-    bool Merge(Range other)
+    bool Union(Range other)
     {
         if (NoOverlap(other))
             return false;
 
         low = std::min(low, other.low);
         high = std::max(high, other.high);
+        return true;
+    }
+
+    bool Intersection(Range other)
+    {
+        if (NoOverlap(other))
+            return false;
+
+        low = std::max(low, other.low);
+        high = std::min(high, other.high);
         return true;
     }
 
@@ -59,7 +69,7 @@ inline std::vector<Range> MergeRanges(std::vector<Range> ranges)
 
             for (auto &candidate : result)
             {
-                if (candidate.Merge(*iter))
+                if (candidate.Union(*iter))
                 {
                     ++nbMerge;
                     merged = true;

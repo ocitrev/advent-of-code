@@ -2,6 +2,7 @@
 
 #if defined(_WIN32) && !defined(__GNUC__)
 #    include <Windows.h>
+#    include <bit>
 #    include <crtdbg.h>
 #    include <cstdio>
 #    include <cstring>
@@ -63,21 +64,9 @@ static bool EnableVTMode(HANDLE hStdHandle)
     return false;
 }
 
-template <class To, class From>
-constexpr To bit_cast(const From &src) noexcept
-{
-    static_assert(sizeof(To) == sizeof(From));
-    static_assert(std::is_trivially_copyable_v<From>);
-    static_assert(std::is_trivial_v<To>, "this implementation requires that To is trivially default constructible");
-
-    To dst;
-    std::memcpy(&dst, &src, sizeof(To));
-    return dst;
-}
-
 bool IsTerminal(std::FILE *stream)
 {
-    return EnableVTMode(bit_cast<HANDLE>(_get_osfhandle(_fileno(stream))));
+    return EnableVTMode(std::bit_cast<HANDLE>(_get_osfhandle(_fileno(stream))));
 }
 
 #else

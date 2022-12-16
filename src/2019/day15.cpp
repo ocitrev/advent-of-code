@@ -101,9 +101,6 @@ struct Robot
         fmt::print("{}", frame);
     }
 
-// https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
-#define CSI(x) "\x1b[" x // NOLINT: cppcoreguidelines-macro-usage
-
     void Print(bool isTerminal)
     {
         if (isTerminal)

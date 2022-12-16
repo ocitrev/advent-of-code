@@ -58,7 +58,8 @@ static auto CountImpossible(std::vector<Sensor> const &sensors, int y)
     {
         if (auto width = sensor.GetSizeAtHeight(y); width.has_value())
         {
-            if (sensor.closestBeacon.y == y && sensor.closestBeacon.x >= width->low && sensor.closestBeacon.x <= width->high)
+            if (sensor.closestBeacon.y == y && sensor.closestBeacon.x >= width->low
+                && sensor.closestBeacon.x <= width->high)
             {
                 if (sensor.closestBeacon.x == width->low)
                 {
@@ -96,6 +97,53 @@ static auto CountImpossible(std::string_view sensors, int y)
     return CountImpossible(ParseInput(sensors), y);
 }
 
+static int64_t FindBeacon(std::vector<Sensor> const &sensors, int limit)
+{
+    Range const limitWidth{0, limit};
+    bool const stdoutIsConsole = IsTerminal(stdout);
+
+    // force brute ... il doit y avoir une meilleure solution
+    for (int y = limit; y >= 0; --y)
+    {
+        std::vector<Range> ranges;
+
+        if (stdoutIsConsole && y % 10'000 == 0)
+            fmt::print("  {}/{} {}%          \r", y, limit, 100 - (y * 100LL / limit));
+
+        for (auto const &sensor : sensors)
+        {
+            if (auto width = sensor.GetSizeAtHeight(y); width.has_value())
+            {
+                if (width->Intersection(limitWidth))
+                {
+                    ranges.push_back(*width);
+                }
+            }
+        }
+
+        ranges = MergeRanges(ranges);
+
+        if (ranges.size() > 1)
+        {
+            static constexpr int64_t tuningFrequency = 4'000'000;
+            Range a{ranges[0].high + 1, ranges[1].low - 1};
+            Range b{ranges[1].high + 1, ranges[0].low - 1};
+
+            if (a.Length() == 1)
+                return a.low * tuningFrequency + y;
+
+            return b.low * tuningFrequency + y;
+        }
+    }
+
+    return 0;
+}
+
+static auto FindBeacon(std::string_view sensors, int limit)
+{
+    return FindBeacon(ParseInput(sensors), limit);
+}
+
 static auto Part1()
 {
     return CountImpossible(GetInput(), 2'000'000);
@@ -103,8 +151,7 @@ static auto Part1()
 
 static auto Part2()
 {
-    // ####B######################
-    return 0;
+    return FindBeacon(GetInput(), 4'000'000);
 }
 
 int main()
@@ -113,6 +160,7 @@ int main()
     fmt::print("Day 15, 2022: Beacon Exclusion Zone\n");
 
     Assert(26 == CountImpossible(example::beacons, 10));
+    Assert(56000011 == FindBeacon(example::beacons, 20));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
@@ -120,5 +168,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    // Assert( == part2);
+    Assert(13340867187704 == part2);
 }
