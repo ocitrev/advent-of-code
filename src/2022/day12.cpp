@@ -113,12 +113,12 @@ static auto SolveReverse(std::string_view mapText)
 
 static auto Part1()
 {
-    return Solve(input::map);
+    return Solve(GetInput());
 }
 
 static auto Part2()
 {
-    return SolveReverse(input::map);
+    return SolveReverse(GetInput());
 }
 
 int main()

@@ -149,12 +149,12 @@ static int CountVisited(std::string_view text, size_t knots)
 
 static int Part1()
 {
-    return CountVisited(input::instructions, 2);
+    return CountVisited(GetInput(), 2);
 }
 
 static int Part2()
 {
-    return CountVisited(input::instructions, 10);
+    return CountVisited(GetInput(), 10);
 }
 
 int main()

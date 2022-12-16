@@ -1,11 +1,6 @@
 #include "day13.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point2d.hpp"
-#include "../common/terminal.hpp"
-#include <array>
-#include <fmt/format.h>
-#include <map>
 
 enum class Tile
 {
@@ -19,7 +14,7 @@ enum class Tile
 static void Part1()
 {
     Point2d pos;
-    std::map<Point2d, Tile> grid;
+    std::unordered_map<Point2d, Tile> grid;
 
     auto setX = [&](Int value)
     {
@@ -38,7 +33,7 @@ static void Part1()
 
     std::array<std::function<void(Int)>, 3> states = {setX, setY, setTitle};
 
-    Intcode::Run(input::code, nullptr,
+    Intcode::Run(ParseInputNumbers<Int, ','>(), nullptr,
         [&](Int value)
         {
             states.front()(value);
@@ -77,11 +72,11 @@ static std::string GetTile(Tile tile)
 
 static void Part2(bool render)
 {
-    Intcode cpu(input::code);
+    Intcode cpu(ParseInputNumbers<Int, ','>());
     cpu.WriteMemory(0, 2);
 
     Point2d inputPos;
-    std::map<Point2d, Tile> grid;
+    std::unordered_map<Point2d, Tile> grid;
     Int score = 0;
     Point2d ballPos;
     Point2d paddlePos;

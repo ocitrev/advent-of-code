@@ -208,12 +208,12 @@ static int FindDecoderKey(std::string_view input)
 
 static auto Part1()
 {
-    return SumOrderedPairs(ReadInput());
+    return SumOrderedPairs(GetInput());
 }
 
 static auto Part2()
 {
-    return FindDecoderKey(ReadInput());
+    return FindDecoderKey(GetInput());
 }
 
 int main()

@@ -1,9 +1,5 @@
 #include "day16.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
-#include <gsl/gsl>
-#include <numeric>
+#include "../common.hpp"
 #include <regex>
 #include <set>
 
@@ -41,18 +37,67 @@ struct Rule
     }
 };
 
-static int Part1()
+struct Notes
 {
     std::vector<Rule> rules;
-    for (auto &&line : Split(input::rules, "\n"))
-        rules.emplace_back(line);
+    std::vector<int> myTicket;
+    std::vector<std::vector<int>> nearbyTickets;
 
+    void ParseRules(std::string_view rulesText)
+    {
+        for (auto line : Split(rulesText, '\n'))
+        {
+            rules.emplace_back(line);
+        }
+    }
+
+    static std::vector<int> ParseNumbers(std::string_view list)
+    {
+        std::vector<int> numbers;
+
+        for (auto number : Split(list, ','))
+        {
+            numbers.push_back(svtoi(number));
+        }
+
+        return numbers;
+    }
+
+    void ParseTicket(std::string_view ticket)
+    {
+        myTicket = ParseNumbers(ticket);
+    }
+
+    void ParseNearbyTickets(std::string_view tickets)
+    {
+        for (auto ticket : Split(tickets, '\n'))
+        {
+            nearbyTickets.push_back(ParseNumbers(ticket));
+        }
+    }
+};
+
+static Notes ParseInput()
+{
+    Notes notes;
+    auto text = GetInput();
+    auto parts = Split(text, "\n\n");
+    notes.ParseRules(parts[0]);
+    notes.ParseTicket(NextLine(parts[1]));
+    notes.ParseNearbyTickets(NextLine(parts[2]));
+    return notes;
+}
+
+static int Part1()
+{
+    auto const notes = ParseInput();
     std::vector<int> invalidIds;
-    for (auto &&ticket : input::nearbyTickets)
+
+    for (auto &&ticket : notes.nearbyTickets)
     {
         for (auto id : ticket)
         {
-            if (not std::any_of(begin(rules), end(rules),
+            if (not std::any_of(begin(notes.rules), end(notes.rules),
                     [id](Rule const &r)
                     {
                         return r.IsValid(id);
@@ -66,7 +111,7 @@ static int Part1()
     return std::accumulate(begin(invalidIds), end(invalidIds), 0);
 }
 
-static bool IsValidTicket(gsl::span<int const> ticket, gsl::span<Rule> rules)
+static bool IsValidTicket(std::span<int const> ticket, std::span<Rule const> rules)
 {
     for (auto id : ticket)
     {
@@ -85,28 +130,25 @@ static bool IsValidTicket(gsl::span<int const> ticket, gsl::span<Rule> rules)
 
 static int64_t Part2()
 {
-    std::vector<Rule> rules;
-    for (auto &&line : Split(input::rules, "\n"))
-        rules.emplace_back(line);
-
-    int const nbRules = static_cast<int>(rules.size());
-    std::vector<gsl::span<int const>> validTickets{begin(input::nearbyTickets), end(input::nearbyTickets)};
+    auto notes = ParseInput();
+    int const nbRules = static_cast<int>(notes.rules.size());
+    std::vector<std::span<int const>> validTickets{begin(notes.nearbyTickets), end(notes.nearbyTickets)};
     auto last = std::remove_if(begin(validTickets), end(validTickets),
         [&](auto &&ticket)
         {
-            return not IsValidTicket(ticket, rules);
+            return not IsValidTicket(ticket, notes.rules);
         });
     validTickets.erase(last, end(validTickets));
-    validTickets.emplace_back(input::myTicket);
+    validTickets.push_back(notes.myTicket);
 
-    for (auto &&rule : rules)
+    for (auto &&rule : notes.rules)
     {
         for (int r = 0; r != nbRules; ++r)
         {
             if (std::all_of(begin(validTickets), end(validTickets),
                     [&](auto const &ticket)
                     {
-                        return rule.IsValid(gsl::at(ticket, r));
+                        return rule.IsValid(ticket[static_cast<size_t>(r)]);
                     }))
             {
                 rule.possibleIndex.insert(r);
@@ -120,7 +162,7 @@ static int64_t Part2()
     {
         bool removed = false;
 
-        for (auto const &rule : rules)
+        for (auto const &rule : notes.rules)
         {
             if (rule.possibleIndex.size() != 1)
                 continue;
@@ -132,7 +174,7 @@ static int64_t Part2()
 
             done.insert(toRemove);
 
-            for (auto &&r : rules)
+            for (auto &&r : notes.rules)
             {
                 if (&r != &rule)
                 {
@@ -147,13 +189,13 @@ static int64_t Part2()
 
     int64_t result = 1;
 
-    for (auto const &rule : rules)
+    for (auto const &rule : notes.rules)
     {
         if (starts_with(rule.name, "departure"))
         {
             Assert(rule.possibleIndex.size() == 1);
-            auto const idx = static_cast<gsl::index>(*rule.possibleIndex.begin());
-            result *= gsl::at(input::myTicket, idx);
+            auto const idx = static_cast<size_t>(*rule.possibleIndex.begin());
+            result *= static_cast<int64_t>(notes.myTicket.at(idx));
         }
     }
 

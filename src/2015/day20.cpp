@@ -1,5 +1,6 @@
 #include "day20.hpp"
 #include "../common/assert.hpp"
+#include "../common/string.hpp"
 #include <fmt/format.h>
 #include <vector>
 
@@ -49,6 +50,11 @@ int Part2(int limit)
     return static_cast<int>(std::distance(begin(giftsPerHouse), iter));
 }
 
+static int ParseInput()
+{
+    return svtoi(GetInput());
+}
+
 int main()
 {
     // https://adventofcode.com/2015/day/20
@@ -59,11 +65,11 @@ int main()
     Assert(4 == Part1(70));
     Assert(6 == Part1(120));
 
-    auto const part1 = Part1(input::number);
+    auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(786240 == part1);
 
-    auto const part2 = Part2(input::number);
+    auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(831600 == part2);
 }

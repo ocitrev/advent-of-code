@@ -129,13 +129,13 @@ public:
 
 static int Part1()
 {
-    Circuit c(input::data);
+    Circuit c(GetInput());
     return c.GetWire("a");
 }
 
 static int Part2()
 {
-    Circuit c(input::data);
+    Circuit c(GetInput());
     auto const a = c.GetWire("a");
     c.Reset();
     c.SetWire("b", a);

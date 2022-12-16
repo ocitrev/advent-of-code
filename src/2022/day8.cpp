@@ -159,12 +159,12 @@ static int GetBestScore(std::string_view mapText)
 
 static int Part1()
 {
-    return CountVisibleTrees(input::map);
+    return CountVisibleTrees(GetInput());
 }
 
 static int Part2()
 {
-    return GetBestScore(input::map);
+    return GetBestScore(GetInput());
 }
 
 int main()

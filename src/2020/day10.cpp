@@ -1,10 +1,5 @@
 #include "day10.hpp"
-#include "../common/assert.hpp"
-#include <algorithm>
-#include <array>
-#include <fmt/format.h>
-#include <gsl/gsl>
-#include <vector>
+#include "../common.hpp"
 
 static int Part1(std::vector<int> adapters)
 {
@@ -78,11 +73,11 @@ int main()
     Assert(35 == Part1({begin(example::adapters1), end(example::adapters1)}));
     Assert(220 == Part1({begin(example::adapters2), end(example::adapters2)}));
 
-    auto const part1 = Part1({begin(input::adapters), end(input::adapters)});
+    auto const part1 = Part1(ParseInputNumbers());
     fmt::print("  Part 1: {}\n", part1);
     Assert(2059 == part1);
 
-    auto const part2 = Part2({begin(input::adapters), end(input::adapters)});
+    auto const part2 = Part2(ParseInputNumbers());
     fmt::print("  Part 2: {}\n", part2);
     Assert(86812553324672 == part2);
 }

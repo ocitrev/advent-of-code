@@ -16,7 +16,7 @@ int main()
     // https://adventofcode.com/2022/day/15
     fmt::print("Day 15, 2022: Beacon Exclusion Zone\n");
 
-    fmt::print("{}\n", ReadInput());
+    fmt::print("{}\n", GetInput());
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);

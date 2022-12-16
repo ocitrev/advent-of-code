@@ -159,10 +159,10 @@ int main()
 
     Assert(17 == Part1(example::instructions));
 
-    auto const part1 = Part1(input::instructions);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(592 == part1);
 
-    auto const part2 = Part2(input::instructions);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2:\n{}\n", part2);
 }

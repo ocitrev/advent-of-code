@@ -118,12 +118,12 @@ static int ComputeBestHappiness(std::string_view text)
 
 static int Part1()
 {
-    return ComputeBestHappiness(input::data);
+    return ComputeBestHappiness(GetInput());
 }
 
 static int Part2()
 {
-    std::vector<Relation> relations = ParseRelations(input::data);
+    std::vector<Relation> relations = ParseRelations(GetInput());
     std::vector<std::string> people = GetPeople(relations);
     using namespace std::string_literals;
     insert_sorted(people, "Moi"s);

@@ -1,17 +1,11 @@
 #include "day14.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <algorithm>
+#include "../common.hpp"
 #include <bitset>
-#include <fmt/format.h>
-#include <map>
-#include <numeric>
-#include <vector>
 
 struct VM
 {
     inline static constexpr size_t kNbBits = 36;
-    std::map<uint64_t, uint64_t> memory;
+    std::unordered_map<uint64_t, uint64_t> memory;
     std::bitset<kNbBits> maskOnes;
     std::bitset<kNbBits> maskValue{0xffffffffffffffff};
     std::string_view lastMask;
@@ -114,7 +108,7 @@ struct VM
 static uint64_t Part1()
 {
     VM vm;
-    for (auto &&ins : input::instructions)
+    for (auto &&ins : Split(GetInput(), '\n'))
     {
         vm.RunInstruction(ins);
     }
@@ -125,7 +119,7 @@ static uint64_t Part1()
 static uint64_t Part2()
 {
     VM vm;
-    for (auto &&ins : input::instructions)
+    for (auto &&ins : Split(GetInput(), '\n'))
     {
         vm.RunInstruction2(ins);
     }

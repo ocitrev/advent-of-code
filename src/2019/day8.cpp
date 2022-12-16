@@ -1,12 +1,5 @@
 #include "day8.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include "../common/terminal.hpp"
-#include <algorithm>
-#include <array>
-#include <fmt/format.h>
-#include <string_view>
-#include <vector>
+#include "../common.hpp"
 
 struct Layer
 {
@@ -66,7 +59,7 @@ static constexpr size_t H = 6;
 
 static void Part1()
 {
-    auto layers = DecodeLayers(input::data, W, H);
+    auto layers = DecodeLayers(GetInput(), W, H);
 
     auto iterMin = std::min_element(begin(layers), end(layers),
         [](Layer const &a, Layer const &b)
@@ -81,7 +74,7 @@ static void Part1()
 
 static void Part2()
 {
-    auto const canvas = Render(input::data, W, H);
+    auto const canvas = Render(GetInput(), W, H);
     std::string result;
     result.reserve(W * H + H);
     auto iter = cbegin(canvas);

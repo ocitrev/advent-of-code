@@ -54,17 +54,12 @@
 		"body": [
 			"#pragma once",
 			"#include <string_view>",
+			"#include \"input-bytes.hpp\"",
 			"",
 			"namespace example",
 			"{",
 			"    using namespace std::literals;",
 			"    static constexpr auto ${1:text} = R\"($2)\"sv;",
-			"}",
-			"",
-			"namespace input",
-			"{",
-			"    using namespace std::literals;",
-			"    static constexpr auto ${1:text} = R\"($4)\"sv;",
 			"}"
 		]
 	},

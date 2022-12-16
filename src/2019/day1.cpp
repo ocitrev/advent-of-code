@@ -1,11 +1,6 @@
 #include "day1.hpp"
-#include "../common/assert.hpp"
-#include "../common/terminal.hpp"
-#include <fmt/format.h>
+#include "../common.hpp"
 #include <fstream>
-#include <numeric>
-#include <string>
-#include <vector>
 
 constexpr int GetFuel(int mass)
 {
@@ -38,14 +33,15 @@ static_assert(50346 == GetRealFuel(100756));
 int main()
 {
     fmt::print("Day 1, 2019: The Tyranny of the Rocket Equation\n");
+    auto const input = ParseInputNumbers();
 
-    int const part1 = std::accumulate(begin(input::data), end(input::data), 0,
+    int const part1 = std::accumulate(begin(input), end(input), 0,
         [](int r, int mass)
         {
             return r + GetFuel(mass);
         });
 
-    int const part2 = std::accumulate(begin(input::data), end(input::data), 0,
+    int const part2 = std::accumulate(begin(input), end(input), 0,
         [](int r, int mass)
         {
             return r + GetRealFuel(mass);

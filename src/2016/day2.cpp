@@ -132,12 +132,12 @@ static std::string ParseInstructions(std::string_view insctructions, Keypad cons
 
 static std::string Part1()
 {
-    return ParseInstructions(input::instructions, Keypad::Parse(keypad1));
+    return ParseInstructions(GetInput(), Keypad::Parse(keypad1));
 }
 
 static std::string Part2()
 {
-    return ParseInstructions(input::instructions, Keypad::Parse(keypad2));
+    return ParseInstructions(GetInput(), Keypad::Parse(keypad2));
 }
 
 int main()

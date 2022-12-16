@@ -116,7 +116,7 @@ static void Tests()
 
 static std::pair<int, int> Run()
 {
-    auto const ingredients = PraseIngredients(input::text);
+    auto const ingredients = PraseIngredients(GetInput());
     int maxScore = 0;
     int maxScore500 = 0;
 

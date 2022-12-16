@@ -191,12 +191,12 @@ static auto PlayGameModulo(std::string_view notes, int rounds)
 
 static auto Part1()
 {
-    return PlayGameDivideBy3(input::notes, 20);
+    return PlayGameDivideBy3(GetInput(), 20);
 }
 
 static auto Part2()
 {
-    return PlayGameModulo(input::notes, 10'000);
+    return PlayGameModulo(GetInput(), 10'000);
 }
 
 int main()

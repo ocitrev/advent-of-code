@@ -97,11 +97,11 @@ int main()
     Assert(0 == SumAllNumbersNoRed(R"({"d":"red","e":[1,2,3,4],"f":5})"));
     Assert(6 == SumAllNumbersNoRed(R"([1,"red",5])"));
 
-    int const part1 = SumAllNumbers(input::data);
+    int const part1 = SumAllNumbers(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(191164 == part1);
 
-    int const part2 = SumAllNumbersNoRed(input::data);
+    int const part2 = SumAllNumbersNoRed(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(87842 == part2);
 }

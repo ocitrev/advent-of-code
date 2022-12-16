@@ -1,11 +1,5 @@
 #include "day4.hpp"
-#include "../common/assert.hpp"
-#include "../common/terminal.hpp"
-#include <algorithm>
-#include <array>
-#include <fmt/format.h>
-#include <string>
-#include <vector>
+#include "../common.hpp"
 
 static bool IsIncreasing(unsigned int n)
 {
@@ -60,6 +54,12 @@ static bool IsValid2(unsigned int n)
 }
 #endif
 
+static auto ParseInput()
+{
+    auto const parts = Split(GetInput(), '-');
+    return std::make_pair(svtoi<unsigned int>(parts[0]), svtoi<unsigned int>(parts[1]));
+}
+
 int main()
 {
     fmt::print("Day 4, 2019: Secure Container\n");
@@ -85,8 +85,9 @@ int main()
 
     std::vector<unsigned int> loose;
     std::vector<unsigned int> strict;
+    auto const [begin, end] = ParseInput();
 
-    for (unsigned int i = input::begin; i != input::end; ++i)
+    for (unsigned int i = begin; i != end; ++i)
     {
         if (!IsIncreasing(i))
             continue;

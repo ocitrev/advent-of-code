@@ -1,10 +1,18 @@
 #include "day7.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/numbers.hpp"
-#include <fmt/format.h>
-#include <numeric>
-#include <span>
-#include <unordered_map>
+
+static std::vector<int> ParseInput()
+{
+    std::vector<int> numbers;
+
+    for (auto number : Split(GetInput(), ','))
+    {
+        numbers.push_back(svtoi(number));
+    }
+
+    return numbers;
+}
 
 static int GetFuelCostSimple(std::span<int const> numbers, int position)
 {
@@ -61,11 +69,11 @@ int main()
     Assert(206 == GetFuelCostTriangular(example::positions, 2));
     Assert(168 == Part2(example::positions));
 
-    auto const part1 = Part1(input::positions);
+    auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(323647 == part1);
 
-    auto const part2 = Part2(input::positions);
+    auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(87640209 == part2);
 }

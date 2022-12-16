@@ -1,9 +1,19 @@
 #include "day3.hpp"
-#include "../common/assert.hpp"
-#include <algorithm>
-#include <fmt/format.h>
+#include "../common.hpp"
 #include <span>
 #include <vector>
+
+std::vector<unsigned int> ParseBits(std::string_view lines)
+{
+    std::vector<unsigned int> numbers;
+
+    for (auto line : Split(lines, '\n'))
+    {
+        numbers.push_back(svtoi<unsigned int>(line, 2));
+    }
+
+    return numbers;
+}
 
 static unsigned int GetBitCount(std::span<unsigned int const> numbers)
 {
@@ -111,11 +121,11 @@ int main()
     Assert(198 == Part1(example::numbers));
     Assert(230 == Part2(example::numbers));
 
-    auto const part1 = Part1(input::numbers);
+    auto const part1 = Part1(ParseBits(GetInput()));
     fmt::print("  Part 1: {}\n", part1);
     Assert(841526 == part1);
 
-    auto const part2 = Part2(input::numbers);
+    auto const part2 = Part2(ParseBits(GetInput()));
     fmt::print("  Part 2: {}\n", part2);
     Assert(4790390 == part2);
 }

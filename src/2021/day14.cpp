@@ -110,11 +110,11 @@ int main()
     Assert(1588 == Part1(example::polymer));
     Assert(2188189693529 == Part2(example::polymer));
 
-    auto const part1 = Part1(input::polymer);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(3587 == part1);
 
-    auto const part2 = Part2(input::polymer);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(3906445077999 == part2);
 }

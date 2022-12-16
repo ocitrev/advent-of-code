@@ -141,11 +141,11 @@ int main()
     Assert(103 == Part2(example::map2));
     Assert(3509 == Part2(example::map3));
 
-    auto const part1 = Part1(input::map);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(3298 == part1);
 
-    auto const part2 = Part2(input::map);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(93572 == part2);
 }

@@ -7,7 +7,7 @@ struct Line
     Point2d end;
 };
 
-static constexpr Point2d const dropLocation{500,0};
+static constexpr Point2d const dropLocation{500, 0};
 
 struct Map
 {
@@ -149,7 +149,7 @@ struct Map
         {
             return State::Drop;
         }
-        
+
         if (GetCell(candidate) == Air)
         {
             sand = candidate;
@@ -197,7 +197,7 @@ struct Map
             case State::Fall:
                 state = Fall(sand);
                 break;
-            
+
             case State::Left:
                 state = Left(sand);
                 break;
@@ -232,7 +232,7 @@ static int Simulate(std::string_view scanlines, bool withFloor)
         map.AddFloor();
     }
 
-    int count = withFloor? 1 : 0;
+    int count = withFloor ? 1 : 0;
 
     while (map.StepSimulation())
     {
@@ -245,12 +245,12 @@ static int Simulate(std::string_view scanlines, bool withFloor)
 
 static auto Part1()
 {
-    return Simulate(ReadInput(), false);
+    return Simulate(GetInput(), false);
 }
 
 static auto Part2()
 {
-    return Simulate(ReadInput(), true);
+    return Simulate(GetInput(), true);
 }
 
 int main()

@@ -1,10 +1,5 @@
 #include "day4.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
-#include <numeric>
-#include <span>
-#include <vector>
+#include "../common.hpp"
 
 struct Cell
 {
@@ -92,6 +87,28 @@ struct Board
     }
 };
 
+struct Input
+{
+    std::vector<int> draw;
+    std::string_view boards;
+
+    Input()
+    {
+        std::string_view input = GetInput();
+        auto const pos = input.find("\n\n");
+        ParseDraw(input.substr(0, pos));
+        boards = input.substr(pos + 2);
+    }
+
+    void ParseDraw(std::string_view numbers)
+    {
+        for (auto number : Split(numbers, ','))
+        {
+            draw.push_back(svtoi(number));
+        }
+    }
+};
+
 static std::vector<Board> ParseBoards(std::string_view boardsText)
 {
     std::vector<Board> boards;
@@ -122,6 +139,11 @@ static int Part1(std::span<int const> draw, std::string_view boardsText)
     return 0;
 }
 
+static int Part1(Input const &input)
+{
+    return Part1(input.draw, input.boards);
+}
+
 static int Part2(std::span<int const> draw, std::string_view boardsText)
 {
     std::vector<Board> boards = ParseBoards(boardsText);
@@ -146,6 +168,11 @@ static int Part2(std::span<int const> draw, std::string_view boardsText)
     return lastWinnerBoard->GetScore() * lastWinnerNumber;
 }
 
+static int Part2(Input const &input)
+{
+    return Part2(input.draw, input.boards);
+}
+
 int main()
 {
     // https://adventofcode.com/2021/day/4
@@ -154,11 +181,11 @@ int main()
     Assert(4512 == Part1(example::draw, example::boards));
     Assert(1924 == Part2(example::draw, example::boards));
 
-    auto const part1 = Part1(input::draw, input::boards);
+    auto const part1 = Part1(Input{});
     fmt::print("  Part 1: {}\n", part1);
     Assert(29440 == part1);
 
-    auto const part2 = Part2(input::draw, input::boards);
+    auto const part2 = Part2(Input{});
     fmt::print("  Part 2: {}\n", part2);
     Assert(13884 == part2);
 }

@@ -1,13 +1,9 @@
 #include "day9.hpp"
-#include "../common/assert.hpp"
-#include "../common/utils.hpp"
-#include <fmt/format.h>
-#include <gsl/gsl>
-#include <vector>
+#include "../common.hpp"
 
 using llong = long long;
 
-static llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
+static llong FindOutlier(std::span<llong const> numbers, int preambleLength)
 {
     auto preambleFirst = begin(numbers);
     auto preambleLast = preambleFirst + preambleLength;
@@ -16,7 +12,7 @@ static llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
     {
         auto const n = *iter;
         bool isOk = false;
-        Combinations(gsl::span{&*preambleFirst, &*preambleLast}, 2,
+        Combinations(std::span{&*preambleFirst, &*preambleLast}, 2,
             [n, &isOk](auto const &values)
             {
                 if (n == values[0] + values[1])
@@ -37,7 +33,7 @@ static llong FindOutlier(gsl::span<llong const> numbers, int preambleLength)
     return 0;
 }
 
-static llong Part2(gsl::span<llong const> numbers, llong weak)
+static llong Part2(std::span<llong const> numbers, llong weak)
 {
     int len = 1;
     int const total = static_cast<int>(numbers.size());
@@ -71,11 +67,11 @@ int main()
     // https://adventofcode.com/2020/day/9
     fmt::print("Day 9, 2020: Encoding Error\n");
 
-    auto const part1 = FindOutlier(input::numbers, input::preamble);
+    auto const part1 = FindOutlier(ParseInputNumbers<llong>(), input::preamble);
     fmt::print("  Part 1: {}\n", part1);
     Assert(14360655 == part1);
 
-    auto const part2 = Part2(input::numbers, part1);
+    auto const part2 = Part2(ParseInputNumbers<llong>(), part1);
     fmt::print("  Part 2: {}\n", part2);
     Assert(1962331 == part2);
 }

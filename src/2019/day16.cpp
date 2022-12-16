@@ -154,11 +154,11 @@ int main()
     Assert("78725270" == ProcessWithOffsetTimes10000("02935109699940807407585447034323", 100));
     Assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
-    auto const part1 = Process(input::data, 100);
+    auto const part1 = Process(GetInput(), 100);
     fmt::print("  Part1: {}\n", part1);
     Assert("88323090" == part1);
 
-    auto const part2 = ProcessWithOffsetTimes10000(input::data, 100);
+    auto const part2 = ProcessWithOffsetTimes10000(GetInput(), 100);
     fmt::print("  Part2: {}\n", part2);
     Assert("50077964" == part2);
 }

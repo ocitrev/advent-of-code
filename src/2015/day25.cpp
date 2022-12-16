@@ -1,5 +1,6 @@
 #include "day25.hpp"
 #include "../common/assert.hpp"
+#include "../common/string.hpp"
 #include <fmt/format.h>
 
 [[maybe_unused]] static int64_t GetNextSimple(int64_t n, bool first)
@@ -41,6 +42,14 @@ int64_t GetValue(int c, int r, GetNextT &&getNext)
 
         ++yStart;
     }
+}
+
+static std::pair<int, int> ParseInput()
+{
+    auto const text = GetInput();
+    int const row = svtoi(text.substr(text.find("row ") + 4));
+    int const column = svtoi(text.substr(text.find("column ") + 7));
+    return std::make_pair(column, row);
 }
 
 int main()
@@ -91,7 +100,8 @@ int main()
     Assert(17552253 == GetValue(2, 5, &GetNext));
     Assert(33071741 == GetValue(1, 6, &GetNext));
 
-    auto const part1 = GetValue(input::column, input::row, &GetNext);
+    auto const [column, row] = ParseInput();
+    auto const part1 = GetValue(column, row, &GetNext);
     fmt::print("  Part 1: {}\n", part1);
     Assert(9132360 == part1);
 }

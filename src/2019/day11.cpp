@@ -1,16 +1,11 @@
 #include "day11.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point2d.hpp"
-#include "../common/terminal.hpp"
-#include <array>
-#include <fmt/format.h>
-#include <map>
 
 struct Robot
 {
     Point2d pos{0, 0};
-    std::map<Point2d, Int> grid;
+    std::unordered_map<Point2d, Int> grid;
     std::array<Point2d, 4> dirs = {{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}};
     Point2d dir = dirs.front();
     bool paint = true;
@@ -60,7 +55,7 @@ struct Robot
             }
         };
 
-        Intcode::Run(input::code, getPanel, readOutput);
+        Intcode::Run(ParseInputNumbers<Int, ','>(), getPanel, readOutput);
     }
 };
 

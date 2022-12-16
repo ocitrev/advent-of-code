@@ -27,7 +27,7 @@ static bool IsTriangleTextValid(std::string_view triangleText)
 
 static int Part1()
 {
-    return TransformReduceLines(input::triangles, 0, std::plus{}, &IsTriangleTextValid);
+    return TransformReduceLines(GetInput(), 0, std::plus{}, &IsTriangleTextValid);
 }
 
 static std::vector<Triangle> ParseTrianglesVerticaly(std::string_view text)
@@ -59,7 +59,7 @@ static int CountVerticalTriangles(std::vector<Triangle> const &triangles)
 
 static int Part2()
 {
-    return CountVerticalTriangles(ParseTrianglesVerticaly(input::triangles));
+    return CountVerticalTriangles(ParseTrianglesVerticaly(GetInput()));
 }
 
 int main()

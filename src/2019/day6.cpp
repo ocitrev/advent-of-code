@@ -72,7 +72,7 @@ int main()
 
     pathCache.clear();
     countCache.clear();
-    auto const list = Split(input::data, '\n');
+    auto const list = Split(GetInput(), '\n');
 
     int count = 0;
 

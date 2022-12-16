@@ -68,7 +68,7 @@ template <typename GetPredicateFunc>
 static int FindBestMatch(GetPredicateFunc &&getPredicate)
 {
     auto const MFCSAMResult = ParseMFCSAM(input::MFCSAM);
-    auto const aunts = ParseAunts(input::Sues);
+    auto const aunts = ParseAunts(GetInput());
 
     for (auto const &aunt : aunts)
     {

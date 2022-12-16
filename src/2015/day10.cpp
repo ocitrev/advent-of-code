@@ -33,7 +33,7 @@ std::string LookAndSay(std::string_view text)
 
 std::string LookAndSayLoop(int nbLoops)
 {
-    std::string text{input::data};
+    std::string text{GetInput()};
 
     for (int i = 0; i < nbLoops; ++i)
     {

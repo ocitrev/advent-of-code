@@ -143,11 +143,11 @@ int main()
     Assert(5 == Run1(example::instructions));
     Assert(8 == Run2(example::instructions));
 
-    auto const part1 = Run1(input::instructions);
+    auto const part1 = Run1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(1528 == part1);
 
-    auto const part2 = Run2(input::instructions);
+    auto const part2 = Run2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(640 == part2);
 }

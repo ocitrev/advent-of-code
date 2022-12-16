@@ -1,7 +1,5 @@
 #include "day2.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
+#include "../common.hpp"
 
 static int Part1(std::string_view text)
 {
@@ -58,11 +56,11 @@ int main()
     Assert(150 == Part1(example::directions));
     Assert(900 == Part2(example::directions));
 
-    auto const part1 = Part1(input::directions);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(1694130 == part1);
 
-    auto const part2 = Part2(input::directions);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(1698850445 == part2);
 }

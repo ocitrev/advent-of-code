@@ -139,12 +139,12 @@ static int FindSectorIdForRoom(std::string_view rooms, std::string_view compare)
 
 static auto Part1()
 {
-    return SumSectorIdOfRealRooms(input::rooms);
+    return SumSectorIdOfRealRooms(GetInput());
 }
 
 static auto Part2()
 {
-    return FindSectorIdForRoom(input::rooms, "object"sv);
+    return FindSectorIdForRoom(GetInput(), "object"sv);
 }
 
 int main()

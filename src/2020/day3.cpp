@@ -63,11 +63,11 @@ int main()
     Assert(7 == CountTrees(example::map, Slope{3, 1}));
     Assert(336 == CountTreesInSlopes(example::map, allSlopes));
 
-    auto const part1 = CountTrees(input::map, Slope{3, 1});
+    auto const part1 = CountTrees(GetInput(), Slope{3, 1});
     fmt::print("  Part 1: {}\n", part1);
     Assert(232 == part1);
 
-    auto const part2 = CountTreesInSlopes(input::map, allSlopes);
+    auto const part2 = CountTreesInSlopes(GetInput(), allSlopes);
     fmt::print("  Part 2: {}\n", part2);
     Assert(3952291680 == part2);
 }

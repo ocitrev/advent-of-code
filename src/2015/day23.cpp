@@ -96,7 +96,7 @@ auto Example()
 
 auto Part1()
 {
-    auto const instructions = Split(input::instructions, '\n');
+    auto const instructions = Split(GetInput(), '\n');
     VM vm;
     vm.instructions = instructions;
     vm.Run();
@@ -105,7 +105,7 @@ auto Part1()
 
 auto Part2()
 {
-    auto const instructions = Split(input::instructions, '\n');
+    auto const instructions = Split(GetInput(), '\n');
     VM vm;
     vm.instructions = instructions;
     vm.a = 1;

@@ -1,4 +1,5 @@
 #pragma once
+#include "input-bytes.hpp"
 #include <string_view>
 
 namespace example
@@ -6,16 +7,4 @@ namespace example
     static constexpr std::string_view start{R"(.#.
 ..#
 ###)"};
-}
-
-namespace input
-{
-    static constexpr std::string_view start{R"(####.#..
-.......#
-#..#####
-.....##.
-##...###
-#..#.#.#
-.##...#.
-#...##..)"};
 }

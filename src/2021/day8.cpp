@@ -1,12 +1,7 @@
 #include "day8.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include "../common/utils.hpp"
-#include <algorithm>
+#include "../common.hpp"
 #include <array>
 #include <bitset>
-#include <fmt/format.h>
-#include <numeric>
 #include <set>
 
 static int CountSimple(std::string_view signalPatterns)
@@ -176,11 +171,11 @@ int main()
     Assert(26 == Part1(example::entries));
     Assert(61229 == Part2(example::entries));
 
-    auto const part1 = Part1(input::entries);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(392 == part1);
 
-    auto const part2 = Part2(input::entries);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(1004688 == part2);
 }

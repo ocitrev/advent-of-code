@@ -110,12 +110,12 @@ static std::string ProcessStacks(std::string_view text)
 
 static std::string Part1()
 {
-    return ProcessStacks<Crane::Mover9000>(input::text);
+    return ProcessStacks<Crane::Mover9000>(GetInput());
 }
 
 static std::string Part2()
 {
-    return ProcessStacks<Crane::Mover9001>(input::text);
+    return ProcessStacks<Crane::Mover9001>(GetInput());
 }
 
 int main()

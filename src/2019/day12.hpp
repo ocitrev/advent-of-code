@@ -1,4 +1,5 @@
 #pragma once
+#include "input-bytes.hpp"
 #include <string_view>
 
 namespace example
@@ -12,12 +13,4 @@ namespace example
 <x=5, y=5, z=10>
 <x=2, y=-7, z=3>
 <x=9, y=-8, z=-3>)"};
-}
-
-namespace input
-{
-    static constexpr std::string_view data{R"(<x=-15, y=1, z=4>
-<x=1, y=-10, z=-8>
-<x=-5, y=4, z=9>
-<x=4, y=6, z=-2>)"};
 }

@@ -1,11 +1,6 @@
 #include "day17.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
-#include <array>
-#include <fmt/format.h>
-#include <string>
-#include <string_view>
 #include <thread>
 
 using Map = std::pair<std::string, Int>;
@@ -29,7 +24,7 @@ static Map GenerateMap()
         ret.first.append(1, static_cast<char>(value));
     };
 
-    Intcode::Run(input::data, nullptr, out);
+    Intcode::Run(ParseInputNumbers<Int, ','>(), nullptr, out);
     ret.second = GetMapWidth(ret.first);
     CleanMap(ret);
     return ret;
@@ -253,7 +248,7 @@ static void Part2()
 {
     constexpr bool debug = false;
 
-    Intcode cpu(input::data);
+    Intcode cpu(ParseInputNumbers<Int, ','>());
     cpu.WriteMemory(0, 2);
     Int result = 0;
 

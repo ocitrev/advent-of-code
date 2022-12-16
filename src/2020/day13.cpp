@@ -1,15 +1,25 @@
 #include "day13.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
-#include <vector>
+#include "../common.hpp"
+
+struct Ticket
+{
+    int earliest;
+    std::string_view busIds;
+};
+
+static Ticket ParseInput()
+{
+    auto parts = Split(GetInput(), '\n');
+    return {svtoi(parts[0]), parts[1]};
+}
 
 static int Part1()
 {
     int min = 0;
     int bestId = 0;
+    auto const ticket = ParseInput();
 
-    for (auto &&idText : Split(input::busIds, ','))
+    for (auto &&idText : Split(ticket.busIds, ','))
     {
         if (idText == "x")
             continue;
@@ -19,7 +29,7 @@ static int Part1()
         if (id == 0)
             continue;
 
-        int const start = input::earliest - (input::earliest % id) + id;
+        int const start = ticket.earliest - (ticket.earliest % id) + id;
 
         if (min == 0)
         {
@@ -33,15 +43,15 @@ static int Part1()
         }
     }
 
-    return bestId * (min - input::earliest);
+    return bestId * (min - ticket.earliest);
 }
 
-static int64_t GetNextStart(std::string_view busIds)
+static int64_t GetNextStart(Ticket const &ticket)
 {
     // fortement inspiré de cette solution: https://github.com/colinodell/advent-2020/blob/main/day13/day13.go
     std::vector<int> offsets;
 
-    for (auto &&idText : Split(busIds, ','))
+    for (auto &&idText : Split(ticket.busIds, ','))
     {
         if (idText == "x")
             offsets.emplace_back(1);
@@ -77,7 +87,7 @@ static int64_t GetNextStart(std::string_view busIds)
 
 static int64_t Part2()
 {
-    return GetNextStart(input::busIds);
+    return GetNextStart(ParseInput());
 }
 
 int main()
@@ -85,11 +95,11 @@ int main()
     // https://adventofcode.com/2020/day/13
     fmt::print("Day 13, 2020: Shuttle Search\n");
 
-    Assert(3417 == GetNextStart("17,x,13,19"));
-    Assert(754018 == GetNextStart("67,7,59,61"));
-    Assert(779210 == GetNextStart("67,x,7,59,61"));
-    Assert(1261476 == GetNextStart("67,7,x,59,61"));
-    Assert(1202161486 == GetNextStart("1789,37,47,1889"));
+    Assert(3417 == GetNextStart({0, "17,x,13,19"}));
+    Assert(754018 == GetNextStart({0, "67,7,59,61"}));
+    Assert(779210 == GetNextStart({0, "67,x,7,59,61"}));
+    Assert(1261476 == GetNextStart({0, "67,7,x,59,61"}));
+    Assert(1202161486 == GetNextStart({0, "1789,37,47,1889"}));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);

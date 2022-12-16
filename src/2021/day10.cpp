@@ -1,10 +1,5 @@
 #include "day10.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
-#include <numeric>
-#include <unordered_map>
-#include <vector>
+#include "../common.hpp"
 
 constexpr static int GetErrorScore(char c)
 {
@@ -154,11 +149,11 @@ int main()
 
     fmt::print("Debug: {}\n", AutoCompleteScore("])}>"));
 
-    auto const part1 = Part1(input::lines);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(288291 == part1);
 
-    auto const part2 = Part2(input::lines);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(820045242 == part2);
 }

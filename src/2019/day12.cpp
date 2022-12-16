@@ -158,14 +158,14 @@ int main()
     Assert(179 == Simulate(example::one, 10));
     Assert(1940 == Simulate(example::two, 100));
 
-    auto part1 = Simulate(input::data, 1000);
+    auto part1 = Simulate(GetInput(), 1000);
     fmt::print("  Part1: {}\n", part1);
     Assert(8625 == part1);
 
     Assert(2772 == CountCycle(example::one));
     Assert(4686774924 == CountCycle(example::two));
 
-    auto part2 = CountCycle(input::data);
+    auto part2 = CountCycle(GetInput());
     fmt::print("  Part2: {}\n", part2);
     Assert(332477126821644 == part2);
 }

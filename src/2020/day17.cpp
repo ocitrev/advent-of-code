@@ -229,14 +229,14 @@ static void Example()
 static int Part1()
 {
     GOL3d conwaysCube;
-    conwaysCube.Parse(input::start);
+    conwaysCube.Parse(GetInput());
     return conwaysCube.BootSequence();
 }
 
 static int Part2()
 {
     GOL4d conwaysCube;
-    conwaysCube.Parse(input::start);
+    conwaysCube.Parse(GetInput());
     return conwaysCube.BootSequence();
 }
 

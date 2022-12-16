@@ -1,12 +1,9 @@
 #include "day1.hpp"
-#include "../common/assert.hpp"
-#include "../common/utils.hpp"
-#include <fmt/format.h>
-#include <numeric>
+#include "../common.hpp"
 
 static constexpr int kSumWanted = 2020;
 
-static int Find(gsl::span<int const> numbers, std::size_t nb)
+static int Find(std::span<int const> numbers, std::size_t nb)
 {
     int result = 0;
     Combinations(numbers, nb,
@@ -32,12 +29,12 @@ static void Example()
 
 static int Part1()
 {
-    return Find(input::numbers, 2);
+    return Find(ParseInputNumbers(), 2);
 }
 
 static int Part2()
 {
-    return Find(input::numbers, 3);
+    return Find(ParseInputNumbers(), 3);
 }
 
 int main()

@@ -100,6 +100,12 @@ int GetNumberOfSteps(Grammar const &grammar, std::string_view input)
     return count;
 }
 
+static auto ParseInput()
+{
+    auto parts = Split(GetInput(), "\n\n");
+    return std::make_pair(parts[0], parts[1]);
+}
+
 int main()
 {
     // https://adventofcode.com/2015/day/19
@@ -110,11 +116,13 @@ int main()
     Assert(3 == GetNumberOfSteps(ParseGrammar(example::grammar2), example::molecule1));
     Assert(6 == GetNumberOfSteps(ParseGrammar(example::grammar2), example::molecule2));
 
-    auto const part1 = CountMolecules(ParseGrammar(input::grammar), input::molecule);
+    auto const [grammar, molecule] = ParseInput();
+
+    auto const part1 = CountMolecules(ParseGrammar(grammar), molecule);
     fmt::print("  Part 1: {}\n", part1);
     Assert(535 == part1);
 
-    auto const part2 = GetNumberOfSteps(ParseGrammar(input::grammar), input::molecule);
+    auto const part2 = GetNumberOfSteps(ParseGrammar(grammar), molecule);
     fmt::print("  Part 2: {}\n", part2);
     Assert(212 == part2);
 }

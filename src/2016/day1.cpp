@@ -1,9 +1,5 @@
 #include "day1.hpp"
-#include "../common/assert.hpp"
-#include "../common/point2d.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
-#include <unordered_set>
+#include "../common.hpp"
 
 static int Part1(std::string_view directions)
 {
@@ -63,11 +59,11 @@ int main()
     Assert(12 == Part1("R5, L5, R5, R3"));
     Assert(4 == Part2("R8, R4, R4, R8"));
 
-    auto const part1 = Part1(input::directions);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(271 == part1);
 
-    auto const part2 = Part2(input::directions);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(153 == part2);
 }

@@ -127,12 +127,12 @@ static std::string PrintProgram(std::string_view instructions)
 
 static int Part1()
 {
-    return RunProgram(input::program);
+    return RunProgram(GetInput());
 }
 
 static auto Part2()
 {
-    return PrintProgram(input::program);
+    return PrintProgram(GetInput());
 }
 
 int main()

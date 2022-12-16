@@ -1,4 +1,5 @@
 #pragma once
+#include "input-bytes.hpp"
 #include <string_view>
 
 namespace example
@@ -40,31 +41,4 @@ he-WI
 zg-he
 pj-fs
 start-RW)"};
-}
-
-namespace input
-{
-    constexpr std::string_view map{R"(LP-cb
-PK-yk
-bf-end
-PK-my
-end-cb
-BN-yk
-cd-yk
-cb-lj
-yk-bf
-bf-lj
-BN-bf
-PK-cb
-end-BN
-my-start
-LP-yk
-PK-bf
-my-BN
-start-PK
-yk-EP
-lj-BN
-lj-start
-my-lj
-bf-LP)"};
 }

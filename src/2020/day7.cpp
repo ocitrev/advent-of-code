@@ -113,13 +113,13 @@ static void Example()
 
 static int Part1()
 {
-    auto const rules = ParseRules(input::rules);
+    auto const rules = ParseRules(Split(GetInput(), '\n'));
     return GetAllParentsCount(rules, input::mybag);
 }
 
 static int Part2()
 {
-    auto const rules = ParseRules(input::rules);
+    auto const rules = ParseRules(Split(GetInput(), '\n'));
     return CountBags(rules, input::mybag);
 }
 

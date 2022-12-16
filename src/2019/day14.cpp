@@ -144,11 +144,11 @@ int main()
     Assert(5586022 == NanoFactory::Parse(example::ex4).ComputeFuel());
     Assert(460664 == NanoFactory::Parse(example::ex5).ComputeFuel());
 
-    auto const part1 = NanoFactory::Parse(input::data).ComputeOre();
+    auto const part1 = NanoFactory::Parse(GetInput()).ComputeOre();
     fmt::print("  Part1: {}\n", part1);
     Assert(1967319 == part1);
 
-    auto const part2 = NanoFactory::Parse(input::data).ComputeFuel();
+    auto const part2 = NanoFactory::Parse(GetInput()).ComputeFuel();
     fmt::print("  Part2: {}\n", part2);
     Assert(1122036 == part2);
 }

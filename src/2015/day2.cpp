@@ -42,7 +42,7 @@ struct Box
 
 static std::pair<int, int> calculate()
 {
-    auto const lines = Split(input::data, '\n');
+    auto const lines = Split(GetInput(), '\n');
     int total_area = 0;
     int total_length = 0;
 

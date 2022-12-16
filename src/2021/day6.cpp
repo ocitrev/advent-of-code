@@ -1,11 +1,17 @@
 #include "day6.hpp"
-#include "../common/assert.hpp"
-#include <algorithm>
-#include <array>
-#include <fmt/format.h>
-#include <numeric>
-#include <span>
+#include "../common.hpp"
 
+static std::vector<int8_t> ParseInput()
+{
+    std::vector<int8_t> numbers;
+
+    for (auto number : Split(GetInput(), ','))
+    {
+        numbers.push_back(svtoi<int8_t>(number));
+    }
+
+    return numbers;
+}
 static uint64_t Run(std::span<int8_t const> fishes, int const days)
 {
     std::array<uint64_t, 9> counters{};
@@ -43,11 +49,11 @@ int main()
     Assert(5934 == Run(example::fishes, 80));
     Assert(26984457539 == Run(example::fishes, 256));
 
-    auto const part1 = Part1(input::fishes);
+    auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(359344 == part1);
 
-    auto const part2 = Part2(input::fishes);
+    auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(1629570219571 == part2);
 }

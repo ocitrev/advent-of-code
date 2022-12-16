@@ -117,11 +117,11 @@ int main()
     Assert(1656 == Part1(example::energyLevels, 100));
     Assert(195 == Part2(example::energyLevels));
 
-    auto const part1 = Part1(input::energyLevels, 100);
+    auto const part1 = Part1(GetInput(), 100);
     fmt::print("  Part 1: {}\n", part1);
     Assert(1793 == part1);
 
-    auto const part2 = Part2(input::energyLevels);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(247 == part2);
 }

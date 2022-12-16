@@ -1,9 +1,7 @@
 #include "day2.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
 #include "../common/terminal.hpp"
-#include <fmt/format.h>
-#include <vector>
 
 [[maybe_unused]] static Int RunAndGetValue(std::vector<Int> code, size_t offset)
 {
@@ -54,6 +52,6 @@ int main()
     Assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     Assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    Part1(input::data);
-    Part2(input::data);
+    Part1(ParseInputNumbers<Int, ','>());
+    Part2(ParseInputNumbers<Int, ','>());
 }

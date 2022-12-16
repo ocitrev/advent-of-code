@@ -1,11 +1,6 @@
 #include "day15.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/point2d.hpp"
-#include "../common/terminal.hpp"
-#include <array>
-#include <fmt/format.h>
-#include <map>
 #include <optional>
 #include <set>
 #include <thread>
@@ -20,12 +15,12 @@ struct Robot
 {
     Intcode cpu;
     Point2d pos;
-    std::map<Point2d, std::string_view> grid;
+    std::unordered_map<Point2d, std::string_view> grid;
     static constexpr std::array<Point2d, 4> dirs{{{0, -1}, {0, +1}, {-1, 0}, {+1, 0}}};
     std::optional<Point2d> oxygen;
 
     Robot()
-        : cpu(input::code)
+        : cpu(ParseInputNumbers<Int, ','>())
     {
     }
 

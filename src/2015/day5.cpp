@@ -52,7 +52,7 @@ static int Part1()
 {
     int count = 0;
 
-    for (auto const &line : Split(input::data, '\n'))
+    for (auto const &line : Split(GetInput(), '\n'))
     {
         if (IsNice1(line))
             ++count;
@@ -115,7 +115,7 @@ static int Part2()
 {
     int count = 0;
 
-    for (auto const &line : Split(input::data, '\n'))
+    for (auto const &line : Split(GetInput(), '\n'))
     {
         if (IsNice2(line))
             ++count;

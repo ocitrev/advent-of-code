@@ -1,8 +1,5 @@
 #include "day2.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <algorithm>
-#include <fmt/format.h>
+#include "../common.hpp"
 
 struct PasswordPolicy
 {
@@ -62,10 +59,11 @@ int main()
 
     Examples();
 
-    auto const part1 = std::count_if(begin(input::passwords), end(input::passwords), &V1::IsPasswordValid);
+    auto const passwords = Split(GetInput(), '\n');
+    auto const part1 = std::count_if(begin(passwords), end(passwords), &V1::IsPasswordValid);
     fmt::print("  Part 1: {}\n", part1);
     Assert(666 == part1);
 
-    auto const part2 = std::count_if(begin(input::passwords), end(input::passwords), &V2::IsPasswordValid);
+    auto const part2 = std::count_if(begin(passwords), end(passwords), &V2::IsPasswordValid);
     fmt::print("  Part 2: {}\n", part2);
 }

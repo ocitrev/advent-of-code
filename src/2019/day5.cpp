@@ -1,9 +1,6 @@
 #include "day5.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
-#include <fmt/format.h>
-#include <vector>
 
 [[maybe_unused]] static Int Run(std::vector<Int> const &code, Int input)
 {
@@ -94,6 +91,7 @@ int main()
                    125, 20, 4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99},
             9));
 
-    Part1(input::data);
-    Part2(input::data);
+    auto const code = ParseInputNumbers<Int, ','>();
+    Part1(code);
+    Part2(code);
 }

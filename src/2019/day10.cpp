@@ -1,14 +1,6 @@
 #include "day10.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/combinations.hpp"
-#include "../common/point2d.hpp"
-#include "../common/string.hpp"
-#include "../common/terminal.hpp"
-#include <algorithm>
-#include <cmath>
-#include <fmt/format.h>
-#include <map>
-#include <vector>
 
 struct Result
 {
@@ -30,7 +22,7 @@ struct Ray
 struct Asteroid
 {
     Point2d pos;
-    std::map<Point2d, std::vector<Ray>> rays;
+    std::unordered_map<Point2d, std::vector<Ray>> rays;
 
     Asteroid(int x, int y)
         : pos{x, y}
@@ -107,7 +99,7 @@ int main()
     Assert(std::make_pair(41, Point2d{6, 3}) == GetBestFromMap(example::map4));
     Assert(std::make_pair(210, Point2d{11, 13}) == GetBestFromMap(example::map5));
 
-    auto map = ParseMap(input::map);
+    auto map = ParseMap(GetInput());
 
     auto const best = GetAsteroidWithMostRays(map);
     fmt::print("  Part1: {}\n", best.rays.size());

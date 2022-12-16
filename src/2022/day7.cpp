@@ -196,12 +196,12 @@ static auto GetSizeOfFolderToDelete(std::string_view text)
 
 static auto Part1()
 {
-    return SumOfAllSmallDirectories(input::terminal);
+    return SumOfAllSmallDirectories(GetInput());
 }
 
 static auto Part2()
 {
-    return GetSizeOfFolderToDelete(input::terminal);
+    return GetSizeOfFolderToDelete(GetInput());
 }
 
 int main()

@@ -1,8 +1,5 @@
 #include "day3.hpp"
-#include "../common/assert.hpp"
-#include "../common/point2d.hpp"
-#include "../common/string.hpp"
-#include "../common/terminal.hpp"
+#include "../common.hpp"
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>
@@ -108,6 +105,12 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
     return {d, l};
 }
 
+static auto ParseInput()
+{
+    auto const lines = Split(GetInput(), '\n');
+    return std::make_pair(lines[0], lines[1]);
+}
+
 int main()
 {
     fmt::print("Day 3, 2019: Crossed Wires\n");
@@ -116,7 +119,8 @@ int main()
     Assert((Result{135, 410}
             == Solve("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")));
 
-    auto const [closest, fastest] = Solve(input::wire1, input::wire2);
+    auto const [wire1, wire2] = ParseInput();
+    auto const [closest, fastest] = Solve(wire1, wire2);
     fmt::print("  Part1: {}\n", closest);
     Assert(245 == closest);
 

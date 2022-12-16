@@ -1,4 +1,5 @@
 #pragma once
+#include "input-bytes.hpp"
 #include <string_view>
 
 namespace example
@@ -13,18 +14,4 @@ namespace example
 6882881134
 4846848554
 5283751526)"};
-}
-
-namespace input
-{
-    constexpr std::string_view energyLevels{R"(6111821767
-1763611615
-3512683131
-8582771473
-8214813874
-2325823217
-2222482823
-5471356782
-3738671287
-8675226574)"};
 }

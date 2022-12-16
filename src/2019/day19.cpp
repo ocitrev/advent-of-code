@@ -1,8 +1,6 @@
 #include "day19.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
-#include <fmt/format.h>
 
 static void Part1()
 {
@@ -26,7 +24,7 @@ static void Part1()
         return std::exchange(a, b);
     };
 
-    std::vector<Int> const code{input::data};
+    std::vector<Int> const code = ParseInputNumbers<Int, ','>();
 
     for (Int y = 0; y != 50; ++y)
     {
@@ -69,7 +67,7 @@ static Int Run(std::vector<Int> const &code, Int x, Int y)
 
 static Int FindSquare(Int width, Int height)
 {
-    std::vector<Int> const code{input::data};
+    std::vector<Int> const code = ParseInputNumbers<Int, ','>();
     Int minx = 0;
     Int miny = 10;
 

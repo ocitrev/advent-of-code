@@ -62,12 +62,12 @@ static int ParseGroups(std::string_view lines)
 
 static int Part1()
 {
-    return PraseLines(input::rucksack);
+    return PraseLines(GetInput());
 }
 
 static int Part2()
 {
-    return ParseGroups(input::rucksack);
+    return ParseGroups(GetInput());
 }
 
 int main()

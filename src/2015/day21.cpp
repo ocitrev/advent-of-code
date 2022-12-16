@@ -1,5 +1,6 @@
 #include "day21.hpp"
 #include "../common/assert.hpp"
+#include "../common/string.hpp"
 #include "game_character.hpp"
 #include "game_item.hpp"
 #include <fmt/format.h>
@@ -31,9 +32,23 @@ struct Shop
     };
 };
 
+static int GetIntAfter(std::string_view text, std::string_view search)
+{
+    if (auto const pos = text.find(search); pos != text.npos)
+    {
+        return svtoi(text.substr(pos + search.size()));
+    }
+
+    return 0;
+}
+
 static Character GetBoss()
 {
-    return {103, 9, 2};
+    auto const input = GetInput();
+    auto const hp = GetIntAfter(input, "Hit Points: ");
+    auto const damage = GetIntAfter(input, "Damage: ");
+    auto const armor = GetIntAfter(input, "Armor: ");
+    return {hp, damage, armor};
 }
 
 struct Game

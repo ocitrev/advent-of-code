@@ -1,10 +1,6 @@
 #include "day7.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
-#include <array>
-#include <fmt/format.h>
-#include <vector>
 
 static Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {
@@ -38,7 +34,7 @@ static Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequ
 
 static void Part1()
 {
-    std::vector<Int> const code{input::data};
+    std::vector<Int> const code = ParseInputNumbers<Int, ','>();
     std::array<Int, 5> sequence{0, 1, 2, 3, 4};
     Int maxValue = std::numeric_limits<Int>::min();
 
@@ -96,7 +92,7 @@ static Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequ
 
 static void Part2()
 {
-    std::vector<Int> const code{input::data};
+    std::vector<Int> const code = ParseInputNumbers<Int, ','>();
     std::array<Int, 5> sequence{5, 6, 7, 8, 9};
     Int maxValue = std::numeric_limits<Int>::min();
 

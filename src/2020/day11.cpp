@@ -179,7 +179,7 @@ static void Example()
 static int Part1()
 {
     Grid g;
-    g.Parse(input::seats);
+    g.Parse(GetInput());
     g.RunUntilStable1();
     return g.TotalOccupiedCount();
 }
@@ -187,7 +187,7 @@ static int Part1()
 static int Part2()
 {
     Grid g;
-    g.Parse(input::seats);
+    g.Parse(GetInput());
     g.RunUntilStable2();
     return g.TotalOccupiedCount();
 }

@@ -1,9 +1,5 @@
 #include "day9.hpp"
-#include "../common/assert.hpp"
-#include "../common/point2d.hpp"
-#include "../common/string.hpp"
-#include <algorithm>
-#include <fmt/format.h>
+#include "../common.hpp"
 #include <unordered_map>
 #include <unordered_set>
 
@@ -148,11 +144,11 @@ int main()
     Assert(15 == Part1(example::map));
     Assert(1134 == Part2(example::map));
 
-    auto const part1 = Part1(input::map);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(562 == part1);
 
-    auto const part2 = Part2(input::map);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(1076922 == part2);
 }

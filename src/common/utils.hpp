@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
-#include <gsl/gsl>
 #include <numeric>
+#include <span>
 #include <vector>
 
 template <typename T>
@@ -31,7 +31,7 @@ inline auto insert_sorted(std::vector<T> &container, T &&item)
 }
 
 template <typename T, typename FuncT>
-inline void CombinationsWithReplacement(gsl::span<const T> list, std::size_t length, FuncT &&func)
+inline void CombinationsWithReplacement(std::span<const T> list, std::size_t length, FuncT &&func)
 {
     std::size_t const nb = list.size();
 
@@ -70,7 +70,7 @@ inline void CombinationsWithReplacement(gsl::span<const T> list, std::size_t len
 }
 
 template <typename T, typename FuncT>
-inline bool Combinations(gsl::span<const T> list, std::size_t length, FuncT &&func)
+inline bool Combinations(std::span<const T> list, std::size_t length, FuncT &&func)
 {
     auto const nb = list.size();
 

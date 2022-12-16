@@ -116,14 +116,14 @@ struct Ship
 static int Part1()
 {
     Ship s;
-    s.Execute(input::instructions);
+    s.Execute(GetInput());
     return s.Distance();
 }
 
 static int Part2()
 {
     Ship s{true};
-    s.Execute(input::instructions);
+    s.Execute(GetInput());
     return s.Distance();
 }
 

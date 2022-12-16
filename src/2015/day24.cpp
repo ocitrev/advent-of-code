@@ -4,11 +4,11 @@
 #include "../common/utils.hpp"
 #include <algorithm>
 #include <fmt/format.h>
-#include <gsl/gsl>
 #include <iterator>
+#include <span>
 #include <vector>
 
-static std::vector<std::vector<int>> FindGroups(gsl::span<int const> ints, int nbPackages)
+static std::vector<std::vector<int>> FindGroups(std::span<int const> ints, int nbPackages)
 {
     auto const max = ints.size();
     int const groupSum = std::accumulate(begin(ints), end(ints), 0) / nbPackages;
@@ -35,7 +35,7 @@ static std::vector<std::vector<int>> FindGroups(gsl::span<int const> ints, int n
 
 static_assert(std::is_same_v<std::size_t, size_t>);
 
-int64_t GetBestFit(gsl::span<int const> numbers, int nbPackages)
+int64_t GetBestFit(std::span<int const> numbers, int nbPackages)
 {
     auto groups = FindGroups(numbers, nbPackages);
 
@@ -63,6 +63,18 @@ int64_t GetBestFit(gsl::span<int const> numbers, int nbPackages)
     return best->second;
 }
 
+static std::vector<int> ParseInput()
+{
+    std::vector<int> numbers;
+
+    for (auto number : Split(GetInput(), '\n'))
+    {
+        numbers.push_back(svtoi(number));
+    }
+
+    return numbers;
+}
+
 int main()
 {
     // https://adventofcode.com/2015/day/24
@@ -71,11 +83,11 @@ int main()
     Assert(99 == GetBestFit(example::numbers, 3));
     Assert(44 == GetBestFit(example::numbers, 4));
 
-    auto const part1 = GetBestFit(input::numbers, 3);
+    auto const part1 = GetBestFit(ParseInput(), 3);
     fmt::print("  Part 1: {}\n", part1);
     Assert(11266889531 == part1);
 
-    auto const part2 = GetBestFit(input::numbers, 4);
+    auto const part2 = GetBestFit(ParseInput(), 4);
     fmt::print("  Part 2: {}\n", part2);
     Assert(77387711 == part2);
 }

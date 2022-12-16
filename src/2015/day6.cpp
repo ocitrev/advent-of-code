@@ -169,14 +169,14 @@ public:
 static int Part1()
 {
     Grid grid;
-    grid.ParseInstructions1(input::data);
+    grid.ParseInstructions1(GetInput());
     return grid.HowManyOn();
 }
 
 static int Part2()
 {
     Grid grid;
-    grid.ParseInstructions2(input::data);
+    grid.ParseInstructions2(GetInput());
     return grid.TotalBrightness();
 }
 

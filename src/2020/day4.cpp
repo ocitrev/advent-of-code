@@ -1,7 +1,5 @@
 #include "day4.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include <fmt/format.h>
+#include "../common.hpp"
 #include <regex>
 
 using namespace std::string_view_literals;
@@ -97,13 +95,13 @@ static bool IsPassportValid2(std::string_view passport)
 
 static int Part1()
 {
-    auto passports = Split(input::batchFile, "\n\n");
+    auto passports = Split(GetInput(), "\n\n");
     return static_cast<int>(std::count_if(begin(passports), end(passports), &IsPassportValid1));
 }
 
 static int Part2()
 {
-    auto passports = Split(input::batchFile, "\n\n");
+    auto passports = Split(GetInput(), "\n\n");
     return static_cast<int>(std::count_if(begin(passports), end(passports), &IsPassportValid2));
 }
 

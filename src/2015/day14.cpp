@@ -56,7 +56,7 @@ std::vector<Deer> ParseDeers(std::string_view text)
 
 int Part1()
 {
-    auto const deers = ParseDeers(input::text);
+    auto const deers = ParseDeers(GetInput());
     std::vector<int> distances(deers.size());
     std::transform(begin(deers), end(deers), begin(distances),
         [](Deer const &deer)
@@ -95,7 +95,7 @@ int Part1()
 
 int Part2()
 {
-    return GetWinnerPoints(input::text, input::limit);
+    return GetWinnerPoints(GetInput(), input::limit);
 }
 
 int main()

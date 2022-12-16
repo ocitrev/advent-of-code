@@ -65,12 +65,12 @@ static int CountAnyOverlap(std::string_view pairs)
 
 static int Part1()
 {
-    return CountFullOverlap(input::pairs);
+    return CountFullOverlap(GetInput());
 }
 
 static int Part2()
 {
-    return CountAnyOverlap(input::pairs);
+    return CountAnyOverlap(GetInput());
 }
 
 int main()

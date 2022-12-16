@@ -1,10 +1,20 @@
 #include "day1.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include <array>
-#include <fmt/format.h>
-#include <numeric>
 #include <optional>
 #include <span>
+
+static std::vector<int> ParseNumbers(std::string_view lines)
+{
+    std::vector<int> numbers;
+
+    for (auto line : Split(lines, '\n'))
+    {
+        numbers.push_back(svtoi(line));
+    }
+
+    return numbers;
+}
 
 static int Part1(std::span<int const> values)
 {
@@ -61,11 +71,11 @@ int main()
     Assert(7 == Part1(example::numbers));
     Assert(5 == Part2(example::numbers));
 
-    auto const part1 = Part1(input::numbers);
+    auto const part1 = Part1(ParseNumbers(GetInput()));
     fmt::print("  Part 1: {}\n", part1);
     Assert(1316 == part1);
 
-    auto const part2 = Part2(input::numbers);
+    auto const part2 = Part2(ParseNumbers(GetInput()));
     fmt::print("  Part 2: {}\n", part2);
     Assert(1344 == part2);
 }

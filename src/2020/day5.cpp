@@ -58,7 +58,7 @@ static Seat GetSeat(std::string_view boardingPass)
 
 static int Part1()
 {
-    auto const lines = Split(input::passes, '\n');
+    auto const lines = Split(GetInput(), '\n');
     std::vector<int> ids(lines.size());
 
     std::transform(begin(lines), end(lines), begin(ids),
@@ -75,7 +75,7 @@ static int Part1()
 
 static int Part2()
 {
-    auto const lines = Split(input::passes, '\n');
+    auto const lines = Split(GetInput(), '\n');
 
     std::set<Seat> seats;
     for (auto &&pass : lines)

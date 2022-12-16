@@ -82,11 +82,11 @@ int main()
     Assert(11 == GetSum1(example::answers));
     Assert(6 == GetSum2(example::answers));
 
-    auto const part1 = GetSum1(input::answers);
+    auto const part1 = GetSum1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(6625 == part1);
 
-    auto const part2 = GetSum2(input::answers);
+    auto const part2 = GetSum2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(3360 == part2);
 }

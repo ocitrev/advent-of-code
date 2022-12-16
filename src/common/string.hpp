@@ -21,7 +21,8 @@
 }
 
 template <class T, class BinaryReductionOp, class UnaryTransformOp>
-inline auto TransformReduceLines(std::string_view text, T &&init, BinaryReductionOp &&r, UnaryTransformOp &&t)
+[[nodiscard]] inline auto TransformReduceLines(
+    std::string_view text, T &&init, BinaryReductionOp &&r, UnaryTransformOp &&t)
 {
     auto const lines = Split(text, '\n');
     return std::transform_reduce(begin(lines), end(lines), std::forward<T>(init), std::forward<BinaryReductionOp>(r),
@@ -48,7 +49,7 @@ template <typename IterT>
 }
 
 template <typename IterT, typename ToStringT>
-inline std::string Join(IterT first, IterT last, std::string_view sep, ToStringT &&toString)
+[[nodiscard]] inline std::string Join(IterT first, IterT last, std::string_view sep, ToStringT &&toString)
 {
     std::string result;
 
@@ -134,21 +135,21 @@ inline void trim(std::string_view &s)
     rtrim(s);
 }
 
-inline std::string_view trim_copy(std::string_view s)
+[[nodiscard]] inline std::string_view trim_copy(std::string_view s)
 {
     trim(s);
     return s;
 }
 
 // trim from start (copying)
-inline std::string ltrim_copy(std::string s)
+[[nodiscard]] inline std::string ltrim_copy(std::string s)
 {
     ltrim(s);
     return s;
 }
 
 // trim from end (copying)
-inline std::string rtrim_copy(std::string s)
+[[nodiscard]] inline std::string rtrim_copy(std::string s)
 {
     rtrim(s);
     return s;
@@ -156,14 +157,14 @@ inline std::string rtrim_copy(std::string s)
 
 // trim from end (copying)
 template <typename PredicateT>
-inline std::string rtrim_copy_if(std::string s, PredicateT &&pred)
+[[nodiscard]] inline std::string rtrim_copy_if(std::string s, PredicateT &&pred)
 {
     rtrim_if(s, pred);
     return s;
 }
 
 template <typename IntT = int>
-inline IntT svtoi(std::string_view text)
+[[nodiscard]] inline IntT svtoi(std::string_view text)
 {
     IntT result = 0;
     // NOLINTNEXTLINE cppcoreguidelines-pro-bounds-pointer-arithmetic
@@ -171,26 +172,45 @@ inline IntT svtoi(std::string_view text)
     return result;
 }
 
+template <typename IntT = int>
+[[nodiscard]] inline IntT svtoi(std::string_view text, int base)
+{
+    IntT result = 0;
+    // NOLINTNEXTLINE cppcoreguidelines-pro-bounds-pointer-arithmetic
+    std::from_chars(text.data(), text.data() + text.size(), result, base);
+    return result;
+}
+
 #if __cpp_lib_starts_ends_with >= 201711
-inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
+[[nodiscard]] inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
 {
     return text.starts_with(prefix);
 }
 #else
-inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
+[[nodiscard]] inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
 {
     return text.size() >= prefix.size() && text.compare(0, prefix.size(), prefix) == 0;
 }
 #endif
 
 #if __cpp_lib_starts_ends_with >= 201711
-inline constexpr bool ends_with(std::string_view text, std::string_view prefix)
+[[nodiscard]] inline constexpr bool ends_with(std::string_view text, std::string_view prefix)
 {
     return text.ends_with(prefix);
 }
 #else
-inline constexpr bool ends_with(std::string_view text, std::string_view suffix)
+[[nodiscard]] inline constexpr bool ends_with(std::string_view text, std::string_view suffix)
 {
     return suffix.size() <= text.size() && text.compare(text.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 #endif
+
+[[nodiscard]] inline constexpr std::string_view NextLine(std::string_view text)
+{
+    if (auto const pos = text.find('\n'); pos != text.npos)
+    {
+        return text.substr(pos + 1);
+    }
+
+    return text;
+}

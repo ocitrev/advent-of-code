@@ -112,11 +112,11 @@ int main()
     Assert(605 == FindShortest(input::example, std::less<>{}));
     Assert(982 == FindShortest(input::example, std::greater<>{}));
 
-    int const part1 = FindShortest(input::data, std::less<>{});
+    int const part1 = FindShortest(GetInput(), std::less<>{});
     fmt::print("  Part 1: {}\n", part1);
     Assert(117 == part1);
 
-    int const part2 = FindShortest(input::data, std::greater<>{});
+    int const part2 = FindShortest(GetInput(), std::greater<>{});
     fmt::print("  Part 2: {}\n", part2);
     Assert(909 == part2);
 }

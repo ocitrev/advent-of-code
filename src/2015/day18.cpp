@@ -146,7 +146,7 @@ static void Example()
 static int Part1()
 {
     GOL gameOfLife;
-    gameOfLife.LoadMap(input::text);
+    gameOfLife.LoadMap(GetInput());
     gameOfLife.Run(100);
     return gameOfLife.GetAliveCount();
 }
@@ -155,7 +155,7 @@ static int Part2()
 {
     GOL gameOfLife;
     gameOfLife.cornerAlwaysOn = true;
-    gameOfLife.LoadMap(input::text);
+    gameOfLife.LoadMap(GetInput());
     gameOfLife.Run(100);
     return gameOfLife.GetAliveCount();
 }

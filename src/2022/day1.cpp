@@ -48,11 +48,11 @@ int main()
     Assert(24000 == Part1(example::lines));
     Assert(45000 == Part2(example::lines));
 
-    auto const part1 = Part1(input::lines);
+    auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
     Assert(65912 == part1);
 
-    auto const part2 = Part2(input::lines);
+    auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
     Assert(195625 == part2);
 }

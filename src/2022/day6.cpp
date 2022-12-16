@@ -24,12 +24,12 @@ int64_t FindMarker(std::string_view data, int64_t len)
 
 static int64_t Part1()
 {
-    return FindMarker(input::data, 4);
+    return FindMarker(GetInput(), 4);
 }
 
 static int64_t Part2()
 {
-    return FindMarker(input::data, 14);
+    return FindMarker(GetInput(), 14);
 }
 
 int main()

@@ -1,8 +1,6 @@
 #include "day9.hpp"
-#include "../common/assert.hpp"
+#include "../common.hpp"
 #include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
-#include <fmt/format.h>
 
 static std::vector<Int> Run(std::vector<Int> code, Int input = 0)
 {
@@ -31,11 +29,11 @@ int main()
     Assert(std::vector<Int>{1219070632396864} == Run({1102, 34915192, 34915192, 7, 4, 7, 99, 0}));
     Assert(std::vector<Int>{1125899906842624} == Run({104, 1125899906842624, 99}));
 
-    auto const part1 = Run(input::data, 1).front();
+    auto const part1 = Run(ParseInputNumbers<Int, ','>(), 1).front();
     fmt::print("  Part1: {}\n", part1);
     Assert(2890527621 == part1);
 
-    auto const part2 = Run(input::data, 2).front();
+    auto const part2 = Run(ParseInputNumbers<Int, ','>(), 2).front();
     fmt::print("  Part2: {}\n", part2);
     Assert(66772 == part2);
 }
