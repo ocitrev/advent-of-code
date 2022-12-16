@@ -87,6 +87,7 @@ add_library(common STATIC
   src/common/point2d.hpp
   src/common/point3d.hpp
   src/common/point4d.hpp
+  src/common/range.hpp
   src/common/string.cpp
   src/common/string.hpp
   src/common/terminal.cpp
@@ -111,6 +112,8 @@ find_package(fmt CONFIG REQUIRED)
 target_link_libraries(common PUBLIC fmt::fmt-header-only)
 find_package(RapidJSON CONFIG REQUIRED)
 target_include_directories(common PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+find_package(ctre CONFIG REQUIRED)
+target_link_libraries(common PRIVATE ctre::ctre)
 
 function(add_aoc year day)
   set(aoc ${year}-day${day})

@@ -1,33 +1,6 @@
 #include "day4.hpp"
 #include "../common.hpp"
-
-struct Range
-{
-    int low;
-    int high;
-
-    bool FullOverlap(Range other) const
-    {
-        if (low >= other.low && high <= other.high)
-            return true;
-
-        if (other.low >= low && other.high <= high)
-            return true;
-
-        return false;
-    }
-
-    bool NoOverlap(Range other) const
-    {
-        if (high < other.low || low > other.high)
-            return true;
-
-        if (other.high < low || other.low > high)
-            return true;
-
-        return false;
-    }
-};
+#include "../common/range.hpp"
 
 static Range ParseRange(std::string_view range)
 {
