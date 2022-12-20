@@ -48,6 +48,6 @@ function(add_aoc_input year day)
         -DINPUT_FILE=${input_file}
         -DOUTPUT_FILE=${output_file}
         -P ${_INPUTS_SCRIPT}
-    COMMENT "Generating intermediate file for ${input_file}"
+    COMMENT "Generating header file for ${input_file}"
   )
 endfunction()
