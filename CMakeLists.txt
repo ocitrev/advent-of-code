@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
 # integrate with vcpkg
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
 project(AdventOfCOde)
 include(Inputs.cmake)
@@ -106,20 +103,17 @@ endif()
 target_compile_features(common PUBLIC cxx_std_20)
 target_link_libraries(common PUBLIC project_warnings)
 
-find_package(Microsoft.GSL CONFIG REQUIRED)
-target_link_libraries(common PUBLIC Microsoft.GSL::GSL)
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(common PUBLIC fmt::fmt-header-only)
-find_package(RapidJSON CONFIG REQUIRED)
-target_include_directories(common PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
-if(WIN32)
+find_package(Microsoft.GSL CONFIG REQUIRED)
+target_link_libraries(common PRIVATE Microsoft.GSL::GSL)
+
+find_package(RapidJSON CONFIG REQUIRED)
+target_link_libraries(common PRIVATE rapidjson)
+
 find_package(ctre CONFIG REQUIRED)
 target_link_libraries(common PRIVATE ctre::ctre)
-else()
-find_path(CTRE_INCLUDE_DIRS "ctll.hpp")
-target_include_directories(common PRIVATE ${CTRE_INCLUDE_DIRS})
-endif()
 
 function(add_aoc year day)
   set(aoc ${year}-day${day})

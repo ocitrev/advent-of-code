@@ -1,0 +1,8 @@
+{
+    "dependencies": [
+        "fmt",
+        "ms-gsl",
+        "rapidjson",
+        "ctre"
+    ]
+}
