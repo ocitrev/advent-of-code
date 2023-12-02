@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.19..3.27)
 
 # integrate with vcpkg
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
@@ -242,6 +242,7 @@ add_aoc(2022 15)
 add_aoc(2022 16)
 
 add_aoc(2023 1)
+add_aoc(2023 2)
 
 find_program(CLANG_FORMAT NAMES "clang-format")
 
