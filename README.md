@@ -11,11 +11,7 @@
 
 # Prerequisites
 
-Ce projet a besoin de [vcpkg](https://github.com/microsoft/vcpkg) pour trouver ses dependences. La variable d'environment `VCPKG_ROOT` doit est bien définie.
-
-    vcpkg install fmt
-    vcpkg install ms-gsl
-    vcpkg install rapidjson
+Ce projet a besoin de [vcpkg](https://vcpkg.io/en/getting-started) pour trouver ses dependences. La variable d'environment `VCPKG_ROOT` doit est bien définie.
 
 Comment compiler avec clang:
 
