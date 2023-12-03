@@ -14,10 +14,10 @@ struct SetOfCubes
 
     constexpr SetOfCubes() = default;
 
-    constexpr SetOfCubes(int red, int green, int blue)
-        : red{red}
-        , green{green}
-        , blue{blue}
+    constexpr SetOfCubes(int red_, int green_, int blue_)
+        : red{red_}
+        , green{green_}
+        , blue{blue_}
     {
     }
 
