@@ -160,9 +160,10 @@ struct Grid
                                     b = iter->second;
                                 }
                             }
-                            else if (b != iter->second)
+                            else
                             {
-                                fmt::print("debug\n");
+                                // there should never be 3 part numbers near a gear
+                                Assert(b == iter->second);
                             }
                         }
                     }
