@@ -15,7 +15,7 @@
 [[nodiscard]] std::vector<std::string_view> Split(std::string_view text, std::string_view sep);
 [[nodiscard]] std::vector<std::string_view> SplitFirstOf(std::string_view text, std::string_view sep);
 
-[[nodiscard]] inline std::vector<std::string_view> Split(std::string_view text, char sep)
+[[nodiscard]] inline std::vector<std::string_view> Split(std::string_view text, char sep = '\n')
 {
     return Split(text, std::string_view{&sep, 1});
 }
