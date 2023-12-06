@@ -1,6 +1,6 @@
 #pragma once
-#include <string_view>
 #include "input-bytes.hpp"
+#include <string_view>
 
 namespace example
 {
