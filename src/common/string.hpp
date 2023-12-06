@@ -218,6 +218,7 @@ template <typename IntT = int>
 class Tokenizer
 {
     std::string_view text_;
+
 public:
     explicit Tokenizer(std::string_view text)
         : text_{text}
@@ -237,3 +238,27 @@ public:
         return token;
     }
 };
+
+[[nodiscard]] inline std::string_view NextToken(std::string_view &input, char sep)
+{
+    std::string_view token = input;
+
+    if (auto const pos = input.find(sep); pos != input.npos)
+    {
+        token = input.substr(0, pos);
+        input = input.substr(pos + 1);
+    }
+
+    return token;
+}
+
+inline bool SkipToken(std::string_view &input, char sep)
+{
+    if (auto const pos = input.find(sep); pos != input.npos)
+    {
+        input = input.substr(pos + 1);
+        return true;
+    }
+
+    return false;
+}
