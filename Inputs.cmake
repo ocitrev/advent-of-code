@@ -17,7 +17,7 @@ inline constexpr char inputBytes[]{
 constexpr std::string_view GetInput()
 {
     std::string_view text{inputBytes, sizeof(inputBytes)};
-    
+
     if (auto const pos = text.find_last_not_of("\r\n"); pos != text.npos)
     {
         text = text.substr(0, pos + 1); 

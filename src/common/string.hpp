@@ -214,3 +214,26 @@ template <typename IntT = int>
 
     return text;
 }
+
+class Tokenizer
+{
+    std::string_view text_;
+public:
+    explicit Tokenizer(std::string_view text)
+        : text_{text}
+    {
+    }
+
+    [[nodiscard]] std::string_view NextToken(char sep)
+    {
+        std::string_view token = text_;
+
+        if (auto const pos = text_.find(sep); pos != text_.npos)
+        {
+            token = text_.substr(0, pos);
+            text_ = text_.substr(pos + 1);
+        }
+
+        return token;
+    }
+};

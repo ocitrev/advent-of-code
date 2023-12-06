@@ -138,6 +138,13 @@ function(add_aoc year day)
   set_property(TARGET ${aoc} APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${aoc}.pdb)
 endfunction()
 
+find_program(CLANG_FORMAT NAMES "clang-format")
+
+if(CLANG_FORMAT)
+  file(GLOB_RECURSE FILES_TO_FORMAT src/*.cpp src/*.hpp)
+  add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
+endif()
+
 add_aoc(2015 1)
 add_aoc(2015 2)
 add_aoc(2015 3)
@@ -245,10 +252,4 @@ add_aoc(2023 1)
 add_aoc(2023 2)
 add_aoc(2023 3)
 add_aoc(2023 4)
-
-find_program(CLANG_FORMAT NAMES "clang-format")
-
-if(CLANG_FORMAT)
-  file(GLOB_RECURSE FILES_TO_FORMAT src/*.cpp src/*.hpp)
-  add_custom_target(clang-format COMMAND ${CLANG_FORMAT} -i ${FILES_TO_FORMAT})
-endif()
+add_aoc(2023 5)
