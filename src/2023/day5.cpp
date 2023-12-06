@@ -194,7 +194,7 @@ struct Almanac
         }
 
         return false;
-    } 
+    }
 
     [[nodiscard]] integer GetLowestLocationFromSeedRanges()
     {
@@ -213,7 +213,7 @@ struct Almanac
 
                 return location;
             }
-            
+
             ++location;
 
             if (stdoutIsConsole)
@@ -225,7 +225,7 @@ struct Almanac
                 }
             }
         }
-    }    
+    }
 };
 
 static auto GetLowestLocation(std::string_view almanacText)
