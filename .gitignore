@@ -2,7 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/.vscode
-/build*
+/.vs/
+/.vscode/
+/build*/
+/zig-cache/
+/zig-out/
 tags
