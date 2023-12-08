@@ -89,7 +89,6 @@ static auto Part1()
 int64_t GetPower(std::string_view record)
 {
     auto const gameAndCubes = Split(record, ':');
-    std::vector<SetOfCubes> draws;
     SetOfCubes max;
 
     for (auto draw : Split(gameAndCubes[1], ';'))
