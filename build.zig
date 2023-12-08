@@ -49,5 +49,6 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run unit tests");
 
     addAoc(b, 2023, 1, target, optimize, run_step, test_step);
+    addAoc(b, 2023, 2, target, optimize, run_step, test_step);
     addAoc(b, 2023, 8, target, optimize, run_step, test_step);
 }
