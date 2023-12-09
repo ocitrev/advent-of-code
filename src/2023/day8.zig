@@ -8,7 +8,6 @@ const Node = struct {
 const Document = struct {
     instructions: []const u8,
     map: std.StringHashMap(Node),
-    allocator: std.mem.Allocator,
 
     pub fn countSteps(self: *const Document, start: []const u8, comptime predicate: *const fn ([]const u8) bool) u32 {
         var i: usize = 0;
@@ -38,10 +37,10 @@ const Document = struct {
         return std.mem.endsWith(u8, text, "Z");
     }
 
-    pub fn countGhostSteps(self: *const Document) !u64 {
+    pub fn countGhostSteps(self: *const Document, allocator: std.mem.Allocator) !u64 {
         var keyIter = self.map.keyIterator();
 
-        var keys = std.ArrayList([]const u8).init(self.allocator);
+        var keys = std.ArrayList([]const u8).init(allocator);
         defer keys.deinit();
 
         while (keyIter.next()) |k| {
@@ -68,7 +67,6 @@ fn parseDocument(input: []const u8, allocator: std.mem.Allocator) !Document {
     var result = Document{
         .instructions = it.next().?,
         .map = std.StringHashMap(Node).init(allocator),
-        .allocator = allocator,
     };
 
     while (it.next()) |line| {
@@ -88,11 +86,7 @@ fn isZZZ(text: []const u8) bool {
     return std.mem.eql(u8, text, "ZZZ");
 }
 
-fn part1(input: []const u8) !u32 {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-    defer _ = gpa.deinit();
-
+fn part1(input: []const u8, allocator: std.mem.Allocator) !u32 {
     var doc = try parseDocument(input, allocator);
     defer doc.deinit();
 
@@ -111,7 +105,7 @@ test "part 1-a" {
         \\GGG = (GGG, GGG)
         \\ZZZ = (ZZZ, ZZZ)
     ;
-    try std.testing.expectEqual(@as(u32, 2), try part1(exampleA));
+    try std.testing.expectEqual(@as(u32, 2), try part1(exampleA, std.testing.allocator));
 
     const exampleB =
         \\LLR
@@ -120,18 +114,13 @@ test "part 1-a" {
         \\BBB = (AAA, ZZZ)
         \\ZZZ = (ZZZ, ZZZ)
     ;
-    try std.testing.expectEqual(@as(u32, 6), try part1(exampleB));
+    try std.testing.expectEqual(@as(u32, 6), try part1(exampleB, std.testing.allocator));
 }
 
-fn part2(input: []const u8) !u64 {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-    defer _ = gpa.deinit();
-
+fn part2(input: []const u8, allocator: std.mem.Allocator) !u64 {
     var doc = try parseDocument(input, allocator);
     defer doc.deinit();
-
-    return try doc.countGhostSteps();
+    return try doc.countGhostSteps(allocator);
 }
 
 test "part 2" {
@@ -147,12 +136,17 @@ test "part 2" {
         \\22Z = (22B, 22B)
         \\XXX = (XXX, XXX)
     ;
-    try std.testing.expectEqual(@as(u64, 6), try part2(example));
+    try std.testing.expectEqual(@as(u64, 6), try part2(example, std.testing.allocator));
 }
 
 pub fn main() !void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    // https://adventofcode.com/2023/day/8
     const input = @embedFile("input");
     std.debug.print("Day 8, 2023: Haunted Wasteland\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input)});
+    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
+    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }
