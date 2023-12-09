@@ -1,13 +1,13 @@
 const std = @import("std");
 
-const Network = struct {
+const Node = struct {
     left: []const u8,
     right: []const u8,
 };
 
 const Document = struct {
     instructions: []const u8,
-    map: std.StringHashMap(Network),
+    map: std.StringHashMap(Node),
     allocator: std.mem.Allocator,
 
     pub fn countSteps(self: *const Document, start: []const u8, comptime predicate: *const fn ([]const u8) bool) u32 {
@@ -67,7 +67,7 @@ fn parseDocument(input: []const u8, allocator: std.mem.Allocator) !Document {
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     var result = Document{
         .instructions = it.next().?,
-        .map = std.StringHashMap(Network).init(allocator),
+        .map = std.StringHashMap(Node).init(allocator),
         .allocator = allocator,
     };
 
@@ -75,7 +75,7 @@ fn parseDocument(input: []const u8, allocator: std.mem.Allocator) !Document {
         var parts = std.mem.splitSequence(u8, line, " = ");
         const key = parts.first();
         var leftRight = std.mem.splitAny(u8, std.mem.trim(u8, parts.rest(), "()"), ",");
-        try result.map.put(key, Network{
+        try result.map.put(key, Node{
             .left = std.mem.trim(u8, leftRight.first(), " "),
             .right = std.mem.trim(u8, leftRight.rest(), " "),
         });
@@ -112,6 +112,7 @@ test "part 1-a" {
         \\ZZZ = (ZZZ, ZZZ)
     ;
     try std.testing.expectEqual(@as(u32, 2), try part1(exampleA));
+
     const exampleB =
         \\LLR
         \\
