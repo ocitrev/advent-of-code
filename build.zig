@@ -8,12 +8,10 @@ const ModuleDep = struct {
 const BuildParams = struct {
     target: std.zig.CrossTarget,
     optimize: std.builtin.OptimizeMode,
-    run_step: *std.Build.Step,
-    test_step: *std.Build.Step,
     module: ModuleDep,
 };
 
-fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams) void {
+fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std.Build.Step) void {
     const source_file = std.Build.LazyPath{ .path = b.fmt("src/{}/day{}.zig", .{ year, day }) };
     const exe = b.addExecutable(.{
         .name = b.fmt("{}-{}", .{ year, day }),
@@ -22,42 +20,63 @@ fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams) void {
         .optimize = params.optimize,
     });
 
+    b.installArtifact(exe);
     exe.addModule(params.module.name, params.module.mod);
 
+    // input file
     const input_file = b.fmt("inputs/{}/day{}.txt", .{ year, day });
     exe.addAnonymousModule("input", .{ .source_file = std.Build.FileSource.relative(input_file) });
-    b.installArtifact(exe);
+
+    // add to run step
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
     if (b.args) |args| {
         run_cmd.addArgs(args);
     }
-    params.run_step.dependOn(&run_cmd.step);
+    run_step.dependOn(&run_cmd.step);
 
+    // add or create year run step
     const run_year_step_name = b.fmt("run-{}", .{year});
     if (b.top_level_steps.get(run_year_step_name)) |step_info| {
         step_info.step.dependOn(&run_cmd.step);
     } else {
-        const run_year_step = b.step(run_year_step_name, b.fmt("Run year {}", .{year}));
+        const run_year_step = b.step(run_year_step_name, b.fmt("Run apps for year {}", .{year}));
         run_year_step.dependOn(&run_cmd.step);
     }
 
-    const run_day_step = b.step(b.fmt("run-{}-{}", .{ year, day }), b.fmt("Run year {}, day {}", .{ year, day }));
+    // create day run step
+    const run_day_step = b.step(b.fmt("run-{}-{}", .{ year, day }), b.fmt("Run app for year {}, day {}", .{ year, day }));
     run_day_step.dependOn(&run_cmd.step);
+}
 
+fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step: *std.Build.Step) void {
+    const source_file = std.Build.LazyPath{ .path = b.fmt("src/{}/day{}.zig", .{ year, day }) };
+
+    // unit tests
     const unit_tests = b.addTest(.{
         .root_source_file = source_file,
         .target = params.target,
         .optimize = params.optimize,
     });
 
+    // make sure modules are available in unit tests
     unit_tests.addModule(params.module.name, params.module.mod);
 
-    const runUnitTests = b.addRunArtifact(unit_tests);
-    params.test_step.dependOn(&runUnitTests.step);
+    const run_unit_tests = b.addRunArtifact(unit_tests);
+    test_step.dependOn(&run_unit_tests.step);
 
+    // add or create year test step
+    const test_year_step_name = b.fmt("test-{}", .{year});
+    if (b.top_level_steps.get(test_year_step_name)) |step_info| {
+        step_info.step.dependOn(&run_unit_tests.step);
+    } else {
+        const test_year_step = b.step(test_year_step_name, b.fmt("Run unit tests for year {}", .{year}));
+        test_year_step.dependOn(&run_unit_tests.step);
+    }
+
+    // create day test step
     const test_day_step = b.step(b.fmt("test-{}-{}", .{ year, day }), b.fmt("Run unit tests for year {}, day {}", .{ year, day }));
-    test_day_step.dependOn(&runUnitTests.step);
+    test_day_step.dependOn(&run_unit_tests.step);
 }
 
 // Although this function looks imperative, note that its job is to
@@ -71,14 +90,29 @@ pub fn build(b: *std.Build) void {
     const params = BuildParams{
         .target = b.standardTargetOptions(.{}),
         .optimize = b.standardOptimizeOption(.{}),
-        .run_step = b.step("run", "Run the apps"),
-        .test_step = b.step("test", "Run unit tests"),
         .module = ModuleDep{ .name = "utils", .mod = utils },
     };
 
-    addAoc(b, 2023, 1, params);
-    addAoc(b, 2023, 2, params);
-    addAoc(b, 2023, 3, params);
-    addAoc(b, 2023, 4, params);
-    addAoc(b, 2023, 8, params);
+    const run_step = b.step("run", "Run all apps");
+    addAoc(b, 2023, 1, params, run_step);
+    addAoc(b, 2023, 2, params, run_step);
+    addAoc(b, 2023, 3, params, run_step);
+    addAoc(b, 2023, 4, params, run_step);
+    addAoc(b, 2023, 8, params, run_step);
+    addAoc(b, 2023, 9, params, run_step);
+
+    const test_step = b.step("test", "Run all unit tests");
+    const utils_tests = b.addTest(.{
+        .root_source_file = utils.source_file,
+        .target = params.target,
+        .optimize = params.optimize,
+    });
+    test_step.dependOn(&b.addRunArtifact(utils_tests).step);
+
+    addAocTests(b, 2023, 1, params, test_step);
+    addAocTests(b, 2023, 2, params, test_step);
+    addAocTests(b, 2023, 3, params, test_step);
+    addAocTests(b, 2023, 4, params, test_step);
+    addAocTests(b, 2023, 8, params, test_step);
+    addAocTests(b, 2023, 9, params, test_step);
 }
