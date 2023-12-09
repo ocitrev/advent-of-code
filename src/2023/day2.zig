@@ -116,6 +116,8 @@ test "part 2" {
 
 pub fn main() !void {
     const input = @embedFile("input");
+
+    // https://adventofcode.com/2023/day/2
     std.debug.print("Day 2, 2023: Cube Conundrum\n", .{});
     std.debug.print("  Part 1: {}\n", .{try part1(input)});
     std.debug.print("  Part 2: {}\n", .{try part2(input)});

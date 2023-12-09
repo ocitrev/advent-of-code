@@ -101,6 +101,8 @@ test "part 2" {
 
 pub fn main() !void {
     @setEvalBranchQuota(1000000);
+
+    // https://adventofcode.com/2023/day/1
     const input = @embedFile("input");
     std.debug.print("Day 1, 2023: Trebuchet?!\n", .{});
     std.debug.print("  Part 1: {}\n", .{comptime part1(input)});

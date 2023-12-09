@@ -229,6 +229,8 @@ pub fn main() !void {
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
     const input = @embedFile("input");
+
+    // https://adventofcode.com/2023/day/3
     std.debug.print("Day 3, 2023: Gear Ratios\n", .{});
     std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
     std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
