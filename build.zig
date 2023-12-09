@@ -18,7 +18,16 @@ fn addAoc(b: *std.Build, year: u16, day: u8, target: anytype, optimize: anytype,
         run_cmd.addArgs(args);
     }
     run_step.dependOn(&run_cmd.step);
-    const run_day_step = b.step(b.fmt("run-{}-{}", .{ year, day }), b.fmt("Run day {}", .{day}));
+
+    const run_year_step_name = b.fmt("run-{}", .{year});
+    if (b.top_level_steps.get(run_year_step_name)) |step_info| {
+        step_info.step.dependOn(&run_cmd.step);
+    } else {
+        const run_year_step = b.step(run_year_step_name, b.fmt("Run year {}", .{year}));
+        run_year_step.dependOn(&run_cmd.step);
+    }
+
+    const run_day_step = b.step(b.fmt("run-{}-{}", .{ year, day }), b.fmt("Run year {}, day {}", .{ year, day }));
     run_day_step.dependOn(&run_cmd.step);
 
     const unit_tests = b.addTest(.{
@@ -28,6 +37,9 @@ fn addAoc(b: *std.Build, year: u16, day: u8, target: anytype, optimize: anytype,
     });
     const runUnitTests = b.addRunArtifact(unit_tests);
     test_step.dependOn(&runUnitTests.step);
+
+    const test_day_step = b.step(b.fmt("test-{}-{}", .{ year, day }), b.fmt("Run unit tests for year {}, day {}", .{ year, day }));
+    test_day_step.dependOn(&runUnitTests.step);
 }
 
 // Although this function looks imperative, note that its job is to
@@ -50,5 +62,6 @@ pub fn build(b: *std.Build) void {
 
     addAoc(b, 2023, 1, target, optimize, run_step, test_step);
     addAoc(b, 2023, 2, target, optimize, run_step, test_step);
+    addAoc(b, 2023, 3, target, optimize, run_step, test_step);
     addAoc(b, 2023, 8, target, optimize, run_step, test_step);
 }
