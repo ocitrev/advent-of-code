@@ -1,14 +1,8 @@
 const std = @import("std");
 
-const ModuleDep = struct {
-    name: []const u8,
-    mod: *std.Build.Module,
-};
-
 const BuildParams = struct {
     target: std.zig.CrossTarget,
     optimize: std.builtin.OptimizeMode,
-    module: ModuleDep,
 };
 
 fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std.Build.Step) void {
@@ -21,7 +15,10 @@ fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std
     });
 
     b.installArtifact(exe);
-    exe.addModule(params.module.name, params.module.mod);
+
+    if (b.modules.get("utils")) |utils| {
+        exe.addModule("utils", utils);
+    }
 
     // input file
     const input_file = b.fmt("inputs/{}/day{}.txt", .{ year, day });
@@ -59,8 +56,10 @@ fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step
         .optimize = params.optimize,
     });
 
-    // make sure modules are available in unit tests
-    unit_tests.addModule(params.module.name, params.module.mod);
+    // make sure utils module is available in unit tests
+    if (b.modules.get("utils")) |utils| {
+        unit_tests.addModule("utils", utils);
+    }
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
     test_step.dependOn(&run_unit_tests.step);
@@ -83,15 +82,14 @@ fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step
 // declaratively construct a build graph that will be executed by an external
 // runner.
 pub fn build(b: *std.Build) void {
-    const utils = b.createModule(.{
-        .source_file = std.Build.FileSource.relative("src/utils.zig"),
-    });
-
     const params = BuildParams{
         .target = b.standardTargetOptions(.{}),
         .optimize = b.standardOptimizeOption(.{}),
-        .module = ModuleDep{ .name = "utils", .mod = utils },
     };
+
+    const utils = b.addModule("utils", .{
+        .source_file = std.Build.FileSource.relative("src/utils.zig"),
+    });
 
     const run_step = b.step("run", "Run all apps");
     addAoc(b, 2023, 1, params, run_step);
