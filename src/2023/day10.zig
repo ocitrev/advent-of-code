@@ -62,16 +62,16 @@ const Grid = struct {
         }
     }
 
-    fn validH(left: u8, right: u8) bool {
-        return switch (left) {
-            'F', 'L', '-' => right == '7' or right == 'J' or right == '-',
+    fn validH(west: u8, east: u8) bool {
+        return switch (west) {
+            'F', 'L', '-' => east == '7' or east == 'J' or east == '-',
             else => false,
         };
     }
 
-    fn validV(up: u8, down: u8) bool {
-        return switch (up) {
-            'F', '7', '|' => down == 'L' or down == 'J' or down == '|',
+    fn validV(north: u8, south: u8) bool {
+        return switch (north) {
+            'F', '7', '|' => south == 'L' or south == 'J' or south == '|',
             else => false,
         };
     }
@@ -85,10 +85,10 @@ const Grid = struct {
 
     const Dir = enum {
         invalid,
-        left,
-        up,
-        right,
-        down,
+        west,
+        north,
+        east,
+        south,
     };
 
     const Tile = struct {
@@ -98,31 +98,31 @@ const Grid = struct {
     };
 
     pub fn getStart(self: *const @This()) Tile {
-        const left = self.get(self.start.left());
-        const up = self.get(self.start.up());
-        const right = self.get(self.start.right());
-        const down = self.get(self.start.down());
+        const west = self.get(self.start.west());
+        const north = self.get(self.start.north());
+        const east = self.get(self.start.east());
+        const south = self.get(self.start.south());
         var start: u8 = 0;
         var from = Dir.invalid;
 
-        if (Grid.validV(up, '|') and Grid.validV('|', down)) {
+        if (Grid.validV(north, '|') and Grid.validV('|', south)) {
             start = '|';
-            from = Dir.up;
-        } else if (Grid.validH(left, '-') and Grid.validH('-', right)) {
+            from = Dir.north;
+        } else if (Grid.validH(west, '-') and Grid.validH('-', east)) {
             start = '-';
-            from = Dir.right;
-        } else if (Grid.validV('F', down) and Grid.validH('F', right)) {
+            from = Dir.east;
+        } else if (Grid.validV('F', south) and Grid.validH('F', east)) {
             start = 'F';
-            from = Dir.up;
-        } else if (Grid.validV('7', down) and Grid.validH(left, '7')) {
+            from = Dir.north;
+        } else if (Grid.validV('7', south) and Grid.validH(west, '7')) {
             start = '7';
-            from = Dir.right;
-        } else if (Grid.validV(up, 'L') and Grid.validH('L', right)) {
+            from = Dir.east;
+        } else if (Grid.validV(north, 'L') and Grid.validH('L', east)) {
             start = 'L';
-            from = Dir.down;
-        } else if (Grid.validV(up, 'J') and Grid.validH(left, 'J')) {
+            from = Dir.south;
+        } else if (Grid.validV(north, 'J') and Grid.validH(west, 'J')) {
             start = 'J';
-            from = Dir.right;
+            from = Dir.east;
         }
 
         return Tile{ .c = start, .p = self.start, .from = from };
@@ -130,38 +130,38 @@ const Grid = struct {
 
     pub fn getNext(self: *const @This(), tile: Tile) Tile {
         const dir = switch (tile.from) {
-            .right => switch (tile.c) {
-                '-' => Dir.right,
-                '7' => Dir.down,
-                'J' => Dir.up,
+            .east => switch (tile.c) {
+                '-' => Dir.east,
+                '7' => Dir.south,
+                'J' => Dir.north,
                 else => Dir.invalid,
             },
-            .up => switch (tile.c) {
-                'F' => Dir.right,
-                '7' => Dir.left,
-                '|' => Dir.up,
+            .north => switch (tile.c) {
+                'F' => Dir.east,
+                '7' => Dir.west,
+                '|' => Dir.north,
                 else => Dir.invalid,
             },
-            .left => switch (tile.c) {
-                'F' => Dir.down,
-                'L' => Dir.up,
-                '-' => Dir.left,
+            .west => switch (tile.c) {
+                'F' => Dir.south,
+                'L' => Dir.north,
+                '-' => Dir.west,
                 else => Dir.invalid,
             },
-            .down => switch (tile.c) {
-                'L' => Dir.right,
-                'J' => Dir.left,
-                '|' => Dir.down,
+            .south => switch (tile.c) {
+                'L' => Dir.east,
+                'J' => Dir.west,
+                '|' => Dir.south,
                 else => Dir.invalid,
             },
             .invalid => Dir.invalid,
         };
 
         return switch (dir) {
-            .left => Tile{ .c = self.get(tile.p.left()), .p = tile.p.left(), .from = dir },
-            .right => Tile{ .c = self.get(tile.p.right()), .p = tile.p.right(), .from = dir },
-            .up => Tile{ .c = self.get(tile.p.up()), .p = tile.p.up(), .from = dir },
-            .down => Tile{ .c = self.get(tile.p.down()), .p = tile.p.down(), .from = dir },
+            .west => Tile{ .c = self.get(tile.p.west()), .p = tile.p.west(), .from = dir },
+            .east => Tile{ .c = self.get(tile.p.east()), .p = tile.p.east(), .from = dir },
+            .north => Tile{ .c = self.get(tile.p.north()), .p = tile.p.north(), .from = dir },
+            .south => Tile{ .c = self.get(tile.p.south()), .p = tile.p.south(), .from = dir },
             else => Tile{ .c = self.get(tile.p), .p = tile.p, .from = dir },
         };
     }
@@ -182,21 +182,21 @@ const Grid = struct {
         return count / 2;
     }
 
-    fn isVert(left: u8, right: u8) bool {
-        if (left == '-' or right == '-')
+    fn isVert(west: u8, east: u8) bool {
+        if (west == '-' or east == '-')
             return false;
 
-        if ((left == 'F' or left == 'L') and (right == '7' or right == 'J'))
+        if ((west == 'F' or west == 'L') and (east == '7' or east == 'J'))
             return false;
 
         return true;
     }
 
-    fn isHorz(up: u8, down: u8) bool {
-        if (up == '|' or down == '|')
+    fn isHorz(north: u8, south: u8) bool {
+        if (north == '|' or south == '|')
             return false;
 
-        if ((up == 'J' or up == 'L') and (down == '7' or down == 'F'))
+        if ((north == 'J' or north == 'L') and (south == '7' or south == 'F'))
             return false;
 
         return true;

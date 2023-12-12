@@ -34,16 +34,16 @@ pub const Point2d = struct {
     x: i32 = 0,
     y: i32 = 0,
 
-    pub fn up(self: *const @This()) Point2d {
+    pub fn north(self: *const @This()) Point2d {
         return Point2d{ .x = self.x, .y = self.y - 1 };
     }
-    pub fn down(self: *const @This()) Point2d {
+    pub fn south(self: *const @This()) Point2d {
         return Point2d{ .x = self.x, .y = self.y + 1 };
     }
-    pub fn left(self: *const @This()) Point2d {
+    pub fn west(self: *const @This()) Point2d {
         return Point2d{ .x = self.x - 1, .y = self.y };
     }
-    pub fn right(self: *const @This()) Point2d {
+    pub fn east(self: *const @This()) Point2d {
         return Point2d{ .x = self.x + 1, .y = self.y };
     }
 
