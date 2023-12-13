@@ -59,10 +59,10 @@ pub fn main() !void {
         Set-Content -Path $zigFilepath -Value $zigText -Encoding utf8
     }
 
-    return
 }
-
-$cppText = @"
+else
+{
+    $cppText = @"
 #include "day$Day.hpp"
 #include "../common.hpp"
 
@@ -91,7 +91,7 @@ int main()
 }
 "@
 
-$hppText = @"
+    $hppText = @"
 #pragma once
 #include "input-bytes.hpp"
 #include <string_view>
@@ -103,25 +103,27 @@ namespace example
 }
 "@
 
-$cppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.cpp")
-$hppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.hpp")
+    $cppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.cpp")
+    $hppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.hpp")
 
-if (Test-Path $cppFilepath)
-{
-    Write-Warning "$Year\day$Day.cpp already exists"
-}
-elseif (Test-Path $hppFilepath)
-{
-    Write-Warning "$Year\day$Day.hpp already exists"
-}
-else
-{
-    Set-Content -Path $cppFilepath -Value $cppText -Encoding utf8
-    Set-Content -Path $hppFilepath -Value $hppText -Encoding utf8
-    Add-Content -Path (Join-Path $PSScriptRoot 'CMakeLists.txt') -Value "add_aoc($Year $Day)" -Encoding utf8
+    if (Test-Path $cppFilepath)
+    {
+        Write-Warning "$Year\day$Day.cpp already exists"
+    }
+    elseif (Test-Path $hppFilepath)
+    {
+        Write-Warning "$Year\day$Day.hpp already exists"
+    }
+    else
+    {
+        Set-Content -Path $cppFilepath -Value $cppText -Encoding utf8
+        Set-Content -Path $hppFilepath -Value $hppText -Encoding utf8
+        Add-Content -Path (Join-Path $PSScriptRoot 'CMakeLists.txt') -Value "add_aoc($Year $Day)" -Encoding utf8
+    }
 }
 
 $inputFile = (Join-Path $PSScriptRoot "inputs\$Year\day$Day.txt")
+
 if (-not (Test-Path $inputFile))
 {
     Set-Content -Path $inputFile -Value "" -NoNewline -Encoding utf8
