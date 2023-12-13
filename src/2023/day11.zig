@@ -1,8 +1,5 @@
 const std = @import("std");
-pub const Point2d = struct {
-    x: i64 = 0,
-    y: i64 = 0,
-};
+const Point2d = @import("utils").Point2d(i64);
 
 fn distance(a: Point2d, b: Point2d) !i64 {
     return try std.math.absInt(b.x - a.x) + try std.math.absInt(b.y - a.y);

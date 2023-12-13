@@ -1,5 +1,5 @@
 const std = @import("std");
-const Point2d = @import("utils").Point2d;
+const Point2d = @import("utils").Point2d(i32);
 
 const Grid = struct {
     map: std.AutoHashMap(Point2d, u8),

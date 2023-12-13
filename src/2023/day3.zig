@@ -1,5 +1,5 @@
 const std = @import("std");
-const Point2d = @import("utils").Point2d;
+const Point2d = @import("utils").Point2d(i32);
 
 fn isSymbol(c: u8) bool {
     return c != '.' and (c < '0' or c > '9');
