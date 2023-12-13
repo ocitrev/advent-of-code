@@ -42,7 +42,7 @@ pub fn main() !void {
 
     // https://adventofcode.com/$Year/day/$Day
     const input = @embedFile("input");
-    std.debug.print("Day $Day, ${Year}:\n", .{});
+    std.debug.print("Day $Day, ${Year}: \n", .{});
     std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
     std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }
