@@ -7,4 +7,6 @@
 /build*/
 /zig-cache/
 /zig-out/
+/target/
+Cargo.lock
 tags
