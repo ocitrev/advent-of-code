@@ -1,4 +1,5 @@
 fn main() {
+    // https://adventofcode.com/2023/day/13
     println!("Day 13, 2023: Point of Incidence");
 
     debug_assert_eq!(405, part1(get_example()));
