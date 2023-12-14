@@ -1,7 +1,8 @@
 param(
     [int]$Day = [datetime]::Now.AddHours(+1).Day,
     [int]$Year = [datetime]::Now.Year,
-    [switch]$Zig
+    [switch]$Zig,
+    [switch]$Rust
 )
 
 if ($Zig.IsPresent)
@@ -57,6 +58,53 @@ pub fn main() !void {
     else
     {
         Set-Content -Path $zigFilepath -Value $zigText -Encoding utf8
+    }
+}
+elseif ($Rust.IsPresent)
+{
+    $rustTemplate = @"
+fn main() {
+    // https://adventofcode.com/$Year/day/$Day
+    println!("Day $Day, ${Year}: ");
+
+    // debug_assert_eq!(0, part1(get_example()));
+    // debug_assert_eq!(0, part2(get_example()));
+
+    let p1 = part1(get_input());
+    println!("  Part 1: {}", p1);
+    // assert_eq!(0, p1);
+
+    let p2 = part2(get_input());
+    println!("  Part 2: {}", p2);
+    // assert_eq!(0, p2);
+}
+
+fn part1(input: &'static str) -> usize {
+    return 0;
+}
+
+fn part2(input: &'static str) -> usize {
+    return 0;
+}
+
+fn get_input() -> &'static str {
+    return include_str!("../../inputs/$Year/day$Day.txt");
+}
+
+fn get_example() -> &'static str {
+    return "";
+}
+"@
+
+    $rustFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.rs")
+
+    if (Test-Path $rustFilepath)
+    {
+        Write-Warning "$Year\day$Day.zig already exists"
+    }
+    else
+    {
+        Set-Content -Path $rustFilepath -Value $rustTemplate -Encoding utf8
     }
 
 }
