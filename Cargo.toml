@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
+name = "2023-5"
+path = "src/2023/day5.rs"
+
+[[bin]]
 name = "2023-12"
 path = "src/2023/day12.rs"
 
