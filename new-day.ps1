@@ -80,19 +80,19 @@ fn main() {
 }
 
 fn part1(input: &'static str) -> usize {
-    return 0;
+    0
 }
 
 fn part2(input: &'static str) -> usize {
-    return 0;
+    0
 }
 
 fn get_input() -> &'static str {
-    return include_str!("../../inputs/$Year/day$Day.txt");
+    include_str!("../../inputs/$Year/day$Day.txt").trim_end()
 }
 
 fn get_example() -> &'static str {
-    return "";
+    ""
 }
 "@
 
