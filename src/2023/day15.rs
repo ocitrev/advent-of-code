@@ -1,3 +1,5 @@
+use std::ops::{AddAssign, MulAssign};
+
 fn main() {
     // https://adventofcode.com/2023/day/15
     println!("Day 15, 2023: Lens Library");
@@ -69,8 +71,8 @@ fn part2(input: &'static str) -> usize {
 fn hash_bytes(input: &[u8]) -> u8 {
     let mut h = std::num::Wrapping(0u8);
     for c in input {
-        h += std::num::Wrapping(*c);
-        h *= std::num::Wrapping(17u8);
+        h.add_assign(*c);
+        h.mul_assign(17);
     }
     h.0
 }
@@ -79,7 +81,7 @@ fn hash(input: &str) -> u8 {
 }
 
 fn get_input() -> &'static str {
-    include_str!("../../inputs/2023/day15.txt").trim()
+    include_str!("../../inputs/2023/day15.txt").trim_end()
 }
 
 fn get_example() -> &'static str {

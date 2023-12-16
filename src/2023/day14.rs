@@ -2,14 +2,19 @@ fn main() {
     // https://adventofcode.com/2023/day/14
     println!("Day 14, 2023: Parabolic Reflector Dish");
 
+    let fn_part2 = match std::env::args().find(|arg| arg == "1000") {
+        Some(_) => part2_cheat,
+        None => part2,
+    };
+
     debug_assert_eq!(136, part1(get_example()));
-    debug_assert_eq!(64, part2(get_example()));
+    debug_assert_eq!(64, fn_part2(get_example()));
 
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(113424, p1);
 
-    let p2 = part2(get_input());
+    let p2 = fn_part2(get_input());
     println!("  Part 2: {}", p2);
     assert_eq!(96003, p2);
 }
@@ -116,7 +121,7 @@ impl Grid {
             }
         }
 
-        return total;
+        total
     }
 
     fn get_hash(&self) -> u64 {
@@ -127,6 +132,7 @@ impl Grid {
         for line in &self.lines {
             hasher.write(&line);
         }
+
         hasher.finish()
     }
 
@@ -157,23 +163,28 @@ impl Grid {
 fn part1(input: &'static str) -> usize {
     let mut grid = Grid::new(input);
     grid.tilt_north();
-    return grid.get_load();
+    grid.get_load()
 }
 
 fn part2(input: &'static str) -> usize {
     let mut grid = Grid::new(input);
-    return grid.find_cycle();
+    grid.find_cycle()
+}
+
+fn part2_cheat(input: &'static str) -> usize {
+    let mut grid = Grid::new(input);
 
     // cheating ... should be 1_000_000_000
-    // for _ in 0..1_000 {
-    //     grid.cycle();
-    // }
+    // https://www.reddit.com/r/adventofcode/comments/18ihsz7/2023_day_14_part_2_coincidence_of_the_day/
+    for _ in 0..1_000 {
+        grid.cycle();
+    }
 
-    // return grid.get_load();
+    grid.get_load()
 }
 
 fn get_input() -> &'static str {
-    return include_str!("../../inputs/2023/day14.txt").trim_end_matches('\n');
+    include_str!("../../inputs/2023/day14.txt").trim_end_matches('\n')
 }
 
 fn get_example() -> &'static str {

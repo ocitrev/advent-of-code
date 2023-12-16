@@ -18,7 +18,7 @@ fn main() {
 
 fn part1(input: &'static str) -> usize {
     let mut total: usize = 0;
-    for line in input.split('\n').filter(|l| !l.is_empty()) {
+    for line in input.lines() {
         let mut cache = HashMap::<(usize, usize, usize), usize>::new();
         let parts: Vec<&str> = line.split(' ').collect();
         let data = parts[0];
@@ -35,7 +35,7 @@ fn part1(input: &'static str) -> usize {
 
 fn part2(input: &'static str) -> usize {
     let mut total: usize = 0;
-    for line in input.split('\n').filter(|l| !l.is_empty()) {
+    for line in input.lines() {
         let mut cache = HashMap::<(usize, usize, usize), usize>::new();
         let parts: Vec<&str> = line.split(' ').collect();
         let data = vec![parts[0], parts[0], parts[0], parts[0], parts[0]].join("?");

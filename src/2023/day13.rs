@@ -19,16 +19,12 @@ fn part1(input: &'static str) -> i32 {
     let mut total = 0;
 
     for p in parts {
-        let lines: Vec<&[u8]> = p
-            .split('\n')
-            .filter(|l| l.len() != 0)
-            .map(|x| x.as_bytes())
-            .collect();
+        let lines: Vec<&[u8]> = p.lines().map(|x| x.as_bytes()).collect();
         total += get_horizontal_symetry(&lines, 0) * 100;
         total += get_vertial_symetry(&lines, 0);
     }
 
-    return total;
+    total
 }
 
 fn part2(input: &'static str) -> i32 {
@@ -36,16 +32,12 @@ fn part2(input: &'static str) -> i32 {
     let mut total = 0;
 
     for p in parts {
-        let lines: Vec<&[u8]> = p
-            .split('\n')
-            .filter(|l| l.len() != 0)
-            .map(|x| x.as_bytes())
-            .collect();
+        let lines: Vec<&[u8]> = p.lines().map(|x| x.as_bytes()).collect();
         total += get_horizontal_symetry(&lines, 1) * 100;
         total += get_vertial_symetry(&lines, 1);
     }
 
-    return total;
+    total
 }
 
 fn get_vertial_symetry(lines: &Vec<&[u8]>, max_errors: i32) -> i32 {
@@ -71,7 +63,7 @@ fn get_vertial_symetry(lines: &Vec<&[u8]>, max_errors: i32) -> i32 {
         }
     }
 
-    return 0;
+    0
 }
 
 fn get_horizontal_symetry(lines: &Vec<&[u8]>, max_errors: i32) -> i32 {
@@ -101,15 +93,15 @@ fn get_horizontal_symetry(lines: &Vec<&[u8]>, max_errors: i32) -> i32 {
         }
     }
 
-    return 0;
+    0
 }
 
 fn get_input() -> &'static str {
-    return include_str!("../../inputs/2023/day13.txt");
+    include_str!("../../inputs/2023/day13.txt")
 }
 
 fn get_example() -> &'static str {
-    return "#.##..##.
+    "#.##..##.
 ..#.##.#.
 ##......#
 ##......#
@@ -123,5 +115,5 @@ fn get_example() -> &'static str {
 #####.##.
 #####.##.
 ..##..###
-#....#..#";
+#....#..#"
 }
