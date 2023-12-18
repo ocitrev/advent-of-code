@@ -16,10 +16,10 @@ fn main() {
     assert_eq!(2043098029844, p2);
 }
 
-fn part1(input: &'static str) -> usize {
-    let mut total: usize = 0;
+fn part1(input: &'static str) -> u64 {
+    let mut total: u64 = 0;
     for line in input.lines() {
-        let mut cache = HashMap::<(usize, usize, usize), usize>::new();
+        let mut cache = HashMap::<(usize, usize, usize), u64>::new();
         let parts: Vec<&str> = line.split(' ').collect();
         let data = parts[0];
         let groups: Vec<usize> = parts[1]
@@ -33,10 +33,10 @@ fn part1(input: &'static str) -> usize {
     return total;
 }
 
-fn part2(input: &'static str) -> usize {
-    let mut total: usize = 0;
+fn part2(input: &'static str) -> u64 {
+    let mut total: u64 = 0;
     for line in input.lines() {
-        let mut cache = HashMap::<(usize, usize, usize), usize>::new();
+        let mut cache = HashMap::<(usize, usize, usize), u64>::new();
         let parts: Vec<&str> = line.split(' ').collect();
         let data = vec![parts[0], parts[0], parts[0], parts[0], parts[0]].join("?");
         let groups: Vec<usize> = vec![parts[1], parts[1], parts[1], parts[1], parts[1]]
@@ -54,11 +54,11 @@ fn part2(input: &'static str) -> usize {
 fn count_arrangements(
     data: &[u8],
     groups: &[usize],
-    cache: &mut HashMap<(usize, usize, usize), usize>,
+    cache: &mut HashMap<(usize, usize, usize), u64>,
     i: usize,
     gi: usize,
     count: usize,
-) -> usize {
+) -> u64 {
     let key = (i, gi, count);
 
     if let Some(cached) = cache.get(&key) {
@@ -75,7 +75,7 @@ fn count_arrangements(
         }
     }
 
-    let mut total: usize = 0;
+    let mut total: u64 = 0;
 
     for c in [b'.', b'#'] {
         if data[i] == c || data[i] == b'?' {
