@@ -27,6 +27,12 @@ std::vector<std::string_view> SplitFirstOf(std::string_view text, std::string_vi
     {
         result.emplace_back(text.substr(offset, pos - offset));
         offset = text.find_first_not_of(sep, pos);
+
+        if (offset == std::string_view::npos)
+        {
+            return result;
+        }
+
         pos = text.find_first_of(sep, offset);
     }
 
