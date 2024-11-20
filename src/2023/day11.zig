@@ -1,8 +1,12 @@
 const std = @import("std");
 const Point2d = @import("utils").Point2d(i64);
 
-fn distance(a: Point2d, b: Point2d) !i64 {
-    return try std.math.absInt(b.x - a.x) + try std.math.absInt(b.y - a.y);
+fn abs(a: i64) i64 {
+    return if (a < 0) -a else a;
+}
+
+fn distance(a: Point2d, b: Point2d) i64 {
+    return abs(b.x - a.x) + abs(b.y - a.y);
 }
 
 fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, allocator: std.mem.Allocator) !void {
@@ -73,7 +77,7 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
     for (galaxies.items, 0..) |a, i| {
         for (galaxies.items, 0..) |b, j| {
             if (j <= i) continue;
-            const dist = try distance(a, b);
+            const dist = distance(a, b);
             total += dist;
         }
     }

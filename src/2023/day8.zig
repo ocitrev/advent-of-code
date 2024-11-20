@@ -16,7 +16,7 @@ const Document = struct {
 
         while (!predicate(next)) {
             count += 1;
-            var network = self.map.get(next).?;
+            const network = self.map.get(next).?;
             if (self.instructions[i] == 'L') {
                 next = network.left;
             } else {

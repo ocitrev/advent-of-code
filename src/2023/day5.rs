@@ -2,26 +2,36 @@ fn main() {
     // https://adventofcode.com/2023/day/5
     println!("Day 5, 2023: If You Give A Seed A Fertilizer");
 
+    let fn_part2 = match std::env::args().find(|arg| arg == "brute") {
+        Some(_) => part2_bruteforce,
+        None => part2,
+    };
+
     debug_assert_eq!(35, part1(get_example()));
-    debug_assert_eq!(46, part2(get_example()));
+    debug_assert_eq!(46, fn_part2(get_example()));
 
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(389056265, p1);
 
-    let p2 = part2(get_input());
+    let p2 = fn_part2(get_input());
     println!("  Part 2: {}", p2);
     assert_eq!(137516820, p2);
 }
 
 fn part1(input: &'static str) -> u64 {
     let almanac = Almanac::new(input);
-    return almanac
+    almanac
         .seeds
         .iter()
         .map(|&s| almanac.get_location(s))
         .min()
-        .unwrap();
+        .unwrap()
+}
+
+fn part2_bruteforce(input: &'static str) -> u64 {
+    let almanac = Almanac::new(input);
+    almanac.get_lowest_location_from_seed_ranges_bruteforce()
 }
 
 fn part2(input: &'static str) -> u64 {
@@ -69,7 +79,7 @@ impl Mapping {
             }
         }
 
-        return value;
+        value
     }
 
     fn unconvert(&self, value: u64) -> u64 {
@@ -82,20 +92,20 @@ impl Mapping {
             }
         }
 
-        return value;
+        value
     }
 }
 
 struct Almanac {
     seeds: Vec<u64>,
-    ranges: Vec<Mapping>,
+    mappings: Vec<Mapping>,
 }
 
 impl Almanac {
     fn new(input: &str) -> Self {
         let mut almanac = Self {
             seeds: vec![],
-            ranges: vec![],
+            mappings: vec![],
         };
 
         let parts: Vec<&str> = input.split("\n\n").collect();
@@ -107,39 +117,37 @@ impl Almanac {
 
         for p in parts.iter().skip(1) {
             let mut mapping = Mapping::new();
-            for line in p.split('\n').skip(1).filter(|l| !l.is_empty()) {
+            for line in p.lines().skip(1) {
                 mapping.parse(line);
             }
-            almanac.ranges.push(mapping);
+            almanac.mappings.push(mapping);
         }
 
-        return almanac;
+        almanac
     }
 
     fn get_location(&self, seed: u64) -> u64 {
-        self.ranges.iter().fold(seed, |value, r| r.convert(value))
+        self.mappings.iter().fold(seed, |value, r| r.convert(value))
     }
 
     fn get_seed(&self, location: u64) -> u64 {
-        self.ranges
+        self.mappings
             .iter()
             .rev()
             .fold(location, |value, r| r.unconvert(value))
     }
 
     fn is_valid_seed(&self, seed: u64) -> bool {
-        for s in self.seeds.chunks(2) {
-            let start = s[0];
-            let count = s[1];
+        for (start, count) in self.seeds.chunks(2).map(|s| (s[0], s[1])) {
             if seed >= start && seed < start + count {
                 return true;
             }
         }
 
-        return false;
+        false
     }
 
-    fn get_lowest_location_from_seed_ranges(&self) -> u64 {
+    fn get_lowest_location_from_seed_ranges_bruteforce(&self) -> u64 {
         let mut location: u64 = 0;
 
         loop {
@@ -150,14 +158,33 @@ impl Almanac {
             location += 1;
         }
     }
+
+    fn get_lowest_location_from_seed_ranges(&self) -> u64 {
+        for (start, len) in self.seeds.chunks(2).map(|s| (s[0], s[1])) {
+            let _v = self.find_min(start, len);
+        }
+        0
+    }
+
+    fn find_min(&self, start: u64, len: u64) -> u64 {
+        for m in &self.mappings {
+            for r in &m.ranges {
+                eprintln!(
+                    "s:{}, l:{} -> dst: {}, src:{}, len:{}",
+                    start, len, r.dest, r.source, r.len
+                );
+            }
+        }
+        0
+    }
 }
 
 fn get_input() -> &'static str {
-    return include_str!("../../inputs/2023/day5.txt");
+    include_str!("../../inputs/2023/day5.txt")
 }
 
 fn get_example() -> &'static str {
-    return "seeds: 79 14 55 13
+    "seeds: 79 14 55 13
 
 seed-to-soil map:
 50 98 2
@@ -189,5 +216,5 @@ temperature-to-humidity map:
 
 humidity-to-location map:
 60 56 37
-56 93 4";
+56 93 4"
 }

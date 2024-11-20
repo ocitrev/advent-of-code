@@ -79,11 +79,11 @@ fn main() {
     // assert_eq!(0, p2);
 }
 
-fn part1(input: &'static str) -> usize {
+fn part1(input: &'static str) -> u64 {
     0
 }
 
-fn part2(input: &'static str) -> usize {
+fn part2(input: &'static str) -> u64 {
     0
 }
 

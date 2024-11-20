@@ -1,12 +1,12 @@
 const std = @import("std");
 
 const BuildParams = struct {
-    target: std.zig.CrossTarget,
+    target: std.Build.ResolvedTarget,
     optimize: std.builtin.OptimizeMode,
 };
 
 fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std.Build.Step) void {
-    const source_file = std.Build.LazyPath{ .path = b.fmt("src/{}/day{}.zig", .{ year, day }) };
+    const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ year, day }));
     const exe = b.addExecutable(.{
         .name = b.fmt("{}-{}", .{ year, day }),
         .root_source_file = source_file,
@@ -17,12 +17,12 @@ fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std
     b.installArtifact(exe);
 
     if (b.modules.get("utils")) |utils| {
-        exe.addModule("utils", utils);
+        exe.root_module.addImport("utils", utils);
     }
 
     // input file
-    const input_file = b.fmt("inputs/{}/day{}.txt", .{ year, day });
-    exe.addAnonymousModule("input", .{ .source_file = std.Build.FileSource.relative(input_file) });
+    const input_file = b.path(b.fmt("inputs/{}/day{}.txt", .{ year, day }));
+    exe.root_module.addAnonymousImport("input", .{ .root_source_file = input_file });
 
     // add to run step
     const run_cmd = b.addRunArtifact(exe);
@@ -47,7 +47,7 @@ fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std
 }
 
 fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step: *std.Build.Step) void {
-    const source_file = std.Build.LazyPath{ .path = b.fmt("src/{}/day{}.zig", .{ year, day }) };
+    const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ year, day }));
 
     // unit tests
     const unit_tests = b.addTest(.{
@@ -58,7 +58,7 @@ fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step
 
     // make sure utils module is available in unit tests
     if (b.modules.get("utils")) |utils| {
-        unit_tests.addModule("utils", utils);
+        unit_tests.root_module.addImport("utils", utils);
     }
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
@@ -88,7 +88,7 @@ pub fn build(b: *std.Build) void {
     };
 
     const utils = b.addModule("utils", .{
-        .source_file = std.Build.FileSource.relative("src/utils.zig"),
+        .root_source_file = b.path("src/utils.zig"),
     });
 
     const run_step = b.step("run", "Run all apps");
@@ -103,8 +103,7 @@ pub fn build(b: *std.Build) void {
 
     const test_step = b.step("test", "Run all unit tests");
     const utils_tests = b.addTest(.{
-        .root_source_file = utils.source_file,
-        .target = params.target,
+        .root_source_file = utils.root_source_file.?,
         .optimize = params.optimize,
     });
     test_step.dependOn(&b.addRunArtifact(utils_tests).step);

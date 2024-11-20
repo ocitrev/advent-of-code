@@ -61,7 +61,7 @@ const Schematic = struct {
                     continue;
                 }
                 const nei = Point2d{ .x = x, .y = p.y + y };
-                var c = self.map.get(nei) orelse '.';
+                const c = self.map.get(nei) orelse '.';
                 if (isSymbol(c)) {
                     return true;
                 }
@@ -86,7 +86,7 @@ const Schematic = struct {
             const y = @as(i32, @intCast(yy));
             for (0..w) |xx| {
                 const x = @as(i32, @intCast(xx));
-                var p = Point2d{ .x = x, .y = y };
+                const p = Point2d{ .x = x, .y = y };
 
                 if (self.map.get(p)) |c| {
                     if (c >= '0' and c <= '9') {

@@ -5,7 +5,7 @@
 /.vs/
 /.vscode/
 /build*/
-/zig-cache/
+/.zig-cache/
 /zig-out/
 /target/
 Cargo.lock

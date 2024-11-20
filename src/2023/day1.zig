@@ -1,7 +1,7 @@
 const std = @import("std");
 
 fn part1(text: []const u8) i32 {
-    var textTrimmed = std.mem.trim(u8, text, "\r\n");
+    const textTrimmed = std.mem.trim(u8, text, "\r\n");
     var it = std.mem.tokenizeAny(u8, textTrimmed, "\r\n");
 
     var sum: i32 = 0;
@@ -74,7 +74,7 @@ fn findLastDigit(text: []const u8) i32 {
 }
 
 fn part2(text: []const u8) i32 {
-    var textTrimmed = std.mem.trim(u8, text, "\r\n");
+    const textTrimmed = std.mem.trim(u8, text, "\r\n");
     var it = std.mem.tokenizeAny(u8, textTrimmed, "\r\n");
     var sum: i32 = 0;
     while (it.next()) |line| {
