@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
+name = "2016-5"
+path = "src/2016/day5.rs"
+
+[[bin]]
 name = "2023-5"
 path = "src/2023/day5.rs"
 
@@ -44,3 +48,4 @@ path = "src/2024/day1.rs"
 [dependencies]
 rayon = "1.8"
 pathfinding = "4.6.0"
+md5 = "0.7.0"

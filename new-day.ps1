@@ -1,3 +1,4 @@
+[CmdletBinding()]
 param(
     [int]$Day = [datetime]::Now.AddHours(+1).Day,
     [int]$Year = [datetime]::Now.Year,
