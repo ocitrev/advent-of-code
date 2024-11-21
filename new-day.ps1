@@ -5,7 +5,7 @@ param(
     [switch]$Rust
 )
 
-if ($Zig.IsPresent)
+if ($Zig)
 {
     $zigText = @"
 const std = @import("std");
@@ -60,7 +60,7 @@ pub fn main() !void {
         Set-Content -Path $zigFilepath -Value $zigText -Encoding utf8
     }
 }
-elseif ($Rust.IsPresent)
+elseif ($Rust)
 {
     $rustTemplate = @"
 fn main() {
@@ -79,11 +79,11 @@ fn main() {
     // assert_eq!(0, p2);
 }
 
-fn part1(input: &'static str) -> u64 {
+fn part1(_input: &'static str) -> u64 {
     0
 }
 
-fn part2(input: &'static str) -> u64 {
+fn part2(_input: &'static str) -> u64 {
     0
 }
 
@@ -91,7 +91,7 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/$Year/day$Day.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
+fn _get_example() -> &'static str {
     ""
 }
 "@
