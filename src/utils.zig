@@ -102,3 +102,7 @@ pub fn sum(comptime T: type, values: []const T) T {
     }
     return result;
 }
+
+pub fn trim_input(input: []const u8) []const u8 {
+    return std.mem.trimRight(u8, input, " \r\n\t");
+}

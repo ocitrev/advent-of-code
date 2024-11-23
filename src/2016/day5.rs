@@ -4,10 +4,13 @@ fn main() {
     // https://adventofcode.com/2016/day/5
     println!("Day 5, 2016: How About a Nice Game of Chess?");
 
-    debug_assert_eq!(("18f47a30".into(), "05ace8e3".into()), generate(get_example()));
+    debug_assert_eq!(
+        ("18f47a30".into(), "05ace8e3".into()),
+        generate(get_example())
+    );
 
     let (p1, p2) = generate(get_input());
-    
+
     println!("  Part 1: {}", p1);
     assert_eq!("1a3099aa", p1);
 

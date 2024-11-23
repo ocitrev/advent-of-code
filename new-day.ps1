@@ -11,6 +11,18 @@ if ($Zig)
     $zigText = @"
 const std = @import("std");
 
+pub fn main() !void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    // https://adventofcode.com/$Year/day/$Day
+    const input = @embedFile("input");
+    std.debug.print("Day $Day, ${Year}: \n", .{});
+    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
+    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
+}
+
 fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
     _ = allocator;
     _ = input;
@@ -35,18 +47,6 @@ test "part 2" {
         \\
     ;
     try std.testing.expectEqual(@as(i32, 0), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    // https://adventofcode.com/$Year/day/$Day
-    const input = @embedFile("input");
-    std.debug.print("Day $Day, ${Year}: \n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }
 "@
 

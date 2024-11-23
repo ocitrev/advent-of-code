@@ -92,6 +92,7 @@ pub fn build(b: *std.Build) void {
     });
 
     const run_step = b.step("run", "Run all apps");
+    addAoc(b, 2016, 5, params, run_step);
     addAoc(b, 2023, 1, params, run_step);
     addAoc(b, 2023, 2, params, run_step);
     addAoc(b, 2023, 3, params, run_step);
@@ -108,6 +109,7 @@ pub fn build(b: *std.Build) void {
     });
     test_step.dependOn(&b.addRunArtifact(utils_tests).step);
 
+    addAocTests(b, 2016, 5, params, test_step);
     addAocTests(b, 2023, 1, params, test_step);
     addAocTests(b, 2023, 2, params, test_step);
     addAocTests(b, 2023, 3, params, test_step);
