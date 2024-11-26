@@ -19,21 +19,23 @@ fn digitToChar(value: u8) u8 {
     return std.fmt.digitToChar(value, std.fmt.Case.lower);
 }
 
+fn startsWith00000(digest: []const u8) bool {
+    return digest[0] == 0 and digest[1] == 0 and digest[2] & 0xf0 == 0;
+}
+
 fn generate(input: []const u8) !Result {
     var digest: [16]u8 = undefined;
     var result = Result{};
     var count1: u8 = 0;
     var count2: u8 = 0;
-    var num: u32 = 0;
+    var num: u32 = 1;
     var buffer: [100]u8 = undefined;
 
-    while (count1 < 8 or count2 < 8) {
+    while (count1 < 8 or count2 < 8) : (num += 1) {
         const door_id = try std.fmt.bufPrint(&buffer, "{s}{}", .{ input, num });
-        num += 1;
-
         std.crypto.hash.Md5.hash(door_id, digest[0..], .{});
 
-        if (digest[0] == 0 and digest[1] == 0 and digest[2] & 0xf0 == 0) {
+        if (startsWith00000(&digest)) {
             if (count1 < 8) {
                 result.part1[count1] = digitToChar(digest[2] & 0x0f);
                 count1 += 1;
