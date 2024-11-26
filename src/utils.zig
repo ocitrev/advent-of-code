@@ -51,6 +51,13 @@ pub fn Point2d(comptime T: type) type {
         pub fn eql(a: @This(), b: @This()) bool {
             return a.x == b.x and a.y == b.y;
         }
+
+        pub fn wrap(self: *const @This(), width: T, height: T) @This() {
+            return .{
+                .x = @mod(self.x, width),
+                .y = @mod(self.y, height),
+            };
+        }
     };
 }
 
