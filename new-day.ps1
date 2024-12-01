@@ -29,23 +29,23 @@ const utils = @import("utils");
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
+    const ally = gpa.allocator();
 
     // https://adventofcode.com/$Year/day/$Day
     const input = comptime utils.trim_input(@embedFile("input"));
     std.debug.print("Day $Day, $Year: \n", .{});
 
-    const p1 = try part1(input, allocator);
+    const p1 = try part1(input, ally);
     std.debug.print("  Part 1: {}\n", .{p1});
     // std.debug.assert(0 == p1);
 
-    const p2 = try part2(input, allocator);
+    const p2 = try part2(input, ally);
     std.debug.print("  Part 2: {}\n", .{p2});
     // std.debug.assert(0 == p2);
 }
 
-fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
-    _ = allocator;
+fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
+    _ = ally;
     _ = input;
     return 0;
 }
@@ -57,8 +57,8 @@ test "part 1" {
     try std.testing.expectEqual(@as(i32, 0), try part1(example, std.testing.allocator));
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
-    _ = allocator;
+fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
+    _ = ally;
     _ = input;
     return 0;
 }
