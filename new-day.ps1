@@ -1,15 +1,30 @@
+#Requires -Version 7
+
 [CmdletBinding()]
 param(
-    [int]$Day = [datetime]::Now.AddHours(+1).Day,
     [int]$Year = [datetime]::Now.Year,
+    [int]$Day = [datetime]::Now.AddHours(+1).Day,
     [switch]$Zig,
     [switch]$Rust
 )
+
+function get-year-folder
+{
+    $folder = Join-Path $PSScriptRoot Src $Year
+
+    if (-not (Test-Path $folder))
+    {
+        $null = mkdir $folder
+    }
+
+    return $folder
+}
 
 if ($Zig)
 {
     $zigText = @"
 const std = @import("std");
+const utils = @import("utils");
 
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
@@ -17,10 +32,16 @@ pub fn main() !void {
     const allocator = gpa.allocator();
 
     // https://adventofcode.com/$Year/day/$Day
-    const input = @embedFile("input");
-    std.debug.print("Day $Day, ${Year}: \n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
+    const input = comptime utils.trim_input(@embedFile("input"));
+    std.debug.print("Day $Day, $Year: \n", .{});
+
+    const p1 = try part1(input, allocator);
+    std.debug.print("  Part 1: {}\n", .{p1});
+    // std.debug.assert(0 == p1);
+
+    const p2 = try part2(input, allocator);
+    std.debug.print("  Part 2: {}\n", .{p2});
+    // std.debug.assert(0 == p2);
 }
 
 fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
@@ -50,7 +71,8 @@ test "part 2" {
 }
 "@
 
-    $zigFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.zig")
+    $folder = get-year-folder
+    $zigFilepath = (Join-Path $folder "day$Day.zig")
 
     if (Test-Path $zigFilepath)
     {
@@ -97,7 +119,8 @@ fn _get_example() -> &'static str {
 }
 "@
 
-    $rustFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.rs")
+    $folder = get-year-folder
+    $rustFilepath = (Join-Path $folder "day$Day.rs")
 
     if (Test-Path $rustFilepath)
     {
@@ -152,8 +175,9 @@ namespace example
 }
 "@
 
-    $cppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.cpp")
-    $hppFilepath = (Join-Path $PSScriptRoot "Src\$Year\day$Day.hpp")
+    $folder = get-year-folder
+    $cppFilepath = (Join-Path $folder "day$Day.cpp")
+    $hppFilepath = (Join-Path $folder "day$Day.hpp")
 
     if (Test-Path $cppFilepath)
     {
