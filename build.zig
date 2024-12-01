@@ -104,6 +104,7 @@ pub fn build(b: *std.Build) void {
     addAoc(b, 2023, 9, params, run_step);
     addAoc(b, 2023, 10, params, run_step);
     addAoc(b, 2023, 11, params, run_step);
+    addAoc(b, 2024, 1, params, run_step);
 
     const test_step = b.step("test", "Run all unit tests");
     const utils_tests = b.addTest(.{
@@ -124,4 +125,5 @@ pub fn build(b: *std.Build) void {
     addAocTests(b, 2023, 9, params, test_step);
     addAocTests(b, 2023, 10, params, test_step);
     addAocTests(b, 2023, 11, params, test_step);
+    addAocTests(b, 2024, 1, params, test_step);
 }
