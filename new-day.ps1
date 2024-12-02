@@ -31,9 +31,9 @@ pub fn main() !void {
     defer _ = gpa.deinit();
     const ally = gpa.allocator();
 
-    // https://adventofcode.com/$Year/day/$Day
     const input = comptime utils.trim_input(@embedFile("input"));
-    std.debug.print("Day $Day, $Year: \n", .{});
+    // https://adventofcode.com/$Year/day/$Day
+    std.debug.print("Day $Day, ${Year}: \n", .{});
 
     const p1 = try part1(input, ally);
     std.debug.print("  Part 1: {}\n", .{p1});
