@@ -1,10 +1,10 @@
 const std = @import("std");
-const util = @import("utils");
+const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2016/day/5
-    const input = util.trim_input(@embedFile("input"));
     std.debug.print("Day 5, 2016: How About a Nice Game of Chess?\n", .{});
+    const input = comptime utils.trim_input(@embedFile("input"));
     const result = try generate(input);
     std.debug.print("  Part 1: {s}\n", .{result.part1});
     std.debug.print("  Part 2: {s}\n", .{result.part2});
