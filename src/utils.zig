@@ -25,6 +25,15 @@ pub const Parser = struct {
         return null;
     }
 
+    pub fn nextSequence(self: *@This(), delimiter: []const u8) ?[]const u8 {
+        var it = std.mem.tokenizeSequence(u8, self.input, delimiter);
+        if (it.next()) |result| {
+            self.input = it.rest();
+            return result;
+        }
+        return null;
+    }
+
     pub fn rest(self: *@This()) []const u8 {
         return self.input;
     }

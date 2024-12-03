@@ -54,7 +54,7 @@ test "part 1" {
     const example =
         \\
     ;
-    try std.testing.expectEqual(@as(i32, 0), try part1(example, std.testing.allocator));
+    try std.testing.expectEqual(0, try part1(example, std.testing.allocator));
 }
 
 fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
@@ -67,7 +67,7 @@ test "part 2" {
     const example =
         \\
     ;
-    try std.testing.expectEqual(@as(i32, 0), try part2(example, std.testing.allocator));
+    try std.testing.expectEqual(0, try part2(example, std.testing.allocator));
 }
 "@
 
