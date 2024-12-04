@@ -72,6 +72,10 @@ pub fn Point2d(comptime T: type) type {
             return a.x == b.x and a.y == b.y;
         }
 
+        pub fn add(self: *const @This(), x: T, y: T) @This() {
+            return .{ .x = self.x + x, .y = self.y + y };
+        }
+
         pub fn wrap(self: *const @This(), width: T, height: T) @This() {
             return .{
                 .x = @mod(self.x, width),

@@ -78,6 +78,11 @@ fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step
     test_day_step.dependOn(&run_unit_tests.step);
 }
 
+const Aoc = struct {
+    year: u16,
+    day: u8,
+};
+
 // Although this function looks imperative, note that its job is to
 // declaratively construct a build graph that will be executed by an external
 // runner.
@@ -92,21 +97,29 @@ pub fn build(b: *std.Build) void {
     });
 
     const run_step = b.step("run", "Run all apps");
-    addAoc(b, 2016, 5, params, run_step);
-    addAoc(b, 2016, 8, params, run_step);
-    addAoc(b, 2017, 1, params, run_step);
-    addAoc(b, 2017, 2, params, run_step);
-    addAoc(b, 2023, 1, params, run_step);
-    addAoc(b, 2023, 2, params, run_step);
-    addAoc(b, 2023, 3, params, run_step);
-    addAoc(b, 2023, 4, params, run_step);
-    addAoc(b, 2023, 8, params, run_step);
-    addAoc(b, 2023, 9, params, run_step);
-    addAoc(b, 2023, 10, params, run_step);
-    addAoc(b, 2023, 11, params, run_step);
-    addAoc(b, 2024, 1, params, run_step);
-    addAoc(b, 2024, 2, params, run_step);
-    addAoc(b, 2024, 3, params, run_step);
+
+    const puzzles = [_]Aoc{
+        .{ .year = 2016, .day = 5 },
+        .{ .year = 2016, .day = 8 },
+        .{ .year = 2017, .day = 1 },
+        .{ .year = 2017, .day = 2 },
+        .{ .year = 2023, .day = 1 },
+        .{ .year = 2023, .day = 2 },
+        .{ .year = 2023, .day = 3 },
+        .{ .year = 2023, .day = 4 },
+        .{ .year = 2023, .day = 8 },
+        .{ .year = 2023, .day = 9 },
+        .{ .year = 2023, .day = 10 },
+        .{ .year = 2023, .day = 11 },
+        .{ .year = 2024, .day = 1 },
+        .{ .year = 2024, .day = 2 },
+        .{ .year = 2024, .day = 3 },
+        .{ .year = 2024, .day = 4 },
+    };
+
+    for (puzzles) |p| {
+        addAoc(b, p.year, p.day, params, run_step);
+    }
 
     const test_step = b.step("test", "Run all unit tests");
     const utils_tests = b.addTest(.{
@@ -115,19 +128,7 @@ pub fn build(b: *std.Build) void {
     });
     test_step.dependOn(&b.addRunArtifact(utils_tests).step);
 
-    addAocTests(b, 2016, 5, params, test_step);
-    addAocTests(b, 2016, 8, params, test_step);
-    addAocTests(b, 2017, 1, params, test_step);
-    addAocTests(b, 2017, 2, params, test_step);
-    addAocTests(b, 2023, 1, params, test_step);
-    addAocTests(b, 2023, 2, params, test_step);
-    addAocTests(b, 2023, 3, params, test_step);
-    addAocTests(b, 2023, 4, params, test_step);
-    addAocTests(b, 2023, 8, params, test_step);
-    addAocTests(b, 2023, 9, params, test_step);
-    addAocTests(b, 2023, 10, params, test_step);
-    addAocTests(b, 2023, 11, params, test_step);
-    addAocTests(b, 2024, 1, params, test_step);
-    addAocTests(b, 2024, 2, params, test_step);
-    addAocTests(b, 2024, 3, params, test_step);
+    for (puzzles) |p| {
+        addAocTests(b, p.year, p.day, params, run_step);
+    }
 }
