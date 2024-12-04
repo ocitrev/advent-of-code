@@ -60,8 +60,8 @@ name = "2023-18"
 path = "src/2023/day18.rs"
 
 [[bin]]
-name = "2024-1"
-path = "src/2024/day1.rs"
+name = "2024-3"
+path = "src/2024/day3.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -69,3 +69,4 @@ path = "src/2024/day1.rs"
 rayon = "1.8"
 pathfinding = "4.6.0"
 md5 = "0.7.0"
+regex = "1.11.1"

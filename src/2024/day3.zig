@@ -1,18 +1,18 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main() void {
     const input = comptime utils.trim_input(@embedFile("input"));
     // https://adventofcode.com/2024/day/3
     std.debug.print("Day 3, 2024: Mull It Over\n", .{});
 
-    const p1 = try part1(input);
-    std.debug.print("  Part 1: {}\n", .{p1});
-    std.debug.assert(167090022 == p1);
+    @setEvalBranchQuota(80_000);
+    const result = comptime run(input);
+    std.debug.print("  Part 1: {}\n", .{result.part1});
+    comptime std.debug.assert(167090022 == result.part1);
 
-    const p2 = try part2(input);
-    std.debug.print("  Part 2: {}\n", .{p2});
-    std.debug.assert(89823704 == p2);
+    std.debug.print("  Part 2: {}\n", .{result.part2});
+    comptime std.debug.assert(89823704 == result.part2);
 }
 
 const State = enum {
@@ -21,12 +21,12 @@ const State = enum {
     end,
 };
 
-const Result = struct {
+const MulResult = struct {
     len: usize,
     product: i64,
 };
 
-fn is_valid(input: []const u8) !?Result {
+fn is_valid(input: []const u8) ?MulResult {
     var num1: [3]u8 = undefined;
     var num1_len: usize = 0;
 
@@ -40,7 +40,7 @@ fn is_valid(input: []const u8) !?Result {
     var state = State.num1;
     var len: usize = 0;
 
-    outer: for (0.., input[4..]) |i, c| {
+    outer: for (4.., input[4..]) |i, c| {
         switch (state) {
             .num1 => {
                 switch (c) {
@@ -76,43 +76,14 @@ fn is_valid(input: []const u8) !?Result {
         return null;
     }
 
-    const a = try std.fmt.parseInt(i64, num1[0..num1_len], 10);
-    const b = try std.fmt.parseInt(i64, num2[0..num2_len], 10);
-    return Result{ .len = len + 4, .product = a * b };
+    const a = std.fmt.parseInt(i64, num1[0..num1_len], 10) catch unreachable;
+    const b = std.fmt.parseInt(i64, num2[0..num2_len], 10) catch unreachable;
+    return .{ .len = len, .product = a * b };
 }
 
-fn part1(input: []const u8) !i64 {
+fn run(input: []const u8) utils.Result(i64) {
     var skip: usize = 0;
-    var sum: i64 = 0;
-
-    for (0.., input) |i, c| {
-        if (skip != 0) {
-            skip -= 1;
-            continue;
-        }
-
-        if (c == 'm') {
-            const chunk = input[i..@min(input.len, i + 13)];
-            if (try is_valid(chunk)) |result| {
-                skip = result.len - 1;
-                sum += result.product;
-            }
-        }
-    }
-
-    return sum;
-}
-
-test "part 1" {
-    const example =
-        \\xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
-    ;
-    comptime try std.testing.expectEqual(@as(i32, 161), try part1(example));
-}
-
-fn part2(input: []const u8) !i64 {
-    var skip: usize = 0;
-    var sum: i64 = 0;
+    var result = utils.Result(i64).init();
     var enabled = true;
 
     for (0.., input) |i, c| {
@@ -121,37 +92,47 @@ fn part2(input: []const u8) !i64 {
             continue;
         }
 
-        if (c == 'd') {
-            if (std.mem.eql(u8, "do()", input[i .. i + 4])) {
-                enabled = true;
-                skip = 3;
-            } else if (std.mem.eql(u8, "don't()", input[i .. i + 7])) {
-                enabled = false;
-                skip = 6;
-            }
+        switch (c) {
+            'd' => {
+                const do = "do()";
+                const dont = "don't()";
+                if (std.mem.startsWith(u8, input[i..], do)) {
+                    enabled = true;
+                    skip = do.len - 1;
+                } else if (std.mem.startsWith(u8, input[i..], dont)) {
+                    enabled = false;
+                    skip = dont.len - 1;
+                }
+            },
+            'm' => {
+                const mul_max_len = "mul(XXX,XXX)".len;
+                const chunk = input[i..@min(input.len, i + mul_max_len)];
+                if (is_valid(chunk)) |r| {
+                    skip = r.len - 1;
+                    result.part1 += r.product;
 
-            continue;
-        }
-
-        if (!enabled) {
-            continue;
-        }
-
-        if (c == 'm') {
-            const chunk = input[i..@min(input.len, i + 13)];
-            if (try is_valid(chunk)) |result| {
-                skip = result.len - 1;
-                sum += result.product;
-            }
+                    if (enabled) {
+                        result.part2 += r.product;
+                    }
+                }
+            },
+            else => {},
         }
     }
 
-    return sum;
+    return result;
+}
+
+test "part 1" {
+    const example =
+        \\xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
+    ;
+    comptime try std.testing.expectEqual(@as(i32, 161), run(example).part1);
 }
 
 test "part 2" {
     const example =
         \\xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
     ;
-    comptime try std.testing.expectEqual(48, try part2(example));
+    comptime try std.testing.expectEqual(48, run(example).part2);
 }

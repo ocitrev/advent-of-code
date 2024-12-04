@@ -1,5 +1,16 @@
 const std = @import("std");
 
+pub fn Result(comptime T: type) type {
+    return struct {
+        part1: T = 0,
+        part2: T = 0,
+
+        pub fn init() @This() {
+            return .{};
+        }
+    };
+}
+
 pub const Parser = struct {
     input: []const u8,
 
