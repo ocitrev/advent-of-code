@@ -5,99 +5,85 @@ const BuildParams = struct {
     optimize: std.builtin.OptimizeMode,
 };
 
-fn addAoc(b: *std.Build, year: u16, day: u8, params: BuildParams, run_step: *std.Build.Step) void {
-    const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ year, day }));
-    const exe = b.addExecutable(.{
-        .name = b.fmt("{}-{}", .{ year, day }),
-        .root_source_file = source_file,
-        .target = params.target,
-        .optimize = params.optimize,
-    });
-
-    b.installArtifact(exe);
-
-    if (b.modules.get("utils")) |utils| {
-        exe.root_module.addImport("utils", utils);
-    }
-
-    // input file
-    const input_file = b.path(b.fmt("inputs/{}/day{}.txt", .{ year, day }));
-    exe.root_module.addAnonymousImport("input", .{ .root_source_file = input_file });
-
-    // add to run step
-    const run_cmd = b.addRunArtifact(exe);
-    run_cmd.step.dependOn(b.getInstallStep());
-    if (b.args) |args| {
-        run_cmd.addArgs(args);
-    }
-    run_step.dependOn(&run_cmd.step);
-
-    // add or create year run step
-    const run_year_step_name = b.fmt("run-{}", .{year});
-    if (b.top_level_steps.get(run_year_step_name)) |step_info| {
-        step_info.step.dependOn(&run_cmd.step);
-    } else {
-        const run_year_step = b.step(run_year_step_name, b.fmt("Run apps for year {}", .{year}));
-        run_year_step.dependOn(&run_cmd.step);
-    }
-
-    // create day run step
-    const run_day_step = b.step(b.fmt("run-{}-{}", .{ year, day }), b.fmt("Run app for year {}, day {}", .{ year, day }));
-    run_day_step.dependOn(&run_cmd.step);
-}
-
-fn addAocTests(b: *std.Build, year: u16, day: u8, params: BuildParams, test_step: *std.Build.Step) void {
-    const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ year, day }));
-
-    // unit tests
-    const unit_tests = b.addTest(.{
-        .root_source_file = source_file,
-        .target = params.target,
-        .optimize = params.optimize,
-    });
-
-    // make sure utils module is available in unit tests
-    if (b.modules.get("utils")) |utils| {
-        unit_tests.root_module.addImport("utils", utils);
-    }
-
-    const run_unit_tests = b.addRunArtifact(unit_tests);
-    test_step.dependOn(&run_unit_tests.step);
-
-    // add or create year test step
-    const test_year_step_name = b.fmt("test-{}", .{year});
-    if (b.top_level_steps.get(test_year_step_name)) |step_info| {
-        step_info.step.dependOn(&run_unit_tests.step);
-    } else {
-        const test_year_step = b.step(test_year_step_name, b.fmt("Run unit tests for year {}", .{year}));
-        test_year_step.dependOn(&run_unit_tests.step);
-    }
-
-    // create day test step
-    const test_day_step = b.step(b.fmt("test-{}-{}", .{ year, day }), b.fmt("Run unit tests for year {}, day {}", .{ year, day }));
-    test_day_step.dependOn(&run_unit_tests.step);
-}
-
 const Aoc = struct {
     year: u16,
     day: u8,
+
+    fn addTo(self: *const @This(), b: *std.Build, params: BuildParams, run_step: *std.Build.Step) void {
+        const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ self.year, self.day }));
+        const exe = b.addExecutable(.{
+            .name = b.fmt("{}-{}", .{ self.year, self.day }),
+            .root_source_file = source_file,
+            .target = params.target,
+            .optimize = params.optimize,
+        });
+
+        b.installArtifact(exe);
+
+        if (b.modules.get("utils")) |utils| {
+            exe.root_module.addImport("utils", utils);
+        }
+
+        // input file
+        const input_file = b.path(b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day }));
+        exe.root_module.addAnonymousImport("input", .{ .root_source_file = input_file });
+
+        // add to run step
+        const run_cmd = b.addRunArtifact(exe);
+        run_cmd.step.dependOn(b.getInstallStep());
+        if (b.args) |args| {
+            run_cmd.addArgs(args);
+        }
+        run_step.dependOn(&run_cmd.step);
+
+        // add or create year run step
+        const run_year_step_name = b.fmt("run-{}", .{self.year});
+        if (b.top_level_steps.get(run_year_step_name)) |step_info| {
+            step_info.step.dependOn(&run_cmd.step);
+        } else {
+            const run_year_step = b.step(run_year_step_name, b.fmt("Run apps for year {}", .{self.year}));
+            run_year_step.dependOn(&run_cmd.step);
+        }
+
+        // create day run step
+        const run_day_step = b.step(b.fmt("run-{}-{}", .{ self.year, self.day }), b.fmt("Run app for year {}, day {}", .{ self.year, self.day }));
+        run_day_step.dependOn(&run_cmd.step);
+    }
+
+    fn addTestsTo(self: *const @This(), b: *std.Build, params: BuildParams, test_step: *std.Build.Step) void {
+        const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ self.year, self.day }));
+
+        // unit tests
+        const unit_tests = b.addTest(.{
+            .root_source_file = source_file,
+            .target = params.target,
+            .optimize = params.optimize,
+        });
+
+        // make sure utils module is available in unit tests
+        if (b.modules.get("utils")) |utils| {
+            unit_tests.root_module.addImport("utils", utils);
+        }
+
+        const run_unit_tests = b.addRunArtifact(unit_tests);
+        test_step.dependOn(&run_unit_tests.step);
+
+        // add or create year test step
+        const test_year_step_name = b.fmt("test-{}", .{self.year});
+        if (b.top_level_steps.get(test_year_step_name)) |step_info| {
+            step_info.step.dependOn(&run_unit_tests.step);
+        } else {
+            const test_year_step = b.step(test_year_step_name, b.fmt("Run unit tests for year {}", .{self.year}));
+            test_year_step.dependOn(&run_unit_tests.step);
+        }
+
+        // create day test step
+        const test_day_step = b.step(b.fmt("test-{}-{}", .{ self.year, self.day }), b.fmt("Run unit tests for year {}, day {}", .{ self.year, self.day }));
+        test_day_step.dependOn(&run_unit_tests.step);
+    }
 };
 
-// Although this function looks imperative, note that its job is to
-// declaratively construct a build graph that will be executed by an external
-// runner.
 pub fn build(b: *std.Build) void {
-    const params = BuildParams{
-        .target = b.standardTargetOptions(.{}),
-        .optimize = b.standardOptimizeOption(.{}),
-    };
-
-    const utils = b.addModule("utils", .{
-        .root_source_file = b.path("src/utils.zig"),
-    });
-
-    const run_step = b.step("run", "Run all apps");
-
     const puzzles = [_]Aoc{
         .{ .year = 2016, .day = 5 },
         .{ .year = 2016, .day = 8 },
@@ -115,11 +101,19 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2024, .day = 2 },
         .{ .year = 2024, .day = 3 },
         .{ .year = 2024, .day = 4 },
+        .{ .year = 2024, .day = 5 },
     };
 
-    for (puzzles) |p| {
-        addAoc(b, p.year, p.day, params, run_step);
-    }
+    const params = BuildParams{
+        .target = b.standardTargetOptions(.{}),
+        .optimize = b.standardOptimizeOption(.{}),
+    };
+
+    const utils = b.addModule("utils", .{
+        .root_source_file = b.path("src/utils.zig"),
+    });
+
+    const run_step = b.step("run", "Run all apps");
 
     const test_step = b.step("test", "Run all unit tests");
     const utils_tests = b.addTest(.{
@@ -129,6 +123,7 @@ pub fn build(b: *std.Build) void {
     test_step.dependOn(&b.addRunArtifact(utils_tests).step);
 
     for (puzzles) |p| {
-        addAocTests(b, p.year, p.day, params, run_step);
+        p.addTo(b, params, run_step);
+        p.addTestsTo(b, params, test_step);
     }
 }
