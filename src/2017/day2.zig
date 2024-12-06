@@ -8,7 +8,7 @@ pub fn main() !void {
 
     // https://adventofcode.com/2017/day/2
     const input = comptime utils.trim_input(@embedFile("input"));
-    std.debug.print("Day 2, 2017: Inverse Captcha\n", .{});
+    std.debug.print("Day 2, 2017: Corruption Checksum\n", .{});
 
     @setEvalBranchQuota(100_000);
     const p1 = comptime part1(input);
