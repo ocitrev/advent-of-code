@@ -76,6 +76,14 @@ pub fn Point2d(comptime T: type) type {
             return .{ .x = self.x + x, .y = self.y + y };
         }
 
+        pub fn rotate90Left(self: *const @This()) @This() {
+            return .{ .x = self.y, .y = -self.x };
+        }
+
+        pub fn rotate90Right(self: *const @This()) @This() {
+            return .{ .x = -self.y, .y = self.x };
+        }
+
         pub fn wrap(self: *const @This(), width: T, height: T) @This() {
             return .{
                 .x = @mod(self.x, width),
@@ -94,19 +102,20 @@ pub fn Point3d(comptime T: type) type {
 }
 
 pub const Grid = struct {
-    map: std.AutoHashMap(Point2d, u8),
+    map: std.AutoHashMap(Point2d(i32), u8),
     width: i32 = 0,
     height: i32 = 0,
 
-    pub fn parseFromLineIterator(it: anytype, allocator: std.mem.Allocator) !Grid {
-        var map = std.AutoHashMap(Point2d, u8).init(allocator);
+    pub fn parse(input: []const u8, allocator: std.mem.Allocator) !Grid {
+        var it = std.mem.tokenizeAny(u8, input, "\r\n");
+        var map = std.AutoHashMap(Point2d(i32), u8).init(allocator);
         var y: i32 = 0;
         var w: i32 = 0;
 
         while (it.next()) |line| {
             var x: i32 = 0;
             for (line) |c| {
-                const p = Point2d{ .x = x, .y = y };
+                const p = Point2d(i32){ .x = x, .y = y };
                 try map.put(p, c);
                 x += 1;
                 w = @max(w, x);
@@ -117,8 +126,16 @@ pub const Grid = struct {
         return Grid{ .map = map, .width = w, .height = y };
     }
 
-    pub fn parse(input: []const u8, allocator: std.mem.Allocator) !Grid {
-        return parseFromLineIterator(std.mem.tokenizeAny(u8, input, "\r\n"), allocator);
+    pub fn contains(self: *const @This(), p: Point2d(i32)) bool {
+        if (p.x < 0 or p.y < 0) {
+            return false;
+        }
+
+        if (p.x >= self.width or p.y >= self.height) {
+            return false;
+        }
+
+        return true;
     }
 
     pub fn deinit(self: *@This()) void {
