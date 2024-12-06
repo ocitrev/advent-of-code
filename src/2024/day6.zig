@@ -11,72 +11,122 @@ pub fn main() !void {
     // https://adventofcode.com/2024/day/6
     std.debug.print("Day 6, 2024: \n", .{});
 
-    const p1 = try part1(input, ally);
+    var floor = try Floor.init(input, ally);
+    defer floor.deinit();
+
+    const p1 = try floor.part1();
     std.debug.print("  Part 1: {}\n", .{p1});
     std.debug.assert(5199 == p1);
 
-    const p2 = try part2(input, ally);
+    const p2 = try floor.part2();
     std.debug.print("  Part 2: {}\n", .{p2});
     std.debug.assert(1915 == p2);
 }
 
-fn findGuard(grid: *const utils.Grid) Point2d {
-    var it = grid.map.iterator();
+const Floor = struct {
+    map: std.AutoHashMap(Point2d, u8),
+    visited: std.AutoHashMap(Point2d, void),
+    visited_dir: std.AutoHashMap([2]Point2d, void),
+    guard: Point2d,
 
-    while (it.next()) |v| {
-        if (v.value_ptr.* == '^') {
-            return v.key_ptr.*;
+    pub fn init(input: []const u8, ally: std.mem.Allocator) !Floor {
+        var map = std.AutoHashMap(Point2d, u8).init(ally);
+        var guard: Point2d = undefined;
+
+        var line_it = std.mem.tokenizeAny(u8, input, "\r\n");
+        var y: i32 = 0;
+        while (line_it.next()) |line| : (y += 1) {
+            for (0.., line) |x, c| {
+                const p = Point2d{ .x = @intCast(x), .y = y };
+                if (c == '^') {
+                    guard = p;
+                }
+                try map.put(p, c);
+            }
+        }
+
+        return .{
+            .map = map,
+            .visited = std.AutoHashMap(Point2d, void).init(ally),
+            .visited_dir = std.AutoHashMap([2]Point2d, void).init(ally),
+            .guard = guard,
+        };
+    }
+
+    pub fn deinit(self: *@This()) void {
+        self.map.deinit();
+        self.visited.deinit();
+        self.visited_dir.deinit();
+    }
+
+    fn run(self: *@This()) !void {
+        var g = self.guard;
+        var dir = Point2d{ .x = 0, .y = -1 };
+        while (true) {
+            try self.visited.put(g, {});
+            const newPos = g.add(dir.x, dir.y);
+
+            if (self.map.get(newPos)) |cell| {
+                if (cell == '#') {
+                    dir = dir.rotate90Right();
+                    continue;
+                }
+
+                g = newPos;
+            } else {
+                return;
+            }
         }
     }
 
-    unreachable;
-}
+    fn runWithObstacle(self: *@This(), obstacle: Point2d) !bool {
+        var g = self.guard;
+        var dir = Point2d{ .x = 0, .y = -1 };
+        self.visited_dir.clearRetainingCapacity();
 
-fn run(
-    grid: *const utils.Grid,
-    obstacle: ?Point2d,
-    context: anytype,
-    comptime visited: fn (@TypeOf(context), Point2d, Point2d) bool,
-) void {
-    var dir = Point2d{ .x = 0, .y = -1 };
-    var g = findGuard(grid);
-    while (true) {
-        if (!visited(context, g, dir)) {
-            return;
+        while (true) {
+            if (self.visited_dir.contains(.{ g, dir })) {
+                return true;
+            }
+            try self.visited_dir.put(.{ g, dir }, {});
+            const new_pos = g.add(dir.x, dir.y);
+
+            if (self.map.get(new_pos)) |cell| {
+                if (cell == '#' or obstacle.eql(new_pos)) {
+                    dir = dir.rotate90Right();
+                    continue;
+                }
+
+                g = new_pos;
+            } else {
+                return false;
+            }
         }
+    }
 
-        const newPos = g.add(dir.x, dir.y);
+    pub fn part1(self: *@This()) !i32 {
+        try self.run();
+        return @intCast(self.visited.count());
+    }
 
-        if (grid.map.get(newPos)) |cell| {
-            if (cell == '#' or (obstacle != null and newPos.eql(obstacle.?))) {
-                dir = dir.rotate90Right();
+    pub fn part2(self: *@This()) !i32 {
+        var sum: i32 = 0;
+
+        var it = self.visited.keyIterator();
+        while (it.next()) |p| {
+            if (self.guard.eql(p.*)) {
                 continue;
             }
-
-            g = newPos;
-        } else {
-            return;
+            if (try self.runWithObstacle(p.*)) {
+                sum += 1;
+            }
         }
+
+        return sum;
     }
-}
+};
 
-fn insertGuard(visited: *std.AutoHashMap(Point2d, void), guard: Point2d, dir: Point2d) bool {
-    _ = dir;
-    visited.put(guard, {}) catch return false;
-    return true;
-}
-
-fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
-    var grid = try utils.Grid.parse(input, ally);
-    defer grid.deinit();
-
-    var visited = std.AutoHashMap(Point2d, void).init(ally);
-    defer visited.deinit();
-    run(&grid, null, &visited, insertGuard);
-    return @intCast(visited.count());
-}
-
-test "part 1" {
+test "part 1,2" {
     const example =
         \\....#.....
         \\.........#
@@ -89,62 +139,10 @@ test "part 1" {
         \\#.........
         \\......#...
     ;
-    try std.testing.expectEqual(41, try part1(example, std.testing.allocator));
-}
 
-const Visited = struct {
-    p: Point2d,
-    d: Point2d,
-};
+    var floor = try Floor.init(example, std.testing.allocator);
+    defer floor.deinit();
 
-const Context = struct {
-    visited: *std.AutoHashMap(Visited, void),
-    sum: *i32,
-};
-
-fn insertGuardAndDir(ctx: Context, g: Point2d, d: Point2d) bool {
-    const v = Visited{ .p = g, .d = d };
-
-    if (ctx.visited.contains(v)) {
-        ctx.sum.* += 1;
-        return false;
-    }
-
-    ctx.visited.put(v, {}) catch return false;
-    return true;
-}
-
-fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
-    var grid = try utils.Grid.parse(input, ally);
-    defer grid.deinit();
-
-    var cur = Point2d{};
-    var sum: i32 = 0;
-    while (cur.y < grid.height) : (cur.y += 1) {
-        cur.x = 0;
-        while (cur.x < grid.width) : (cur.x += 1) {
-            var visited = std.AutoHashMap(Visited, void).init(ally);
-            defer visited.deinit();
-            const ctx = Context{ .visited = &visited, .sum = &sum };
-            run(&grid, cur, ctx, insertGuardAndDir);
-        }
-    }
-
-    return sum;
-}
-
-test "part 2" {
-    const example =
-        \\....#.....
-        \\.........#
-        \\..........
-        \\..#.......
-        \\.......#..
-        \\..........
-        \\.#..^.....
-        \\........#.
-        \\#.........
-        \\......#...
-    ;
-    try std.testing.expectEqual(6, try part2(example, std.testing.allocator));
+    try std.testing.expectEqual(41, try floor.part1());
+    try std.testing.expectEqual(6, try floor.part2());
 }
