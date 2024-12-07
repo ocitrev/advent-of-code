@@ -46,7 +46,12 @@ pub fn main() !void {
 
 fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
     _ = ally;
-    _ = input;
+    
+    var it = std.mem.tokenizeAny(u8, input, "\r\n");
+    while (it.next()) |line| {
+        _ = line;
+    }
+
     return 0;
 }
 
@@ -59,7 +64,12 @@ test "part 1" {
 
 fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
     _ = ally;
-    _ = input;
+    
+    var it = std.mem.tokenizeAny(u8, input, "\r\n");
+    while (it.next()) |line| {
+        _ = line;
+    }
+
     return 0;
 }
 
