@@ -69,12 +69,12 @@ fn part1(input: &'static str) -> u64 {
             let a = **pairs.first().unwrap();
             let b = **pairs.last().unwrap();
             let diff = b - a;
-            
+
             let c = a - diff;
             if map.contains(c) {
                 antinodes.insert(c);
             }
-            
+
             let d = b + diff;
             if map.contains(d) {
                 antinodes.insert(d);

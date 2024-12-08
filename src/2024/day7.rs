@@ -37,7 +37,7 @@ fn is_valid(numbers: &Vec<Int>, expected: Int, operations: &Vec<Op>) -> bool {
             total = match op {
                 Op::Add => total + n,
                 Op::Mul => total * n,
-                Op::Concat => format!("{}{}", total, n).parse().unwrap(),
+                Op::Concat => total * Int::pow(10, n.ilog10() + 1) + n,
             };
         }
 
