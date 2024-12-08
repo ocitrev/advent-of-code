@@ -9,7 +9,7 @@ pub fn main() !void {
 
     const input = comptime utils.trim_input(@embedFile("input"));
     // https://adventofcode.com/2024/day/6
-    std.debug.print("Day 6, 2024: \n", .{});
+    std.debug.print("Day 6, 2024: Guard Gallivant\n", .{});
 
     var floor = try Floor.init(input, ally);
     defer floor.deinit();
