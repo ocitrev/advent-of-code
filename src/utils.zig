@@ -76,6 +76,18 @@ pub fn Point2d(comptime T: type) type {
             return .{ .x = self.x + x, .y = self.y + y };
         }
 
+        pub fn addp(self: *const @This(), rhs: @This()) @This() {
+            return .{ .x = self.x + rhs.x, .y = self.y + rhs.y };
+        }
+
+        pub fn sub(self: *const @This(), x: T, y: T) @This() {
+            return .{ .x = self.x - x, .y = self.y - y };
+        }
+
+        pub fn subp(self: *const @This(), rhs: @This()) @This() {
+            return .{ .x = self.x - rhs.x, .y = self.y - rhs.y };
+        }
+
         pub fn rotate90Left(self: *const @This()) @This() {
             return .{ .x = self.y, .y = -self.x };
         }
