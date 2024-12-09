@@ -121,7 +121,8 @@ fn part2(input: []const u8, ally: std.mem.Allocator) !u64 {
         const fileBlock = disk.files.items[nextId];
 
         for (disk.freespaces.items) |*freeBlock| {
-            if (freeBlock.len >= fileBlock.len and fileBlock.start > freeBlock.start) {
+            if (freeBlock.start >= fileBlock.start) break;
+            if (freeBlock.len >= fileBlock.len) {
                 var f = freeBlock.start;
                 var r = fileBlock.start;
                 for (0..fileBlock.len) |_| {
