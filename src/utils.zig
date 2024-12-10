@@ -166,3 +166,24 @@ pub fn sum(comptime T: type, values: []const T) T {
 pub fn trim_input(input: []const u8) []const u8 {
     return std.mem.trimRight(u8, input, " \r\n\t");
 }
+
+pub const Monitor = struct {
+    start: std.time.Instant,
+
+    pub fn init() Monitor {
+        return .{ .start = std.time.Instant.now() catch unreachable };
+    }
+
+    pub fn deinit(self: *const @This()) void {
+        const end = std.time.Instant.now() catch unreachable;
+        const elapsed: f64 = @floatFromInt(end.since(self.start));
+
+        if (elapsed > std.time.ns_per_s) {
+            std.debug.print("  Elapsed: {d:.2}s\n", .{elapsed / std.time.ns_per_s});
+        } else if (elapsed > std.time.ns_per_ms) {
+            std.debug.print("  Elapsed: {d:.2}ms\n", .{elapsed / std.time.ns_per_ms});
+        } else {
+            std.debug.print("  Elapsed: {d:.2}µs\n", .{elapsed / std.time.ns_per_us});
+        }
+    }
+};
