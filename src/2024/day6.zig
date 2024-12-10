@@ -3,13 +3,15 @@ const utils = @import("utils");
 const Point2d = utils.Point2d(i32);
 
 pub fn main() !void {
+    // https://adventofcode.com/2024/day/6
+    std.debug.print("Day 6, 2024: Guard Gallivant\n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const ally = gpa.allocator();
-
     const input = comptime utils.trim_input(@embedFile("input"));
-    // https://adventofcode.com/2024/day/6
-    std.debug.print("Day 6, 2024: Guard Gallivant\n", .{});
 
     var floor = try Floor.init(input, ally);
     defer floor.deinit();

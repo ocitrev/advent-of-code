@@ -5,6 +5,8 @@ pub fn main() !void {
     // https://adventofcode.com/2024/day/2
     std.debug.print("Day 2, 2024: Red-Nosed Reports\n", .{});
 
+    const m = utils.Monitor.init();
+    defer m.deinit();
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const ally = gpa.allocator();

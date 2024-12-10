@@ -2,13 +2,15 @@ const std = @import("std");
 const utils = @import("utils");
 
 pub fn main() !void {
+    // https://adventofcode.com/2024/day/1
+    std.debug.print("Day 1, 2024: Historian Hysteria\n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2024/day/1
     const input = comptime utils.trim_input(@embedFile("input"));
-    std.debug.print("Day 1, 2024: Historian Hysteria\n", .{});
 
     const p1 = try part1(input, allocator);
     std.debug.print("  Part 1: {}\n", .{p1});

@@ -4,9 +4,12 @@ const int = u64;
 const kMaxNumbers: usize = 12;
 
 pub fn main() !void {
-    const input = comptime utils.trim_input(@embedFile("input"));
     // https://adventofcode.com/2024/day/7
     std.debug.print("Day 7, 2024: Bridge Repair\n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+    const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = try part1(input);
     std.debug.print("  Part 1: {}\n", .{p1});

@@ -27,13 +27,15 @@ const std = @import("std");
 const utils = @import("utils");
 
 pub fn main() !void {
+    // https://adventofcode.com/$Year/day/$Day
+    std.debug.print("Day $Day, ${Year}: \n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const ally = gpa.allocator();
-
     const input = comptime utils.trim_input(@embedFile("input"));
-    // https://adventofcode.com/$Year/day/$Day
-    std.debug.print("Day $Day, ${Year}: \n", .{});
 
     const p1 = try part1(input, ally);
     std.debug.print("  Part 1: {}\n", .{p1});

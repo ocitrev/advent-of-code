@@ -2,9 +2,12 @@ const std = @import("std");
 const utils = @import("utils");
 
 pub fn main() void {
-    const input = comptime utils.trim_input(@embedFile("input"));
     // https://adventofcode.com/2024/day/3
     std.debug.print("Day 3, 2024: Mull It Over\n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+    const input = comptime utils.trim_input(@embedFile("input"));
 
     @setEvalBranchQuota(80_000);
     const result = comptime run(input);

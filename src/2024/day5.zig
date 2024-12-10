@@ -3,13 +3,15 @@ const utils = @import("utils");
 const Result = utils.Result(i32);
 
 pub fn main() !void {
+    // https://adventofcode.com/2024/day/5
+    std.debug.print("Day 5, 2024: Print Queue\n", .{});
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const ally = gpa.allocator();
-
     const input = comptime utils.trim_input(@embedFile("input"));
-    // https://adventofcode.com/2024/day/5
-    std.debug.print("Day 5, 2024: Print Queue\n", .{});
 
     const result = try run(input, ally);
     std.debug.print("  Part 1: {}\n", .{result.part1});
