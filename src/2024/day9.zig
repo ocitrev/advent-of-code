@@ -36,22 +36,19 @@ const Disk = struct {
         var files = std.ArrayList(Block).init(ally);
         var freespaces = std.ArrayList(Block).init(ally);
         var disk = std.ArrayList(?u32).init(ally);
-
-        var file = true;
         var nextId: u32 = 0;
 
-        for (input) |c| {
+        for (0.., input) |i, c| {
             const blockLen = try std.fmt.charToDigit(c, 10);
-            if (file) {
+            if (i & 1 == 0) {
+                std.debug.assert(blockLen != 0);
                 try files.append(.{ .start = disk.items.len, .len = blockLen });
                 try disk.appendNTimes(nextId, blockLen);
                 nextId += 1;
-            } else {
+            } else if (blockLen != 0) {
                 try freespaces.append(.{ .start = disk.items.len, .len = blockLen });
                 try disk.appendNTimes(null, blockLen);
             }
-
-            file = !file;
         }
 
         return .{
