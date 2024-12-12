@@ -193,3 +193,43 @@ pub const Monitor = struct {
         }
     }
 };
+
+pub fn HashMapArray(comptime K: type, comptime V: type) type {
+    const HashMapType = std.AutoHashMap(K, std.ArrayList(V));
+    return struct {
+        data: HashMapType,
+        ally: std.mem.Allocator,
+
+        pub fn init(ally: std.mem.Allocator) @This() {
+            return @This(){
+                .data = HashMapType.init(ally),
+                .ally = ally,
+            };
+        }
+
+        pub fn deinit(self: *@This()) void {
+            var it = self.data.iterator();
+            while (it.next()) |entry| {
+                entry.value_ptr.*.deinit();
+            }
+            self.data.deinit();
+        }
+
+        pub fn put(self: *@This(), key: K, value: V) !void {
+            if (self.data.getPtr(key)) |list| {
+                try list.*.append(value);
+            } else {
+                var newList = std.ArrayList(V).init(self.ally);
+                try newList.append(value);
+                try self.data.put(key, newList);
+            }
+        }
+
+        pub fn get(self: *const @This(), key: K) ?[]V {
+            if (self.data.get(key)) |list| {
+                return list.items;
+            }
+            return null;
+        }
+    };
+}

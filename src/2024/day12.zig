@@ -23,18 +23,18 @@ pub fn main() !void {
 
 const Int = i32;
 const Point2d = utils.Point2d(i32);
+const PriceType = enum { perimeter, side };
 const Region = struct {
     seed: u8,
     perimeter: Int = 0,
     area: Int = 0,
     sides: Int = 0,
 
-    fn price1(self: *const @This()) Int {
-        return self.perimeter * self.area;
-    }
-
-    fn price2(self: *const @This()) Int {
-        return self.sides * self.area;
+    fn price(self: *const @This(), comptime priceType: PriceType) Int {
+        return switch (priceType) {
+            .perimeter => return self.perimeter * self.area,
+            .side => return self.sides * self.area,
+        };
     }
 };
 
@@ -49,45 +49,6 @@ const Side = struct {
     Point2d,
     SideType,
 };
-
-fn HashMapArray(comptime K: type, comptime V: type) type {
-    return struct {
-        data: std.AutoArrayHashMap(K, std.ArrayList(V)),
-        ally: std.mem.Allocator,
-
-        fn init(ally: std.mem.Allocator) @This() {
-            return @This(){
-                .data = std.AutoArrayHashMap(K, std.ArrayList(V)).init(ally),
-                .ally = ally,
-            };
-        }
-
-        fn deinit(self: *@This()) void {
-            var it = self.data.iterator();
-            while (it.next()) |entry| {
-                entry.value_ptr.*.deinit();
-            }
-            self.data.deinit();
-        }
-
-        fn put(self: *@This(), key: K, value: V) !void {
-            if (self.data.getPtr(key)) |list| {
-                try list.*.append(value);
-            } else {
-                var newList = std.ArrayList(V).init(self.ally);
-                try newList.append(value);
-                try self.data.put(key, newList);
-            }
-        }
-
-        fn get(self: *const @This(), key: K) ?[]V {
-            if (self.data.get(key)) |list| {
-                return list.items;
-            }
-            return null;
-        }
-    };
-}
 
 const Map = struct {
     grid: utils.Grid,
@@ -110,42 +71,42 @@ const Map = struct {
         self.visited.deinit();
     }
 
-    const Sides = HashMapArray(SideType, Point2d);
+    const Sides = utils.HashMapArray(SideType, Point2d);
 
-    fn walkRecurse(self: *@This(), seed: u8, p: Point2d, region: *Region, sides: *Sides) void {
+    fn walkRecurse(self: *@This(), seed: u8, p: Point2d, region: *Region, sides: *Sides) !void {
         if (self.visited.contains(p)) return;
-        self.visited.put(p, void{}) catch unreachable;
+        try self.visited.put(p, void{});
         region.area += 1;
 
         const n = p.north();
         if (self.grid.map.get(n) == seed) {
-            self.walkRecurse(seed, n, region, sides);
+            try self.walkRecurse(seed, n, region, sides);
         } else {
-            sides.put(.north, p) catch unreachable;
+            try sides.put(.north, p);
             region.perimeter += 1;
         }
 
         const w = p.west();
         if (self.grid.map.get(w) == seed) {
-            self.walkRecurse(seed, w, region, sides);
+            try self.walkRecurse(seed, w, region, sides);
         } else {
-            sides.put(.west, p) catch unreachable;
+            try sides.put(.west, p);
             region.perimeter += 1;
         }
 
         const s = p.south();
         if (self.grid.map.get(s) == seed) {
-            self.walkRecurse(seed, s, region, sides);
+            try self.walkRecurse(seed, s, region, sides);
         } else {
-            sides.put(.south, p) catch unreachable;
+            try sides.put(.south, p);
             region.perimeter += 1;
         }
 
         const e = p.east();
         if (self.grid.map.get(e) == seed) {
-            self.walkRecurse(seed, e, region, sides);
+            try self.walkRecurse(seed, e, region, sides);
         } else {
-            sides.put(.east, p) catch unreachable;
+            try sides.put(.east, p);
             region.perimeter += 1;
         }
     }
@@ -158,12 +119,12 @@ const Map = struct {
         return a.y < b.y;
     }
 
-    fn countSides(self: *@This(), sideType: SideType, sides: []const Point2d) Int {
+    fn countSides(self: *@This(), sideType: SideType, sides: []const Point2d) !Int {
         if (sides.len == 1) {
             return 1;
         }
 
-        const sorted = self.ally.alloc(Point2d, sides.len) catch unreachable;
+        const sorted = try self.ally.alloc(Point2d, sides.len);
         defer self.ally.free(sorted);
 
         switch (sideType) {
@@ -176,7 +137,6 @@ const Map = struct {
         }
 
         std.mem.sort(Point2d, sorted, {}, cmp);
-
         var sum: Int = 1;
         var it = std.mem.window(Point2d, sorted, 2, 1);
 
@@ -194,18 +154,17 @@ const Map = struct {
     fn walk(self: *@This()) !void {
         var gridIt = self.grid.map.iterator();
         while (gridIt.next()) |cell| {
-            const seed = cell.value_ptr.*;
-            const p = cell.key_ptr.*;
-
             var sides = Sides.init(self.ally);
             defer sides.deinit();
 
+            const seed = cell.value_ptr.*;
+            const p = cell.key_ptr.*;
             var region = Region{ .seed = seed };
-            self.walkRecurse(seed, p, &region, &sides);
-            if (sides.get(.north)) |s| region.sides += self.countSides(.north, s);
-            if (sides.get(.south)) |s| region.sides += self.countSides(.south, s);
-            if (sides.get(.east)) |s| region.sides += self.countSides(.east, s);
-            if (sides.get(.west)) |s| region.sides += self.countSides(.west, s);
+            try self.walkRecurse(seed, p, &region, &sides);
+            if (sides.get(.north)) |s| region.sides += try self.countSides(.north, s);
+            if (sides.get(.south)) |s| region.sides += try self.countSides(.south, s);
+            if (sides.get(.east)) |s| region.sides += try self.countSides(.east, s);
+            if (sides.get(.west)) |s| region.sides += try self.countSides(.west, s);
 
             if (region.area != 0) {
                 try self.regions.append(region);
@@ -213,18 +172,10 @@ const Map = struct {
         }
     }
 
-    fn totalPrice1(self: *const @This()) Int {
+    fn totalPrice(self: *const @This(), comptime priceType: PriceType) Int {
         var sum: Int = 0;
         for (self.regions.items) |r| {
-            sum += r.price1();
-        }
-        return sum;
-    }
-
-    fn totalPrice2(self: *const @This()) Int {
-        var sum: Int = 0;
-        for (self.regions.items) |r| {
-            sum += r.price2();
+            sum += r.price(priceType);
         }
         return sum;
     }
@@ -234,49 +185,17 @@ fn part1(input: []const u8, ally: std.mem.Allocator) !Int {
     var map = try Map.init(input, ally);
     defer map.deinit();
     try map.walk();
-    return map.totalPrice1();
-}
-
-test "part 1" {
-    const example1 =
-        \\AAAA
-        \\BBCD
-        \\BBCC
-        \\EEEC
-    ;
-    const example2 =
-        \\OOOOO
-        \\OXOXO
-        \\OOOOO
-        \\OXOXO
-        \\OOOOO
-    ;
-    const example3 =
-        \\RRRRIICCFF
-        \\RRRRIICCCF
-        \\VVRRRCCFFF
-        \\VVRCCCJFFF
-        \\VVVVCJJCFE
-        \\VVIVCCJJEE
-        \\VVIIICJJEE
-        \\MIIIIIJJEE
-        \\MIIISIJEEE
-        \\MMMISSJEEE
-    ;
-
-    try std.testing.expectEqual(140, try part1(example1, std.testing.allocator));
-    try std.testing.expectEqual(772, try part1(example2, std.testing.allocator));
-    try std.testing.expectEqual(1930, try part1(example3, std.testing.allocator));
+    return map.totalPrice(.perimeter);
 }
 
 fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
     var map = try Map.init(input, ally);
     defer map.deinit();
     try map.walk();
-    return map.totalPrice2();
+    return map.totalPrice(.side);
 }
 
-test "part 2" {
+test "part 1,2" {
     const example1 =
         \\AAAA
         \\BBCD
@@ -305,8 +224,28 @@ test "part 2" {
         \\ABBAAA
         \\AAAAAA
     ;
+    const example5 =
+        \\RRRRIICCFF
+        \\RRRRIICCCF
+        \\VVRRRCCFFF
+        \\VVRCCCJFFF
+        \\VVVVCJJCFE
+        \\VVIVCCJJEE
+        \\VVIIICJJEE
+        \\MIIIIIJJEE
+        \\MIIISIJEEE
+        \\MMMISSJEEE
+    ;
+
+    try std.testing.expectEqual(140, try part1(example1, std.testing.allocator));
+    try std.testing.expectEqual(772, try part1(example2, std.testing.allocator));
+    try std.testing.expectEqual(692, try part1(example3, std.testing.allocator));
+    try std.testing.expectEqual(1184, try part1(example4, std.testing.allocator));
+    try std.testing.expectEqual(1930, try part1(example5, std.testing.allocator));
+
     try std.testing.expectEqual(80, try part2(example1, std.testing.allocator));
     try std.testing.expectEqual(436, try part2(example2, std.testing.allocator));
     try std.testing.expectEqual(236, try part2(example3, std.testing.allocator));
     try std.testing.expectEqual(368, try part2(example4, std.testing.allocator));
+    try std.testing.expectEqual(1206, try part2(example5, std.testing.allocator));
 }
