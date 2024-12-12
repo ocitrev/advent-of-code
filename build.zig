@@ -89,6 +89,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2016, .day = 8 },
         .{ .year = 2017, .day = 1 },
         .{ .year = 2017, .day = 2 },
+        .{ .year = 2019, .day = 1 },
         .{ .year = 2023, .day = 1 },
         .{ .year = 2023, .day = 2 },
         .{ .year = 2023, .day = 3 },
