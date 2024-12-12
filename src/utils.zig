@@ -102,6 +102,12 @@ pub fn Point2d(comptime T: type) type {
                 .y = @mod(self.y, height),
             };
         }
+
+        pub fn format(self: *const @This(), comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
+            _ = fmt;
+            _ = options;
+            try writer.print("({}, {})", .{ self.x, self.y });
+        }
     };
 }
 
