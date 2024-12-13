@@ -88,6 +88,10 @@ pub fn Point2d(comptime T: type) type {
             return .{ .x = self.x - rhs.x, .y = self.y - rhs.y };
         }
 
+        pub fn mul(self: *const @This(), rhs: T) @This() {
+            return .{ .x = self.x * rhs, .y = self.y * rhs };
+        }
+
         pub fn rotate90Left(self: *const @This()) @This() {
             return .{ .x = self.y, .y = -self.x };
         }
