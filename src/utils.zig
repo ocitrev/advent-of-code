@@ -165,14 +165,6 @@ pub const Grid = struct {
     }
 };
 
-pub fn sum(comptime T: type, values: []const T) T {
-    var result: T = 0;
-    for (values) |v| {
-        result += v;
-    }
-    return result;
-}
-
 pub fn trim_input(input: []const u8) []const u8 {
     return std.mem.trimRight(u8, input, " \r\n\t");
 }
@@ -236,4 +228,28 @@ pub fn HashMapArray(comptime K: type, comptime V: type) type {
             return null;
         }
     };
+}
+
+pub fn reduce(comptime T: type, slice: []const T, initial: T, func: fn (T, T) T) T {
+    var result = initial;
+    for (slice) |v| {
+        result = func(result, v);
+    }
+    return result;
+}
+
+pub fn mul(comptime T: type) fn (T, T) T {
+    return struct {
+        fn call(a: T, v: T) T {
+            return a * v;
+        }
+    }.call;
+}
+
+pub fn add(comptime T: type) fn (T, T) T {
+    return struct {
+        fn call(a: T, v: T) T {
+            return a + v;
+        }
+    }.call;
 }

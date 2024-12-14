@@ -49,8 +49,8 @@ pub fn main() !void {
 fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
     _ = ally;
     
-    var it = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (it.next()) |line| {
+    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
+    while (lineIt.next()) |line| {
         _ = line;
     }
 
@@ -67,8 +67,8 @@ test "part 1" {
 fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
     _ = ally;
     
-    var it = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (it.next()) |line| {
+    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
+    while (lineIt.next()) |line| {
         _ = line;
     }
 
@@ -93,6 +93,10 @@ test "part 2" {
     else
     {
         Set-Content -Path $zigFilepath -Value $zigText -Encoding utf8
+    }
+
+    if ($env:VSCODE_INJECTION -eq '1') {
+        code $zigFilepath
     }
 }
 elseif ($Rust)
@@ -143,6 +147,9 @@ fn _get_example() -> &'static str {
         Set-Content -Path $rustFilepath -Value $rustTemplate -Encoding utf8
     }
 
+    if ($env:VSCODE_INJECTION -eq '1') {
+        code $rustFilepath
+    }
 }
 else
 {
@@ -204,6 +211,10 @@ namespace example
         Set-Content -Path $cppFilepath -Value $cppText -Encoding utf8
         Set-Content -Path $hppFilepath -Value $hppText -Encoding utf8
         Add-Content -Path (Join-Path $PSScriptRoot 'CMakeLists.txt') -Value "add_aoc($Year $Day)" -Encoding utf8
+    }
+
+    if ($env:VSCODE_INJECTION -eq '1') {
+        code $cppFilepath
     }
 }
 
