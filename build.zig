@@ -87,9 +87,12 @@ pub fn build(b: *std.Build) void {
     const puzzles = [_]Aoc{
         .{ .year = 2016, .day = 5 },
         .{ .year = 2016, .day = 8 },
+
         .{ .year = 2017, .day = 1 },
         .{ .year = 2017, .day = 2 },
+
         .{ .year = 2019, .day = 1 },
+
         .{ .year = 2023, .day = 1 },
         .{ .year = 2023, .day = 2 },
         .{ .year = 2023, .day = 3 },
@@ -98,6 +101,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2023, .day = 9 },
         .{ .year = 2023, .day = 10 },
         .{ .year = 2023, .day = 11 },
+
         .{ .year = 2024, .day = 1 },
         .{ .year = 2024, .day = 2 },
         .{ .year = 2024, .day = 3 },
@@ -112,6 +116,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2024, .day = 12 },
         .{ .year = 2024, .day = 13 },
         .{ .year = 2024, .day = 14 },
+        .{ .year = 2024, .day = 15 },
     };
 
     const params = BuildParams{
