@@ -67,6 +67,13 @@ impl std::ops::SubAssign for Point2d {
     }
 }
 
+impl std::ops::Mul<i32> for Point2d {
+    type Output = Point2d;
+    fn mul(self, rhs: i32) -> Self {
+        Point2d::new(self.x * rhs, self.y * rhs)
+    }
+}
+
 #[allow(dead_code)]
 pub fn product_repeat<I>(it: I, repeat: usize) -> MultiProduct<I>
 where
