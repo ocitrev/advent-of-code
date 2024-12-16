@@ -95,19 +95,24 @@ test "part 2" {
         Set-Content -Path $zigFilepath -Value $zigText -Encoding utf8
     }
 
-    if ($env:VSCODE_INJECTION -eq '1') {
+    if ($env:VSCODE_INJECTION -eq '1')
+    {
         code $zigFilepath
     }
 }
 elseif ($Rust)
 {
     $rustTemplate = @"
+#[path = "../utils.rs"]
+mod utils;
+
 fn main() {
     // https://adventofcode.com/$Year/day/$Day
     println!("Day $Day, ${Year}: ");
+    let _m = utils::Monitor::start();
 
-    // debug_assert_eq!(0, part1(get_example()));
-    // debug_assert_eq!(0, part2(get_example()));
+    debug_assert_eq!(0, part1(get_example()));
+    debug_assert_eq!(0, part2(get_example()));
 
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
@@ -118,11 +123,11 @@ fn main() {
     // assert_eq!(0, p2);
 }
 
-fn part1(_input: &'static str) -> u64 {
+fn part1(input: &'static str) -> u64 {
     0
 }
 
-fn part2(_input: &'static str) -> u64 {
+fn part2(input: &'static str) -> u64 {
     0
 }
 
@@ -130,7 +135,7 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/$Year/day$Day.txt").trim_end()
 }
 
-fn _get_example() -> &'static str {
+fn get_example() -> &'static str {
     ""
 }
 "@
@@ -147,7 +152,8 @@ fn _get_example() -> &'static str {
         Set-Content -Path $rustFilepath -Value $rustTemplate -Encoding utf8
     }
 
-    if ($env:VSCODE_INJECTION -eq '1') {
+    if ($env:VSCODE_INJECTION -eq '1')
+    {
         code $rustFilepath
     }
 }
@@ -213,7 +219,8 @@ namespace example
         Add-Content -Path (Join-Path $PSScriptRoot 'CMakeLists.txt') -Value "add_aoc($Year $Day)" -Encoding utf8
     }
 
-    if ($env:VSCODE_INJECTION -eq '1') {
+    if ($env:VSCODE_INJECTION -eq '1')
+    {
         code $cppFilepath
     }
 }

@@ -5,6 +5,7 @@ use utils::Point2d;
 fn main() {
     // https://adventofcode.com/2024/day/16
     println!("Day 16, 2024: Reindeer Maze");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(7036, part1(get_example()));
     debug_assert_eq!(11048, part1(get_example2()));

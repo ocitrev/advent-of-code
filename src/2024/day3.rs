@@ -1,6 +1,11 @@
+#[path = "../utils.rs"]
+mod utils;
+type Int = u64;
+
 fn main() {
     // https://adventofcode.com/2024/day/3
     println!("Day 3, 2024: Mull It Over");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(161, run(get_example1()).0);
     debug_assert_eq!(48, run(get_example2()).1);
@@ -13,11 +18,11 @@ fn main() {
     assert_eq!(89823704, p2);
 }
 
-fn run(input: &'static str) -> (u64, u64) {
+fn run(input: &'static str) -> (Int, Int) {
     const WINDOW_SIZE: usize = "mul(xxx,xxx)".len();
     let re_mul = regex::Regex::new(r"^mul\((\d{1,3}),(\d{1,3})\)").unwrap();
-    let mut part1: u64 = 0;
-    let mut part2: u64 = 0;
+    let mut part1 = 0;
+    let mut part2 = 0;
     let mut enabled = true;
 
     for chunk in (input.to_owned() + "padpadpad")
@@ -33,8 +38,8 @@ fn run(input: &'static str) -> (u64, u64) {
         }
 
         if let Some(matches) = re_mul.captures(s) {
-            let a: u64 = matches.get(1).unwrap().as_str().parse().unwrap();
-            let b: u64 = matches.get(2).unwrap().as_str().parse().unwrap();
+            let a: Int = matches.get(1).unwrap().as_str().parse().unwrap();
+            let b: Int = matches.get(2).unwrap().as_str().parse().unwrap();
             part1 += a * b;
 
             if enabled {

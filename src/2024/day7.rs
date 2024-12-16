@@ -7,6 +7,7 @@ type Int = i64;
 fn main() {
     // https://adventofcode.com/2024/day/7
     println!("Day 7, 2024: Bridge Repair");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(3749, part1(get_example()));
     debug_assert_eq!(11387, part2(get_example()));

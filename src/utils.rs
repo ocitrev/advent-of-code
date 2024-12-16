@@ -74,6 +74,27 @@ impl std::ops::Mul<i32> for Point2d {
     }
 }
 
+impl std::ops::MulAssign<i32> for Point2d {
+    fn mul_assign(&mut self, rhs: i32) {
+        self.x *= rhs;
+        self.y *= rhs;
+    }
+}
+
+impl std::ops::Div<i32> for Point2d {
+    type Output = Point2d;
+    fn div(self, rhs: i32) -> Self {
+        Point2d::new(self.x / rhs, self.y / rhs)
+    }
+}
+
+impl std::ops::DivAssign<i32> for Point2d {
+    fn div_assign(&mut self, rhs: i32) {
+        self.x /= rhs;
+        self.y /= rhs;
+    }
+}
+
 #[allow(dead_code)]
 pub fn product_repeat<I>(it: I, repeat: usize) -> MultiProduct<I>
 where
@@ -96,3 +117,36 @@ where
 }
 
 impl<T: Iterator + Clone> ProductRepeat for T where T::Item: Clone {}
+
+pub struct Monitor {
+    start: std::time::Instant,
+}
+
+impl Monitor {
+    #[allow(dead_code)]
+    pub fn start() -> Self {
+        Self {
+            start: std::time::Instant::now(),
+        }
+    }
+
+    fn print_elapsed(&self) {
+        let elapsed = self.start.elapsed();
+        let ms = elapsed.as_millis();
+        if ms < 1 {
+            println!("  Elapsed: {}µs", elapsed.as_micros());
+        } else if ms < 10 {
+            println!("  Elapsed: {:.2}ms", elapsed.as_secs_f64() * 1000.0);
+        } else if elapsed.as_secs() < 1 {
+            println!("  Elapsed: {}ms", elapsed.as_millis());
+        } else {
+            println!("  Elapsed: {:.2}s", elapsed.as_secs_f64());
+        }
+    }
+}
+
+impl Drop for Monitor {
+    fn drop(&mut self) {
+        self.print_elapsed();
+    }
+}

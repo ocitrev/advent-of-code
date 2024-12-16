@@ -7,6 +7,7 @@ use utils::Point2d;
 fn main() {
     // https://adventofcode.com/2024/day/8
     println!("Day 8, 2024: Resonant Collinearity");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(14, part1(get_example()));
     debug_assert_eq!(34, part2(get_example()));

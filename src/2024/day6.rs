@@ -6,6 +6,7 @@ use utils::Point2d;
 fn main() {
     // https://adventofcode.com/2024/day/6
     println!("Day 6, 2024: Guard Gallivant");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(41, Floor::new(get_example()).part1());
     debug_assert_eq!(6, Floor::new(get_example()).part2());

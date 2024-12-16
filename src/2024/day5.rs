@@ -1,6 +1,10 @@
+#[path = "../utils.rs"]
+mod utils;
+
 fn main() {
     // https://adventofcode.com/2024/day/5
     println!("Day 5, 2024: Print Queue");
+    let _m = utils::Monitor::start();
 
     debug_assert_eq!(143, part1(get_example()));
     debug_assert_eq!(123, part2(get_example()));
