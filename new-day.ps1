@@ -37,16 +37,27 @@ pub fn main() !void {
     const ally = gpa.allocator();
     const input = comptime utils.trim_input(@embedFile("input"));
 
-    const p1 = try part1(input, ally);
+    const p1 = try part1(ally, input);
     std.debug.print("  Part 1: {}\n", .{p1});
     // std.debug.assert(0 == p1);
 
-    const p2 = try part2(input, ally);
+    const p2 = try part2(ally, input);
     std.debug.print("  Part 2: {}\n", .{p2});
     // std.debug.assert(0 == p2);
 }
 
-fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
+fn part1(ally: std.mem.Allocator, input: []const u8) !i32 {
+    _ = ally;
+    
+    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
+    while (lineIt.next()) |line| {
+        _ = line;
+    }
+
+    return 0;
+}
+
+fn part2(ally: std.mem.Allocator, input: []const u8) !i32 {
     _ = ally;
     
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -58,28 +69,19 @@ fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
 }
 
 test "part 1" {
+    const ally = std.testing.allocator;
     const example =
         \\
     ;
-    try std.testing.expectEqual(0, try part1(example, std.testing.allocator));
-}
-
-fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
-    _ = ally;
-    
-    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (lineIt.next()) |line| {
-        _ = line;
-    }
-
-    return 0;
-}
+    try std.testing.expectEqual(0, try part1(ally, example));
+}    
 
 test "part 2" {
+    const ally = std.testing.allocator;
     const example =
         \\
     ;
-    try std.testing.expectEqual(0, try part2(example, std.testing.allocator));
+    try std.testing.expectEqual(0, try part2(ally, example));
 }
 "@
 

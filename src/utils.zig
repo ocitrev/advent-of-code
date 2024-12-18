@@ -92,6 +92,10 @@ pub fn Point2d(comptime T: type) type {
             return .{ .x = self.x * rhs, .y = self.y * rhs };
         }
 
+        pub fn neg(self: *const @This()) @This() {
+            return .{ .x = -self.x, .y = -self.y };
+        }
+
         pub fn rotate90Left(self: *const @This()) @This() {
             return .{ .x = self.y, .y = -self.x };
         }
