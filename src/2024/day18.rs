@@ -22,36 +22,28 @@ type Int = i32;
 
 struct Grid {
     bad_blocks: Vec<Point2d>,
-    reserve: Vec<Point2d>,
     size: (Int, Int),
 }
 
 impl Grid {
-    fn new(input: &str, size: (Int, Int), min_blocks: usize) -> Grid {
+    fn new(input: &str, size: (Int, Int)) -> Grid {
         let mut bad_blocks = vec![];
-        let mut reserve = vec![];
         for line in input.lines() {
             let mut parts = line.split(',');
             let x = parts.next().unwrap().parse::<Int>().unwrap();
             let y = parts.next().unwrap().parse::<Int>().unwrap();
             assert!(x < size.0);
             assert!(y < size.1);
-
-            if bad_blocks.len() < min_blocks {
-                bad_blocks.push(Point2d::new(x, y));
-            } else {
-                reserve.push(Point2d::new(x, y));
-            }
+            bad_blocks.push(Point2d::new(x, y));
         }
 
         Grid {
             bad_blocks: bad_blocks,
-            reserve: reserve.into_iter().rev().collect(),
             size: size,
         }
     }
 
-    fn get_neighbors(&self, p: Point2d) -> Vec<(Point2d, u32)> {
+    fn get_neighbors(&self, p: Point2d, nb_blocks: usize) -> Vec<(Point2d, Int)> {
         let mut result = vec![];
 
         for new_dir in vec![Point2d::NORTH, Point2d::SOUTH, Point2d::EAST, Point2d::WEST] {
@@ -63,7 +55,7 @@ impl Grid {
                 continue;
             }
 
-            if !self.bad_blocks.contains(&new_pos) {
+            if !self.contains(nb_blocks, new_pos) {
                 result.push((new_pos, 1));
             }
         }
@@ -71,64 +63,68 @@ impl Grid {
         result
     }
 
-    fn _print_path(&self, path: &Vec<Point2d>) {
+    fn shortest_path_len(&self, nb_blocks: usize) -> Option<Int> {
+        let start = Point2d::new(0, 0);
+        let goal = Point2d::new(self.size.0 - 1, self.size.1 - 1);
+        if let Some((_, cost)) = pathfinding::directed::astar::astar(
+            &start,
+            |&p| self.get_neighbors(p, nb_blocks),
+            |&p| p.distance(&goal) as Int,
+            |&p| p == goal,
+        ) {
+            Some(cost)
+        } else {
+            None
+        }
+    }
+
+    fn contains(&self, nb_blocks: usize, p: Point2d) -> bool {
+        self.bad_blocks
+            .iter()
+            .take(nb_blocks)
+            .position(|&pp| pp == p)
+            .is_some()
+    }
+
+    fn _print_path(&self, path: &Vec<Point2d>, nb_blocks: usize) {
         for y in 0..self.size.1 {
             for x in 0..self.size.0 {
                 let p = Point2d::new(x as i32, y as i32);
                 if path.contains(&p) {
                     eprint!("O");
+                } else if self.contains(nb_blocks, p) {
+                    eprint!("#");
                 } else {
-                    if self.bad_blocks.contains(&p) {
-                        eprint!("#");
-                    } else {
-                        eprint!(".");
-                    }
+                    eprint!(".");
                 }
             }
             eprintln!();
         }
     }
-
-    fn drop_block(&mut self) {
-        self.bad_blocks.push(self.reserve.pop().unwrap());
-    }
 }
 
 fn part1(input: &'static str, size: (Int, Int), nb_blocks: usize) -> Int {
-    let grid = Grid::new(input, size, nb_blocks);
-
-    let start = Point2d::new(0, 0);
-    let goal = Point2d::new(size.0 - 1, size.1 - 1);
-    let results = pathfinding::directed::astar::astar(
-        &start,
-        |&p| grid.get_neighbors(p),
-        |&p| p.distance(&goal),
-        |&p| p == goal,
-    );
-
-    let (_, cost) = results.expect("No path!");
-    cost as Int
+    let grid = Grid::new(input, size);
+    grid.shortest_path_len(nb_blocks).unwrap()
 }
 
 fn part2(input: &'static str, size: (Int, Int), min_blocks: usize) -> String {
-    let mut grid = Grid::new(input, size, min_blocks);
-
-    let start = Point2d::new(0, 0);
-    let goal = Point2d::new(size.0 - 1, size.1 - 1);
+    let grid = Grid::new(input, size);
+    let mut nb_min = min_blocks;
+    let mut nb_max = grid.bad_blocks.len();
 
     loop {
-        grid.drop_block();
-
-        let results = pathfinding::directed::astar::astar(
-            &start,
-            |&p| grid.get_neighbors(p),
-            |&p| p.distance(&goal),
-            |&p| p == goal,
-        );
-
-        if let None = results {
-            let blocking = grid.bad_blocks.last().unwrap();
+        if nb_max - nb_min <= 1 {
+            let blocking = grid.bad_blocks[nb_min];
             return format!("{},{}", blocking.x, blocking.y);
+        }
+
+        let nb_blocks = nb_min + (nb_max - nb_min) / 2;
+
+        if let None = grid.shortest_path_len(nb_blocks) {
+            nb_max = nb_blocks;
+        } else {
+            nb_min = nb_blocks;
         }
     }
 }
