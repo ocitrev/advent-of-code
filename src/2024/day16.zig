@@ -151,12 +151,8 @@ const Grid = struct {
         while (q.items.len != 0) {
             const node = q.remove();
 
-            if (visited.contains(node.e)) {
-                continue;
-            }
-
             if (!cache.contains(node.e)) {
-                cache.put(node.e, node.cost) catch unreachable;
+                cache.putNoClobber(node.e, node.cost) catch unreachable;
             }
 
             if (end) |goal| {
@@ -166,7 +162,9 @@ const Grid = struct {
                 }
             }
 
-            visited.put(node.e, {}) catch unreachable;
+            if (visited.fetchPut(node.e, {}) catch unreachable != null) {
+                continue;
+            }
 
             const d = node.e.dir;
             const newPos = node.e.pos.addp(d);

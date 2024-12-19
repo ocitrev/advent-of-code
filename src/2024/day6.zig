@@ -26,9 +26,9 @@ pub fn main() !void {
 }
 
 const Floor = struct {
+    ally: std.mem.Allocator,
     map: std.AutoHashMap(Point2d, u8),
-    visited: std.AutoHashMap(Point2d, void),
-    visited_dir: std.AutoHashMap([2]Point2d, void),
+    visited: std.AutoHashMap([2]Point2d, void),
     guard: Point2d,
 
     pub fn init(input: []const u8, ally: std.mem.Allocator) !Floor {
@@ -48,9 +48,9 @@ const Floor = struct {
         }
 
         return .{
+            .ally = ally,
             .map = map,
-            .visited = std.AutoHashMap(Point2d, void).init(ally),
-            .visited_dir = std.AutoHashMap([2]Point2d, void).init(ally),
+            .visited = std.AutoHashMap([2]Point2d, void).init(ally),
             .guard = guard,
         };
     }
@@ -58,73 +58,86 @@ const Floor = struct {
     pub fn deinit(self: *@This()) void {
         self.map.deinit();
         self.visited.deinit();
-        self.visited_dir.deinit();
     }
 
-    fn run(self: *@This()) !void {
+    fn run(self: *@This()) !i32 {
         var g = self.guard;
-        var dir = Point2d{ .x = 0, .y = -1 };
-        while (true) {
-            try self.visited.put(g, {});
-            const newPos = g.add(dir.x, dir.y);
+        var dir = (Point2d{}).north();
+        var visited = std.AutoHashMap(Point2d, void).init(self.ally);
+        defer visited.deinit();
 
-            if (self.map.get(newPos)) |cell| {
+        while (true) {
+            try visited.put(g, {});
+            const next = g.addp(dir);
+
+            if (self.map.get(next)) |cell| {
                 if (cell == '#') {
                     dir = dir.rotate90Right();
-                    continue;
+                } else {
+                    g = next;
                 }
 
-                g = newPos;
-            } else {
-                return;
+                continue;
             }
+
+            return @intCast(visited.count());
         }
     }
 
-    fn runWithObstacle(self: *@This(), obstacle: Point2d) !bool {
-        var g = self.guard;
-        var dir = Point2d{ .x = 0, .y = -1 };
-        self.visited_dir.clearRetainingCapacity();
+    fn hasLoop(self: *@This(), fromG: Point2d, fromD: Point2d, obstacle: Point2d) !bool {
+        self.visited.clearRetainingCapacity();
+        var g = fromG;
+        var dir = fromD;
 
         while (true) {
-            if (self.visited_dir.contains(.{ g, dir })) {
-                return true;
-            }
-            try self.visited_dir.put(.{ g, dir }, {});
-            const new_pos = g.add(dir.x, dir.y);
-
-            if (self.map.get(new_pos)) |cell| {
-                if (cell == '#' or obstacle.eql(new_pos)) {
+            const next = g.addp(dir);
+            if (self.map.get(next)) |c| {
+                if (c == '#' or obstacle.eql(next)) {
                     dir = dir.rotate90Right();
-                    continue;
+                    if (try self.visited.fetchPut(.{ g, dir }, {}) != null) {
+                        return true;
+                    }
+                } else {
+                    g = next;
                 }
-
-                g = new_pos;
             } else {
                 return false;
             }
         }
     }
 
+    fn runWithObstacle(self: *@This()) !i32 {
+        var done = std.AutoHashMap(Point2d, void).init(self.ally);
+        defer done.deinit();
+
+        var g = self.guard;
+        var dir = (Point2d{}).north();
+        var result: i32 = 0;
+
+        while (true) {
+            const next = g.addp(dir);
+            if (self.map.get(next)) |c| {
+                if (c == '#') {
+                    dir = dir.rotate90Right();
+                } else {
+                    if (try done.fetchPut(next, {}) == null and try self.hasLoop(g, dir, next)) {
+                        result += 1;
+                    }
+
+                    g = next;
+                }
+            } else {
+                return result;
+            }
+        }
+    }
+
     pub fn part1(self: *@This()) !i32 {
-        try self.run();
-        return @intCast(self.visited.count());
+        return self.run();
     }
 
     pub fn part2(self: *@This()) !i32 {
-        var sum: i32 = 0;
-
-        var it = self.visited.keyIterator();
-        while (it.next()) |p| {
-            if (self.guard.eql(p.*)) {
-                continue;
-            }
-            if (try self.runWithObstacle(p.*)) {
-                sum += 1;
-            }
-        }
-
-        return sum;
+        return self.runWithObstacle();
     }
 };
 

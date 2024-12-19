@@ -44,7 +44,7 @@ const Grid = struct {
             try blocks.append(Point2d{ .x = x, .y = y });
         }
 
-        return Grid{
+        return .{
             .ally = ally,
             .size = size,
             .blocks = try blocks.toOwnedSlice(),
@@ -79,11 +79,10 @@ const Grid = struct {
                 return node.dist;
             }
 
-            if (visited.contains(node.pos)) {
+            if (visited.fetchPut(node.pos, {}) catch unreachable != null) {
                 continue;
             }
 
-            visited.put(node.pos, {}) catch unreachable;
             const dirs = [_]Point2d{
                 node.pos.north(),
                 node.pos.south(),
