@@ -261,6 +261,8 @@ pub fn add(comptime T: type) fn (T, T) T {
 
 pub fn printAnswer(comptime part: u2, comptime T: type, result: T) !void {
     if (result != 0) {
+        // https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-formats#cloud-clipboard-and-clipboard-history-formats
+        // todo: ExcludeClipboardContentFromMonitorProcessing
         var buffer: [64]u8 = undefined;
         try clipboard.write(try std.fmt.bufPrint(&buffer, "{}", .{result}));
     }
