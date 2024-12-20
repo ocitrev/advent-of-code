@@ -112,6 +112,11 @@ pub fn Point2d(comptime T: type) type {
             };
         }
 
+        pub fn manhatanDistance(self: *const @This(), rhs: @This()) T {
+            return @max(self.x, rhs.x) - @min(self.x, rhs.x) +
+                @max(self.y, rhs.y) - @min(self.y, rhs.y);
+        }
+
         pub fn format(self: *const @This(), comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
             _ = fmt;
             _ = options;
