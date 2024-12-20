@@ -120,6 +120,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2024, .day = 16 },
         .{ .year = 2024, .day = 17 },
         .{ .year = 2024, .day = 18 },
+        .{ .year = 2024, .day = 19 },
     };
 
     const params = BuildParams{
@@ -130,6 +131,8 @@ pub fn build(b: *std.Build) void {
     const utils = b.addModule("utils", .{
         .root_source_file = b.path("src/utils.zig"),
     });
+
+    utils.addImport("clipboard", b.dependency("clipboard", .{}).module("clipboard"));
 
     const run_step = b.step("run", "Run all apps");
 

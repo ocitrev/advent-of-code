@@ -1,4 +1,5 @@
 const std = @import("std");
+const clipboard = @import("clipboard");
 
 pub fn Result(comptime T: type) type {
     return struct {
@@ -256,4 +257,13 @@ pub fn add(comptime T: type) fn (T, T) T {
             return a + v;
         }
     }.call;
+}
+
+pub fn printAnswer(comptime part: u2, comptime T: type, result: T) !void {
+    if (result != 0) {
+        var buffer: [64]u8 = undefined;
+        try clipboard.write(try std.fmt.bufPrint(&buffer, "{}", .{result}));
+    }
+
+    std.debug.print("Part {}: {}\n", .{ part, result });
 }
