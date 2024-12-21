@@ -133,8 +133,6 @@ pub fn build(b: *std.Build) void {
         .root_source_file = b.path("src/utils.zig"),
     });
 
-    utils.addImport("clipboard", b.dependency("clipboard", .{}).module("clipboard"));
-
     const run_step = b.step("run", "Run all apps");
 
     const test_step = b.step("test", "Run all unit tests");

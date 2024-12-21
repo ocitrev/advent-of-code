@@ -13,11 +13,11 @@ pub fn main() !void {
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = try part1(ally, input);
-    try utils.printAnswer(1, Int, p1);
+    utils.printAnswer(1, p1);
     std.debug.assert(358 == p1);
 
     const p2 = try part2(ally, input);
-    try utils.printAnswer(2, Int, p2);
+    utils.printAnswer(2, p2);
     std.debug.assert(600639829400603 == p2);
 }
 

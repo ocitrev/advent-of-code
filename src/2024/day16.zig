@@ -38,10 +38,10 @@ const Node = struct {
 };
 
 const dirs = [_]Point2d{
-    (Point2d{}).north(),
-    (Point2d{}).south(),
-    (Point2d{}).east(),
-    (Point2d{}).west(),
+    Point2d.NORTH,
+    Point2d.SOUTH,
+    Point2d.EAST,
+    Point2d.WEST,
 };
 
 const Grid = struct {
@@ -104,7 +104,7 @@ const Grid = struct {
     }
 
     fn shortestPathForward(self: *@This()) void {
-        self.shortestPath(self.start, (Point2d{}).east(), self.end, false);
+        self.shortestPath(self.start, Point2d.EAST, self.end, false);
     }
 
     fn shortestPathBackward(self: *@This()) void {

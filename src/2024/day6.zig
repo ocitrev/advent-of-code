@@ -62,7 +62,7 @@ const Floor = struct {
 
     fn run(self: *@This()) !i32 {
         var g = self.guard;
-        var dir = (Point2d{}).north();
+        var dir = Point2d.NORTH;
         var visited = std.AutoHashMap(Point2d, void).init(self.ally);
         defer visited.deinit();
 
@@ -111,7 +111,7 @@ const Floor = struct {
         defer done.deinit();
 
         var g = self.guard;
-        var dir = (Point2d{}).north();
+        var dir = Point2d.NORTH;
         var result: i32 = 0;
 
         while (true) {

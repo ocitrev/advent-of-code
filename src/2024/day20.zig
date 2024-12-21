@@ -13,11 +13,11 @@ pub fn main() !void {
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = try part1(ally, input, 100);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(1507 == p1);
 
     const p2 = try part2(ally, input, 100);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(1037936 == p2);
 }
 
@@ -114,19 +114,14 @@ const Grid = struct {
             const right = node.p.x + maxCheat;
             const top = node.p.y - maxCheat;
             const bottom = node.p.y + maxCheat;
-
             var y = top;
+
             while (y <= bottom) : (y += 1) {
                 var x = left;
                 while (x <= right) : (x += 1) {
                     const p = Point2d{ .x = @intCast(x), .y = @intCast(y) };
                     const cheatLen = node.p.manhatanDistance(p);
                     if (cheatLen < 2 or cheatLen > maxCheat or self.map.get(p) != '.') {
-                        continue;
-                    }
-
-                    // do not cheat backwards
-                    if (visited.contains(p)) {
                         continue;
                     }
 
@@ -139,10 +134,10 @@ const Grid = struct {
             }
 
             const dirs = [_]Point2d{
-                (Point2d{}).north(),
-                (Point2d{}).south(),
-                (Point2d{}).east(),
-                (Point2d{}).west(),
+                Point2d.NORTH,
+                Point2d.SOUTH,
+                Point2d.EAST,
+                Point2d.WEST,
             };
 
             for (dirs) |d| {

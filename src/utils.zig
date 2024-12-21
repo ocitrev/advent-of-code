@@ -1,5 +1,5 @@
 const std = @import("std");
-const clipboard = @import("clipboard");
+const clipboard = @import("clipboard.zig");
 
 pub fn Result(comptime T: type) type {
     return struct {
@@ -56,17 +56,22 @@ pub fn Point2d(comptime T: type) type {
         x: T = 0,
         y: T = 0,
 
+        pub const NORTH = @This(){ .x = 0, .y = -1 };
+        pub const SOUTH = @This(){ .x = 0, .y = 1 };
+        pub const EAST = @This(){ .x = 1, .y = 0 };
+        pub const WEST = @This(){ .x = -1, .y = 0 };
+
         pub fn north(self: *const @This()) @This() {
-            return .{ .x = self.x, .y = self.y - 1 };
+            return self.addp(NORTH);
         }
         pub fn south(self: *const @This()) @This() {
-            return .{ .x = self.x, .y = self.y + 1 };
+            return self.addp(SOUTH);
         }
         pub fn west(self: *const @This()) @This() {
-            return .{ .x = self.x - 1, .y = self.y };
+            return self.addp(WEST);
         }
         pub fn east(self: *const @This()) @This() {
-            return .{ .x = self.x + 1, .y = self.y };
+            return self.addp(EAST);
         }
 
         pub fn eql(a: @This(), b: @This()) bool {
@@ -264,13 +269,18 @@ pub fn add(comptime T: type) fn (T, T) T {
     }.call;
 }
 
-pub fn printAnswer(comptime part: u2, comptime T: type, result: T) !void {
-    if (result != 0) {
-        // https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-formats#cloud-clipboard-and-clipboard-history-formats
-        // todo: ExcludeClipboardContentFromMonitorProcessing
-        var buffer: [64]u8 = undefined;
-        try clipboard.write(try std.fmt.bufPrint(&buffer, "{}", .{result}));
-    }
+fn setClipboardResult(number: anytype) !void {
+    var buffer: [64]u8 = undefined;
+    const textResult = try std.fmt.bufPrint(&buffer, "{}", .{number});
+    try clipboard.setClipboardText(textResult, .private);
+}
 
+pub fn printAnswer(comptime part: u2, result: anytype) void {
     std.debug.print("Part {}: {}\n", .{ part, result });
+
+    if (result != 0) {
+        setClipboardResult(result) catch |err| {
+            std.debug.print("Warning: Clipboard failed: {}\n", .{err});
+        };
+    }
 }
