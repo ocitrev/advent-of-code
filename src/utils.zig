@@ -206,7 +206,11 @@ pub const Monitor = struct {
 };
 
 pub fn HashMapArray(comptime K: type, comptime V: type) type {
-    const HashMapType = std.AutoHashMap(K, std.ArrayList(V));
+    const HashMapType = if (K == []const u8)
+        std.StringHashMap(std.ArrayList(V))
+    else
+        std.AutoHashMap(K, std.ArrayList(V));
+
     return struct {
         data: HashMapType,
         ally: std.mem.Allocator,
@@ -242,6 +246,10 @@ pub fn HashMapArray(comptime K: type, comptime V: type) type {
             }
             return null;
         }
+
+        pub fn iterator(self: *const @This()) @TypeOf(self.data.iterator()) {
+            return self.data.iterator();
+        }
     };
 }
 
@@ -269,17 +277,28 @@ pub fn add(comptime T: type) fn (T, T) T {
     }.call;
 }
 
-fn setClipboardResult(number: anytype) !void {
+fn setClipboardResult(comptime format: []const u8, number: anytype) !void {
     var buffer: [64]u8 = undefined;
-    const textResult = try std.fmt.bufPrint(&buffer, "{}", .{number});
+    const textResult = try std.fmt.bufPrint(&buffer, format, .{number});
     try clipboard.setClipboardText(textResult, .private);
 }
 
-pub fn printAnswer(comptime part: u2, result: anytype) void {
-    std.debug.print("Part {}: {}\n", .{ part, result });
+fn isEmptyInt(comptime T: type, value: T) bool {
+    return value == 0;
+}
 
-    if (result != 0) {
-        setClipboardResult(result) catch |err| {
+fn isEmptyString(comptime _: type, text: []const u8) bool {
+    return text.len == 0;
+}
+
+pub fn printAnswer(comptime part: u2, result: anytype) void {
+    const T = @TypeOf(result);
+    const format = if (T == []const u8) "{s}" else "{}";
+    const isEmtpy = if (T == []const u8) isEmptyString else isEmptyInt;
+    std.debug.print("Part {}: " ++ format ++ "\n", .{ part, result });
+
+    if (!isEmtpy(T, result)) {
+        setClipboardResult(format, result) catch |err| {
             std.debug.print("Warning: Clipboard failed: {}\n", .{err});
         };
     }
