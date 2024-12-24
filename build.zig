@@ -123,6 +123,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2024, .day = 19 },
         .{ .year = 2024, .day = 20 },
         .{ .year = 2024, .day = 21 },
+        .{ .year = 2024, .day = 22 },
         .{ .year = 2024, .day = 23 },
     };
 
