@@ -46,7 +46,9 @@ pub fn main() !void {
     // std.debug.assert(0 == p2);
 }
 
-fn part1(ally: std.mem.Allocator, input: []const u8) !i32 {
+const Int = i32;
+
+fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     _ = ally;
     
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -57,7 +59,7 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !i32 {
     return 0;
 }
 
-fn part2(ally: std.mem.Allocator, input: []const u8) !i32 {
+fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
     _ = ally;
     
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
