@@ -295,7 +295,7 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
     const T = @TypeOf(result);
     const format = if (T == []const u8) "{s}" else "{}";
     const isEmtpy = if (T == []const u8) isEmptyString else isEmptyInt;
-    std.debug.print("Part {}: " ++ format ++ "\n", .{ part, result });
+    std.debug.print("  Part {}: " ++ format ++ "\n", .{ part, result });
 
     if (!isEmtpy(T, result)) {
         setClipboardResult(format, result) catch |err| {
