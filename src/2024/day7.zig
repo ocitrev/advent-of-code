@@ -5,18 +5,18 @@ const kMaxNumbers: usize = 12;
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/7
-    std.debug.print("Day 7, 2024: Bridge Repair\n", .{});
+    utils.printTitle(2024, 7, "Bridge Repair");
 
     const m = utils.Monitor.init();
     defer m.deinit();
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = try part1(input);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(3312271365652 == p1);
 
     const p2 = try part2(input);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(509463489296712 == p2);
 }
 

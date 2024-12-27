@@ -28,7 +28,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/$Year/day/$Day
-    std.debug.print("Day $Day, ${Year}: \n", .{});
+    utils.printTitle($Year, $Day, "");
 
     const m = utils.Monitor.init();
     defer m.deinit();

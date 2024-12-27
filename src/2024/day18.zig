@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/18
-    std.debug.print("Day 18, 2024: RAM Run\n", .{});
+    utils.printTitle(2024, 18, "RAM Run");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -16,12 +16,12 @@ pub fn main() !void {
     const nbBlocks = 1024;
 
     const p1 = try part1(ally, input, size, nbBlocks);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(380 == p1);
 
     const p2 = try part2(ally, input, size, nbBlocks);
     defer ally.free(p2);
-    std.debug.print("  Part 2: {s}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(std.mem.eql(u8, "26,50", p2));
 }
 

@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() void {
     // https://adventofcode.com/2024/day/3
-    std.debug.print("Day 3, 2024: Mull It Over\n", .{});
+    utils.printTitle(2024, 3, "Mull It Over");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -11,10 +11,10 @@ pub fn main() void {
 
     @setEvalBranchQuota(80_000);
     const result = comptime run(input);
-    std.debug.print("  Part 1: {}\n", .{result.part1});
+    utils.printAnswer(1, result.part1);
     comptime std.debug.assert(167090022 == result.part1);
 
-    std.debug.print("  Part 2: {}\n", .{result.part2});
+    utils.printAnswer(2, result.part2);
     comptime std.debug.assert(89823704 == result.part2);
 }
 

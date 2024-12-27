@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/24
-    std.debug.print("Day 24, 2024: Crossed Wires\n", .{});
+    utils.printTitle(2024, 24, "Crossed Wires");
 
     const m = utils.Monitor.init();
     defer m.deinit();

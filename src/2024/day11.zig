@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/11
-    std.debug.print("Day 11, 2024: Plutonian Pebbles\n", .{});
+    utils.printTitle(2024, 11, "Plutonian Pebbles");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -13,11 +13,11 @@ pub fn main() !void {
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = part1(input, ally);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(183484 == p1);
 
     const p2 = part2(input, ally);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(218817038947400 == p2);
 }
 

@@ -4,7 +4,7 @@ const Result = utils.Result(i32);
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/5
-    std.debug.print("Day 5, 2024: Print Queue\n", .{});
+    utils.printTitle(2024, 5, "Print Queue");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -14,9 +14,9 @@ pub fn main() !void {
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const result = try run(input, ally);
-    std.debug.print("  Part 1: {}\n", .{result.part1});
+    utils.printAnswer(1, result.part1);
     std.debug.assert(5091 == result.part1);
-    std.debug.print("  Part 2: {}\n", .{result.part2});
+    utils.printAnswer(2, result.part2);
     std.debug.assert(4681 == result.part2);
 }
 

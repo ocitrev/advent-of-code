@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/16
-    std.debug.print("Day 16, 2024: Reindeer Maze\n", .{});
+    utils.printTitle(2024, 16, "Reindeer Maze");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -16,11 +16,11 @@ pub fn main() !void {
     defer grid.deinit();
 
     const p1 = try grid.part1();
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(88416 == p1);
 
     const p2 = try grid.part2();
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(442 == p2);
 }
 

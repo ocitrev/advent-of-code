@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/23
-    std.debug.print("Day 23, 2024: LAN Party\n", .{});
+    utils.printTitle(2024, 23, "LAN Party");
 
     const m = utils.Monitor.init();
     defer m.deinit();

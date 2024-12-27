@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/14
-    std.debug.print("Day 14, 2024: Restroom Redoubt\n", .{});
+    utils.printTitle(2024, 14, "Restroom Redoubt");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -14,11 +14,11 @@ pub fn main() !void {
 
     const size = Point2d{ .x = 101, .y = 103 };
     const p1 = try part1(input, size, ally);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(231221760 == p1);
 
     const p2 = try part2(input, size, ally);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(6771 == p2);
 }
 

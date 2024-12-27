@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/2
-    std.debug.print("Day 2, 2024: Red-Nosed Reports\n", .{});
+    utils.printTitle(2024, 2, "Red-Nosed Reports");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -13,11 +13,11 @@ pub fn main() !void {
     const input = comptime utils.trim_input(@embedFile("input"));
 
     const p1 = try part1(input, ally);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(564 == p1);
 
     const p2 = try part2(input, ally);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(604 == p2);
 }
 

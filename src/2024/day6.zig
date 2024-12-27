@@ -4,7 +4,7 @@ const Point2d = utils.Point2d(i32);
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/6
-    std.debug.print("Day 6, 2024: Guard Gallivant\n", .{});
+    utils.printTitle(2024, 6, "Guard Gallivant");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -17,11 +17,11 @@ pub fn main() !void {
     defer floor.deinit();
 
     const p1 = try floor.part1();
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(5199 == p1);
 
     const p2 = try floor.part2();
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(1915 == p2);
 }
 

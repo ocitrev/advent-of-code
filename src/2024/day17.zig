@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/17
-    std.debug.print("Day 17, 2024: Chronospatial Computer\n", .{});
+    utils.printTitle(2024, 17, "Chronospatial Computer");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -14,11 +14,11 @@ pub fn main() !void {
 
     const p1 = try part1(input, ally);
     defer ally.free(p1);
-    std.debug.print("  Part 1: {s}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(std.mem.eql(u8, "6,2,7,2,3,1,6,0,5", p1));
 
     const p2 = try part2(input, ally);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(236548287712877 == p2);
 }
 

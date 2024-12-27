@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2024/day/21
-    std.debug.print("Day 21, 2024: Keypad Conundrum\n", .{});
+    utils.printTitle(2024, 21, "Keypad Conundrum");
 
     const m = utils.Monitor.init();
     defer m.deinit();
@@ -85,8 +85,8 @@ const Keypad = struct {
         const toCoord = self.getCoord(to);
         const dir = toCoord.subp(fromCoord);
 
-        const vertical: u8 = if (dir.y > 0) 'v' else '^';
-        const horizontal: u8 = if (dir.x > 0) '>' else '<';
+        const vertical: u8 = if (dir.y < 0) '^' else 'v';
+        const horizontal: u8 = if (dir.x < 0) '<' else '>';
         const nbX: usize = @intCast(@abs(dir.x));
         const nbY: usize = @intCast(@abs(dir.y));
 
@@ -149,7 +149,7 @@ const NUMERIC_KEY_PAD = Keypad{
         "123",
         " 0A",
     },
-    .start = .{ .x = 2, .y = 3 },
+    .start = Point2d.init(2, 3),
 };
 
 // Directional keypad:
