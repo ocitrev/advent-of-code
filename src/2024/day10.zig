@@ -73,8 +73,9 @@ const Map = struct {
         const height: u8 = self.grid.get(p).?;
         var score: i32 = 0;
 
-        if (visited.*.contains(p)) return 0;
-        visited.*.put(p, {}) catch unreachable;
+        if (visited.fetchPut(p, {}) catch unreachable != null) {
+            return 0;
+        }
 
         if (height == 9) {
             return 1;

@@ -37,7 +37,7 @@ const Graph = struct {
             const b = it.next().?;
 
             if (edges.getPtr(a)) |e| {
-                try e.*.put(b, {});
+                try e.put(b, {});
             } else {
                 var e = std.StringHashMap(void).init(ally);
                 try e.put(b, {});
@@ -45,7 +45,7 @@ const Graph = struct {
             }
 
             if (edges.getPtr(b)) |e| {
-                try e.*.put(a, {});
+                try e.put(a, {});
             } else {
                 var e = std.StringHashMap(void).init(ally);
                 try e.put(a, {});
@@ -61,7 +61,7 @@ const Graph = struct {
     fn deinit(self: *@This()) void {
         var it = self.edges.valueIterator();
         while (it.next()) |v| {
-            v.*.deinit();
+            v.deinit();
         }
         self.edges.deinit();
     }
@@ -104,9 +104,9 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
 
                 const setC = entryC.value_ptr;
 
-                if (setB.*.contains(a) and
-                    setC.*.contains(a) and
-                    setC.*.contains(b))
+                if (setB.contains(a) and
+                    setC.contains(a) and
+                    setC.contains(b))
                 {
                     if (std.mem.startsWith(u8, a, "t") or
                         std.mem.startsWith(u8, b, "t") or
@@ -152,7 +152,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
 
         outer: for (computers.items) |x| {
             for (clique.items) |y| {
-                if (!graph.edges.getPtr(y).?.*.contains(x)) {
+                if (!graph.edges.getPtr(y).?.contains(x)) {
                     continue :outer;
                 }
             }

@@ -262,14 +262,14 @@ pub fn HashMapArray(comptime K: type, comptime V: type) type {
         pub fn deinit(self: *@This()) void {
             var it = self.data.iterator();
             while (it.next()) |entry| {
-                entry.value_ptr.*.deinit();
+                entry.value_ptr.deinit();
             }
             self.data.deinit();
         }
 
         pub fn put(self: *@This(), key: K, value: V) !void {
             if (self.data.getPtr(key)) |list| {
-                try list.*.append(value);
+                try list.append(value);
             } else {
                 var newList = std.ArrayList(V).init(self.ally);
                 try newList.append(value);
@@ -344,8 +344,6 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
 
     const w = std.io.getStdOut().writer();
     w.print("  Part {}: " ++ format ++ "\n", .{ part, result }) catch unreachable;
-
-    // std.debug.print("  Part {}: " ++ format ++ "\n", .{ part, result });
 
     if (!isEmtpy(T, result)) {
         setClipboardResult(format, result) catch |err| {

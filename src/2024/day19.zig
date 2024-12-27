@@ -98,7 +98,7 @@ const Linen = struct {
             return 1;
         }
 
-        if (cache.*.get(design)) |count| {
+        if (cache.get(design)) |count| {
             return count;
         }
 
@@ -112,7 +112,7 @@ const Linen = struct {
             }
         }
 
-        cache.*.put(design, count) catch unreachable;
+        cache.put(design, count) catch unreachable;
         return count;
     }
 
