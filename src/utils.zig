@@ -52,26 +52,40 @@ pub const Parser = struct {
 };
 
 pub fn Point2d(comptime T: type) type {
+    const Vec = @Vector(2, T);
     return struct {
         x: T = 0,
         y: T = 0,
+
         pub const ZERO = @This(){};
-        pub const NORTH = @This(){ .x = 0, .y = -1 };
-        pub const SOUTH = @This(){ .x = 0, .y = 1 };
-        pub const EAST = @This(){ .x = 1, .y = 0 };
-        pub const WEST = @This(){ .x = -1, .y = 0 };
+        pub const NORTH = @This().init(0, -1);
+        pub const SOUTH = @This().init(0, 1);
+        pub const EAST = @This().init(1, 0);
+        pub const WEST = @This().init(-1, 0);
+
+        pub inline fn fromVec(v: Vec) @This() {
+            return .{ .x = v[0], .y = v[1] };
+        }
+
+        pub inline fn vec(self: *const @This()) Vec {
+            return .{ self.x, self.y };
+        }
+
+        pub inline fn init(x: T, y: T) @This() {
+            return .{ .x = x, .y = y };
+        }
 
         pub fn north(self: *const @This()) @This() {
-            return self.addp(NORTH);
+            return fromVec(self.vec() + NORTH.vec());
         }
         pub fn south(self: *const @This()) @This() {
-            return self.addp(SOUTH);
+            return fromVec(self.vec() + SOUTH.vec());
         }
         pub fn west(self: *const @This()) @This() {
-            return self.addp(WEST);
+            return fromVec(self.vec() + WEST.vec());
         }
         pub fn east(self: *const @This()) @This() {
-            return self.addp(EAST);
+            return fromVec(self.vec() + EAST.vec());
         }
 
         pub fn eql(a: @This(), b: @This()) bool {
@@ -79,23 +93,23 @@ pub fn Point2d(comptime T: type) type {
         }
 
         pub fn add(self: *const @This(), x: T, y: T) @This() {
-            return .{ .x = self.x + x, .y = self.y + y };
+            return fromVec(self.vec() + Vec{ x, y });
         }
 
         pub fn addp(self: *const @This(), rhs: @This()) @This() {
-            return .{ .x = self.x + rhs.x, .y = self.y + rhs.y };
+            return fromVec(self.vec() + rhs.vec());
         }
 
         pub fn sub(self: *const @This(), x: T, y: T) @This() {
-            return .{ .x = self.x - x, .y = self.y - y };
+            return fromVec(self.vec() - Vec{ x, y });
         }
 
         pub fn subp(self: *const @This(), rhs: @This()) @This() {
-            return .{ .x = self.x - rhs.x, .y = self.y - rhs.y };
+            return fromVec(self.vec() - rhs.vec());
         }
 
         pub fn mul(self: *const @This(), rhs: T) @This() {
-            return .{ .x = self.x * rhs, .y = self.y * rhs };
+            return fromVec(self.vec() * @as(Vec, @splat(rhs)));
         }
 
         pub fn neg(self: *const @This()) @This() {
@@ -118,14 +132,20 @@ pub fn Point2d(comptime T: type) type {
         }
 
         pub fn manhatanDistance(self: *const @This(), rhs: @This()) T {
-            return @max(self.x, rhs.x) - @min(self.x, rhs.x) +
-                @max(self.y, rhs.y) - @min(self.y, rhs.y);
+            const x = Vec{ self.x, rhs.x };
+            const y = Vec{ self.y, rhs.y };
+            return @reduce(.Max, x) - @reduce(.Min, x) + @reduce(.Max, y) - @reduce(.Min, y);
         }
 
-        pub fn format(self: *const @This(), comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
+        pub fn format(
+            self: *const @This(),
+            comptime fmt: []const u8,
+            options: std.fmt.FormatOptions,
+            writer: anytype,
+        ) !void {
             _ = fmt;
             _ = options;
-            try writer.print("({}, {})", .{ self.x, self.y });
+            try writer.print("({}, {})", .{ self.vec[0], self.vec[1] });
         }
     };
 }
@@ -194,14 +214,31 @@ pub const Monitor = struct {
     pub fn deinit(self: *const @This()) void {
         const end = std.time.Instant.now() catch unreachable;
         const elapsed: f64 = @floatFromInt(end.since(self.start));
+        const ansi = std.io.getStdErr().getOrEnableAnsiEscapeSupport();
+        const color = if (elapsed < std.time.ns_per_ms * 100)
+            "\x1b[32m"
+        else if (elapsed < std.time.ns_per_ms * 500)
+            "\x1b[33m"
+        else
+            "\x1b[31m";
+
+        const prefix = if (ansi) color else "";
+        const suffix = if (ansi) "\x1b[m" else "";
+        var units: []const u8 = undefined;
+        var value: f64 = undefined;
 
         if (elapsed > std.time.ns_per_s) {
-            std.debug.print("  Elapsed: {d:.2}s\n", .{elapsed / std.time.ns_per_s});
+            units = "s";
+            value = elapsed / std.time.ns_per_s;
         } else if (elapsed > std.time.ns_per_ms) {
-            std.debug.print("  Elapsed: {d:.2}ms\n", .{elapsed / std.time.ns_per_ms});
+            units = "ms";
+            value = elapsed / std.time.ns_per_ms;
         } else {
-            std.debug.print("  Elapsed: {d:.2}µs\n", .{elapsed / std.time.ns_per_us});
+            units = "µs";
+            value = elapsed / std.time.ns_per_us;
         }
+
+        std.debug.print("  Elapsed: {s}{d:.2}{s}{s}\n", .{ prefix, value, units, suffix });
     }
 };
 
@@ -291,11 +328,24 @@ fn isEmptyString(comptime _: type, text: []const u8) bool {
     return text.len == 0;
 }
 
+pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
+    const w = std.io.getStdOut().writer();
+    w.print("Day {}, {}: {s}\n", .{ year, day, title }) catch unreachable;
+}
+
+fn isString(T: type) bool {
+    return T == []const u8 or T == []u8;
+}
+
 pub fn printAnswer(comptime part: u2, result: anytype) void {
     const T = @TypeOf(result);
-    const format = if (T == []const u8) "{s}" else "{}";
-    const isEmtpy = if (T == []const u8) isEmptyString else isEmptyInt;
-    std.debug.print("  Part {}: " ++ format ++ "\n", .{ part, result });
+    const format = if (comptime isString(T)) "{s}" else "{}";
+    const isEmtpy = if (comptime isString(T)) isEmptyString else isEmptyInt;
+
+    const w = std.io.getStdOut().writer();
+    w.print("  Part {}: " ++ format ++ "\n", .{ part, result }) catch unreachable;
+
+    // std.debug.print("  Part {}: " ++ format ++ "\n", .{ part, result });
 
     if (!isEmtpy(T, result)) {
         setClipboardResult(format, result) catch |err| {
