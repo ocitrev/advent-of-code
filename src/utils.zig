@@ -55,7 +55,7 @@ pub fn Point2d(comptime T: type) type {
     return struct {
         x: T = 0,
         y: T = 0,
-
+        pub const ZERO = @This(){};
         pub const NORTH = @This(){ .x = 0, .y = -1 };
         pub const SOUTH = @This(){ .x = 0, .y = 1 };
         pub const EAST = @This(){ .x = 1, .y = 0 };

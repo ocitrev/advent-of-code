@@ -14,21 +14,122 @@ pub fn main() !void {
 
     const p1 = try part1(ally, input);
     utils.printAnswer(1, p1);
-    // std.debug.assert(0 == p1);
+    std.debug.assert(270084 == p1);
 
     const p2 = try part2(ally, input);
     utils.printAnswer(2, p2);
-    // std.debug.assert(0 == p2);
+    std.debug.assert(329431019997766 == p2);
 }
 
-const Int = i32;
+const Int = i64;
 const String = []const u8;
 const Point2d = utils.Point2d(Int);
+
+const Node = struct {
+    coord: Point2d,
+    dir: Point2d,
+    cost: Int,
+};
+
+const StringBuilder = struct {
+    string: std.ArrayList(u8),
+
+    fn init(ally: std.mem.Allocator) StringBuilder {
+        return .{ .string = std.ArrayList(u8).init(ally) };
+    }
+
+    fn deinit(self: *@This()) void {
+        self.string.deinit();
+    }
+
+    fn push(self: *@This(), c: u8) !void {
+        try self.string.append(c);
+    }
+};
+
+fn nodeOrder(_: void, a: *const Node, b: *const Node) std.math.Order {
+    return std.math.order(a.cost, b.cost);
+}
+
 const Keypad = struct {
     keys: []const String,
     start: Point2d,
-    w: usize,
-    h: usize,
+
+    fn getCoord(self: *const @This(), key: u8) Point2d {
+        for (0.., self.keys) |y, row| {
+            for (0.., row) |x, k| {
+                if (k == key) {
+                    return .{ .x = @intCast(x), .y = @intCast(y) };
+                }
+            }
+        }
+
+        std.debug.panic("Invalid key: {}", .{key});
+    }
+
+    fn getPaths(self: *const @This(), ally: std.mem.Allocator, from: u8, to: u8) ![]String {
+        var result = std.ArrayList(String).init(ally);
+        defer result.deinit();
+
+        var builder = StringBuilder.init(ally);
+        defer builder.deinit();
+
+        if (from == to) {
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+            return try result.toOwnedSlice();
+        }
+
+        const avoid = self.getCoord(' ');
+        const fromCoord = self.getCoord(from);
+        const toCoord = self.getCoord(to);
+        const dir = toCoord.subp(fromCoord);
+
+        const vertical: u8 = if (dir.y > 0) 'v' else '^';
+        const horizontal: u8 = if (dir.x > 0) '>' else '<';
+        const nbX: usize = @intCast(@abs(dir.x));
+        const nbY: usize = @intCast(@abs(dir.y));
+
+        if (nbX == 0) {
+            try builder.string.appendNTimes(vertical, nbY);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+            return try result.toOwnedSlice();
+        }
+
+        if (nbY == 0) {
+            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+            return try result.toOwnedSlice();
+        }
+
+        const moveVerticalFirst = fromCoord.y == avoid.y and toCoord.x == avoid.x;
+        const moveHorizontalFirst = fromCoord.x == avoid.x and toCoord.y == avoid.y;
+
+        if (moveVerticalFirst) {
+            try builder.string.appendNTimes(vertical, nbY);
+            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+        } else if (moveHorizontalFirst) {
+            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.string.appendNTimes(vertical, nbY);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+        } else {
+            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.string.appendNTimes(vertical, nbY);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+            try builder.string.appendNTimes(vertical, nbY);
+            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.push('A');
+            try result.append(try builder.string.toOwnedSlice());
+        }
+
+        return try result.toOwnedSlice();
+    }
 };
 
 // Numeric keypad:
@@ -49,8 +150,6 @@ const NUMERIC_KEY_PAD = Keypad{
         " 0A",
     },
     .start = .{ .x = 2, .y = 3 },
-    .w = 3,
-    .h = 4,
 };
 
 // Directional keypad:
@@ -65,20 +164,66 @@ const DIRECTIONAL_KEY_PAD = Keypad{
         "<v>",
     },
     .start = .{ .x = 2, .y = 0 },
-    .w = 3,
-    .h = 2,
 };
 
-const Direction = enum {
-    A,
-    Up,
-    Down,
-    Left,
-    Right,
-};
+const Cache = std.AutoHashMap(u64, Int);
 
-fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
-    var combos = std.ArrayList([]const u8).init(ally);
+pub inline fn cacheKey(combo: []const u8, depth: usize) u64 {
+    var buffer: [20]u8 = undefined;
+    const text = std.fmt.bufPrint(&buffer, "{}@{s}", .{ depth, combo }) catch unreachable;
+    return std.hash.Murmur2_64.hash(text);
+}
+
+fn getPathLen(
+    ally: std.mem.Allocator,
+    keypad: *const Keypad,
+    input: String,
+    depth: usize,
+    cache: *Cache,
+) !Int {
+    if (depth == 0) {
+        return @intCast(input.len);
+    }
+
+    const k = cacheKey(input, depth);
+
+    if (cache.get(k)) |len| {
+        return len;
+    }
+
+    var total: Int = 0;
+    var prev: u8 = 'A';
+
+    for (input) |c| {
+        const paths = try keypad.getPaths(ally, prev, c);
+        defer {
+            for (paths) |p| {
+                ally.free(p);
+            }
+            ally.free(paths);
+        }
+
+        var best: ?Int = null;
+
+        for (paths) |p| {
+            const len = try getPathLen(ally, &DIRECTIONAL_KEY_PAD, p, depth - 1, cache);
+            if (best == null or len < best.?) {
+                best = len;
+            }
+        }
+
+        prev = c;
+        total += best.?;
+    }
+
+    try cache.put(k, total);
+    return total;
+}
+
+fn part1(ally: std.mem.Allocator, input: String) !Int {
+    var cache = Cache.init(ally);
+    defer cache.deinit();
+    var combos = std.ArrayList(String).init(ally);
     defer combos.deinit();
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -86,20 +231,51 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
         try combos.append(line);
     }
 
-    std.debug.print("{any}, {c}\n", .{ NUMERIC_KEY_PAD, NUMERIC_KEY_PAD.keys[1][0] });
+    var total: Int = 0;
+    for (combos.items) |combo| {
+        const num = try std.fmt.parseInt(Int, combo[0 .. combo.len - 1], 10);
+        const len = try getPathLen(ally, &NUMERIC_KEY_PAD, combo, 3, &cache);
+        total += len * num;
+    }
 
-    return 0;
+    return total;
 }
 
-fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    _ = ally;
+fn part2(ally: std.mem.Allocator, input: String) !Int {
+    var cache = Cache.init(ally);
+    defer cache.deinit();
+
+    var combos = std.ArrayList(String).init(ally);
+    defer combos.deinit();
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
-        _ = line;
+        try combos.append(line);
     }
 
-    return 0;
+    var total: Int = 0;
+    for (combos.items) |combo| {
+        const num = try std.fmt.parseInt(Int, combo[0 .. combo.len - 1], 10);
+        const len = try getPathLen(ally, &NUMERIC_KEY_PAD, combo, 26, &cache);
+        total += len * num;
+    }
+
+    return total;
+}
+
+fn getNbPaths(ally: std.mem.Allocator, expectedPaths: []const String, from: u8, to: u8) !void {
+    const paths = try NUMERIC_KEY_PAD.getPaths(ally, from, to);
+    defer {
+        for (paths) |p| {
+            ally.free(p);
+        }
+        ally.free(paths);
+    }
+
+    try std.testing.expectEqual(expectedPaths.len, paths.len);
+    for (expectedPaths, paths) |expected, p| {
+        try std.testing.expectEqualStrings(expected, p);
+    }
 }
 
 test "parts 1,2" {
@@ -111,6 +287,6 @@ test "parts 1,2" {
         \\456A
         \\379A
     ;
-    try std.testing.expectEqual(0, try part1(ally, example));
-    try std.testing.expectEqual(0, try part2(ally, example));
+    try std.testing.expectEqual(126384, try part1(ally, example));
+    try std.testing.expectEqual(154115708116294, try part2(ally, example));
 }
