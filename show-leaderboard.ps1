@@ -1,8 +1,18 @@
 #requires -version 7
 [cmdletbinding()]
 param(
-    [int]$Year=(Get-Date).Year,
-    [int]$Top=3
+    $Year=$null,
+    $Top=$null
 )
 
-python (Join-Path $PSScriptRoot inputs leaderboard.py) --year $Year --top $Top
+$arguments = @()
+
+if ($year) {
+    $arguments += '--year', $Year
+}
+
+if ($top -ne $null) {
+    $arguments += '--top', $Top
+}
+
+python (Join-Path $PSScriptRoot inputs leaderboard.py) @arguments
