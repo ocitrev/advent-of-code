@@ -1,4 +1,21 @@
 const std = @import("std");
+const utils = @import("utils");
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/8
+    utils.printTitle(2023, 8, "Haunted Wasteland");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    const input = comptime utils.trimInput(@embedFile("input"));
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
+}
 
 const Node = struct {
     left: []const u8,
@@ -93,6 +110,12 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !u32 {
     return doc.countSteps("AAA", &isZZZ);
 }
 
+fn part2(input: []const u8, allocator: std.mem.Allocator) !u64 {
+    var doc = try parseDocument(input, allocator);
+    defer doc.deinit();
+    return try doc.countGhostSteps(allocator);
+}
+
 test "part 1-a" {
     const exampleA =
         \\RL
@@ -117,12 +140,6 @@ test "part 1-a" {
     try std.testing.expectEqual(@as(u32, 6), try part1(exampleB, std.testing.allocator));
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !u64 {
-    var doc = try parseDocument(input, allocator);
-    defer doc.deinit();
-    return try doc.countGhostSteps(allocator);
-}
-
 test "part 2" {
     const example =
         \\LR
@@ -137,16 +154,4 @@ test "part 2" {
         \\XXX = (XXX, XXX)
     ;
     try std.testing.expectEqual(@as(u64, 6), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2023/day/8
-    const input = @embedFile("input");
-    std.debug.print("Day 8, 2023: Haunted Wasteland\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }

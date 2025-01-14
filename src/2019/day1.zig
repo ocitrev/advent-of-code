@@ -3,18 +3,18 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2019/day/1
-    std.debug.print("Day 1, 2019: The Tyranny of the Rocket Equation\n", .{});
+    utils.printTitle(2019, 1, "The Tyranny of the Rocket Equation");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(input);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(3538016 == p1);
 
     const p2 = try part2(input);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(5304147 == p2);
 }
 

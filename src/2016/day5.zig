@@ -3,11 +3,15 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2016/day/5
-    std.debug.print("Day 5, 2016: How About a Nice Game of Chess?\n", .{});
-    const input = comptime utils.trim_input(@embedFile("input"));
+    utils.printTitle(2016, 5, "How About a Nice Game of Chess?");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    const input = comptime utils.trimInput(@embedFile("input"));
     const result = try generate(input);
-    std.debug.print("  Part 1: {s}\n", .{result.part1});
-    std.debug.print("  Part 2: {s}\n", .{result.part2});
+    utils.printAnswer(1, &result.part1);
+    utils.printAnswer(2, &result.part2);
 }
 
 const Result = struct {

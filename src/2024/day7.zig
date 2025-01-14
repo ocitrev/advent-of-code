@@ -9,7 +9,7 @@ pub fn main() !void {
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(input);
     utils.printAnswer(1, p1);

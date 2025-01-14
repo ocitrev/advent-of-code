@@ -3,7 +3,7 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2017/day/1
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
     std.debug.print("Day 1, 2017: Inverse Captcha\n", .{});
 
     @setEvalBranchQuota(5_000);

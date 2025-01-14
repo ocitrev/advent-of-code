@@ -1,12 +1,25 @@
 const std = @import("std");
-const Point2d = @import("utils").Point2d(i64);
+const utils = @import("utils");
+const Point2d = utils.Point2d(i64);
 
-fn abs(a: i64) i64 {
-    return if (a < 0) -a else a;
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/11
+    utils.printTitle(2023, 11, "Cosmic Expansion");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    const input = utils.trimInput(@embedFile("input"));
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
 }
 
 fn distance(a: Point2d, b: Point2d) i64 {
-    return abs(b.x - a.x) + abs(b.y - a.y);
+    return a.manhatanDistance(b);
 }
 
 fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, allocator: std.mem.Allocator) !void {
@@ -77,8 +90,7 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
     for (galaxies.items, 0..) |a, i| {
         for (galaxies.items, 0..) |b, j| {
             if (j <= i) continue;
-            const dist = distance(a, b);
-            total += dist;
+            total += a.manhatanDistance(b);
         }
     }
 
@@ -87,6 +99,10 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
 
 fn part1(input: []const u8, allocator: std.mem.Allocator) !i64 {
     return simulate(input, 1, allocator);
+}
+
+fn part2(input: []const u8, allocator: std.mem.Allocator) !i64 {
+    return simulate(input, 1000000, allocator);
 }
 
 test "part 1" {
@@ -105,10 +121,6 @@ test "part 1" {
     try std.testing.expectEqual(@as(i64, 374), try part1(example, std.testing.allocator));
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !i64 {
-    return simulate(input, 1000000, allocator);
-}
-
 test "part 2" {
     const example =
         \\...#......
@@ -124,16 +136,4 @@ test "part 2" {
     ;
     try std.testing.expectEqual(@as(i64, 1030), try simulate(example, 10, std.testing.allocator));
     try std.testing.expectEqual(@as(i64, 8410), try simulate(example, 100, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2023/day/11
-    const input = @embedFile("input");
-    std.debug.print("Day 11, 2023: Cosmic Expansion\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }

@@ -1,28 +1,18 @@
 const std = @import("std");
+const utils = @import("utils");
 
-fn part1(text: []const u8) i32 {
-    const textTrimmed = std.mem.trim(u8, text, "\r\n");
-    var it = std.mem.tokenizeAny(u8, textTrimmed, "\r\n");
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/1
+    utils.printTitle(2023, 1, "Trebuchet?!");
 
-    var sum: i32 = 0;
-    while (it.next()) |line| {
-        const first = std.mem.indexOfAny(u8, line, "123456789").?;
-        const last = std.mem.lastIndexOfAny(u8, line, "123456789").?;
-        const num = (line[first] - '0') * 10 + (line[last] - '0');
-        sum += num;
-    }
+    const m = utils.Monitor.init();
+    defer m.deinit();
 
-    return sum;
-}
+    @setEvalBranchQuota(1000000);
 
-test "part 1" {
-    const example =
-        \\1abc2
-        \\pqr3stu8vwx
-        \\a1b2c3d4e5f
-        \\treb7uchet
-    ;
-    try std.testing.expectEqual(142, comptime part1(example));
+    const input = comptime utils.trimInput(@embedFile("input"));
+    utils.printAnswer(1, comptime part1(input));
+    utils.printAnswer(2, comptime part2(input));
 }
 
 fn getDigit(text: []const u8) ?i32 {
@@ -73,6 +63,21 @@ fn findLastDigit(text: []const u8) i32 {
     return 0;
 }
 
+fn part1(text: []const u8) i32 {
+    const textTrimmed = std.mem.trim(u8, text, "\r\n");
+    var it = std.mem.tokenizeAny(u8, textTrimmed, "\r\n");
+
+    var sum: i32 = 0;
+    while (it.next()) |line| {
+        const first = std.mem.indexOfAny(u8, line, "123456789").?;
+        const last = std.mem.lastIndexOfAny(u8, line, "123456789").?;
+        const num = (line[first] - '0') * 10 + (line[last] - '0');
+        sum += num;
+    }
+
+    return sum;
+}
+
 fn part2(text: []const u8) i32 {
     const textTrimmed = std.mem.trim(u8, text, "\r\n");
     var it = std.mem.tokenizeAny(u8, textTrimmed, "\r\n");
@@ -86,6 +91,16 @@ fn part2(text: []const u8) i32 {
     return sum;
 }
 
+test "part 1" {
+    const example =
+        \\1abc2
+        \\pqr3stu8vwx
+        \\a1b2c3d4e5f
+        \\treb7uchet
+    ;
+    try std.testing.expectEqual(142, comptime part1(example));
+}
+
 test "part 2" {
     const example =
         \\two1nine
@@ -97,14 +112,4 @@ test "part 2" {
         \\7pqrstsixteen
     ;
     try std.testing.expectEqual(281, comptime part2(example));
-}
-
-pub fn main() !void {
-    @setEvalBranchQuota(1000000);
-
-    // https://adventofcode.com/2023/day/1
-    const input = @embedFile("input");
-    std.debug.print("Day 1, 2023: Trebuchet?!\n", .{});
-    std.debug.print("  Part 1: {}\n", .{comptime part1(input)});
-    std.debug.print("  Part 2: {}\n", .{comptime part2(input)});
 }

@@ -1,4 +1,18 @@
 const std = @import("std");
+const utils = @import("utils");
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/2
+    utils.printTitle(2023, 2, "Cube Conundrum");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    const input = comptime utils.trimInput(@embedFile("input"));
+
+    utils.printAnswer(1, try part1(input));
+    utils.printAnswer(2, try part2(input));
+}
 
 const Cubes = struct {
     red: i32 = 0,
@@ -67,19 +81,6 @@ fn part1(input: []const u8) !i32 {
     return total;
 }
 
-test "part 1" {
-    @setEvalBranchQuota(10000);
-    const example =
-        \\Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-        \\Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-        \\Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-        \\Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-        \\Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-    ;
-
-    try std.testing.expectEqual(8, comptime try part1(example));
-}
-
 fn part2(input: []const u8) !i32 {
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     var total: i32 = 0;
@@ -101,6 +102,19 @@ fn part2(input: []const u8) !i32 {
     return total;
 }
 
+test "part 1" {
+    @setEvalBranchQuota(10000);
+    const example =
+        \\Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+        \\Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+        \\Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+        \\Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+        \\Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+    ;
+
+    try std.testing.expectEqual(8, comptime try part1(example));
+}
+
 test "part 2" {
     @setEvalBranchQuota(10000);
     const example =
@@ -112,13 +126,4 @@ test "part 2" {
     ;
 
     try std.testing.expectEqual(2286, comptime try part2(example));
-}
-
-pub fn main() !void {
-    const input = @embedFile("input");
-
-    // https://adventofcode.com/2023/day/2
-    std.debug.print("Day 2, 2023: Cube Conundrum\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input)});
 }

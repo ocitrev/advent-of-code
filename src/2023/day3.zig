@@ -1,5 +1,22 @@
 const std = @import("std");
-const Point2d = @import("utils").Point2d(i32);
+const utils = @import("utils");
+const Point2d = utils.Point2d(i32);
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/3
+    utils.printTitle(2023, 3, "Gear Ratios");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+    const input = comptime utils.trimInput(@embedFile("input"));
+
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
+}
 
 fn isSymbol(c: u8) bool {
     return c != '.' and (c < '0' or c > '9');
@@ -182,6 +199,12 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
     return schematic.getTotal();
 }
 
+fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
+    var schematic = try Schematic.parse(input, allocator);
+    defer schematic.deinit();
+    return schematic.getGearRatios();
+}
+
 test "part 1" {
     const example =
         \\467..114..
@@ -198,12 +221,6 @@ test "part 1" {
     try std.testing.expectEqual(@as(i32, 4361), try part1(example, std.testing.allocator));
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
-    var schematic = try Schematic.parse(input, allocator);
-    defer schematic.deinit();
-    return schematic.getGearRatios();
-}
-
 test "part 2" {
     const example =
         \\467..114..
@@ -218,16 +235,4 @@ test "part 2" {
         \\.664.598..
     ;
     try std.testing.expectEqual(@as(i32, 467835), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-    const input = @embedFile("input");
-
-    // https://adventofcode.com/2023/day/3
-    std.debug.print("Day 3, 2023: Gear Ratios\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }

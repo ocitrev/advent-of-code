@@ -1,5 +1,22 @@
 const std = @import("std");
-const Point2d = @import("utils").Point2d(i32);
+const utils = @import("utils");
+const Point2d = utils.Point2d(i32);
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/10
+    utils.printTitle(2023, 10, "Pipe Maze");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    const input = comptime utils.trimInput(@embedFile("input"));
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
+}
 
 const Grid = struct {
     map: std.AutoHashMap(Point2d, u8),
@@ -332,6 +349,13 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !u32 {
     return grid.countLoop();
 }
 
+fn part2(input: []const u8, allocator: std.mem.Allocator) !u32 {
+    var grid = try Grid.parse(input, allocator);
+    defer grid.deinit();
+    try grid.replaceInvalidTiles(allocator);
+    return try grid.countTiles(allocator);
+}
+
 test "part 1" {
     const example1 =
         \\.....
@@ -350,13 +374,6 @@ test "part 1" {
         \\LJ...
     ;
     try std.testing.expectEqual(@as(u32, 8), try part1(example2, std.testing.allocator));
-}
-
-fn part2(input: []const u8, allocator: std.mem.Allocator) !u32 {
-    var grid = try Grid.parse(input, allocator);
-    defer grid.deinit();
-    try grid.replaceInvalidTiles(allocator);
-    return try grid.countTiles(allocator);
 }
 
 test "part 2.1" {
@@ -419,16 +436,4 @@ test "part 2.4" {
         \\L7JLJL-JLJLJL--JLJ.L
     ;
     try std.testing.expectEqual(@as(u32, 10), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2023/day/10
-    const input = @embedFile("input");
-    std.debug.print("Day 10, 2023: Pipe Maze\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }

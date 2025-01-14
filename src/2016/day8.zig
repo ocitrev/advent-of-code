@@ -3,20 +3,23 @@ const utils = @import("utils");
 const Point2d = utils.Point2d(i32);
 
 pub fn main() !void {
+    // https://adventofcode.com/2016/day/8
+    utils.printTitle(2016, 8, "Two-Factor Authentication");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2016/day/8
-    const input = @embedFile("input");
-    std.debug.print("Day 8, 2016: Two-Factor Authentication\n", .{});
+    const input = comptime @embedFile("input");
 
     var s = Screen.init(50, 6, allocator);
     defer s.deinit();
     s.run(input);
 
-    std.debug.print("  Part 1: {}\n", .{s.countLit()});
-    std.debug.print("  Part 2:\n", .{});
+    utils.printAnswer(1, s.countLit());
+    utils.printAnswer(2, "");
     try s.print("  ");
 }
 

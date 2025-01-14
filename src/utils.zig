@@ -200,7 +200,7 @@ pub const Grid = struct {
     }
 };
 
-pub fn trim_input(input: []const u8) []const u8 {
+pub fn trimInput(input: []const u8) []const u8 {
     return std.mem.trimRight(u8, input, " \r\n\t");
 }
 
@@ -320,7 +320,7 @@ fn setClipboardResult(comptime format: []const u8, number: anytype) !void {
     try clipboard.setClipboardText(textResult, .private);
 }
 
-fn isEmptyInt(comptime T: type, value: T) bool {
+fn isEmptyNumber(comptime T: type, value: T) bool {
     return value == 0;
 }
 
@@ -328,19 +328,20 @@ fn isEmptyString(comptime _: type, text: []const u8) bool {
     return text.len == 0;
 }
 
-pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
-    const w = std.io.getStdOut().writer();
-    w.print("Day {}, {}: {s}\n", .{ year, day, title }) catch unreachable;
-}
-
-fn isString(T: type) bool {
-    return T == []const u8 or T == []u8;
+fn isNumber(T: type) bool {
+    return switch (@typeInfo(T)) {
+        .Int => true,
+        .Float => true,
+        .ComptimeInt => true,
+        .ComptimeFloat => true,
+        else => false,
+    };
 }
 
 pub fn printAnswer(comptime part: u2, result: anytype) void {
     const T = @TypeOf(result);
-    const format = if (comptime isString(T)) "{s}" else "{}";
-    const isEmtpy = if (comptime isString(T)) isEmptyString else isEmptyInt;
+    const format = if (comptime isNumber(T)) "{}" else "{s}";
+    const isEmtpy = if (comptime isNumber(T)) isEmptyNumber else isEmptyString;
 
     const w = std.io.getStdOut().writer();
     w.print("  Part {}: " ++ format ++ "\n", .{ part, result }) catch unreachable;
@@ -350,4 +351,9 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
             std.debug.print("Warning: Clipboard failed: {}\n", .{err});
         };
     }
+}
+
+pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
+    const w = std.io.getStdOut().writer();
+    w.print("Day {}, {}: {s}\n", .{ year, day, title }) catch unreachable;
 }

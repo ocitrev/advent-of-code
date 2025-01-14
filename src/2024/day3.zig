@@ -7,7 +7,7 @@ pub fn main() void {
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
 
     @setEvalBranchQuota(80_000);
     const result = comptime run(input);

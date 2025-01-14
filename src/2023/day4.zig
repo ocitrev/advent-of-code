@@ -1,5 +1,22 @@
 const std = @import("std");
-const Parser = @import("utils").Parser;
+const utils = @import("utils");
+const Parser = utils.Parser;
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/4
+    utils.printTitle(2023, 4, "Scratchcards");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+    const input = comptime utils.trimInput(@embedFile("input"));
+
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
+}
 
 const Card = struct {
     id: i32 = 0,
@@ -60,18 +77,6 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !usize {
     return total;
 }
 
-test "part 1" {
-    const example =
-        \\Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
-        \\Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
-        \\Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
-        \\Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
-        \\Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
-        \\Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
-    ;
-    try std.testing.expectEqual(@as(usize, 13), try part1(example, std.testing.allocator));
-}
-
 fn part2(input: []const u8, allocator: std.mem.Allocator) !usize {
     var cards = std.ArrayList(Card).init(allocator);
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -97,6 +102,18 @@ fn part2(input: []const u8, allocator: std.mem.Allocator) !usize {
     return total;
 }
 
+test "part 1" {
+    const example =
+        \\Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+        \\Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+        \\Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+        \\Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+        \\Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+        \\Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
+    ;
+    try std.testing.expectEqual(@as(usize, 13), try part1(example, std.testing.allocator));
+}
+
 test "part 2" {
     const example =
         \\Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
@@ -107,18 +124,6 @@ test "part 2" {
         \\Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
     ;
     try std.testing.expectEqual(@as(usize, 30), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-    const input = @embedFile("input");
-
-    // https://adventofcode.com/2023/day/4
-    std.debug.print("Day 4, 2023: Scratchcards\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }
 
 test "parse test" {

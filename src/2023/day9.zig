@@ -1,4 +1,21 @@
 const std = @import("std");
+const utils = @import("utils");
+
+pub fn main() !void {
+    // https://adventofcode.com/2023/day/9
+    utils.printTitle(2023, 9, "Mirage Maintenance");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    const input = comptime utils.trimInput(@embedFile("input"));
+    utils.printAnswer(1, try part1(input, allocator));
+    utils.printAnswer(2, try part2(input, allocator));
+}
 
 const History = struct {
     lists: std.ArrayList(std.ArrayList(i32)),
@@ -85,15 +102,6 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
     return sum;
 }
 
-test "part 1" {
-    const example =
-        \\0 3 6 9 12 15
-        \\1 3 6 10 15 21
-        \\10 13 16 21 30 45
-    ;
-    try std.testing.expectEqual(@as(i32, 114), try part1(example, std.testing.allocator));
-}
-
 fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
     var lists = std.ArrayList(History).init(allocator);
     defer lists.deinit();
@@ -114,6 +122,15 @@ fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
     return sum;
 }
 
+test "part 1" {
+    const example =
+        \\0 3 6 9 12 15
+        \\1 3 6 10 15 21
+        \\10 13 16 21 30 45
+    ;
+    try std.testing.expectEqual(@as(i32, 114), try part1(example, std.testing.allocator));
+}
+
 test "part 2" {
     const example =
         \\0 3 6 9 12 15
@@ -121,16 +138,4 @@ test "part 2" {
         \\10 13 16 21 30 45
     ;
     try std.testing.expectEqual(@as(i32, 2), try part2(example, std.testing.allocator));
-}
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    // https://adventofcode.com/2023/day/9
-    const input = @embedFile("input");
-    std.debug.print("Day 9, 2023: Mirage Maintenance\n", .{});
-    std.debug.print("  Part 1: {}\n", .{try part1(input, allocator)});
-    std.debug.print("  Part 2: {}\n", .{try part2(input, allocator)});
 }

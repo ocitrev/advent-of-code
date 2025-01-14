@@ -7,7 +7,7 @@ pub fn main() !void {
     const allocator = gpa.allocator();
 
     // https://adventofcode.com/2017/day/2
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
     std.debug.print("Day 2, 2017: Corruption Checksum\n", .{});
 
     @setEvalBranchQuota(100_000);
