@@ -9,7 +9,7 @@ pub fn main() void {
     defer m.deinit();
     const input = comptime utils.trimInput(@embedFile("input"));
 
-    @setEvalBranchQuota(80_000);
+    @setEvalBranchQuota(200_000);
     const result = comptime run(input);
     utils.printAnswer(1, result.part1);
     comptime std.debug.assert(167090022 == result.part1);

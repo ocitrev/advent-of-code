@@ -330,10 +330,10 @@ fn isEmptyString(comptime _: type, text: []const u8) bool {
 
 fn isNumber(T: type) bool {
     return switch (@typeInfo(T)) {
-        .Int => true,
-        .Float => true,
-        .ComptimeInt => true,
-        .ComptimeFloat => true,
+        .int => true,
+        .float => true,
+        .comptime_int => true,
+        .comptime_float => true,
         else => false,
     };
 }

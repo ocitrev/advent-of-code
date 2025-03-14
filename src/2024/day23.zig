@@ -148,7 +148,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
 
     for (0..1_000) |_| {
         clique.clearRetainingCapacity();
-        std.rand.shuffle(rng.random(), String, computers.items);
+        std.Random.shuffle(rng.random(), String, computers.items);
 
         outer: for (computers.items) |x| {
             for (clique.items) |y| {

@@ -131,14 +131,14 @@ const Grid = struct {
         defer visited.deinit();
 
         if (startDir) |d| {
-            const startNode = .{
+            const startNode: Node = .{
                 .e = .{ .pos = start, .dir = d },
                 .cost = 0,
             };
             q.add(startNode) catch unreachable;
         } else {
             for (dirs) |d| {
-                const startNode = .{
+                const startNode: Node = .{
                     .e = .{ .pos = start, .dir = d },
                     .cost = 0,
                 };
