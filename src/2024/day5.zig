@@ -21,13 +21,13 @@ pub fn main() !void {
 }
 
 const Queue = struct {
-    rules: std.ArrayList([2]i32),
-    queue: std.ArrayList(std.ArrayList(i32)),
+    rules: std.array_list.Managed([2]i32),
+    queue: std.array_list.Managed(std.array_list.Managed(i32)),
     ally: std.mem.Allocator,
 
     pub fn init(input: []const u8, ally: std.mem.Allocator) !Queue {
-        var queue = std.ArrayList(std.ArrayList(i32)).init(ally);
-        var rules = std.ArrayList([2]i32).init(ally);
+        var queue = std.array_list.Managed(std.array_list.Managed(i32)).init(ally);
+        var rules = std.array_list.Managed([2]i32).init(ally);
 
         var line_it = std.mem.splitAny(u8, input, "\r\n");
         var parsing_rules = true;
@@ -43,7 +43,7 @@ const Queue = struct {
                 const b = std.fmt.parseInt(i32, it.next().?, 10) catch unreachable;
                 try rules.append([_]i32{ a, b });
             } else {
-                var items = std.ArrayList(i32).init(ally);
+                var items = std.array_list.Managed(i32).init(ally);
                 var it = std.mem.splitScalar(u8, line, ',');
                 while (it.next()) |item| {
                     try items.append(std.fmt.parseInt(i32, item, 10) catch unreachable);

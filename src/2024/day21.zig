@@ -32,10 +32,10 @@ const Node = struct {
 };
 
 const StringBuilder = struct {
-    string: std.ArrayList(u8),
+    string: std.array_list.Managed(u8),
 
     fn init(ally: std.mem.Allocator) StringBuilder {
-        return .{ .string = std.ArrayList(u8).init(ally) };
+        return .{ .string = std.array_list.Managed(u8).init(ally) };
     }
 
     fn deinit(self: *@This()) void {
@@ -68,7 +68,7 @@ const Keypad = struct {
     }
 
     fn getPaths(self: *const @This(), ally: std.mem.Allocator, from: u8, to: u8) ![]String {
-        var result = std.ArrayList(String).init(ally);
+        var result = std.array_list.Managed(String).init(ally);
         defer result.deinit();
 
         var builder = StringBuilder.init(ally);
@@ -223,7 +223,7 @@ fn getPathLen(
 fn part1(ally: std.mem.Allocator, input: String) !Int {
     var cache = Cache.init(ally);
     defer cache.deinit();
-    var combos = std.ArrayList(String).init(ally);
+    var combos = std.array_list.Managed(String).init(ally);
     defer combos.deinit();
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -245,7 +245,7 @@ fn part2(ally: std.mem.Allocator, input: String) !Int {
     var cache = Cache.init(ally);
     defer cache.deinit();
 
-    var combos = std.ArrayList(String).init(ally);
+    var combos = std.array_list.Managed(String).init(ally);
     defer combos.deinit();
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");

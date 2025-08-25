@@ -22,9 +22,9 @@ const Type = enum { key, lock };
 const Pins = @Vector(5, i8);
 
 fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
-    var keys = std.ArrayList(Pins).init(ally);
+    var keys = std.array_list.Managed(Pins).init(ally);
     defer keys.deinit();
-    var locks = std.ArrayList(Pins).init(ally);
+    var locks = std.array_list.Managed(Pins).init(ally);
     defer locks.deinit();
 
     var t: ?Type = null;

@@ -45,7 +45,7 @@ const Robots = struct {
     robotSet: std.AutoHashMap(Point2d, void),
 
     fn parseRobots(input: []const u8, ally: std.mem.Allocator) ![]Robot {
-        var robots = std.ArrayList(Robot).init(ally);
+        var robots = std.array_list.Managed(Robot).init(ally);
         defer robots.deinit();
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
 
@@ -79,7 +79,7 @@ const Robots = struct {
             .buffer = try ally.alloc(u8, @intCast((size.x + 2) * size.y + 2)),
             .elapsed = 0,
             .ally = ally,
-            .ansi = std.io.getStdOut().getOrEnableAnsiEscapeSupport(),
+            .ansi = std.fs.File.stdout().getOrEnableAnsiEscapeSupport(),
             .robotSet = std.AutoHashMap(Point2d, void).init(ally),
         };
     }
@@ -99,7 +99,7 @@ const Robots = struct {
 
     fn render(self: *@This()) void {
         if (!self.ansi) return;
-        var b = std.ArrayListUnmanaged(u8).initBuffer(self.buffer);
+        var b = std.ArrayList(u8).initBuffer(self.buffer);
         std.fmt.format(b.fixedWriter(), "\x1b[1;1HElapsed: {}                   \n", .{self.elapsed}) catch unreachable;
 
         for (0..@intCast(self.size.y)) |y| {
@@ -123,7 +123,7 @@ const Robots = struct {
             b.appendAssumeCapacity('\n');
         }
 
-        std.io.getStdOut().writeAll(b.items) catch unreachable;
+        std.fs.File.stdout().writeAll(b.items) catch unreachable;
     }
 
     const Quadrant = enum {
@@ -160,7 +160,7 @@ const Robots = struct {
 
     fn renderQuadrant(self: *const @This(), quadrant: Quadrant) void {
         if (!self.ansi) return;
-        var b = std.ArrayListUnmanaged(u8).initBuffer(self.buffer);
+        var b = std.ArrayList(u8).initBuffer(self.buffer);
         std.fmt.format(b.fixedWriter(), "\x1b[1;1HElapsed: {}                   \n", .{self.elapsed}) catch unreachable;
         const halfW = @divTrunc(self.size.x, 2);
         const halfH = @divTrunc(self.size.y, 2);
@@ -192,7 +192,7 @@ const Robots = struct {
             b.appendAssumeCapacity('\n');
         }
 
-        std.io.getStdOut().writeAll(b.items) catch unreachable;
+        std.fs.File.stdout().writeAll(b.items) catch unreachable;
     }
 
     fn splitToQuadrants(self: *const @This()) Quadrants {
@@ -241,7 +241,7 @@ fn part2(input: []const u8, size: Point2d, ally: std.mem.Allocator) !i32 {
             if (robots.ansi) {
                 std.debug.print("\x1b[?1049h\x1b[?25l", .{});
                 robots.renderQuadrant(q);
-                std.time.sleep(std.time.ns_per_ms * 250);
+                std.Thread.sleep(std.time.ns_per_ms * 250);
                 std.debug.print("\x1b[?1049l\x1b[?25h", .{});
             }
             break;

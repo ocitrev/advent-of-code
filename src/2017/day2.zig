@@ -53,7 +53,7 @@ test "part 1" {
 }
 
 fn checksum_2(line: []const u8, allocator: std.mem.Allocator) !i32 {
-    var numbers = std.ArrayList(i32).init(allocator);
+    var numbers = std.array_list.Managed(i32).init(allocator);
     defer numbers.deinit();
 
     var row = std.mem.tokenizeAny(u8, line, " \t");

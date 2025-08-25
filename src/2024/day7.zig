@@ -31,7 +31,7 @@ fn validate(input: []const u8, isValidFn: ValidateFn, comptime concat: bool) !in
         const expectedText = numbersIt.next().?;
         const expected = std.fmt.parseInt(int, expectedText, 10) catch unreachable;
 
-        var numbers = std.ArrayListUnmanaged(int).initBuffer(&numbersBuffer);
+        var numbers = std.ArrayList(int).initBuffer(&numbersBuffer);
         numbersIt = std.mem.tokenizeScalar(u8, numbersIt.rest(), ' ');
         while (numbersIt.next()) |num| {
             const n = std.fmt.parseInt(int, num, 10) catch unreachable;
@@ -55,7 +55,7 @@ fn isValid(expected: int, numbers: []int, comptime concat: bool) bool {
     }
 
     var reducedBuffer: [kMaxNumbers]int = undefined;
-    var reduced = std.ArrayListUnmanaged(int).initBuffer(&reducedBuffer);
+    var reduced = std.ArrayList(int).initBuffer(&reducedBuffer);
     reduced.appendAssumeCapacity(numbers[0] + numbers[1]);
 
     for (numbers[2..]) |n| {

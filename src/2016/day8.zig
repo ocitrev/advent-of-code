@@ -134,22 +134,23 @@ const Screen = struct {
 
     pub fn print(self: *const @This(), indent: []const u8) !void {
         var y: i32 = 0;
-        const stdout = std.io.getStdOut();
-        var buffer = std.io.bufferedWriter(stdout.writer());
-        var writer = buffer.writer();
+
+        var stdout_buffer: [1024]u8 = undefined;
+        var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+        const stdout = &stdout_writer.interface;
 
         while (y != self.height) : (y += 1) {
-            try writer.print("{s}", .{indent});
+            try stdout.print("{s}", .{indent});
             var x: i32 = 0;
             while (x != self.width) : (x += 1) {
                 const pt = Point2d{ .x = x, .y = y };
-                try writer.print("{s}", .{self.getChar(pt)});
+                try stdout.print("{s}", .{self.getChar(pt)});
             }
 
-            try writer.print("\n", .{});
+            try stdout.print("\n", .{});
         }
 
-        try buffer.flush();
+        try stdout.flush();
     }
 
     pub fn countLit(self: *@This()) i32 {

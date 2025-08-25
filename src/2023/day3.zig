@@ -34,7 +34,7 @@ test "isSymbol" {
 const Schematic = struct {
     map: std.AutoHashMap(Point2d, u8),
     partNumberMap: std.AutoHashMap(Point2d, usize),
-    partNumbers: std.ArrayList(i32),
+    partNumbers: std.array_list.Managed(i32),
     w: i32 = 0,
     h: i32 = 0,
 
@@ -42,7 +42,7 @@ const Schematic = struct {
         var result = Schematic{
             .map = std.AutoHashMap(Point2d, u8).init(allocator),
             .partNumberMap = std.AutoHashMap(Point2d, usize).init(allocator),
-            .partNumbers = std.ArrayList(i32).init(allocator),
+            .partNumbers = std.array_list.Managed(i32).init(allocator),
         };
 
         var y: i32 = 0;
@@ -94,7 +94,7 @@ const Schematic = struct {
         var lastNumber: ?Point2d = null;
         var numLen: i8 = 0;
         var num: i32 = 0;
-        var numberCoords = std.ArrayList(Point2d).init(allocator);
+        var numberCoords = std.array_list.Managed(Point2d).init(allocator);
         defer numberCoords.deinit();
 
         const h = @as(usize, @intCast(self.h));

@@ -22,13 +22,13 @@ pub fn main() !void {
 }
 
 const Lists = struct {
-    a: std.ArrayList(i32),
-    b: std.ArrayList(i32),
+    a: std.array_list.Managed(i32),
+    b: std.array_list.Managed(i32),
 
     pub fn init(ally: std.mem.Allocator) Lists {
         return Lists{
-            .a = std.ArrayList(i32).init(ally),
-            .b = std.ArrayList(i32).init(ally),
+            .a = std.array_list.Managed(i32).init(ally),
+            .b = std.array_list.Managed(i32).init(ally),
         };
     }
 

@@ -25,15 +25,15 @@ const Point2d = utils.Point2d(i32);
 
 const Map = struct {
     grid: std.AutoHashMap(Point2d, u8),
-    heads: std.ArrayList(Point2d),
-    ends: std.ArrayList(Point2d),
+    heads: std.array_list.Managed(Point2d),
+    ends: std.array_list.Managed(Point2d),
     ally: std.mem.Allocator,
 
     fn init(input: []const u8, ally: std.mem.Allocator) !Map {
         var result = Map{
             .grid = std.AutoHashMap(Point2d, u8).init(ally),
-            .heads = std.ArrayList(Point2d).init(ally),
-            .ends = std.ArrayList(Point2d).init(ally),
+            .heads = std.array_list.Managed(Point2d).init(ally),
+            .ends = std.array_list.Managed(Point2d).init(ally),
             .ally = ally,
         };
 

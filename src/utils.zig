@@ -214,7 +214,7 @@ pub const Monitor = struct {
     pub fn deinit(self: *const @This()) void {
         const end = std.time.Instant.now() catch unreachable;
         const elapsed: f64 = @floatFromInt(end.since(self.start));
-        const ansi = std.io.getStdErr().getOrEnableAnsiEscapeSupport();
+        const ansi = std.fs.File.stderr().getOrEnableAnsiEscapeSupport();
         const color = if (elapsed < std.time.ns_per_ms * 100)
             "\x1b[32m"
         else if (elapsed < std.time.ns_per_ms * 500)
@@ -244,9 +244,9 @@ pub const Monitor = struct {
 
 pub fn HashMapArray(comptime K: type, comptime V: type) type {
     const HashMapType = if (K == []const u8)
-        std.StringHashMap(std.ArrayList(V))
+        std.StringHashMap(std.array_list.Managed(V))
     else
-        std.AutoHashMap(K, std.ArrayList(V));
+        std.AutoHashMap(K, std.array_list.Managed(V));
 
     return struct {
         data: HashMapType,
@@ -271,7 +271,7 @@ pub fn HashMapArray(comptime K: type, comptime V: type) type {
             if (self.data.getPtr(key)) |list| {
                 try list.append(value);
             } else {
-                var newList = std.ArrayList(V).init(self.ally);
+                var newList = std.array_list.Managed(V).init(self.ally);
                 try newList.append(value);
                 try self.data.put(key, newList);
             }
@@ -338,13 +338,20 @@ fn isNumber(T: type) bool {
     };
 }
 
+fn stdoutWrite(comptime format: []const u8, arguments: anytype) void {
+    var stdout_buffer: [1024]u8 = undefined;
+    var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+    const stdout = &stdout_writer.interface;
+    stdout.print(format, arguments) catch unreachable;
+    stdout.flush() catch unreachable;
+}
+
 pub fn printAnswer(comptime part: u2, result: anytype) void {
     const T = @TypeOf(result);
     const format = if (comptime isNumber(T)) "{}" else "{s}";
     const isEmtpy = if (comptime isNumber(T)) isEmptyNumber else isEmptyString;
 
-    const w = std.io.getStdOut().writer();
-    w.print("  Part {}: " ++ format ++ "\n", .{ part, result }) catch unreachable;
+    stdoutWrite("  Part {}: " ++ format ++ "\n", .{ part, result });
 
     if (!isEmtpy(T, result)) {
         setClipboardResult(format, result) catch |err| {
@@ -354,6 +361,5 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
 }
 
 pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
-    const w = std.io.getStdOut().writer();
-    w.print("Day {}, {}: {s}\n", .{ year, day, title }) catch unreachable;
+    stdoutWrite("Day {}, {}: {s}\n", .{ year, day, title });
 }

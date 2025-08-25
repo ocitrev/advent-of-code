@@ -59,10 +59,10 @@ fn part1(input: []const u8) !Int {
 }
 
 fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    var prices = std.ArrayList(i8).init(ally);
+    var prices = std.array_list.Managed(i8).init(ally);
     defer prices.deinit();
 
-    var changes = std.ArrayList(i8).init(ally);
+    var changes = std.array_list.Managed(i8).init(ally);
     defer changes.deinit();
 
     var maxPrices = std.AutoHashMap([4]i8, Int).init(ally);

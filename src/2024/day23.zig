@@ -71,7 +71,7 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     var graph = try Graph.init(ally, input);
     defer graph.deinit();
 
-    var computers = std.ArrayList(String).init(ally);
+    var computers = std.array_list.Managed(String).init(ally);
     defer computers.deinit();
 
     var keyIt = graph.edges.keyIterator();
@@ -130,7 +130,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
     var graph = try Graph.init(ally, input);
     defer graph.deinit();
 
-    var computers = std.ArrayList(String).init(ally);
+    var computers = std.array_list.Managed(String).init(ally);
     defer computers.deinit();
 
     var keyIt = graph.edges.keyIterator();
@@ -140,7 +140,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
 
     const seed: u64 = @intCast(std.time.nanoTimestamp());
     var rng = std.Random.DefaultPrng.init(seed);
-    var clique = std.ArrayList(String).init(ally);
+    var clique = std.array_list.Managed(String).init(ally);
     defer clique.deinit();
 
     var best: ?String = null;

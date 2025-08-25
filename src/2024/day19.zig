@@ -29,9 +29,9 @@ const Linen = struct {
     designs: [][]const u8,
 
     fn init(ally: std.mem.Allocator, input: []const u8) !Linen {
-        var towels = std.ArrayList([]const u8).init(ally);
+        var towels = std.array_list.Managed([]const u8).init(ally);
         defer towels.deinit();
-        var designs = std.ArrayList([]const u8).init(ally);
+        var designs = std.array_list.Managed([]const u8).init(ally);
         defer designs.deinit();
 
         var parsingTowels = true;

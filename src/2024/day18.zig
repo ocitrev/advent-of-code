@@ -34,7 +34,7 @@ const Grid = struct {
     blocks: []Point2d,
 
     fn init(ally: std.mem.Allocator, input: []const u8, size: Point2d) !Grid {
-        var blocks = std.ArrayList(Point2d).init(ally);
+        var blocks = std.array_list.Managed(Point2d).init(ally);
 
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
         while (lineIt.next()) |line| {
@@ -64,7 +64,7 @@ const Grid = struct {
             dist: Int,
         };
 
-        var q = std.ArrayList(Node).init(self.ally);
+        var q = std.array_list.Managed(Node).init(self.ally);
         defer q.deinit();
 
         var visited = std.AutoHashMap(Point2d, void).init(self.ally);

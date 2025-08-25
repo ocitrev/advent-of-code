@@ -31,14 +31,14 @@ const Computer = struct {
     c: Int,
     ip: usize = 0,
     memory: []Int,
-    output: std.ArrayList(Int),
+    output: std.array_list.Managed(Int),
 
     fn init(input: []const u8, ally: std.mem.Allocator) !@This() {
         var a: Int = undefined;
         var b: Int = undefined;
         var c: Int = undefined;
 
-        var memory = std.ArrayList(Int).init(ally);
+        var memory = std.array_list.Managed(Int).init(ally);
         defer memory.deinit();
 
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -66,7 +66,7 @@ const Computer = struct {
             .a = a,
             .b = b,
             .c = c,
-            .output = std.ArrayList(Int).init(ally),
+            .output = std.array_list.Managed(Int).init(ally),
         };
     }
 
@@ -147,7 +147,7 @@ const Computer = struct {
     }
 
     fn joinOutput(self: *const @This()) ![]u8 {
-        var buffer = std.ArrayList(u8).init(self.ally);
+        var buffer = std.array_list.Managed(u8).init(self.ally);
         defer buffer.deinit();
         var first = true;
         const w = buffer.writer();

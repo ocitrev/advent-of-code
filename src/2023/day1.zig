@@ -8,7 +8,7 @@ pub fn main() !void {
     const m = utils.Monitor.init();
     defer m.deinit();
 
-    @setEvalBranchQuota(1000000);
+    @setEvalBranchQuota(1500000);
 
     const input = comptime utils.trimInput(@embedFile("input"));
     utils.printAnswer(1, comptime part1(input));
@@ -111,5 +111,6 @@ test "part 2" {
         \\zoneight234
         \\7pqrstsixteen
     ;
+    @setEvalBranchQuota(2000);
     try std.testing.expectEqual(281, comptime part2(example));
 }

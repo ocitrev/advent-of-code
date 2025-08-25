@@ -54,7 +54,7 @@ const Game = struct {
 };
 
 fn parseGames(input: []const u8, ally: std.mem.Allocator) ![]Game {
-    var games = std.ArrayList(Game).init(ally);
+    var games = std.array_list.Managed(Game).init(ally);
     defer games.deinit();
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");

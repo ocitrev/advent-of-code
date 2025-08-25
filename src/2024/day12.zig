@@ -52,14 +52,14 @@ const Side = struct {
 
 const Map = struct {
     grid: utils.Grid,
-    regions: std.ArrayList(Region),
+    regions: std.array_list.Managed(Region),
     visited: std.AutoHashMap(Point2d, void),
     ally: std.mem.Allocator,
 
     fn init(input: []const u8, ally: std.mem.Allocator) !Map {
         return Map{
             .grid = try utils.Grid.parse(input, ally),
-            .regions = std.ArrayList(Region).init(ally),
+            .regions = std.array_list.Managed(Region).init(ally),
             .visited = std.AutoHashMap(Point2d, void).init(ally),
             .ally = ally,
         };

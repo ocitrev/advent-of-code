@@ -13,9 +13,11 @@ const Aoc = struct {
         const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ self.year, self.day }));
         const exe = b.addExecutable(.{
             .name = b.fmt("{}-{}", .{ self.year, self.day }),
-            .root_source_file = source_file,
-            .target = params.target,
-            .optimize = params.optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = source_file,
+                .target = params.target,
+                .optimize = params.optimize,
+            }),
         });
 
         b.installArtifact(exe);
@@ -55,9 +57,11 @@ const Aoc = struct {
 
         // unit tests
         const unit_tests = b.addTest(.{
-            .root_source_file = source_file,
-            .target = params.target,
-            .optimize = params.optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = source_file,
+                .target = params.target,
+                .optimize = params.optimize,
+            }),
         });
 
         // make sure utils module is available in unit tests
@@ -142,8 +146,11 @@ pub fn build(b: *std.Build) void {
 
     const test_step = b.step("test", "Run all unit tests");
     const utils_tests = b.addTest(.{
-        .root_source_file = utils.root_source_file.?,
-        .optimize = params.optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = utils.root_source_file.?,
+            .target = params.target,
+            .optimize = params.optimize,
+        }),
     });
     test_step.dependOn(&b.addRunArtifact(utils_tests).step);
 

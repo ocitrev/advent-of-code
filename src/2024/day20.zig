@@ -39,7 +39,7 @@ const Grid = struct {
     ally: std.mem.Allocator,
     map: std.AutoHashMap(Point2d, u8),
     parents: std.AutoHashMap(Point2d, Node),
-    cheats: std.ArrayList(Cheat),
+    cheats: std.array_list.Managed(Cheat),
     start: Point2d,
     end: Point2d,
     width: Int,
@@ -78,7 +78,7 @@ const Grid = struct {
             .ally = ally,
             .map = map,
             .parents = std.AutoHashMap(Point2d, Node).init(ally),
-            .cheats = std.ArrayList(Cheat).init(ally),
+            .cheats = std.array_list.Managed(Cheat).init(ally),
             .start = start,
             .end = end,
             .width = w,
@@ -100,7 +100,7 @@ const Grid = struct {
     }
 
     fn solve(self: *@This(), maxCheat: Int) !void {
-        var q = std.ArrayList(Node).init(self.ally);
+        var q = std.array_list.Managed(Node).init(self.ally);
         defer q.deinit();
         var visited = std.AutoHashMap(Point2d, void).init(self.ally);
         defer visited.deinit();

@@ -27,15 +27,15 @@ const Block = struct {
 };
 
 const Disk = struct {
-    files: std.ArrayList(Block),
-    freespaces: std.ArrayList(Block),
-    data: std.ArrayList(?u32),
+    files: std.array_list.Managed(Block),
+    freespaces: std.array_list.Managed(Block),
+    data: std.array_list.Managed(?u32),
     nextFileId: u32,
 
     pub fn parse(input: []const u8, ally: std.mem.Allocator) !Disk {
-        var files = std.ArrayList(Block).init(ally);
-        var freespaces = std.ArrayList(Block).init(ally);
-        var disk = std.ArrayList(?u32).init(ally);
+        var files = std.array_list.Managed(Block).init(ally);
+        var freespaces = std.array_list.Managed(Block).init(ally);
+        var disk = std.array_list.Managed(?u32).init(ally);
         var nextId: u32 = 0;
 
         for (0.., input) |i, c| {

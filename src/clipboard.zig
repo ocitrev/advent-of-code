@@ -12,15 +12,15 @@ const diagnostics = switch (builtin.os.tag) {
     else => @compileError("Not supported on this platform"),
 };
 
-extern "user32" fn OpenClipboard(hwnd: ?windows.HWND) callconv(windows.WINAPI) windows.BOOL;
-extern "user32" fn CloseClipboard() callconv(windows.WINAPI) windows.BOOL;
-extern "user32" fn EmptyClipboard() callconv(windows.WINAPI) windows.BOOL;
-extern "user32" fn RegisterClipboardFormatW(windows.LPCWSTR) callconv(windows.WINAPI) windows.UINT;
-extern "user32" fn SetClipboardData(format: windows.UINT, handle: windows.HANDLE) callconv(windows.WINAPI) ?windows.HANDLE;
-extern "kernel32" fn GlobalLock(handle: windows.HANDLE) callconv(windows.WINAPI) ?*anyopaque;
-extern "kernel32" fn GlobalUnlock(handle: windows.HANDLE) callconv(windows.WINAPI) windows.BOOL;
-extern "kernel32" fn GlobalAlloc(flags: windows.UINT, size: windows.SIZE_T) callconv(windows.WINAPI) ?*anyopaque;
-extern "kernel32" fn RtlMoveMemory(out: *anyopaque, in: *anyopaque, size: windows.SIZE_T) callconv(windows.WINAPI) void;
+extern "user32" fn OpenClipboard(hwnd: ?windows.HWND) callconv(.winapi) windows.BOOL;
+extern "user32" fn CloseClipboard() callconv(.winapi) windows.BOOL;
+extern "user32" fn EmptyClipboard() callconv(.winapi) windows.BOOL;
+extern "user32" fn RegisterClipboardFormatW(windows.LPCWSTR) callconv(.winapi) windows.UINT;
+extern "user32" fn SetClipboardData(format: windows.UINT, handle: windows.HANDLE) callconv(.winapi) ?windows.HANDLE;
+extern "kernel32" fn GlobalLock(handle: windows.HANDLE) callconv(.winapi) ?*anyopaque;
+extern "kernel32" fn GlobalUnlock(handle: windows.HANDLE) callconv(.winapi) windows.BOOL;
+extern "kernel32" fn GlobalAlloc(flags: windows.UINT, size: windows.SIZE_T) callconv(.winapi) ?*anyopaque;
+extern "kernel32" fn RtlMoveMemory(out: *anyopaque, in: *anyopaque, size: windows.SIZE_T) callconv(.winapi) void;
 
 fn registerClipboardFormat(format: []const u8) !windows.UINT {
     const formatW = try std.unicode.utf8ToUtf16LeAllocZ(std.heap.page_allocator, format);
@@ -61,7 +61,7 @@ pub fn setClipboardText(text: []const u8, mode: ClipboardMode) !void {
     const nbBytes = @sizeOf(u16) * (textW.len + 1);
     const handle = GlobalAlloc(GMEM_MOVEABLE, nbBytes) orelse return error.GlobalAlloc;
     const locked = GlobalLock(handle) orelse return error.GlobalLock;
-    const aligned: [*:0]u16 = @alignCast(@ptrCast(locked));
+    const aligned: [*:0]u16 = @ptrCast(@alignCast(locked));
     const span = std.mem.span(aligned);
     RtlMoveMemory(span.ptr, textW.ptr, nbBytes);
     _ = GlobalUnlock(handle);

@@ -67,8 +67,8 @@ fn is_safe(report: []const i32, skip: ?usize) bool {
     return true;
 }
 
-fn parse_report(line: []const u8, ally: std.mem.Allocator) !std.ArrayList(i32) {
-    var report = std.ArrayList(i32).init(ally);
+fn parse_report(line: []const u8, ally: std.mem.Allocator) !std.array_list.Managed(i32) {
+    var report = std.array_list.Managed(i32).init(ally);
     var line_it = std.mem.tokenizeScalar(u8, line, ' ');
 
     while (line_it.next()) |value| {
