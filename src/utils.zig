@@ -338,6 +338,25 @@ fn isNumber(T: type) bool {
     };
 }
 
+fn isBatchMode() bool {
+    var buffer: [1024]u8 = undefined;
+    var fba = std.heap.FixedBufferAllocator.init(&buffer);
+    const allocator = fba.allocator();
+    var args = std.process.argsWithAllocator(allocator) catch return false;
+    defer args.deinit();
+
+    // skip argv[0] equivalent
+    _ = args.skip();
+
+    while (args.next()) |arg| {
+        if (std.mem.eql(u8, arg, "--batch")) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 fn stdoutWrite(comptime format: []const u8, arguments: anytype) void {
     var stdout_buffer: [1024]u8 = undefined;
     var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
@@ -349,9 +368,13 @@ fn stdoutWrite(comptime format: []const u8, arguments: anytype) void {
 pub fn printAnswer(comptime part: u2, result: anytype) void {
     const T = @TypeOf(result);
     const format = if (comptime isNumber(T)) "{}" else "{s}";
-    const isEmtpy = if (comptime isNumber(T)) isEmptyNumber else isEmptyString;
 
     stdoutWrite("  Part {}: " ++ format ++ "\n", .{ part, result });
+
+    // do not write in clipboard in batch mode
+    if (isBatchMode()) return;
+
+    const isEmtpy = if (comptime isNumber(T)) isEmptyNumber else isEmptyString;
 
     if (!isEmtpy(T, result)) {
         setClipboardResult(format, result) catch |err| {

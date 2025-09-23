@@ -31,25 +31,33 @@ const Aoc = struct {
         exe.root_module.addAnonymousImport("input", .{ .root_source_file = input_file });
 
         // add to run step
-        const run_cmd = b.addRunArtifact(exe);
-        run_cmd.step.dependOn(b.getInstallStep());
+        const run_cmd_batch = b.addRunArtifact(exe);
+        run_cmd_batch.step.dependOn(b.getInstallStep());
         if (b.args) |args| {
-            run_cmd.addArgs(args);
+            run_cmd_batch.addArgs(args);
+        } else {
+            const batch_args = [_][]const u8{"--batch"};
+            run_cmd_batch.addArgs(&batch_args);
         }
-        run_step.dependOn(&run_cmd.step);
+        run_step.dependOn(&run_cmd_batch.step);
 
         // add or create year run step
         const run_year_step_name = b.fmt("run-{}", .{self.year});
         if (b.top_level_steps.get(run_year_step_name)) |step_info| {
-            step_info.step.dependOn(&run_cmd.step);
+            step_info.step.dependOn(&run_cmd_batch.step);
         } else {
             const run_year_step = b.step(run_year_step_name, b.fmt("Run apps for year {}", .{self.year}));
-            run_year_step.dependOn(&run_cmd.step);
+            run_year_step.dependOn(&run_cmd_batch.step);
         }
 
         // create day run step
+        const run_cmd_standalone = b.addRunArtifact(exe);
+        run_cmd_standalone.step.dependOn(b.getInstallStep());
+        if (b.args) |args| {
+            run_cmd_standalone.addArgs(args);
+        }
         const run_day_step = b.step(b.fmt("run-{}-{}", .{ self.year, self.day }), b.fmt("Run app for year {}, day {}", .{ self.year, self.day }));
-        run_day_step.dependOn(&run_cmd.step);
+        run_day_step.dependOn(&run_cmd_standalone.step);
     }
 
     fn addTestsTo(self: *const @This(), b: *std.Build, params: BuildParams, test_step: *std.Build.Step) void {
