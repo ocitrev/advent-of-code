@@ -2,7 +2,7 @@ source ../utils.nu
 
 # // https://adventofcode.com/2024/day/1
 def main [] {
-    print 'Day 1, 2024: Historian Hysteria'
+    print-title 2024 1 'Historian Hysteria'
 
     let part1 = get-input 2024 1 | part1
     print $'  Part 1: ($part1)'

@@ -18,3 +18,11 @@ def get-input [
 def split-lines [] {
     $in | str trim | split row -r '[\r\n]+'
 }
+
+def print-title [
+    year:int
+    day:int
+    title:string
+] {
+    print $'Day ($day), ($year): ($title)'
+}
