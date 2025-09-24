@@ -12,11 +12,11 @@ def get-input [
     year:int
     day:int
 ] {
-    open (get-input-filepath $year $day)
+    open (get-input-filepath $year $day) | str trim --right
 }
 
 def split-lines [] {
-    $in | str trim | split row -r '[\r\n]+'
+    $in | split row -r '[\r\n]+'
 }
 
 def print-title [
