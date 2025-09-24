@@ -16,8 +16,7 @@ def "main 2023" [] { run 2023 }
 def "main 2024" [] { run 2024 }
 
 def run [year: int] {
-  let year = $year | into string
-  let path = [src $year 'day[0-9]*.nu'] | str join '/'
+  let path = [src $year 'day[0-9]*.nu'] | str join /
   for file in (glob $path) {
     nu $file
   }
