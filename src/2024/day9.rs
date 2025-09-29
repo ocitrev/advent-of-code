@@ -18,31 +18,40 @@ fn main() {
     assert_eq!(6311837662089, p2);
 }
 
+fn part1(input: &'static str) -> u64 {
+    let mut disk = Disk::parse(input);
+    disk.defrangment();
+    disk.checksum()
+}
+
+fn part2(input: &'static str) -> u64 {
+    let mut disk = Disk::parse(input);
+    disk.defragment_whole_files();
+    disk.checksum()
+}
+
 struct Block {
     start: usize,
     len: usize,
 }
 
 struct Disk {
-    data: Vec<u64>,
+    data: Vec<Option<u64>>,
     files: Vec<Block>,
     free_spaces: Vec<Block>,
     next_file_id: u64,
 }
 
 impl Disk {
-    const FREE: u64 = u64::MAX;
-
     pub fn checksum(self: &Self) -> u64 {
         self.data
             .iter()
             .enumerate()
-            .filter(|&(_, &c)| c != Disk::FREE)
-            .fold(0, |acc, (i, c)| acc + (i as u64) * c)
+            .fold(0, |acc, (i, c)| acc + (i as u64) * c.unwrap_or(0))
     }
 
     pub fn parse(input: &'static str) -> Self {
-        let mut data = Vec::<u64>::new();
+        let mut data = Vec::<Option<u64>>::new();
         let mut files = Vec::<Block>::new();
         let mut free_spaces = Vec::<Block>::new();
         let mut next_file_id = 0;
@@ -56,13 +65,13 @@ impl Disk {
 
             if i & 1 == 0 {
                 for _ in 0..len {
-                    data.push(next_file_id);
+                    data.push(Some(next_file_id));
                 }
                 files.push(block);
                 next_file_id += 1
             } else {
                 for _ in 0..(c - b'0') {
-                    data.push(Disk::FREE);
+                    data.push(None);
                 }
                 free_spaces.push(block);
             }
@@ -84,28 +93,32 @@ impl Disk {
         while back > front {
             back -= 1;
 
-            if self.data[back] == Disk::FREE {
+            if let None = self.data[back] {
                 continue;
             }
 
-            while front < len && self.data[front] != Disk::FREE {
-                front += 1;
+            while front < len {
+                if let Some(_) = self.data[front] {
+                    front += 1;
+                } else {
+                    break;
+                }
             }
 
             if back > front {
                 self.data[front] = self.data[back];
-                self.data[back] = Disk::FREE;
+                self.data[back] = None;
                 front += 1
             }
         }
     }
 
     pub fn defragment_whole_files(self: &mut Self) {
-        let mut next_id = self.next_file_id;
+        let mut last_file = self.next_file_id;
 
-        while next_id != 0 {
-            next_id -= 1;
-            let file_block = &self.files[next_id as usize];
+        while last_file != 0 {
+            last_file -= 1;
+            let file_block = &self.files[last_file as usize];
 
             for free_block in &mut self.free_spaces {
                 if free_block.start >= file_block.start {
@@ -118,7 +131,7 @@ impl Disk {
 
                     for _ in 0..file_block.len {
                         self.data[front] = self.data[back];
-                        self.data[back] = Disk::FREE;
+                        self.data[back] = None;
                         front += 1;
                         back += 1;
                     }
@@ -130,18 +143,6 @@ impl Disk {
             }
         }
     }
-}
-
-fn part1(input: &'static str) -> u64 {
-    let mut disk = Disk::parse(input);
-    disk.defrangment();
-    disk.checksum()
-}
-
-fn part2(input: &'static str) -> u64 {
-    let mut disk = Disk::parse(input);
-    disk.defragment_whole_files();
-    disk.checksum()
 }
 
 fn get_input() -> &'static str {
