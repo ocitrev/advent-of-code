@@ -6,6 +6,12 @@
 using namespace std::literals;
 using integer = int64_t;
 
+struct Range
+{
+    integer start;
+    integer length;
+};
+
 struct MapRange
 {
     integer destination;
@@ -65,6 +71,61 @@ struct Mapping
         }
 
         return value;
+    }
+
+    [[nodiscard]] std::vector<Range> ConvertRanges(const std::vector<Range> &inputRanges) const
+    {
+        std::vector<Range> result;
+
+        for (auto input : inputRanges)
+        {
+            std::vector<Range> unmapped = {input};
+
+            for (auto const &mapRange : ranges)
+            {
+                std::vector<Range> nextUnmapped;
+
+                for (auto r : unmapped)
+                {
+                    integer inputStart = r.start;
+                    integer inputEnd = r.start + r.length;
+                    integer mapStart = mapRange.source;
+                    integer mapEnd = mapRange.source + mapRange.length;
+
+                    // No overlap
+                    if (inputEnd <= mapStart || inputStart >= mapEnd)
+                    {
+                        nextUnmapped.push_back(r);
+                        continue;
+                    }
+
+                    // Left portion before map range
+                    if (inputStart < mapStart)
+                    {
+                        nextUnmapped.push_back({inputStart, mapStart - inputStart});
+                        inputStart = mapStart;
+                    }
+
+                    // Overlapping portion (gets mapped)
+                    integer overlapStart = std::max(inputStart, mapStart);
+                    integer overlapEnd = std::min(inputEnd, mapEnd);
+                    result.push_back({mapRange.destination + (overlapStart - mapStart), overlapEnd - overlapStart});
+
+                    // Right portion after map range
+                    if (inputEnd > mapEnd)
+                    {
+                        nextUnmapped.push_back({mapEnd, inputEnd - mapEnd});
+                    }
+                }
+
+                unmapped = std::move(nextUnmapped);
+            }
+
+            // Add unmapped portions (pass through unchanged)
+            result.insert(result.end(), unmapped.begin(), unmapped.end());
+        }
+
+        return result;
     }
 };
 
@@ -199,33 +260,27 @@ struct Almanac
 
     [[nodiscard]] integer GetLowestLocationFromSeedRanges()
     {
-        integer location = 0;
-        bool const stdoutIsConsole = IsTerminal(stdout);
-        auto ts = std::chrono::steady_clock::now();
+        std::vector<Range> ranges;
 
-        while (true)
+        for (size_t i = 0; i < seeds.size(); i += 2)
         {
-            if (IsValidSeed(GetSeed(location)))
-            {
-                if (stdoutIsConsole)
-                {
-                    fmt::print(CSI("2K"));
-                }
-
-                return location;
-            }
-
-            ++location;
-
-            if (stdoutIsConsole)
-            {
-                if (auto const now = std::chrono::steady_clock::now(); now - ts > 100ms)
-                {
-                    ts = now;
-                    fmt::print("  testing location {:L} ...\r", location);
-                }
-            }
+            ranges.push_back({seeds[i], seeds[i + 1]});
         }
+
+        ranges = seedToSoil.ConvertRanges(ranges);
+        ranges = soilToFertilizer.ConvertRanges(ranges);
+        ranges = fertilizerToWater.ConvertRanges(ranges);
+        ranges = waterToLight.ConvertRanges(ranges);
+        ranges = lightToTemperature.ConvertRanges(ranges);
+        ranges = temperatureToHumidity.ConvertRanges(ranges);
+        ranges = humidityToLocation.ConvertRanges(ranges);
+
+        return std::min_element(ranges.begin(), ranges.end(),
+            [](auto const &a, auto const &b)
+            {
+                return a.start < b.start;
+            })
+            ->start;
     }
 };
 
@@ -254,7 +309,7 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2023/day/5
-    fmt::print("Day 5, 2023: If You Give A Seed A Fertilizer\n");
+    fmt::println("Day 5, 2023: If You Give A Seed A Fertilizer");
 
     Assert(35 == GetLowestLocation(example::almanac));
     Assert(46 == GetLowestLocationFromSeedRanges(example::almanac));

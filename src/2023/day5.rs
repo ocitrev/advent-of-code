@@ -49,6 +49,12 @@ struct Mapping {
     ranges: Vec<Range>,
 }
 
+#[derive(Debug, Clone, Copy)]
+struct SeedRange {
+    start: u64,
+    len: u64,
+}
+
 impl Range {
     fn new(line: &str) -> Self {
         let parts: Vec<u64> = line.split(' ').map(|n| n.parse::<u64>().unwrap()).collect();
@@ -93,6 +99,62 @@ impl Mapping {
         }
 
         value
+    }
+
+    fn convert_ranges(&self, input_ranges: Vec<SeedRange>) -> Vec<SeedRange> {
+        let mut result = Vec::new();
+
+        for input in input_ranges {
+            let mut unmapped = vec![input];
+
+            for map_range in &self.ranges {
+                let mut next_unmapped = Vec::new();
+
+                for r in unmapped {
+                    let input_start = r.start;
+                    let input_end = r.start + r.len;
+                    let map_start = map_range.source;
+                    let map_end = map_range.source + map_range.len;
+
+                    // Pas de chevauchement
+                    if input_end <= map_start || input_start >= map_end {
+                        next_unmapped.push(r);
+                        continue;
+                    }
+
+                    // Partie gauche avant le range de mapping
+                    if input_start < map_start {
+                        next_unmapped.push(SeedRange {
+                            start: input_start,
+                            len: map_start - input_start,
+                        });
+                    }
+
+                    // Partie qui chevauche (sera transformée)
+                    let overlap_start = input_start.max(map_start);
+                    let overlap_end = input_end.min(map_end);
+                    result.push(SeedRange {
+                        start: map_range.dest + (overlap_start - map_start),
+                        len: overlap_end - overlap_start,
+                    });
+
+                    // Partie droite après le range de mapping
+                    if input_end > map_end {
+                        next_unmapped.push(SeedRange {
+                            start: map_end,
+                            len: input_end - map_end,
+                        });
+                    }
+                }
+
+                unmapped = next_unmapped;
+            }
+
+            // Ajouter les portions non mappées (passent inchangées)
+            result.extend(unmapped);
+        }
+
+        result
     }
 }
 
@@ -160,22 +222,22 @@ impl Almanac {
     }
 
     fn get_lowest_location_from_seed_ranges(&self) -> u64 {
-        for (start, len) in self.seeds.chunks(2).map(|s| (s[0], s[1])) {
-            let _v = self.find_min(start, len);
-        }
-        0
-    }
+        let mut ranges: Vec<SeedRange> = self
+            .seeds
+            .chunks(2)
+            .map(|chunk| SeedRange {
+                start: chunk[0],
+                len: chunk[1],
+            })
+            .collect();
 
-    fn find_min(&self, start: u64, len: u64) -> u64 {
-        for m in &self.mappings {
-            for r in &m.ranges {
-                eprintln!(
-                    "s:{}, l:{} -> dst: {}, src:{}, len:{}",
-                    start, len, r.dest, r.source, r.len
-                );
-            }
+        // Transformer les ranges à travers chaque mapping
+        for mapping in &self.mappings {
+            ranges = mapping.convert_ranges(ranges);
         }
-        0
+
+        // Trouver le minimum
+        ranges.iter().map(|r| r.start).min().unwrap()
     }
 }
 
