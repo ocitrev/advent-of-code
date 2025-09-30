@@ -64,16 +64,16 @@ impl Disk {
             };
 
             if i & 1 == 0 {
+                files.push(block);
                 for _ in 0..len {
                     data.push(Some(next_file_id));
                 }
-                files.push(block);
                 next_file_id += 1
             } else {
-                for _ in 0..(c - b'0') {
+                free_spaces.push(block);
+                for _ in 0..len {
                     data.push(None);
                 }
-                free_spaces.push(block);
             }
         }
 
