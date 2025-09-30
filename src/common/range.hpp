@@ -56,35 +56,32 @@ struct Range
 
 inline std::vector<Range> MergeRanges(std::vector<Range> ranges)
 {
-    while (true)
-    {
-        auto first = begin(ranges);
-        std::vector<Range> result{*first};
-        int nbMerge = 0;
+    if (ranges.empty())
+        return ranges;
 
-        for (auto iter = first + 1; iter != end(ranges); ++iter)
+    std::sort(ranges.begin(), ranges.end(),
+        [](Range const &a, Range const &b)
         {
-            std::vector<Range> alone;
-            bool merged = false;
+            return a.low < b.low;
+        });
 
-            for (auto &candidate : result)
-            {
-                if (candidate.Union(*iter))
-                {
-                    ++nbMerge;
-                    merged = true;
-                }
-            }
+    std::vector<Range> result;
+    result.push_back(ranges.front());
+    auto first = begin(ranges);
 
-            if (not merged)
-            {
-                result.push_back(*iter);
-            }
+    for (auto iter = std::next(first); iter != end(ranges); ++iter)
+    {
+        Range &last = result.back();
+
+        if (iter->low <= last.high + 1)
+        {
+            last.high = std::max(last.high, iter->high);
         }
-
-        if (nbMerge == 0)
-            return result;
         else
-            ranges = std::move(result);
+        {
+            result.push_back(*iter);
+        }
     }
+
+    return result;
 }
