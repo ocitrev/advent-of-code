@@ -1,6 +1,7 @@
 #include "day17.hpp"
 #include "../common.hpp"
 #include "../common/intcode.hpp"
+#include <chrono>
 #include <thread>
 
 using Map = std::pair<std::string, Int>;

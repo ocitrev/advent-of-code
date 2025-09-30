@@ -1,5 +1,6 @@
 #include "day5.hpp"
 #include "../common.hpp"
+#include <chrono>
 #include <execution>
 
 using namespace std::literals;
