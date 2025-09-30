@@ -6,9 +6,6 @@ fn main() {
     // https://adventofcode.com/2023/day/16
     println!("Day 16, 2023: The Floor Will Be Lava");
 
-    debug_assert_eq!(46, part1(get_example()));
-    debug_assert_eq!(51, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(6921, p1);
@@ -151,15 +148,30 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2023/day16.txt")
 }
 
-fn get_example() -> &'static str {
-    r#".|...\....
-|.-.\.....
-.....|-...
-........|.
-..........
-.........\
-..../.\\..
-.-.-/..|..
-.|....-|.\
-..//.|...."#
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {r#"
+            .|...\....
+            |.-.\.....
+            .....|-...
+            ........|.
+            ..........
+            .........\
+            ..../.\\..
+            .-.-/..|..
+            .|....-|.\
+            ..//.|....
+        "#}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(46, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(51, super::part2(get_example()));
+    }
 }

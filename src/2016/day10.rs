@@ -2,9 +2,6 @@ fn main() {
     // https://adventofcode.com/2016/day/10
     println!("Day 10, 2016: Balance Bots");
 
-    debug_assert_eq!(2, run(get_example(), 2, 5).0);
-    debug_assert_eq!(30, run(get_example(), 2, 5).1);
-
     let (p1, p2) = run(get_input(), 17, 61);
     println!("  Part 1: {}", p1);
     assert_eq!(113, p1);
@@ -161,11 +158,26 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2016/day10.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "value 5 goes to bot 2
-bot 2 gives low to bot 1 and high to bot 0
-value 3 goes to bot 1
-bot 1 gives low to output 1 and high to bot 0
-bot 0 gives low to output 2 and high to output 0
-value 2 goes to bot 2"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            value 5 goes to bot 2
+            bot 2 gives low to bot 1 and high to bot 0
+            value 3 goes to bot 1
+            bot 1 gives low to output 1 and high to bot 0
+            bot 0 gives low to output 2 and high to output 0
+            value 2 goes to bot 2
+        "}
+    }
+
+    #[test]
+    fn parts() {
+        assert_eq!(2, super::run(get_example(), 2, 5).0);
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(30, super::run(get_example(), 2, 5).1);
+    }
 }

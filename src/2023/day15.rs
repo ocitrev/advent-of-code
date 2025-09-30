@@ -4,11 +4,6 @@ fn main() {
     // https://adventofcode.com/2023/day/15
     println!("Day 15, 2023: Lens Library");
 
-    debug_assert_eq!(52, hash("HASH"));
-    debug_assert_eq!(0, hash("rn"));
-    debug_assert_eq!(1320, part1(get_example()));
-    debug_assert_eq!(145, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(519041, p1);
@@ -84,6 +79,25 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2023/day15.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"
+    }
+
+    #[test]
+    fn hash() {
+        assert_eq!(52, super::hash("HASH"));
+        assert_eq!(0, super::hash("rn"));
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(1320, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(145, super::part2(get_example()));
+    }
 }

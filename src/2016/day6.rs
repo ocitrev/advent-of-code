@@ -2,8 +2,6 @@ fn main() {
     // https://adventofcode.com/2016/day/6
     println!("Day 6, 2016: Signals and Noise");
 
-    debug_assert_eq!(("easter".into(), "advent".into()), decode(get_example()));
-
     let result = decode(get_input());
 
     println!("  Part 1: {}", result.0);
@@ -39,21 +37,36 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2016/day6.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "eedadn
-drvtee
-eandsr
-raavrd
-atevrs
-tsrnev
-sdttsa
-rasrtv
-nssdts
-ntnada
-svetve
-tesnvt
-vntsnd
-vrdear
-dvrsen
-enarar"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            eedadn
+            drvtee
+            eandsr
+            raavrd
+            atevrs
+            tsrnev
+            sdttsa
+            rasrtv
+            nssdts
+            ntnada
+            svetve
+            tesnvt
+            vntsnd
+            vrdear
+            dvrsen
+            enarar
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!("easter", super::decode(get_example()).0);
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!("advent", super::decode(get_example()).1);
+    }
 }

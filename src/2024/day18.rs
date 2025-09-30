@@ -7,12 +7,10 @@ fn main() {
     println!("Day 18, 2024: RAM Run");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(22, part1(get_example(), (7, 7), 12));
     let p1 = part1(get_input(), (71, 71), 1024);
     println!("  Part 1: {}", p1);
     assert_eq!(380, p1);
 
-    debug_assert_eq!("6,1", part2(get_example(), (7, 7), 12));
     let p2 = part2(get_input(), (71, 71), 1024);
     println!("  Part 2: {}", p2);
     assert_eq!("26,50", p2);
@@ -133,30 +131,45 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day18.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "5,4
-4,2
-4,5
-3,0
-2,1
-6,3
-2,4
-1,5
-0,6
-3,3
-2,6
-5,1
-1,2
-5,5
-2,5
-6,5
-1,4
-0,4
-6,4
-1,1
-6,1
-1,0
-0,5
-1,6
-2,0"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            5,4
+            4,2
+            4,5
+            3,0
+            2,1
+            6,3
+            2,4
+            1,5
+            0,6
+            3,3
+            2,6
+            5,1
+            1,2
+            5,5
+            2,5
+            6,5
+            1,4
+            0,4
+            6,4
+            1,1
+            6,1
+            1,0
+            0,5
+            1,6
+            2,0
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(22, super::part1(get_example(), (7, 7), 12));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!("6,1", super::part2(get_example(), (7, 7), 12));
+    }
 }

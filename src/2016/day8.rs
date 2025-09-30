@@ -2,9 +2,6 @@ fn main() {
     // https://adventofcode.com/2016/day/8
     println!("Day 8, 2016: Two-Factor Authentication");
 
-    debug_assert_eq!(6, run(get_example(), 7, 3).count_lit());
-    // debug_assert_eq!(0, part2(get_example()));
-
     let screen = run(get_input(), 50, 6);
     let p1 = screen.count_lit();
     println!("  Part 1: {}", p1);
@@ -98,9 +95,21 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2016/day8.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "rect 3x2
-rotate column x=1 by 1
-rotate row y=0 by 4
-rotate column x=1 by 1"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            rect 3x2
+            rotate column x=1 by 1
+            rotate row y=0 by 4
+            rotate column x=1 by 1
+        "}
+        .trim_end()
+    }
+
+    #[test]
+    fn part1() {
+        let screen = super::run(get_example(), 7, 3);
+        assert_eq!(6, screen.count_lit());
+    }
 }

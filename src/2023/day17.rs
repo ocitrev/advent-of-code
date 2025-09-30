@@ -8,9 +8,6 @@ fn main() {
     // https://adventofcode.com/2023/day/17
     println!("Day 17, 2023: Clumsy Crucible");
 
-    debug_assert_eq!(102, part1(get_example()));
-    // debug_assert_eq!(0, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     // assert_eq!(0, p1);
@@ -207,18 +204,33 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2023/day17.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "2413432311323
-3215453535623
-3255245654254
-3446585845452
-4546657867536
-1438598798454
-4457876987766
-3637877979653
-4654967986887
-4564679986453
-1224686865563
-2546548887735
-4322674655533"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            2413432311323
+            3215453535623
+            3255245654254
+            3446585845452
+            4546657867536
+            1438598798454
+            4457876987766
+            3637877979653
+            4654967986887
+            4564679986453
+            1224686865563
+            2546548887735
+            4322674655533
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(102, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(0, super::part2(get_example()));
+    }
 }

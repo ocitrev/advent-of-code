@@ -108,9 +108,6 @@ fn main() {
     println!("Day $Day, ${Year}: ");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(0, part1(get_example()));
-    debug_assert_eq!(0, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     // assert_eq!(0, p1);
@@ -132,8 +129,22 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/$Year/day$Day.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    ""
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+        "}.trim_end()
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(0, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(0, super::part2(get_example()));
+    }
 }
 "@
 

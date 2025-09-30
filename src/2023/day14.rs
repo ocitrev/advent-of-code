@@ -7,9 +7,6 @@ fn main() {
         None => part2,
     };
 
-    debug_assert_eq!(136, part1(get_example()));
-    debug_assert_eq!(64, fn_part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(113424, p1);
@@ -184,18 +181,35 @@ fn part2_cheat(input: &'static str) -> usize {
 }
 
 fn get_input() -> &'static str {
-    include_str!("../../inputs/2023/day14.txt").trim_end_matches('\n')
+    include_str!("../../inputs/2023/day14.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    return "O....#....
-O.OO#....#
-.....##...
-OO.#O....O
-.O.....O#.
-O.#..O.#.#
-..O..#O..O
-.......O..
-#....###..
-#OO..#....";
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            O....#....
+            O.OO#....#
+            .....##...
+            OO.#O....O
+            .O.....O#.
+            O.#..O.#.#
+            ..O..#O..O
+            .......O..
+            #....###..
+            #OO..#....
+        "}
+        .trim_end()
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(136, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(64, super::part2_cheat(get_example()));
+        assert_eq!(64, super::part2(get_example()));
+    }
 }

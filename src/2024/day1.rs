@@ -7,9 +7,6 @@ fn main() {
     println!("Day 1, 2024: Historian Hysteria");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(11, part1(get_example()));
-    debug_assert_eq!(31, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(2769675, p1);
@@ -59,11 +56,26 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day1.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "3   4
-4   3
-2   5
-1   3
-3   9
-3   3"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            3   4
+            4   3
+            2   5
+            1   3
+            3   9
+            3   3
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(11, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(31, super::part2(get_example()));
+    }
 }

@@ -98,6 +98,7 @@ path = "src/2024/day18.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+indoc = "2.0.6"
 itertools = "0.14.0"
 md5 = "0.8.0"
 pathfinding = "4.6.0"

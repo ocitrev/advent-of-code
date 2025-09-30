@@ -8,9 +8,6 @@ fn main() {
     println!("Day 6, 2024: Guard Gallivant");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(41, Floor::new(get_example()).part1());
-    debug_assert_eq!(6, Floor::new(get_example()).part2());
-
     let mut f = Floor::new(get_input());
     let p1 = f.part1();
     println!("  Part 1: {}", p1);
@@ -117,15 +114,30 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day6.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "....#.....
-.........#
-..........
-..#.......
-.......#..
-..........
-.#..^.....
-........#.
-#.........
-......#..."
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            ....#.....
+            .........#
+            ..........
+            ..#.......
+            .......#..
+            ..........
+            .#..^.....
+            ........#.
+            #.........
+            ......#...
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(41, super::Floor::new(get_example()).part1());
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(6, super::Floor::new(get_example()).part2());
+    }
 }

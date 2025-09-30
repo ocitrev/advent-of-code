@@ -6,9 +6,6 @@ fn main() {
     println!("Day 9, 2024: Disk Fragmenter");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(1928, part1(get_example()));
-    debug_assert_eq!(2858, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(6288707484810, p1);
@@ -149,6 +146,19 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day9.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "2333133121414131402"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        "2333133121414131402"
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(1928, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(2858, super::part2(get_example()));
+    }
 }

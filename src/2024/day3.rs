@@ -7,9 +7,6 @@ fn main() {
     println!("Day 3, 2024: Mull It Over");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(161, run(get_example1()).0);
-    debug_assert_eq!(48, run(get_example2()).1);
-
     let (p1, p2) = run(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(167090022, p1);
@@ -55,10 +52,23 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day3.txt").trim_end()
 }
 
-fn get_example1() -> &'static str {
-    "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
-}
+#[cfg(test)]
+mod tests {
+    fn get_example1() -> &'static str {
+        "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
+    }
 
-fn get_example2() -> &'static str {
-    "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+    fn get_example2() -> &'static str {
+        "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(161, super::run(get_example1()).0);
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(48, super::run(get_example2()).1);
+    }
 }

@@ -9,9 +9,6 @@ fn main() {
     println!("Day 7, 2024: Bridge Repair");
     let _m = utils::Monitor::start();
 
-    debug_assert_eq!(3749, part1(get_example()));
-    debug_assert_eq!(11387, part2(get_example()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(3312271365652, p1);
@@ -86,14 +83,29 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2024/day7.txt").trim_end()
 }
 
-fn get_example() -> &'static str {
-    "190: 10 19
-3267: 81 40 27
-83: 17 5
-156: 15 6
-7290: 6 8 6 15
-161011: 16 10 13
-192: 17 8 14
-21037: 9 7 18 13
-292: 11 6 16 20"
+#[cfg(test)]
+mod tests {
+    fn get_example() -> &'static str {
+        indoc::indoc! {"
+            190: 10 19
+            3267: 81 40 27
+            83: 17 5
+            156: 15 6
+            7290: 6 8 6 15
+            161011: 16 10 13
+            192: 17 8 14
+            21037: 9 7 18 13
+            292: 11 6 16 20
+        "}
+    }
+
+    #[test]
+    fn part1() {
+        assert_eq!(3749, super::part1(get_example()));
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(11387, super::part2(get_example()));
+    }
 }

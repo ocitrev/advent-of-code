@@ -2,9 +2,6 @@ fn main() {
     // https://adventofcode.com/2016/day/7
     println!("Day 7, 2016: Internet Protocol Version 7");
 
-    debug_assert_eq!(2, part1(get_example_1()));
-    debug_assert_eq!(3, part2(get_example_2()));
-
     let p1 = part1(get_input());
     println!("  Part 1: {}", p1);
     assert_eq!(115, p1);
@@ -130,16 +127,29 @@ fn get_input() -> &'static str {
     include_str!("../../inputs/2016/day7.txt").trim_end()
 }
 
-fn get_example_1() -> &'static str {
-    "abba[mnop]qrst
-abcd[bddb]xyyx
-aaaa[qwer]tyui
-ioxxoj[asdfgh]zxcvbn"
-}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn part1() {
+        let input = indoc::indoc! {"
+            abba[mnop]qrst
+            abcd[bddb]xyyx
+            aaaa[qwer]tyui
+            ioxxoj[asdfgh]zxcvbn
+        "};
 
-fn get_example_2() -> &'static str {
-    "aba[bab]xyz
-xyx[xyx]xyx
-aaa[kek]eke
-zazbz[bzb]cdb"
+        assert_eq!(2, super::part1(input));
+    }
+
+    #[test]
+    fn part2() {
+        let input = indoc::indoc! {"
+            aba[bab]xyz
+            xyx[xyx]xyx
+            aaa[kek]eke
+            zazbz[bzb]cdb
+        "};
+
+        assert_eq!(3, super::part2(input));
+    }
 }
