@@ -2,11 +2,11 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/
-/.vscode/
-/build*/
-/.zig-cache/
-/zig-out/
-/target/
+/build/
+.vs/
+.vscode/
+.zig-cache/
+zig-out/
+target/
 Cargo.lock
 tags
