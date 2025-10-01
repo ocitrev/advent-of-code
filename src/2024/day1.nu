@@ -1,6 +1,6 @@
 source ../utils.nu
 
-# // https://adventofcode.com/2024/day/1
+# https://adventofcode.com/2024/day/1
 def main [] {
     print-title 2024 1 'Historian Hysteria'
 
