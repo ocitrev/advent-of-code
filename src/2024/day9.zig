@@ -81,22 +81,22 @@ fn part1(input: []const u8, ally: std.mem.Allocator) !u64 {
     var disk = try Disk.parse(input, ally);
     defer disk.deinit();
 
-    var f: usize = 0;
-    var r = disk.data.items.len;
-    while (r > f) {
-        r -= 1;
+    var front: usize = 0;
+    var back = disk.data.items.len;
+    while (back > front) {
+        back -= 1;
 
-        if (disk.data.items[r] == null) {
+        if (disk.data.items[back] == null) {
             continue;
         }
 
-        while (f < disk.data.items.len and disk.data.items[f] != null) {
-            f += 1;
+        while (front < disk.data.items.len and disk.data.items[front] != null) {
+            front += 1;
         }
 
-        if (r > f) {
-            std.mem.swap(?u32, &disk.data.items[f], &disk.data.items[r]);
-            f += 1;
+        if (back > front) {
+            std.mem.swap(?u32, &disk.data.items[front], &disk.data.items[back]);
+            front += 1;
         }
     }
 
