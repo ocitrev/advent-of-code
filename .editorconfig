@@ -6,6 +6,12 @@ charset = utf-8
 indent_style = spaces
 indent_size = 4
 
+[*.zig]
+charset = utf-8
+indent_style = spaces
+indent_size = 4
+end_of_line = lf
+
 [CMakeLists.txt, *.cmake]
 indent_style = tabs
 indent_size = 2
