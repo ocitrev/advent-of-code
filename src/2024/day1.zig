@@ -22,13 +22,15 @@ pub fn main() !void {
 }
 
 const Lists = struct {
-    a: std.array_list.Managed(i32),
-    b: std.array_list.Managed(i32),
+    a: std.ArrayList(i32),
+    b: std.ArrayList(i32),
+    ally: std.mem.Allocator,
 
-    pub fn init(ally: std.mem.Allocator) Lists {
+    pub fn init(ally: std.mem.Allocator) !Lists {
         return Lists{
-            .a = std.array_list.Managed(i32).init(ally),
-            .b = std.array_list.Managed(i32).init(ally),
+            .a = std.ArrayList(i32).empty,
+            .b = std.ArrayList(i32).empty,
+            .ally = ally,
         };
     }
 
@@ -38,19 +40,19 @@ const Lists = struct {
             var line_it = std.mem.tokenizeScalar(u8, line, ' ');
             const a = line_it.next().?;
             const b = line_it.next().?;
-            try self.a.append(try std.fmt.parseInt(i32, a, 10));
-            try self.b.append(try std.fmt.parseInt(i32, b, 10));
+            try self.a.append(self.ally, try std.fmt.parseInt(i32, a, 10));
+            try self.b.append(self.ally, try std.fmt.parseInt(i32, b, 10));
         }
     }
 
     pub fn deinit(self: *@This()) void {
-        self.a.deinit();
-        self.b.deinit();
+        self.a.deinit(self.ally);
+        self.b.deinit(self.ally);
     }
 };
 
 fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
-    var lists = Lists.init(ally);
+    var lists = try Lists.init(ally);
     defer lists.deinit();
     try lists.parse(input);
 
@@ -78,7 +80,7 @@ test "part 1" {
 }
 
 fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
-    var lists = Lists.init(ally);
+    var lists = try Lists.init(ally);
     defer lists.deinit();
     try lists.parse(input);
 

@@ -52,14 +52,14 @@ const Side = struct {
 
 const Map = struct {
     grid: utils.Grid,
-    regions: std.array_list.Managed(Region),
+    regions: std.ArrayList(Region),
     visited: std.AutoHashMap(Point2d, void),
     ally: std.mem.Allocator,
 
     fn init(input: []const u8, ally: std.mem.Allocator) !Map {
         return Map{
             .grid = try utils.Grid.parse(input, ally),
-            .regions = std.array_list.Managed(Region).init(ally),
+            .regions = std.ArrayList(Region).empty,
             .visited = std.AutoHashMap(Point2d, void).init(ally),
             .ally = ally,
         };
@@ -67,7 +67,7 @@ const Map = struct {
 
     fn deinit(self: *@This()) void {
         self.grid.deinit();
-        self.regions.deinit();
+        self.regions.deinit(self.ally);
         self.visited.deinit();
     }
 
@@ -167,7 +167,7 @@ const Map = struct {
             if (sides.get(.west)) |s| region.sides += try self.countSides(.west, s);
 
             if (region.area != 0) {
-                try self.regions.append(region);
+                try self.regions.append(self.ally, region);
             }
         }
     }

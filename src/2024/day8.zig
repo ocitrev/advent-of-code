@@ -23,12 +23,13 @@ pub fn main() !void {
 }
 
 const Map = struct {
-    frequencies: std.AutoHashMap(u8, std.array_list.Managed(Point2d)),
+    frequencies: std.AutoHashMap(u8, std.ArrayList(Point2d)),
     width: i32,
     height: i32,
+    ally: std.mem.Allocator,
 
     pub fn parse(input: []const u8, ally: std.mem.Allocator) !Map {
-        var frequencies = std.AutoHashMap(u8, std.array_list.Managed(Point2d)).init(ally);
+        var frequencies = std.AutoHashMap(u8, std.ArrayList(Point2d)).init(ally);
         var width: i32 = 0;
         var y: i32 = 0;
         var it = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -38,10 +39,10 @@ const Map = struct {
                     const p = Point2d{ .x = @intCast(x), .y = y };
 
                     if (frequencies.getPtr(c)) |list| {
-                        try list.append(p);
+                        try list.append(ally, p);
                     } else {
-                        var list = std.array_list.Managed(Point2d).init(ally);
-                        try list.append(p);
+                        var list = std.ArrayList(Point2d).empty;
+                        try list.append(ally, p);
                         try frequencies.put(c, list);
                     }
                 }
@@ -54,13 +55,14 @@ const Map = struct {
             .frequencies = frequencies,
             .width = width,
             .height = y,
+            .ally = ally,
         };
     }
 
     pub fn deinit(self: *@This()) void {
         var it = self.frequencies.valueIterator();
         while (it.next()) |l| {
-            l.deinit();
+            l.deinit(self.ally);
         }
         self.frequencies.deinit();
     }

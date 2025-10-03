@@ -34,15 +34,17 @@ test "isSymbol" {
 const Schematic = struct {
     map: std.AutoHashMap(Point2d, u8),
     partNumberMap: std.AutoHashMap(Point2d, usize),
-    partNumbers: std.array_list.Managed(i32),
+    partNumbers: std.ArrayList(i32),
     w: i32 = 0,
     h: i32 = 0,
+    allocator: std.mem.Allocator,
 
     pub fn parse(input: []const u8, allocator: std.mem.Allocator) !Schematic {
         var result = Schematic{
             .map = std.AutoHashMap(Point2d, u8).init(allocator),
             .partNumberMap = std.AutoHashMap(Point2d, usize).init(allocator),
-            .partNumbers = std.array_list.Managed(i32).init(allocator),
+            .partNumbers = std.ArrayList(i32).empty,
+            .allocator = allocator,
         };
 
         var y: i32 = 0;
@@ -94,8 +96,8 @@ const Schematic = struct {
         var lastNumber: ?Point2d = null;
         var numLen: i8 = 0;
         var num: i32 = 0;
-        var numberCoords = std.array_list.Managed(Point2d).init(allocator);
-        defer numberCoords.deinit();
+        var numberCoords = std.ArrayList(Point2d).empty;
+        defer numberCoords.deinit(allocator);
 
         const h = @as(usize, @intCast(self.h));
         const w = @as(usize, @intCast(self.w));
@@ -111,17 +113,17 @@ const Schematic = struct {
                         num += c - '0';
                         numLen += 1;
                         lastNumber = p;
-                        try numberCoords.append(p);
+                        try numberCoords.append(allocator, p);
                     } else if (lastNumber) |ln| {
                         if (self.isPartNumber(ln, numLen)) {
                             const index = self.partNumbers.items.len;
                             for (numberCoords.items) |pt| {
                                 try self.partNumberMap.put(pt, index);
                             }
-                            try self.partNumbers.append(num);
+                            try self.partNumbers.append(allocator, num);
                         }
 
-                        numberCoords.clearAndFree();
+                        numberCoords.clearAndFree(allocator);
                         num = 0;
                         numLen = 0;
                         lastNumber = null;
@@ -188,7 +190,7 @@ const Schematic = struct {
 
     pub fn deinit(self: *Schematic) void {
         self.map.deinit();
-        self.partNumbers.deinit();
+        self.partNumbers.deinit(self.allocator);
         self.partNumberMap.deinit();
     }
 };

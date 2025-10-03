@@ -27,27 +27,28 @@ const Block = struct {
 };
 
 const Disk = struct {
-    files: std.array_list.Managed(Block),
-    freespaces: std.array_list.Managed(Block),
-    data: std.array_list.Managed(?u32),
+    files: std.ArrayList(Block),
+    freespaces: std.ArrayList(Block),
+    data: std.ArrayList(?u32),
     nextFileId: u32,
+    ally: std.mem.Allocator,
 
     pub fn parse(input: []const u8, ally: std.mem.Allocator) !Disk {
-        var files = std.array_list.Managed(Block).init(ally);
-        var freespaces = std.array_list.Managed(Block).init(ally);
-        var disk = std.array_list.Managed(?u32).init(ally);
+        var files = std.ArrayList(Block).empty;
+        var freespaces = std.ArrayList(Block).empty;
+        var disk = std.ArrayList(?u32).empty;
         var nextId: u32 = 0;
 
         for (0.., input) |i, c| {
             const blockLen = try std.fmt.charToDigit(c, 10);
             if (i & 1 == 0) {
                 std.debug.assert(blockLen != 0);
-                try files.append(.{ .start = disk.items.len, .len = blockLen });
-                try disk.appendNTimes(nextId, blockLen);
+                try files.append(ally, .{ .start = disk.items.len, .len = blockLen });
+                try disk.appendNTimes(ally, nextId, blockLen);
                 nextId += 1;
             } else if (blockLen != 0) {
-                try freespaces.append(.{ .start = disk.items.len, .len = blockLen });
-                try disk.appendNTimes(null, blockLen);
+                try freespaces.append(ally, .{ .start = disk.items.len, .len = blockLen });
+                try disk.appendNTimes(ally, null, blockLen);
             }
         }
 
@@ -56,13 +57,14 @@ const Disk = struct {
             .freespaces = freespaces,
             .data = disk,
             .nextFileId = nextId,
+            .ally = ally,
         };
     }
 
     pub fn deinit(self: *@This()) void {
-        self.files.deinit();
-        self.freespaces.deinit();
-        self.data.deinit();
+        self.files.deinit(self.ally);
+        self.freespaces.deinit(self.ally);
+        self.data.deinit(self.ally);
     }
 
     pub fn checksum(self: *const @This()) u64 {

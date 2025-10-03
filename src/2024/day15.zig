@@ -36,7 +36,7 @@ const Map = struct {
         var lineIt = std.mem.splitAny(u8, input, "\r\n");
 
         var grid = std.AutoHashMap(Point2d, u8).init(ally);
-        var ins = std.array_list.Managed(u8).init(ally);
+        var ins = std.ArrayList(u8).empty;
         var robot: Point2d = undefined;
         var y: Int = 0;
         var w: Int = 0;
@@ -77,7 +77,7 @@ const Map = struct {
                 }
             } else {
                 for (line) |c| {
-                    try ins.append(c);
+                    try ins.append(ally, c);
                 }
             }
         }
@@ -85,7 +85,7 @@ const Map = struct {
         try grid.put(robot, '.');
         return .{
             .grid = grid,
-            .instructions = try ins.toOwnedSlice(),
+            .instructions = try ins.toOwnedSlice(ally),
             .ally = ally,
             .width = w * xMultiplier,
             .height = h,

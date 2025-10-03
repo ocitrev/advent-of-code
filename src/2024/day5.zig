@@ -21,13 +21,13 @@ pub fn main() !void {
 }
 
 const Queue = struct {
-    rules: std.array_list.Managed([2]i32),
-    queue: std.array_list.Managed(std.array_list.Managed(i32)),
+    rules: std.ArrayList([2]i32),
+    queue: std.ArrayList(std.ArrayList(i32)),
     ally: std.mem.Allocator,
 
     pub fn init(input: []const u8, ally: std.mem.Allocator) !Queue {
-        var queue = std.array_list.Managed(std.array_list.Managed(i32)).init(ally);
-        var rules = std.array_list.Managed([2]i32).init(ally);
+        var queue = std.ArrayList(std.ArrayList(i32)).empty;
+        var rules = std.ArrayList([2]i32).empty;
 
         var line_it = std.mem.splitAny(u8, input, "\r\n");
         var parsing_rules = true;
@@ -41,15 +41,15 @@ const Queue = struct {
                 var it = std.mem.splitScalar(u8, line, '|');
                 const a = std.fmt.parseInt(i32, it.next().?, 10) catch unreachable;
                 const b = std.fmt.parseInt(i32, it.next().?, 10) catch unreachable;
-                try rules.append([_]i32{ a, b });
+                try rules.append(ally, [_]i32{ a, b });
             } else {
-                var items = std.array_list.Managed(i32).init(ally);
+                var items = std.ArrayList(i32).empty;
                 var it = std.mem.splitScalar(u8, line, ',');
                 while (it.next()) |item| {
-                    try items.append(std.fmt.parseInt(i32, item, 10) catch unreachable);
+                    try items.append(ally, std.fmt.parseInt(i32, item, 10) catch unreachable);
                 }
 
-                try queue.append(items);
+                try queue.append(ally, items);
             }
         }
 
@@ -94,17 +94,17 @@ const Queue = struct {
         };
     }
 
-    pub fn deinit(self: *const @This()) void {
-        self.rules.deinit();
-        for (self.queue.items) |items| {
-            items.deinit();
+    pub fn deinit(self: *@This()) void {
+        self.rules.deinit(self.ally);
+        for (self.queue.items) |*items| {
+            items.deinit(self.ally);
         }
-        self.queue.deinit();
+        self.queue.deinit(self.ally);
     }
 };
 
 fn run(input: []const u8, ally: std.mem.Allocator) !Result {
-    const queue = try Queue.init(input, ally);
+    var queue = try Queue.init(input, ally);
     defer queue.deinit();
     return try queue.sum_middle_pages();
 }

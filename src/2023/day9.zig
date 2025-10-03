@@ -18,22 +18,26 @@ pub fn main() !void {
 }
 
 const History = struct {
-    lists: std.array_list.Managed(std.array_list.Managed(i32)),
+    lists: std.ArrayList(std.ArrayList(i32)),
+    allocator: std.mem.Allocator,
 
     pub fn init(numbersText: []const u8, allocator: std.mem.Allocator) !History {
-        var result = History{ .lists = std.array_list.Managed(std.array_list.Managed(i32)).init(allocator) };
-        try result.lists.append(std.array_list.Managed(i32).init(allocator));
+        var result = History{
+            .lists = std.ArrayList(std.ArrayList(i32)).empty,
+            .allocator = allocator,
+        };
+        try result.lists.append(allocator, std.ArrayList(i32).empty);
         var itNumber = std.mem.tokenizeScalar(u8, numbersText, ' ');
         while (itNumber.next()) |numText| {
-            try result.lists.items[result.lists.items.len - 1].append(try std.fmt.parseInt(i32, numText, 10));
+            try result.lists.items[result.lists.items.len - 1].append(allocator, try std.fmt.parseInt(i32, numText, 10));
         }
 
         return result;
     }
 
-    pub fn reduce(self: *@This(), allocator: std.mem.Allocator) !bool {
+    pub fn reduce(self: *@This()) !bool {
         var more: bool = false;
-        var newList = std.array_list.Managed(i32).init(allocator);
+        var newList = std.ArrayList(i32).empty;
         var last: ?i32 = null;
         for (self.lists.getLast().items) |num| {
             if (last) |l| {
@@ -41,12 +45,12 @@ const History = struct {
                 if (diff != 0) {
                     more = true;
                 }
-                try newList.append(diff);
+                try newList.append(self.allocator, diff);
             }
             last = num;
         }
 
-        try self.lists.append(newList);
+        try self.lists.append(self.allocator, newList);
         return more;
     }
 
@@ -74,27 +78,27 @@ const History = struct {
         return val.?;
     }
 
-    pub fn deinit(self: *const @This()) void {
-        for (self.lists.items) |list| {
-            list.deinit();
+    pub fn deinit(self: *@This()) void {
+        for (self.lists.items) |*list| {
+            list.deinit(self.allocator);
         }
-        self.lists.deinit();
+        self.lists.deinit(self.allocator);
     }
 };
 
 fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
-    var lists = std.array_list.Managed(History).init(allocator);
-    defer lists.deinit();
+    var lists = std.ArrayList(History).empty;
+    defer lists.deinit(allocator);
 
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     while (it.next()) |line| {
         var hist = try History.init(line, allocator);
-        while (try hist.reduce(allocator)) {}
-        try lists.append(hist);
+        while (try hist.reduce()) {}
+        try lists.append(allocator, hist);
     }
 
     var sum: i32 = 0;
-    for (lists.items) |hist| {
+    for (lists.items) |*hist| {
         sum += hist.nextValue();
         hist.deinit();
     }
@@ -103,18 +107,18 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !i32 {
 }
 
 fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
-    var lists = std.array_list.Managed(History).init(allocator);
-    defer lists.deinit();
+    var lists = std.ArrayList(History).empty;
+    defer lists.deinit(allocator);
 
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     while (it.next()) |line| {
         var hist = try History.init(line, allocator);
-        while (try hist.reduce(allocator)) {}
-        try lists.append(hist);
+        while (try hist.reduce()) {}
+        try lists.append(allocator, hist);
     }
 
     var sum: i32 = 0;
-    for (lists.items) |hist| {
+    for (lists.items) |*hist| {
         sum += hist.prevValue();
         hist.deinit();
     }

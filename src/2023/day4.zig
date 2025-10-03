@@ -78,11 +78,11 @@ fn part1(input: []const u8, allocator: std.mem.Allocator) !usize {
 }
 
 fn part2(input: []const u8, allocator: std.mem.Allocator) !usize {
-    var cards = std.array_list.Managed(Card).init(allocator);
+    var cards = std.ArrayList(Card).empty;
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
-    defer cards.deinit();
+    defer cards.deinit(allocator);
     while (it.next()) |line| {
-        try cards.append(try Card.parse(line, allocator));
+        try cards.append(allocator, try Card.parse(line, allocator));
     }
 
     var i: usize = 0;

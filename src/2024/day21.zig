@@ -32,18 +32,30 @@ const Node = struct {
 };
 
 const StringBuilder = struct {
-    string: std.array_list.Managed(u8),
+    string: std.ArrayList(u8),
+    ally: std.mem.Allocator,
 
-    fn init(ally: std.mem.Allocator) StringBuilder {
-        return .{ .string = std.array_list.Managed(u8).init(ally) };
+    fn init(ally: std.mem.Allocator) !StringBuilder {
+        return .{
+            .string = std.ArrayList(u8).empty,
+            .ally = ally,
+        };
     }
 
     fn deinit(self: *@This()) void {
-        self.string.deinit();
+        self.string.deinit(self.ally);
     }
 
     fn push(self: *@This(), c: u8) !void {
-        try self.string.append(c);
+        try self.string.append(self.ally, c);
+    }
+
+    fn pushNTimes(self: *@This(), c: u8, n: usize) !void {
+        try self.string.appendNTimes(self.ally, c, n);
+    }
+
+    fn toOwnedSlice(self: *@This()) ![]const u8 {
+        return try self.string.toOwnedSlice(self.ally);
     }
 };
 
@@ -68,16 +80,16 @@ const Keypad = struct {
     }
 
     fn getPaths(self: *const @This(), ally: std.mem.Allocator, from: u8, to: u8) ![]String {
-        var result = std.array_list.Managed(String).init(ally);
-        defer result.deinit();
+        var result = std.ArrayList(String).empty;
+        defer result.deinit(ally);
 
-        var builder = StringBuilder.init(ally);
+        var builder = try StringBuilder.init(ally);
         defer builder.deinit();
 
         if (from == to) {
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
-            return try result.toOwnedSlice();
+            try result.append(ally, try builder.toOwnedSlice());
+            return try result.toOwnedSlice(ally);
         }
 
         const avoid = self.getCoord(' ');
@@ -91,44 +103,44 @@ const Keypad = struct {
         const nbY: usize = @intCast(@abs(dir.y));
 
         if (nbX == 0) {
-            try builder.string.appendNTimes(vertical, nbY);
+            try builder.pushNTimes(vertical, nbY);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
-            return try result.toOwnedSlice();
+            try result.append(ally, try builder.toOwnedSlice());
+            return try result.toOwnedSlice(ally);
         }
 
         if (nbY == 0) {
-            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.pushNTimes(horizontal, nbX);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
-            return try result.toOwnedSlice();
+            try result.append(ally, try builder.toOwnedSlice());
+            return try result.toOwnedSlice(ally);
         }
 
         const moveVerticalFirst = fromCoord.y == avoid.y and toCoord.x == avoid.x;
         const moveHorizontalFirst = fromCoord.x == avoid.x and toCoord.y == avoid.y;
 
         if (moveVerticalFirst) {
-            try builder.string.appendNTimes(vertical, nbY);
-            try builder.string.appendNTimes(horizontal, nbX);
+            try builder.pushNTimes(vertical, nbY);
+            try builder.pushNTimes(horizontal, nbX);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
+            try result.append(ally, try builder.toOwnedSlice());
         } else if (moveHorizontalFirst) {
-            try builder.string.appendNTimes(horizontal, nbX);
-            try builder.string.appendNTimes(vertical, nbY);
+            try builder.pushNTimes(horizontal, nbX);
+            try builder.pushNTimes(vertical, nbY);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
+            try result.append(ally, try builder.toOwnedSlice());
         } else {
-            try builder.string.appendNTimes(horizontal, nbX);
-            try builder.string.appendNTimes(vertical, nbY);
+            try builder.pushNTimes(horizontal, nbX);
+            try builder.pushNTimes(vertical, nbY);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
-            try builder.string.appendNTimes(vertical, nbY);
-            try builder.string.appendNTimes(horizontal, nbX);
+            try result.append(ally, try builder.toOwnedSlice());
+            try builder.pushNTimes(vertical, nbY);
+            try builder.pushNTimes(horizontal, nbX);
             try builder.push('A');
-            try result.append(try builder.string.toOwnedSlice());
+            try result.append(ally, try builder.toOwnedSlice());
         }
 
-        return try result.toOwnedSlice();
+        return try result.toOwnedSlice(ally);
     }
 };
 
@@ -223,12 +235,12 @@ fn getPathLen(
 fn part1(ally: std.mem.Allocator, input: String) !Int {
     var cache = Cache.init(ally);
     defer cache.deinit();
-    var combos = std.array_list.Managed(String).init(ally);
-    defer combos.deinit();
+    var combos = std.ArrayList(String).empty;
+    defer combos.deinit(ally);
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
-        try combos.append(line);
+        try combos.append(ally, line);
     }
 
     var total: Int = 0;
@@ -245,12 +257,12 @@ fn part2(ally: std.mem.Allocator, input: String) !Int {
     var cache = Cache.init(ally);
     defer cache.deinit();
 
-    var combos = std.array_list.Managed(String).init(ally);
-    defer combos.deinit();
+    var combos = std.ArrayList(String).empty;
+    defer combos.deinit(ally);
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
-        try combos.append(line);
+        try combos.append(ally, line);
     }
 
     var total: Int = 0;

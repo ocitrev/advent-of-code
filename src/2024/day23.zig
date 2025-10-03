@@ -71,12 +71,12 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     var graph = try Graph.init(ally, input);
     defer graph.deinit();
 
-    var computers = std.array_list.Managed(String).init(ally);
-    defer computers.deinit();
+    var computers = std.ArrayList(String).empty;
+    defer computers.deinit(ally);
 
     var keyIt = graph.edges.keyIterator();
     while (keyIt.next()) |key| {
-        try computers.append(key.*);
+        try computers.append(ally, key.*);
     }
     std.mem.sort(String, computers.items, {}, stringLess);
 
@@ -130,18 +130,18 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
     var graph = try Graph.init(ally, input);
     defer graph.deinit();
 
-    var computers = std.array_list.Managed(String).init(ally);
-    defer computers.deinit();
+    var computers = std.ArrayList(String).empty;
+    defer computers.deinit(ally);
 
     var keyIt = graph.edges.keyIterator();
     while (keyIt.next()) |key| {
-        try computers.append(key.*);
+        try computers.append(ally, key.*);
     }
 
     const seed: u64 = @intCast(std.time.nanoTimestamp());
     var rng = std.Random.DefaultPrng.init(seed);
-    var clique = std.array_list.Managed(String).init(ally);
-    defer clique.deinit();
+    var clique = std.ArrayList(String).empty;
+    defer clique.deinit(ally);
 
     var best: ?String = null;
     var bestLen: ?usize = null;
@@ -157,7 +157,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
                 }
             }
 
-            try clique.append(x);
+            try clique.append(ally, x);
         }
 
         if (bestLen == null or clique.items.len > bestLen.?) {

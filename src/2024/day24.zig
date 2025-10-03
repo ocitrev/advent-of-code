@@ -93,18 +93,18 @@ const Node = struct {
 
 const Puzzle = struct {
     ally: std.mem.Allocator,
-    nodes: std.array_list.Managed(*Node),
+    nodes: std.ArrayList(*Node),
     map: std.StringHashMap(*Node),
-    allZ: std.array_list.Managed(*Node),
+    allZ: std.ArrayList(*Node),
 
     fn addNode(self: *@This(), name: String) !*Node {
         const node = try self.ally.create(Node);
         node.* = Node{ .name = name };
-        try self.nodes.append(node);
+        try self.nodes.append(self.ally, node);
         try self.map.putNoClobber(name, node);
 
         if (name[0] == 'z') {
-            try self.allZ.append(node);
+            try self.allZ.append(self.ally, node);
         }
 
         return node;
@@ -113,9 +113,9 @@ const Puzzle = struct {
     fn init(ally: std.mem.Allocator, input: []const u8) !Puzzle {
         var puzzle = Puzzle{
             .ally = ally,
-            .nodes = std.array_list.Managed(*Node).init(ally),
+            .nodes = std.ArrayList(*Node).empty,
             .map = std.StringHashMap(*Node).init(ally),
-            .allZ = std.array_list.Managed(*Node).init(ally),
+            .allZ = std.ArrayList(*Node).empty,
         };
 
         var parsingWires = true;
@@ -170,9 +170,9 @@ const Puzzle = struct {
             self.ally.destroy(node);
         }
 
-        self.nodes.deinit();
+        self.nodes.deinit(self.ally);
         self.map.deinit();
-        self.allZ.deinit();
+        self.allZ.deinit(self.ally);
     }
 
     fn resolve(self: *@This()) !Int {
@@ -200,12 +200,12 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
     var puzzle = try Puzzle.init(ally, input);
     defer puzzle.deinit();
 
-    var badNodes = std.array_list.Managed(String).init(ally);
-    defer badNodes.deinit();
+    var badNodes = std.ArrayList(String).empty;
+    defer badNodes.deinit(ally);
 
     for (puzzle.nodes.items) |node| {
         if (node.isBadNode(puzzle.allZ.items.len)) {
-            try badNodes.append(node.name);
+            try badNodes.append(ally, node.name);
         }
     }
 

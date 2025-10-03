@@ -22,10 +22,10 @@ const Type = enum { key, lock };
 const Pins = @Vector(5, i8);
 
 fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
-    var keys = std.array_list.Managed(Pins).init(ally);
-    defer keys.deinit();
-    var locks = std.array_list.Managed(Pins).init(ally);
-    defer locks.deinit();
+    var keys = std.ArrayList(Pins).empty;
+    defer keys.deinit(ally);
+    var locks = std.ArrayList(Pins).empty;
+    defer locks.deinit(ally);
 
     var t: ?Type = null;
     var counter = Pins{ 0, 0, 0, 0, 0 };
@@ -34,8 +34,8 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     while (lineIt.next()) |line| {
         if (line.len == 0) {
             switch (t.?) {
-                .key => try keys.append(counter),
-                .lock => try locks.append(counter),
+                .key => try keys.append(ally, counter),
+                .lock => try locks.append(ally, counter),
             }
 
             t = null;
@@ -61,8 +61,8 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     }
 
     switch (t.?) {
-        .key => try keys.append(counter),
-        .lock => try locks.append(counter),
+        .key => try keys.append(ally, counter),
+        .lock => try locks.append(ally, counter),
     }
 
     var valid: Int = 0;

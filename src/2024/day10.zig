@@ -25,15 +25,15 @@ const Point2d = utils.Point2d(i32);
 
 const Map = struct {
     grid: std.AutoHashMap(Point2d, u8),
-    heads: std.array_list.Managed(Point2d),
-    ends: std.array_list.Managed(Point2d),
+    heads: std.ArrayList(Point2d),
+    ends: std.ArrayList(Point2d),
     ally: std.mem.Allocator,
 
     fn init(input: []const u8, ally: std.mem.Allocator) !Map {
         var result = Map{
             .grid = std.AutoHashMap(Point2d, u8).init(ally),
-            .heads = std.array_list.Managed(Point2d).init(ally),
-            .ends = std.array_list.Managed(Point2d).init(ally),
+            .heads = std.ArrayList(Point2d).empty,
+            .ends = std.ArrayList(Point2d).empty,
             .ally = ally,
         };
 
@@ -50,8 +50,8 @@ const Map = struct {
                 }
 
                 switch (c) {
-                    '0' => try result.heads.append(p),
-                    '9' => try result.ends.append(p),
+                    '0' => try result.heads.append(ally, p),
+                    '9' => try result.ends.append(ally, p),
                     else => {},
                 }
             }
@@ -61,8 +61,8 @@ const Map = struct {
 
     fn deinit(self: *@This()) void {
         self.grid.deinit();
-        self.heads.deinit();
-        self.ends.deinit();
+        self.heads.deinit(self.ally);
+        self.ends.deinit(self.ally);
     }
 
     fn contains(self: *const @This(), p: Point2d(i32)) bool {

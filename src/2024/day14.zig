@@ -45,8 +45,8 @@ const Robots = struct {
     robotSet: std.AutoHashMap(Point2d, void),
 
     fn parseRobots(input: []const u8, ally: std.mem.Allocator) ![]Robot {
-        var robots = std.array_list.Managed(Robot).init(ally);
-        defer robots.deinit();
+        var robots = std.ArrayList(Robot).empty;
+        defer robots.deinit(ally);
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
 
         while (lineIt.next()) |line| {
@@ -64,10 +64,10 @@ const Robots = struct {
                 .y = try std.fmt.parseInt(Int, p.rest(), 10),
             };
 
-            try robots.append(.{ .pos = pos, .vel = vel });
+            try robots.append(ally, .{ .pos = pos, .vel = vel });
         }
 
-        return robots.toOwnedSlice();
+        return robots.toOwnedSlice(ally);
     }
 
     fn init(input: []const u8, size: Point2d, ally: std.mem.Allocator) !Robots {
@@ -100,7 +100,7 @@ const Robots = struct {
     fn render(self: *@This()) void {
         if (!self.ansi) return;
         var b = std.ArrayList(u8).initBuffer(self.buffer);
-        std.fmt.format(b.fixedWriter(), "\x1b[1;1HElapsed: {}                   \n", .{self.elapsed}) catch unreachable;
+        b.printAssumeCapacity("\x1b[1;1HElapsed: {}                   \n", .{self.elapsed});
 
         for (0..@intCast(self.size.y)) |y| {
             for (0..@intCast(self.size.x)) |x| {
@@ -161,7 +161,7 @@ const Robots = struct {
     fn renderQuadrant(self: *const @This(), quadrant: Quadrant) void {
         if (!self.ansi) return;
         var b = std.ArrayList(u8).initBuffer(self.buffer);
-        std.fmt.format(b.fixedWriter(), "\x1b[1;1HElapsed: {}                   \n", .{self.elapsed}) catch unreachable;
+        b.printAssumeCapacity("\x1b[1;1HElapsed: {}                   \n", .{self.elapsed});
         const halfW = @divTrunc(self.size.x, 2);
         const halfH = @divTrunc(self.size.y, 2);
         const offset = switch (quadrant) {

@@ -29,10 +29,10 @@ const Linen = struct {
     designs: [][]const u8,
 
     fn init(ally: std.mem.Allocator, input: []const u8) !Linen {
-        var towels = std.array_list.Managed([]const u8).init(ally);
-        defer towels.deinit();
-        var designs = std.array_list.Managed([]const u8).init(ally);
-        defer designs.deinit();
+        var towels = std.ArrayList([]const u8).empty;
+        defer towels.deinit(ally);
+        var designs = std.ArrayList([]const u8).empty;
+        defer designs.deinit(ally);
 
         var parsingTowels = true;
 
@@ -44,18 +44,18 @@ const Linen = struct {
                 } else {
                     var it = std.mem.tokenizeAny(u8, line, ", ");
                     while (it.next()) |towel| {
-                        try towels.append(towel);
+                        try towels.append(ally, towel);
                     }
                 }
             } else {
-                try designs.append(line);
+                try designs.append(ally, line);
             }
         }
 
         return .{
             .ally = ally,
-            .towels = try towels.toOwnedSlice(),
-            .designs = try designs.toOwnedSlice(),
+            .towels = try towels.toOwnedSlice(ally),
+            .designs = try designs.toOwnedSlice(ally),
         };
     }
 

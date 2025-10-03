@@ -22,7 +22,7 @@ fn distance(a: Point2d, b: Point2d) i64 {
     return a.manhatanDistance(b);
 }
 
-fn expand(galaxies: *std.array_list.Managed(Point2d), factor: i64, allocator: std.mem.Allocator) !void {
+fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, allocator: std.mem.Allocator) !void {
     var setX = std.AutoHashMap(i64, void).init(allocator);
     defer setX.deinit();
     var setY = std.AutoHashMap(i64, void).init(allocator);
@@ -68,8 +68,8 @@ fn expand(galaxies: *std.array_list.Managed(Point2d), factor: i64, allocator: st
 }
 
 fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocator) !i64 {
-    var galaxies = std.array_list.Managed(Point2d).init(allocator);
-    defer galaxies.deinit();
+    var galaxies = std.ArrayList(Point2d).empty;
+    defer galaxies.deinit(allocator);
 
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     var y: i64 = 0;
@@ -78,7 +78,7 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
         for (line) |c| {
             if (c == '#') {
                 const p = Point2d{ .x = x, .y = y };
-                try galaxies.append(p);
+                try galaxies.append(allocator, p);
             }
             x += 1;
         }

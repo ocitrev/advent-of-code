@@ -244,9 +244,9 @@ pub const Monitor = struct {
 
 pub fn HashMapArray(comptime K: type, comptime V: type) type {
     const HashMapType = if (K == []const u8)
-        std.StringHashMap(std.array_list.Managed(V))
+        std.StringHashMap(std.ArrayList(V))
     else
-        std.AutoHashMap(K, std.array_list.Managed(V));
+        std.AutoHashMap(K, std.ArrayList(V));
 
     return struct {
         data: HashMapType,
@@ -262,17 +262,17 @@ pub fn HashMapArray(comptime K: type, comptime V: type) type {
         pub fn deinit(self: *@This()) void {
             var it = self.data.iterator();
             while (it.next()) |entry| {
-                entry.value_ptr.deinit();
+                entry.value_ptr.deinit(self.ally);
             }
             self.data.deinit();
         }
 
         pub fn put(self: *@This(), key: K, value: V) !void {
             if (self.data.getPtr(key)) |list| {
-                try list.append(value);
+                try list.append(self.ally, value);
             } else {
-                var newList = std.array_list.Managed(V).init(self.ally);
-                try newList.append(value);
+                var newList = std.ArrayList(V).empty;
+                try newList.append(self.ally, value);
                 try self.data.put(key, newList);
             }
         }

@@ -34,20 +34,20 @@ const Grid = struct {
     blocks: []Point2d,
 
     fn init(ally: std.mem.Allocator, input: []const u8, size: Point2d) !Grid {
-        var blocks = std.array_list.Managed(Point2d).init(ally);
+        var blocks = std.ArrayList(Point2d).empty;
 
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
         while (lineIt.next()) |line| {
             var it = std.mem.splitScalar(u8, line, ',');
             const x = try std.fmt.parseInt(Int, it.next().?, 10);
             const y = try std.fmt.parseInt(Int, it.next().?, 10);
-            try blocks.append(Point2d{ .x = x, .y = y });
+            try blocks.append(ally, Point2d{ .x = x, .y = y });
         }
 
         return .{
             .ally = ally,
             .size = size,
-            .blocks = try blocks.toOwnedSlice(),
+            .blocks = try blocks.toOwnedSlice(ally),
         };
     }
 
@@ -64,13 +64,13 @@ const Grid = struct {
             dist: Int,
         };
 
-        var q = std.array_list.Managed(Node).init(self.ally);
-        defer q.deinit();
+        var q = std.ArrayList(Node).empty;
+        defer q.deinit(self.ally);
 
         var visited = std.AutoHashMap(Point2d, void).init(self.ally);
         defer visited.deinit();
 
-        q.append(.{ .pos = start, .dist = 0 }) catch unreachable;
+        q.append(self.ally, .{ .pos = start, .dist = 0 }) catch unreachable;
 
         while (q.items.len != 0) {
             const node = q.orderedRemove(0);
@@ -94,7 +94,7 @@ const Grid = struct {
                 if (newPos.x < 0 or newPos.y < 0) continue;
                 if (newPos.x >= self.size.x or newPos.y >= self.size.y) continue;
                 if (self.contains(nbBlocks, newPos)) continue;
-                q.append(.{ .pos = newPos, .dist = node.dist + 1 }) catch unreachable;
+                q.append(self.ally, .{ .pos = newPos, .dist = node.dist + 1 }) catch unreachable;
             }
         }
 

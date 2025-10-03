@@ -31,15 +31,15 @@ const Computer = struct {
     c: Int,
     ip: usize = 0,
     memory: []Int,
-    output: std.array_list.Managed(Int),
+    output: std.ArrayList(Int),
 
     fn init(input: []const u8, ally: std.mem.Allocator) !@This() {
         var a: Int = undefined;
         var b: Int = undefined;
         var c: Int = undefined;
 
-        var memory = std.array_list.Managed(Int).init(ally);
-        defer memory.deinit();
+        var memory = std.ArrayList(Int).empty;
+        defer memory.deinit(ally);
 
         var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
         while (lineIt.next()) |line| {
@@ -55,24 +55,24 @@ const Computer = struct {
                 var programIt = std.mem.tokenizeScalar(u8, line[programTagLen..], ',');
                 while (programIt.next()) |opcode| {
                     const value = try std.fmt.parseInt(Int, opcode, 10);
-                    try memory.append(value);
+                    try memory.append(ally, value);
                 }
             }
         }
 
         return .{
             .ally = ally,
-            .memory = try memory.toOwnedSlice(),
+            .memory = try memory.toOwnedSlice(ally),
             .a = a,
             .b = b,
             .c = c,
-            .output = std.array_list.Managed(Int).init(ally),
+            .output = std.ArrayList(Int).empty,
         };
     }
 
     fn deinit(self: *@This()) void {
         self.ally.free(self.memory);
-        self.output.deinit();
+        self.output.deinit(self.ally);
     }
 
     fn getComboValue(self: *@This()) Int {
@@ -114,7 +114,7 @@ const Computer = struct {
 
     fn out(self: *@This()) void {
         const v = self.getComboValue() & 0b111;
-        self.output.append(v) catch unreachable;
+        self.output.append(self.ally, v) catch unreachable;
     }
 
     fn bdv(self: *@This()) void {
@@ -147,20 +147,19 @@ const Computer = struct {
     }
 
     fn joinOutput(self: *const @This()) ![]u8 {
-        var buffer = std.array_list.Managed(u8).init(self.ally);
-        defer buffer.deinit();
+        var buffer = std.ArrayList(u8).empty;
+        defer buffer.deinit(self.ally);
         var first = true;
-        const w = buffer.writer();
         for (self.output.items) |v| {
             if (first) {
                 first = false;
             } else {
-                try buffer.append(',');
+                try buffer.append(self.ally, ',');
             }
-            try std.fmt.format(w, "{}", .{v});
+            try buffer.print(self.ally, "{}", .{v});
         }
 
-        return try buffer.toOwnedSlice();
+        return try buffer.toOwnedSlice(self.ally);
     }
 
     fn debug(self: *const @This()) void {

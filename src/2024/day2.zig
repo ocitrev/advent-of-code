@@ -67,13 +67,13 @@ fn is_safe(report: []const i32, skip: ?usize) bool {
     return true;
 }
 
-fn parse_report(line: []const u8, ally: std.mem.Allocator) !std.array_list.Managed(i32) {
-    var report = std.array_list.Managed(i32).init(ally);
+fn parse_report(line: []const u8, ally: std.mem.Allocator) !std.ArrayList(i32) {
+    var report = std.ArrayList(i32).empty;
     var line_it = std.mem.tokenizeScalar(u8, line, ' ');
 
     while (line_it.next()) |value| {
         const num = try std.fmt.parseInt(i32, value, 10);
-        try report.append(num);
+        try report.append(ally, num);
     }
 
     return report;
@@ -85,7 +85,7 @@ fn part1(input: []const u8, ally: std.mem.Allocator) !i32 {
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     while (it.next()) |line| {
         var report = try parse_report(line, ally);
-        defer report.deinit();
+        defer report.deinit(ally);
 
         if (is_safe(report.items, null)) {
             count += 1;
@@ -126,7 +126,7 @@ fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     while (it.next()) |line| {
         var report = try parse_report(line, ally);
-        defer report.deinit();
+        defer report.deinit(ally);
 
         if (is_safe_with_damper(report.items)) {
             count += 1;

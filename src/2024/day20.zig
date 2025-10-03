@@ -39,7 +39,7 @@ const Grid = struct {
     ally: std.mem.Allocator,
     map: std.AutoHashMap(Point2d, u8),
     parents: std.AutoHashMap(Point2d, Node),
-    cheats: std.array_list.Managed(Cheat),
+    cheats: std.ArrayList(Cheat),
     start: Point2d,
     end: Point2d,
     width: Int,
@@ -78,7 +78,7 @@ const Grid = struct {
             .ally = ally,
             .map = map,
             .parents = std.AutoHashMap(Point2d, Node).init(ally),
-            .cheats = std.array_list.Managed(Cheat).init(ally),
+            .cheats = std.ArrayList(Cheat).empty,
             .start = start,
             .end = end,
             .width = w,
@@ -89,7 +89,7 @@ const Grid = struct {
     fn deinit(self: *@This()) void {
         self.map.deinit();
         self.parents.deinit();
-        self.cheats.deinit();
+        self.cheats.deinit(self.ally);
     }
 
     fn getCheat(self: *@This(), c: Cheat) Int {
@@ -100,12 +100,12 @@ const Grid = struct {
     }
 
     fn solve(self: *@This(), maxCheat: Int) !void {
-        var q = std.array_list.Managed(Node).init(self.ally);
-        defer q.deinit();
+        var q = std.ArrayList(Node).empty;
+        defer q.deinit(self.ally);
         var visited = std.AutoHashMap(Point2d, void).init(self.ally);
         defer visited.deinit();
 
-        try q.append(.{ .p = self.start, .cost = 1 });
+        try q.append(self.ally, .{ .p = self.start, .cost = 1 });
         while (q.items.len != 0) {
             const node = q.orderedRemove(0);
             try visited.put(node.p, {});
@@ -125,7 +125,7 @@ const Grid = struct {
                         continue;
                     }
 
-                    try self.cheats.append(.{
+                    try self.cheats.append(self.ally, .{
                         .from = node.p,
                         .to = p,
                         .len = cheatLen,
@@ -148,7 +148,7 @@ const Grid = struct {
                 if (self.map.get(next)) |c| {
                     if (c == '.') {
                         const newNode = Node{ .p = next, .cost = node.cost + 1 };
-                        try q.append(newNode);
+                        try q.append(self.ally, newNode);
                         try self.parents.put(next, node);
                     }
                 }

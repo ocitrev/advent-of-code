@@ -54,8 +54,8 @@ const Game = struct {
 };
 
 fn parseGames(input: []const u8, ally: std.mem.Allocator) ![]Game {
-    var games = std.array_list.Managed(Game).init(ally);
-    defer games.deinit();
+    var games = std.ArrayList(Game).empty;
+    defer games.deinit(ally);
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     var a: ?Point2d = null;
@@ -88,14 +88,14 @@ fn parseGames(input: []const u8, ally: std.mem.Allocator) ![]Game {
         }
 
         if (a != null and b != null and prize != null) {
-            try games.append(Game{ .a = a.?, .b = b.?, .prize = prize.? });
+            try games.append(ally, Game{ .a = a.?, .b = b.?, .prize = prize.? });
             a = null;
             b = null;
             prize = null;
         }
     }
 
-    return games.toOwnedSlice();
+    return games.toOwnedSlice(ally);
 }
 
 fn part1(input: []const u8, ally: std.mem.Allocator) !Int {

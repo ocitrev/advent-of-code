@@ -59,11 +59,11 @@ fn part1(input: []const u8) !Int {
 }
 
 fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    var prices = std.array_list.Managed(i8).init(ally);
-    defer prices.deinit();
+    var prices = std.ArrayList(i8).empty;
+    defer prices.deinit(ally);
 
-    var changes = std.array_list.Managed(i8).init(ally);
-    defer changes.deinit();
+    var changes = std.ArrayList(i8).empty;
+    defer changes.deinit(ally);
 
     var maxPrices = std.AutoHashMap([4]i8, Int).init(ally);
     defer maxPrices.deinit();
@@ -80,13 +80,13 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
         const n = try std.fmt.parseInt(Int, line, 10);
         var rng = Rng.init(n);
         var prev: i8 = @intCast(@rem(n, 10));
-        try prices.append(prev);
+        try prices.append(ally, prev);
 
         for (0..2000) |_| {
             const next = rng.next();
             const price: i8 = @intCast(@rem(next, 10));
-            try prices.append(price);
-            try changes.append(price - prev);
+            try prices.append(ally, price);
+            try changes.append(ally, price - prev);
             prev = price;
         }
 

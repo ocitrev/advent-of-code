@@ -57,12 +57,12 @@ const Document = struct {
     pub fn countGhostSteps(self: *const Document, allocator: std.mem.Allocator) !u64 {
         var keyIter = self.map.keyIterator();
 
-        var keys = std.array_list.Managed([]const u8).init(allocator);
-        defer keys.deinit();
+        var keys = std.ArrayList([]const u8).empty;
+        defer keys.deinit(allocator);
 
         while (keyIter.next()) |k| {
             if (std.mem.endsWith(u8, k.*, "A")) {
-                try keys.append(k.*);
+                try keys.append(allocator, k.*);
             }
         }
 
