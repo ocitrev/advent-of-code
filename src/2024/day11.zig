@@ -21,14 +21,18 @@ pub fn main() !void {
     std.debug.assert(218817038947400 == p2);
 }
 
+fn AutoHashMap(comptime K: type, comptime V: type) type {
+    return std.AutoHashMapUnmanaged(K, V);
+}
+
 const Int = u64;
-const Cache = std.AutoHashMap(struct { Int, Int }, Int);
+const Cache = AutoHashMap(struct { Int, Int }, Int);
 
 fn nbDigits(num: Int) Int {
     return std.math.log10_int(num) + 1;
 }
 
-fn blink(stone: Int, depth: Int, cache: *Cache) Int {
+fn blink(stone: Int, depth: Int, cache: *Cache, ally: std.mem.Allocator) Int {
     if (depth == 0) {
         return 1;
     }
@@ -39,35 +43,35 @@ fn blink(stone: Int, depth: Int, cache: *Cache) Int {
     }
 
     if (stone == 0) {
-        const result = blink(1, depth - 1, cache);
-        cache.put(key, result) catch unreachable;
+        const result = blink(1, depth - 1, cache, ally);
+        cache.put(ally, key, result) catch unreachable;
         return result;
     }
 
     const digits = nbDigits(stone);
     if (digits & 1 == 0) {
         const p = std.math.powi(Int, 10, @divExact(digits, 2)) catch unreachable;
-        var result = blink(@divTrunc(stone, p), depth - 1, cache);
-        result += blink(@rem(stone, p), depth - 1, cache);
-        cache.put(key, result) catch unreachable;
+        var result = blink(@divTrunc(stone, p), depth - 1, cache, ally);
+        result += blink(@rem(stone, p), depth - 1, cache, ally);
+        cache.put(ally, key, result) catch unreachable;
         return result;
     }
 
-    const result = blink(stone * 2024, depth - 1, cache);
-    cache.put(key, result) catch unreachable;
+    const result = blink(stone * 2024, depth - 1, cache, ally);
+    cache.put(ally, key, result) catch unreachable;
     return result;
 }
 
 fn run(input: []const u8, depth: Int, ally: std.mem.Allocator) Int {
-    var cache = Cache.init(ally);
-    defer cache.deinit();
+    var cache = Cache.empty;
+    defer cache.deinit(ally);
 
     var sum: Int = 0;
     var it = std.mem.tokenizeScalar(u8, input, ' ');
 
     while (it.next()) |numText| {
         const stone = std.fmt.parseInt(Int, numText, 10) catch unreachable;
-        sum += blink(stone, depth, &cache);
+        sum += blink(stone, depth, &cache, ally);
     }
 
     return sum;
