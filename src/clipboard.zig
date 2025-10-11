@@ -23,8 +23,12 @@ extern "kernel32" fn GlobalAlloc(flags: windows.UINT, size: windows.SIZE_T) call
 extern "kernel32" fn RtlMoveMemory(out: *anyopaque, in: *anyopaque, size: windows.SIZE_T) callconv(.winapi) void;
 
 fn registerClipboardFormat(format: []const u8) !windows.UINT {
-    const formatW = try std.unicode.utf8ToUtf16LeAllocZ(std.heap.page_allocator, format);
-    defer std.heap.page_allocator.free(formatW);
+    var buffer: [1024]u8 = undefined;
+    var fba = std.heap.FixedBufferAllocator.init(&buffer);
+    var gpa = fba.allocator();
+
+    const formatW = try std.unicode.utf8ToUtf16LeAllocZ(gpa, format);
+    defer gpa.free(formatW);
     return RegisterClipboardFormatW(formatW);
 }
 
@@ -32,8 +36,8 @@ fn setClipboardData(format: windows.UINT, data: []u8) !void {
     const size: windows.SIZE_T = @intCast(data.len);
     const handle = GlobalAlloc(GMEM_MOVEABLE, size) orelse return error.GlobalAlloc;
     const locked = GlobalLock(handle) orelse return error.GlobalLock;
+    defer _ = GlobalUnlock(handle);
     RtlMoveMemory(locked, data.ptr, size);
-    _ = GlobalUnlock(handle);
     _ = SetClipboardData(format, handle) orelse return error.SetClipboardData;
 }
 
@@ -57,13 +61,20 @@ pub fn setClipboardText(text: []const u8, mode: ClipboardMode) !void {
         try setClipboardDWORD(try registerClipboardFormat("CanUploadToCloudClipboard"), 0);
     }
 
-    const textW = try std.unicode.utf8ToUtf16LeAllocZ(std.heap.page_allocator, text);
+    var buffer: [1024]u8 = undefined;
+    var fba = std.heap.FixedBufferAllocator.init(&buffer);
+    var gpa = fba.allocator();
+
+    const textW = try std.unicode.utf8ToUtf16LeAllocZ(gpa, text);
+    defer gpa.free(textW);
+
+    const u8ptr: [*]u8 = @ptrCast(textW.ptr);
+    std.debug.print("got: {any}\n", .{u8ptr});
+
     const nbBytes = @sizeOf(u16) * (textW.len + 1);
     const handle = GlobalAlloc(GMEM_MOVEABLE, nbBytes) orelse return error.GlobalAlloc;
     const locked = GlobalLock(handle) orelse return error.GlobalLock;
-    const aligned: [*:0]u16 = @ptrCast(@alignCast(locked));
-    const span = std.mem.span(aligned);
-    RtlMoveMemory(span.ptr, textW.ptr, nbBytes);
-    _ = GlobalUnlock(handle);
+    defer _ = GlobalUnlock(handle);
+    RtlMoveMemory(locked, textW.ptr, nbBytes);
     _ = SetClipboardData(CF_UNICODE_TEXT, handle) orelse return error.SetClipboardData;
 }
