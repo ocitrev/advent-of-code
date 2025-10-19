@@ -6,4 +6,4 @@ if [[ ! -d "$SCRIPT_DIR/build/cpp" ]]; then
   bash ./configure-cpp.sh
 fi
 
-cmake --build "$SCRIPT_DIR/build/cpp" $*
+cmake --build "$SCRIPT_DIR/build/cpp" "$@"
