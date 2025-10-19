@@ -1,7 +1,7 @@
 #include "day11.hpp"
 #include "../common.hpp"
-#include <ranges>
 #include <gsl/gsl>
+#include <ranges>
 
 using Item = std::int64_t;
 
