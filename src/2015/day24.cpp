@@ -4,6 +4,7 @@
 #include "../common/utils.hpp"
 #include <algorithm>
 #include <fmt/format.h>
+#include <gsl/gsl>
 #include <iterator>
 #include <span>
 #include <vector>
@@ -59,6 +60,7 @@ int64_t GetBestFit(std::span<int const> numbers, int nbPackages)
                 static_cast<int>(g.size()), std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
         });
 
+    Ensures(not groupWithQE.empty());
     auto best = std::min_element(begin(groupWithQE), end(groupWithQE));
     return best->second;
 }

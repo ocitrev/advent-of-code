@@ -1,6 +1,7 @@
 #include "intcode.hpp"
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 struct Intcode::Param
 {

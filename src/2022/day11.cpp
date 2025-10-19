@@ -1,6 +1,7 @@
 #include "day11.hpp"
 #include "../common.hpp"
 #include <ranges>
+#include <gsl/gsl>
 
 using Item = std::int64_t;
 
@@ -137,12 +138,15 @@ struct Game
 
 static std::uint64_t GetScore(Game const &game)
 {
+    Expects(game.monkeys.size() >= 2);
+
     std::vector<std::uint64_t> inspections(game.monkeys.size());
     std::transform(begin(game.monkeys), end(game.monkeys), begin(inspections),
         [](Monkey const &monkey)
         {
             return monkey.nbInspections;
         });
+
     std::sort(begin(inspections), end(inspections), std::greater{});
     return inspections[0] * inspections[1];
 }

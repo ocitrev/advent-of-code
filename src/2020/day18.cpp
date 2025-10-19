@@ -3,6 +3,7 @@
 #include "../common/string.hpp"
 #include <charconv>
 #include <fmt/format.h>
+#include <memory>
 #include <string_view>
 
 using Int = int64_t;

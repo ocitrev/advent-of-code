@@ -4,6 +4,7 @@
 #include <array>
 #include <fmt/format.h>
 #include <map>
+#include <utility>
 
 static bool IsNice1(std::string_view text)
 {

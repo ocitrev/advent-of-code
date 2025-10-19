@@ -100,7 +100,7 @@ if(WIN32)
   )
 endif()
 
-target_compile_features(common PUBLIC cxx_std_20)
+target_compile_features(common PUBLIC cxx_std_23)
 target_link_libraries(common PUBLIC project_warnings)
 
 find_package(fmt CONFIG REQUIRED)

@@ -1,6 +1,7 @@
 #include "day14.hpp"
 #include "../common.hpp"
 #include <bit>
+#include <gsl/gsl>
 
 static int16_t ToInt16(std::pair<char, char> const &p)
 {
@@ -77,12 +78,15 @@ struct PolymerTemplate
             }
         }
 
+        Ensures(not letters.empty());
+
         std::vector<int64_t> counts(letters.size());
         std::transform(begin(letters), end(letters), begin(counts),
             [](auto const &elm)
             {
                 return elm.second;
             });
+
         auto const [min, max] = std::ranges::minmax(counts);
         return max - min;
     }

@@ -2,6 +2,7 @@
 #include "../common.hpp"
 #include <algorithm>
 #include <fmt/format.h>
+#include <gsl/gsl>
 #include <map>
 #include <string>
 #include <vector>
@@ -89,6 +90,8 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
             crossing.push_back({p.Distance(), c.length});
         }
     }
+
+    Ensures(not crossing.empty());
 
     auto d = std::min_element(begin(crossing), end(crossing),
         [](auto const &a, auto const &b)

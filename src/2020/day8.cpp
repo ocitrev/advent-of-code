@@ -4,6 +4,7 @@
 #include <fmt/format.h>
 #include <set>
 #include <span>
+#include <utility>
 #include <vector>
 
 struct VM

@@ -3,6 +3,7 @@
 #include "../common/string.hpp"
 #include <algorithm>
 #include <fmt/format.h>
+#include <gsl/gsl>
 #include <vector>
 
 struct Deer
@@ -58,6 +59,8 @@ int Part1()
 {
     auto const deers = ParseDeers(GetInput());
     std::vector<int> distances(deers.size());
+    Ensures(not deers.empty());
+
     std::transform(begin(deers), end(deers), begin(distances),
         [](Deer const &deer)
         {
@@ -72,6 +75,7 @@ int Part1()
     auto const deers = ParseDeers(text);
     std::vector<int> points(deers.size());
     std::vector<int> distances(deers.size());
+    Ensures(not deers.empty());
 
     for (int s = 0; s < limit; ++s)
     {

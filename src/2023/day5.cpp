@@ -2,6 +2,7 @@
 #include "../common.hpp"
 #include <chrono>
 #include <execution>
+#include <gsl/gsl>
 
 using namespace std::literals;
 using integer = int64_t;
@@ -231,6 +232,7 @@ struct Almanac
 
     [[nodiscard]] integer GetLowestLocation()
     {
+        Expects(not seeds.empty());
         std::vector<integer> locations(seeds.size());
         std::transform(begin(seeds), end(seeds), begin(locations),
             [this](auto seed)

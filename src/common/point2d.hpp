@@ -3,6 +3,7 @@
 #include <numeric>
 #include <ostream>
 #include <tuple>
+#include <utility>
 
 struct Point2d
 {
