@@ -65,9 +65,6 @@ pub fn setClipboardText(text: []const u8, mode: clipboard.ClipboardMode) !void {
     const textW = try std.unicode.utf8ToUtf16LeAllocZ(gpa, text);
     defer gpa.free(textW);
 
-    const u8ptr: [*]u8 = @ptrCast(textW.ptr);
-    std.debug.print("got: {any}\n", .{u8ptr});
-
     const nbBytes = @sizeOf(u16) * (textW.len + 1);
     const handle = GlobalAlloc(GMEM_MOVEABLE, nbBytes) orelse return error.GlobalAlloc;
     const locked = GlobalLock(handle) orelse return error.GlobalLock;
