@@ -1,4 +1,5 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
 
 struct PasswordPolicy

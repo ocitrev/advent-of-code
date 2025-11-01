@@ -1,4 +1,5 @@
 #include "day9.hpp"
+
 #include "../common.hpp"
 
 using llong = long long;
@@ -52,7 +53,9 @@ static llong Part2(std::span<llong const> numbers, llong weak)
             }
 
             if (last == end(numbers))
+            {
                 break;
+            }
 
             ++first;
             ++last;
@@ -69,9 +72,9 @@ int main()
 
     auto const part1 = FindOutlier(ParseInputNumbers<llong>(), input::preamble);
     fmt::print("  Part 1: {}\n", part1);
-    Assert(14360655 == part1);
+    Assert(14'360'655 == part1);
 
     auto const part2 = Part2(ParseInputNumbers<llong>(), part1);
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1962331 == part2);
+    Assert(1'962'331 == part2);
 }

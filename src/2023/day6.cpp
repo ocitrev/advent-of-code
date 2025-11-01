@@ -1,4 +1,5 @@
 #include "day6.hpp"
+
 #include "../common.hpp"
 
 struct Race
@@ -125,13 +126,13 @@ int main()
     fmt::print("Day 6, 2023: Wait For It\n");
 
     Assert(288 == CalculateMargin(example::races));
-    Assert(71503 == CalculateMargin2(example::races));
+    Assert(71'503 == CalculateMargin2(example::races));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(293046 == part1);
+    Assert(293'046 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(35150181 == part2);
+    Assert(35'150'181 == part2);
 }

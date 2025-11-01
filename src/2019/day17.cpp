@@ -1,6 +1,8 @@
 #include "day17.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
+
 #include <chrono>
 #include <thread>
 
@@ -93,12 +95,16 @@ static Int GetMapHeight(Map const &map)
 static char GetTile(Map const &map, Pos const &p)
 {
     if (p.x < 0 || p.y < 0 || p.x >= map.second)
+    {
         return '\0';
+    }
 
     Int const height = GetMapHeight(map);
 
     if (p.y >= height)
+    {
         return '\0';
+    }
 
     return map.first[static_cast<size_t>(p.y * map.second + p.x)];
 }
@@ -157,14 +163,14 @@ static Pos GetDir(char robot)
 {
     switch (robot)
     {
-    case '<':
-        return West;
-    case '>':
-        return East;
-    case '^':
-        return North;
-    case 'v':
-        return South;
+        case '<':
+            return West;
+        case '>':
+            return East;
+        case '^':
+            return North;
+        case 'v':
+            return South;
     }
 
     throw std::invalid_argument{"Invalid robot"};
@@ -173,16 +179,24 @@ static Pos GetDir(char robot)
 static std::array<std::pair<Pos, char>, 2> GetOtherDirs(Pos const &pos)
 {
     if (pos == West)
+    {
         return {std::make_pair(South, 'L'), std::make_pair(North, 'R')};
+    }
 
     if (pos == East)
+    {
         return {std::make_pair(North, 'L'), std::make_pair(South, 'R')};
+    }
 
     if (pos == North)
+    {
         return {std::make_pair(West, 'L'), std::make_pair(East, 'R')};
+    }
 
     if (pos == South)
+    {
         return {std::make_pair(East, 'L'), std::make_pair(West, 'R')};
+    }
 
     throw std::invalid_argument{"Invalid robot"};
 }
@@ -242,7 +256,7 @@ static void Part1()
     auto m = GenerateMap();
     auto const part1 = MarkIntersections(m);
     fmt::print("  Part1: {}\n", part1);
-    Assert(14332 == part1);
+    Assert(14'332 == part1);
 }
 
 static void Part2()
@@ -312,7 +326,7 @@ static void Part2()
     cpu.Run();
 
     fmt::print("  Part2: {}\n", result);
-    Assert(1034009 == result);
+    Assert(1'034'009 == result);
 }
 
 Map ParseMap(std::string_view mapData)

@@ -1,5 +1,7 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
+
 #include <unordered_map>
 
 using namespace std::literals;
@@ -134,5 +136,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(58269 == part2);
+    Assert(58'269 == part2);
 }

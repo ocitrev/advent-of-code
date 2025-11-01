@@ -1,12 +1,13 @@
 #pragma once
 #include "input-bytes.hpp"
+
 #include <array>
 #include <string_view>
 
 namespace example
 {
-    [[maybe_unused]] constexpr std::array draw{
-        7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26, 1};
+    [[maybe_unused]] constexpr std::array draw{7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22,
+        18, 20, 8, 19, 3, 26, 1};
 
     constexpr std::string_view boards{R"(22 13 17 11  0
  8  2 23  4 24

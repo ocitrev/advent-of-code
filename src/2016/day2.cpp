@@ -1,5 +1,7 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
+
 #include <optional>
 
 class Keypad
@@ -43,9 +45,13 @@ public:
                 ++x;
 
                 if (++iter == end(line))
+                {
                     break;
+                }
                 else
+                {
                     ++iter;
+                }
             }
 
             ++y;
@@ -89,7 +95,9 @@ public:
         auto const candidate = GetKey(newPos);
 
         if (candidate == ' ')
+        {
             return cursor;
+        }
 
         return newPos;
     }
@@ -99,14 +107,14 @@ static Point2d ParseDir(char dir)
 {
     switch (dir)
     {
-    case 'U':
-        return Point2d::NORTH;
-    case 'D':
-        return Point2d::SOUTH;
-    case 'L':
-        return Point2d::WEST;
-    case 'R':
-        return Point2d::EAST;
+        case 'U':
+            return Point2d::NORTH;
+        case 'D':
+            return Point2d::SOUTH;
+        case 'L':
+            return Point2d::WEST;
+        case 'R':
+            return Point2d::EAST;
     }
 
     throw std::invalid_argument("dir");

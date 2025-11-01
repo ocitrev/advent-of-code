@@ -1,6 +1,8 @@
 #include "day5.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <algorithm>
 #include <fmt/format.h>
 #include <set>
@@ -36,9 +38,13 @@ static Seat GetSeat(std::string_view boardingPass)
     {
         int const middle = ((high - low + 1) / 2);
         if (c == 'F')
+        {
             high -= middle;
+        }
         else
+        {
             low += middle;
+        }
     }
 
     int left = 0;
@@ -48,9 +54,13 @@ static Seat GetSeat(std::string_view boardingPass)
     {
         int const middle = ((right - left + 1) / 2);
         if (c == 'L')
+        {
             right -= middle;
+        }
         else
+        {
             left += middle;
+        }
     }
 
     return Seat{low, left};
@@ -68,7 +78,9 @@ static int Part1()
         });
 
     if (auto maxIter = std::max_element(begin(ids), end(ids)); maxIter != end(ids))
+    {
         return *maxIter;
+    }
 
     return 0;
 }
@@ -95,7 +107,9 @@ static int Part2()
             {
                 // fmt::print("Seat({}, {}) is missing.\n", s.row, s.col);
                 if (found)
+                {
                     return s.GetId();
+                }
             }
             else
             {

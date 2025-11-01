@@ -1,4 +1,5 @@
 #include "day3.hpp"
+
 #include "../common.hpp"
 
 using Triangle = std::array<int, 3>;

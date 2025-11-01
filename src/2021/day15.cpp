@@ -1,4 +1,5 @@
 #include "day15.hpp"
+
 #include "../common.hpp"
 
 struct State
@@ -42,7 +43,9 @@ struct Map
         auto iterTo = map.find(p);
 
         if (iterTo == end(map))
+        {
             throw std::invalid_argument("p");
+        }
 
         return LimitScore(iterTo->second + offset);
     }
@@ -54,8 +57,7 @@ struct Map
 
     static auto Neighbors(Point2d current)
     {
-        return std::array{
-            current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
+        return std::array{current + Point2d::WEST, current + Point2d::NORTH, current + Point2d::EAST, current + Point2d::SOUTH};
     }
 
     static size_t GetOffset(Point2d p, int w)
@@ -94,17 +96,23 @@ struct Map
                     q.pop_back();
 
                     if (current == goal)
+                    {
                         return risk;
+                    }
 
                     if (seen[GetOffset(current, w)])
+                    {
                         continue;
+                    }
 
                     seen[GetOffset(current, w)] = 1U;
 
                     for (auto n : Neighbors(current))
                     {
                         if (not Inbound(n, goal))
+                        {
                             continue;
+                        }
 
                         if (not seen[GetOffset(n, w)])
                         {

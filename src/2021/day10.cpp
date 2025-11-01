@@ -1,18 +1,19 @@
 #include "day10.hpp"
+
 #include "../common.hpp"
 
 constexpr static int GetErrorScore(char c)
 {
     switch (c)
     {
-    case ')':
-        return 3;
-    case ']':
-        return 57;
-    case '}':
-        return 1197;
-    case '>':
-        return 25137;
+        case ')':
+            return 3;
+        case ']':
+            return 57;
+        case '}':
+            return 1197;
+        case '>':
+            return 25'137;
     }
 
     return 0;
@@ -24,32 +25,40 @@ static char GetCorruptedChar(std::string_view line, std::vector<char> &stack)
     {
         switch (c)
         {
-        case '(':
-        case '{':
-        case '[':
-        case '<':
-            stack.push_back(c);
-            break;
-        case ')':
-            if (stack.back() != '(')
-                return c;
-            stack.pop_back();
-            break;
-        case '}':
-            if (stack.back() != '{')
-                return c;
-            stack.pop_back();
-            break;
-        case ']':
-            if (stack.back() != '[')
-                return c;
-            stack.pop_back();
-            break;
-        case '>':
-            if (stack.back() != '<')
-                return c;
-            stack.pop_back();
-            break;
+            case '(':
+            case '{':
+            case '[':
+            case '<':
+                stack.push_back(c);
+                break;
+            case ')':
+                if (stack.back() != '(')
+                {
+                    return c;
+                }
+                stack.pop_back();
+                break;
+            case '}':
+                if (stack.back() != '{')
+                {
+                    return c;
+                }
+                stack.pop_back();
+                break;
+            case ']':
+                if (stack.back() != '[')
+                {
+                    return c;
+                }
+                stack.pop_back();
+                break;
+            case '>':
+                if (stack.back() != '<')
+                {
+                    return c;
+                }
+                stack.pop_back();
+                break;
         }
     }
 
@@ -60,18 +69,18 @@ constexpr static int64_t GetAutoCompleteScore(char c)
 {
     switch (c)
     {
-    case '(':
-    case ')':
-        return 1;
-    case '{':
-    case '}':
-        return 3;
-    case '[':
-    case ']':
-        return 2;
-    case '<':
-    case '>':
-        return 4;
+        case '(':
+        case ')':
+            return 1;
+        case '{':
+        case '}':
+            return 3;
+        case '[':
+        case ']':
+            return 2;
+        case '<':
+        case '>':
+            return 4;
     }
 
     return 0;
@@ -105,7 +114,9 @@ static int Part1(std::string_view lines)
     {
         auto const c = GetCorruptedChar(line);
         if (c == '\0')
+        {
             continue;
+        }
 
         score += GetErrorScore(c);
     }
@@ -122,7 +133,9 @@ static int64_t Part2(std::string_view lines)
         std::vector<char> stack;
 
         if (GetCorruptedChar(line, stack) != '\0')
+        {
             continue;
+        }
 
         std::ranges::reverse(stack);
         auto const score = AutoCompleteScore(stack);
@@ -143,17 +156,17 @@ int main()
     Assert('>' == GetCorruptedChar("{()()()>"));
     Assert('>' == GetCorruptedChar("{()()()>"));
     Assert('}' == GetCorruptedChar("(((()))}"));
-    Assert(26397 == Part1(example::lines));
+    Assert(26'397 == Part1(example::lines));
     Assert(294 == AutoCompleteScore("])}>"));
-    Assert(288957 == Part2(example::lines));
+    Assert(288'957 == Part2(example::lines));
 
     fmt::print("Debug: {}\n", AutoCompleteScore("])}>"));
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(288291 == part1);
+    Assert(288'291 == part1);
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(820045242 == part2);
+    Assert(820'045'242 == part2);
 }

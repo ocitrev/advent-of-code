@@ -1,6 +1,8 @@
 #include "day14.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <algorithm>
 #include <fmt/format.h>
 #include <gsl/gsl>
@@ -90,7 +92,9 @@ int Part1()
         for (std::size_t i = 0; i < deers.size(); ++i)
         {
             if (distances[i] == max)
+            {
                 ++points[i];
+            }
         }
     }
 

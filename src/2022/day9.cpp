@@ -1,4 +1,5 @@
 #include "day9.hpp"
+
 #include "../common.hpp"
 
 struct Instruction
@@ -10,14 +11,14 @@ struct Instruction
     {
         switch (dir)
         {
-        case 'L':
-            return {Point2d::WEST, len};
-        case 'U':
-            return {Point2d::NORTH, len};
-        case 'R':
-            return {Point2d::EAST, len};
-        case 'D':
-            return {Point2d::SOUTH, len};
+            case 'L':
+                return {Point2d::WEST, len};
+            case 'U':
+                return {Point2d::NORTH, len};
+            case 'R':
+                return {Point2d::EAST, len};
+            case 'D':
+                return {Point2d::SOUTH, len};
         }
 
         return {};

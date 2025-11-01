@@ -1,7 +1,9 @@
 #include "day4.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/md5.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <vector>
@@ -31,9 +33,9 @@ int main()
 
     int const part1 = Mine(std::string{GetInput()}, "00000");
     fmt::print("  Part1: {}\n", part1);
-    Assert(117946 == part1);
+    Assert(117'946 == part1);
 
     int const part2 = Mine(std::string{GetInput()}, "000000");
     fmt::print("  Part2: {}\n", part2);
-    Assert(3938038 == part2);
+    Assert(3'938'038 == part2);
 }

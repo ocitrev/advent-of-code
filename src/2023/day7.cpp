@@ -1,5 +1,7 @@
 #include "day7.hpp"
+
 #include "../common.hpp"
+
 #include <set>
 
 using namespace std::literals;
@@ -19,32 +21,32 @@ static constexpr int CardToValue(char c, bool joker)
 {
     switch (c)
     {
-    case '2':
-        return 2;
-    case '3':
-        return 3;
-    case '4':
-        return 4;
-    case '5':
-        return 5;
-    case '6':
-        return 6;
-    case '7':
-        return 7;
-    case '8':
-        return 8;
-    case '9':
-        return 9;
-    case 'T':
-        return 10;
-    case 'J':
-        return joker ? 1 : 11;
-    case 'Q':
-        return 12;
-    case 'K':
-        return 13;
-    case 'A':
-        return 14;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+        case '4':
+            return 4;
+        case '5':
+            return 5;
+        case '6':
+            return 6;
+        case '7':
+            return 7;
+        case '8':
+            return 8;
+        case '9':
+            return 9;
+        case 'T':
+            return 10;
+        case 'J':
+            return joker ? 1 : 11;
+        case 'Q':
+            return 12;
+        case 'K':
+            return 13;
+        case 'A':
+            return 14;
     }
 
     return 0;
@@ -113,16 +115,24 @@ static std::pair<bool, int> CountSameCards(Hand const &hand, int nb, int exclude
 static HandType GetHandType(Hand const &hand)
 {
     if (CountSameCards(hand, 5).first)
+    {
         return HandType::FiveOfAKind;
+    }
 
     if (CountSameCards(hand, 4).first)
+    {
         return HandType::FourOfAKind;
+    }
 
     if (CountSameCards(hand, 3).first)
+    {
         return CountSameCards(hand, 2).first ? HandType::FullHouse : HandType::ThreeOfAKind;
+    }
 
     if (auto pair1 = CountSameCards(hand, 2); pair1.first)
+    {
         return CountSameCards(hand, 2, pair1.second).first ? HandType::TwoPair : HandType::OnePair;
+    }
 
     return HandType::HighCard;
 }
@@ -213,9 +223,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(253910319 == part1);
+    Assert(253'910'319 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(254083736 == part2);
+    Assert(254'083'736 == part2);
 }

@@ -1,4 +1,5 @@
 #include "day4.hpp"
+
 #include "../common.hpp"
 
 using namespace std::literals;
@@ -80,7 +81,9 @@ static Room ParseRoom(std::string_view room)
         [](auto const &a, auto const &b)
         {
             if (b.second == a.second)
+            {
                 return a.first < b.first;
+            }
 
             return b.second < a.second;
         });
@@ -160,7 +163,7 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(137896 == part1);
+    Assert(137'896 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);

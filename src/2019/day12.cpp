@@ -1,8 +1,10 @@
 #include "day12.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/combinations.hpp"
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <numeric>
@@ -20,7 +22,9 @@ public:
         std::smatch m;
 
         if (!std::regex_match(data, m, re))
+        {
             throw std::invalid_argument("Invalid data");
+        }
 
         pos[0] = std::stoi(m[1]);
         pos[1] = std::stoi(m[2]);
@@ -144,7 +148,9 @@ static long long CountCycle(std::string_view data)
             ++count.at(axis);
 
             if (copies == moons)
+            {
                 break;
+            }
         }
     }
 
@@ -163,9 +169,9 @@ int main()
     Assert(8625 == part1);
 
     Assert(2772 == CountCycle(example::one));
-    Assert(4686774924 == CountCycle(example::two));
+    Assert(4'686'774'924 == CountCycle(example::two));
 
     auto part2 = CountCycle(GetInput());
     fmt::print("  Part2: {}\n", part2);
-    Assert(332477126821644 == part2);
+    Assert(332'477'126'821'644 == part2);
 }

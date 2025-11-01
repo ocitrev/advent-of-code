@@ -1,6 +1,8 @@
 #include "day2.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <charconv>
 #include <fmt/format.h>
 #include <sstream>
@@ -71,6 +73,6 @@ int main()
     fmt::print("  Part1: {}\n", area);
     fmt::print("  Part2: {}\n", length);
 
-    Assert(1586300 == area);
-    Assert(3737498 == length);
+    Assert(1'586'300 == area);
+    Assert(3'737'498 == length);
 }

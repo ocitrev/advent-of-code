@@ -1,14 +1,20 @@
 #include "day3.hpp"
+
 #include "../common.hpp"
+
 #include <set>
 
 static int GetPriority(char c)
 {
     if (c >= 'a' && c <= 'z')
+    {
         return c - 'a' + 1;
+    }
 
     if (c >= 'A' && c <= 'Z')
+    {
         return c - 'A' + 27;
+    }
 
     throw std::invalid_argument("c");
 }
@@ -37,8 +43,7 @@ static int ParseGroup(std::string_view bag1, std::string_view bag2, std::string_
     std::set<char> const set3(begin(bag3), end(bag3));
     std::set<char> intermediate;
     char intersection;
-    std::set_intersection(
-        begin(set1), end(set1), begin(set2), end(set2), std::inserter(intermediate, intermediate.end()));
+    std::set_intersection(begin(set1), end(set1), begin(set2), end(set2), std::inserter(intermediate, intermediate.end()));
     std::set_intersection(begin(intermediate), end(intermediate), begin(set3), end(set3), &intersection);
     return GetPriority(intersection);
 }
@@ -48,7 +53,9 @@ static int ParseGroups(std::string_view lines)
     auto const list = Split(lines, '\n');
 
     if (list.size() % 3 != 0)
+    {
         throw std::invalid_argument("lines");
+    }
 
     int total = 0;
 

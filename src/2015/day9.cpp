@@ -1,7 +1,9 @@
 #include "day9.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
+
 #include <fmt/format.h>
 
 struct Route
@@ -23,7 +25,9 @@ struct Route
         auto b = names.substr(pos + 4, names.size());
 
         if (b < a)
+        {
             std::swap(a, b);
+        }
 
         return {std::string{a}, std::string{b}, distance};
     }
@@ -53,7 +57,9 @@ static int FindRoute(std::vector<Route> const &routes, std::string_view a, std::
         });
 
     if (iter != end(routes))
+    {
         return iter->distance;
+    }
 
     return -1;
 }
@@ -92,14 +98,19 @@ static int FindShortest(std::string_view data, PredicateT &&pred)
         }
 
         if (best == -1 || pred(total, best))
+        {
             best = total;
+        }
 
 #if DEBUG_PRINT
         for (auto &&city : cities)
+        {
             fmt::print("{} -> ", city);
+        }
         fmt::print("{}\n", total);
 #endif
-    } while (std::next_permutation(begin(cities), end(cities)));
+    }
+    while (std::next_permutation(begin(cities), end(cities)));
 
     return best;
 }

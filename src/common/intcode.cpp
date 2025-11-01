@@ -1,4 +1,5 @@
 #include "intcode.hpp"
+
 #include <sstream>
 #include <stdexcept>
 #include <utility>
@@ -16,7 +17,9 @@ Intcode::Intcode(std::vector<Int> code)
     : state{std::move(code)}
 {
     if (state.memory.empty())
+    {
         throw std::invalid_argument("code cannot be empty.");
+    }
 }
 
 Intcode::Param Intcode::GetParam(Mode mode)
@@ -27,15 +30,21 @@ Intcode::Param Intcode::GetParam(Mode mode)
 Intcode::Param &Intcode::Param::operator=(Int value_)
 {
     if (mode == Mode::Immediate)
+    {
         throw std::domain_error("Cannot set immediate value");
+    }
 
     Int offset = value;
 
     if (mode == Mode::Relative)
+    {
         offset += cpu->state.relOffset;
+    }
 
     if (offset >= static_cast<Int>(cpu->state.memory.size()))
+    {
         cpu->state.memory.resize(static_cast<size_t>(offset) + 1);
+    }
 
     cpu->state.memory[static_cast<size_t>(offset)] = value_;
     return *this;
@@ -44,15 +53,21 @@ Intcode::Param &Intcode::Param::operator=(Int value_)
 Intcode::Param::operator Int() const
 {
     if (mode == Mode::Immediate)
+    {
         return value;
+    }
 
     Int offset = value;
 
     if (mode == Mode::Relative)
+    {
         offset += cpu->state.relOffset;
+    }
 
     if (offset >= static_cast<Int>(cpu->state.memory.size()))
+    {
         return 0;
+    }
 
     return cpu->state.memory[static_cast<size_t>(offset)];
 }
@@ -81,81 +96,85 @@ void Intcode::RunStep(Intcode::OpCode opcode, Int mode)
 {
     switch (opcode)
     {
-    case OpCode::Add:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-        auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a + b;
-        break;
-    }
-    case OpCode::Muliply:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-        auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a * b;
-        break;
-    }
-    case OpCode::Input:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        a = inputFunc_();
-        break;
-    }
-    case OpCode::Output:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        outputFunc_(a);
-        break;
-    }
-    case OpCode::JumpTrue:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+        case OpCode::Add:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a + b;
+            break;
+        }
+        case OpCode::Muliply:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a * b;
+            break;
+        }
+        case OpCode::Input:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            a = inputFunc_();
+            break;
+        }
+        case OpCode::Output:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            outputFunc_(a);
+            break;
+        }
+        case OpCode::JumpTrue:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
 
-        if (a != 0)
-            state.ip = static_cast<size_t>(b);
+            if (a != 0)
+            {
+                state.ip = static_cast<size_t>(b);
+            }
 
-        break;
-    }
-    case OpCode::JumpFalse:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            break;
+        }
+        case OpCode::JumpFalse:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
 
-        if (a == 0)
-            state.ip = static_cast<size_t>(b);
+            if (a == 0)
+            {
+                state.ip = static_cast<size_t>(b);
+            }
 
-        break;
-    }
-    case OpCode::IsLess:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-        auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a < b ? 1 : 0;
-        break;
-    }
-    case OpCode::IsEqual:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
-        auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
-        c = a == b ? 1 : 0;
-        break;
-    }
-    case OpCode::SetRelBaseOffset:
-    {
-        auto a = GetParam(static_cast<Mode>(mode % 10));
-        state.relOffset += a;
-        break;
-    }
-    case OpCode::Halt:
-        state.halted = true;
-        break;
-    default:
-        throw std::domain_error("Invalid opcode");
+            break;
+        }
+        case OpCode::IsLess:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a < b ? 1 : 0;
+            break;
+        }
+        case OpCode::IsEqual:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            auto b = GetParam(static_cast<Mode>((mode / 10) % 10));
+            auto c = GetParam(static_cast<Mode>((mode / 100) % 10));
+            c = a == b ? 1 : 0;
+            break;
+        }
+        case OpCode::SetRelBaseOffset:
+        {
+            auto a = GetParam(static_cast<Mode>(mode % 10));
+            state.relOffset += a;
+            break;
+        }
+        case OpCode::Halt:
+            state.halted = true;
+            break;
+        default:
+            throw std::domain_error("Invalid opcode");
     }
 }
 

@@ -1,6 +1,8 @@
 #include "day18.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <charconv>
 #include <fmt/format.h>
 #include <memory>
@@ -11,11 +13,17 @@ using Int = int64_t;
 static void Apply(Int &left, char op, Int right)
 {
     if (op == '+')
+    {
         left += right;
+    }
     else if (op == '*')
+    {
         left *= right;
+    }
     else
+    {
         left = right;
+    }
 }
 
 static Int Eval1(std::string_view expression, char const *&parentC)
@@ -28,7 +36,9 @@ static Int Eval1(std::string_view expression, char const *&parentC)
     for (char const *c = first; c < last; std::advance(c, 1))
     {
         if (*c == ' ')
+        {
             continue;
+        }
 
         if (*c == '(')
         {
@@ -109,9 +119,13 @@ private:
     {
         ++offset;
         if (offset >= text.size())
+        {
             currentChar = EOF;
+        }
         else
+        {
             currentChar = text[offset];
+        }
     }
 
     bool SkipWhitespace()
@@ -131,14 +145,18 @@ private:
     {
         size_t start = offset;
         while (currentChar != EOF && std::isdigit(currentChar) != 0)
+        {
             Advance();
+        }
 
         Int value = 0;
         auto const *const numStart = &text[start];
         auto const *const numEnd = std::next(numStart, static_cast<ptrdiff_t>(offset - start));
         auto result = std::from_chars(numStart, numEnd, value);
         if (result.ec == std::errc{})
+        {
             return value;
+        }
 
         throw std::runtime_error("not an integer");
     }
@@ -149,10 +167,14 @@ public:
         while (currentChar != EOF)
         {
             if (SkipWhitespace())
+            {
                 continue;
+            }
 
             if (std::isdigit(currentChar) != 0)
+            {
                 return {TokenType::Integer, Integer()};
+            }
 
             if (currentChar == '+')
             {
@@ -212,7 +234,9 @@ struct BinaryOperation : public AST
     Int Eval() override
     {
         if (op == '*')
+        {
             return left->Eval() * right->Eval();
+        }
 
         return left->Eval() + right->Eval();
     }
@@ -254,9 +278,13 @@ private:
     void Eat(TokenType type)
     {
         if (currentToken.type == type)
+        {
             currentToken = lex.GetNextToken();
+        }
         else
+        {
             Error();
+        }
     }
 
     std::shared_ptr<AST> Factor()
@@ -348,20 +376,20 @@ int main()
     Assert(51 == Eval1("1 + (2 * 3) + (4 * (5 + 6))"));
     Assert(26 == Eval1("2 * 3 + (4 * 5)"));
     Assert(437 == Eval1("5 + (8 * 3 + 9 + 3 * 4 * 3)"));
-    Assert(12240 == Eval1("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"));
-    Assert(13632 == Eval1("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"));
+    Assert(12'240 == Eval1("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"));
+    Assert(13'632 == Eval1("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"));
 
     Assert(51 == Eval2("1 + (2 * 3) + (4 * (5 + 6))"));
     Assert(46 == Eval2("2 * 3 + (4 * 5)"));
     Assert(1445 == Eval2("5 + (8 * 3 + 9 + 3 * 4 * 3)"));
-    Assert(669060 == Eval2("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"));
-    Assert(23340 == Eval2("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"));
+    Assert(669'060 == Eval2("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"));
+    Assert(23'340 == Eval2("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(7147789965219 == part1);
+    Assert(7'147'789'965'219 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(136824720421264 == part2);
+    Assert(136'824'720'421'264 == part2);
 }

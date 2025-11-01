@@ -1,7 +1,9 @@
 #include "day12.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/point2d.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 
 struct Ship
@@ -23,15 +25,15 @@ struct Ship
     {
         switch (n)
         {
-        case 270:
-            direction.Rotate90Right();
-            break;
-        case 180:
-            direction.Rotate180();
-            break;
-        case 90:
-            direction.Rotate90Left();
-            break;
+            case 270:
+                direction.Rotate90Right();
+                break;
+            case 180:
+                direction.Rotate180();
+                break;
+            case 90:
+                direction.Rotate90Left();
+                break;
         }
     }
 
@@ -39,15 +41,15 @@ struct Ship
     {
         switch (n)
         {
-        case 270:
-            direction.Rotate90Left();
-            break;
-        case 180:
-            direction.Rotate180();
-            break;
-        case 90:
-            direction.Rotate90Right();
-            break;
+            case 270:
+                direction.Rotate90Left();
+                break;
+            case 180:
+                direction.Rotate180();
+                break;
+            case 90:
+                direction.Rotate90Right();
+                break;
         }
     }
 
@@ -73,27 +75,27 @@ struct Ship
 
         switch (instruction[0])
         {
-        case 'L':
-            TurnLeft(n);
-            break;
-        case 'R':
-            TurnRight(n);
-            break;
-        case 'F':
-            Move(n);
-            break;
-        case 'N':
-            Move(Point2d::NORTH, n);
-            break;
-        case 'S':
-            Move(Point2d::SOUTH, n);
-            break;
-        case 'E':
-            Move(Point2d::EAST, n);
-            break;
-        case 'W':
-            Move(Point2d::WEST, n);
-            break;
+            case 'L':
+                TurnLeft(n);
+                break;
+            case 'R':
+                TurnRight(n);
+                break;
+            case 'F':
+                Move(n);
+                break;
+            case 'N':
+                Move(Point2d::NORTH, n);
+                break;
+            case 'S':
+                Move(Point2d::SOUTH, n);
+                break;
+            case 'E':
+                Move(Point2d::EAST, n);
+                break;
+            case 'W':
+                Move(Point2d::WEST, n);
+                break;
         }
     }
 
@@ -141,5 +143,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(156735 == part2);
+    Assert(156'735 == part2);
 }

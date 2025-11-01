@@ -1,5 +1,7 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
+
 #include <fstream>
 
 constexpr int GetFuel(int mass)
@@ -10,17 +12,21 @@ constexpr int GetFuel(int mass)
 static_assert(2 == GetFuel(14));
 static_assert(2 == GetFuel(14));
 static_assert(654 == GetFuel(1969));
-static_assert(33583 == GetFuel(100756));
+static_assert(33'583 == GetFuel(100'756));
 
 constexpr int GetRealFuel(int mass)
 {
     int fuel = GetFuel(mass);
 
     if (fuel > 0)
+    {
         return fuel + GetRealFuel(fuel);
+    }
 
     if (fuel < 0)
+    {
         fuel = 0;
+    }
 
     return fuel;
 }
@@ -28,7 +34,7 @@ constexpr int GetRealFuel(int mass)
 static_assert(2 == GetRealFuel(12));
 static_assert(2 == GetRealFuel(14));
 static_assert(966 == GetRealFuel(1969));
-static_assert(50346 == GetRealFuel(100756));
+static_assert(50'346 == GetRealFuel(100'756));
 
 int main()
 {
@@ -48,8 +54,8 @@ int main()
         });
 
     fmt::print("  Part1: {}\n", part1);
-    Assert(3538016 == part1);
+    Assert(3'538'016 == part1);
 
     fmt::print("  Part2: {}\n", part2);
-    Assert(5304147 == part2);
+    Assert(5'304'147 == part2);
 }

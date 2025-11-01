@@ -1,6 +1,8 @@
 #include "day7.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <functional>
 #include <map>
@@ -49,7 +51,9 @@ public:
                 auto const &op = parts[0];
                 std::string out{parts.back()};
                 if (op != "NOT")
+                {
                     throw std::runtime_error("Unknown instruction");
+                }
 
                 // fmt::print("{} = NOT {}\n", out, parts[1]);
                 wires[out] = [val = Resolve(parts[1])]()
@@ -103,12 +107,16 @@ public:
     {
         std::string key{name};
         if (auto itCache = cache.find(key); itCache != end(cache))
+        {
             return itCache->second;
+        }
 
         auto iter = wires.find(key);
 
         if (iter == end(wires))
+        {
             throw std::runtime_error("Invalid wire");
+        }
 
         unsigned short const value = iter->second();
         // fmt::print("{} = {}\n", name, value);
@@ -153,17 +161,17 @@ int main()
     Assert(507 == c.GetWire("e"));
     Assert(492 == c.GetWire("f"));
     Assert(114 == c.GetWire("g"));
-    Assert(65412 == c.GetWire("h"));
-    Assert(65079 == c.GetWire("i"));
+    Assert(65'412 == c.GetWire("h"));
+    Assert(65'079 == c.GetWire("i"));
     Assert(123 == c.GetWire("x"));
     Assert(456 == c.GetWire("y"));
 #endif
 
     int const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(46065 == part1);
+    Assert(46'065 == part1);
 
     int const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(14134 == part2);
+    Assert(14'134 == part2);
 }

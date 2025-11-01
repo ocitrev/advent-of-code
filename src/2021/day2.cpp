@@ -1,4 +1,5 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
 
 static int Part1(std::string_view text)
@@ -9,11 +10,17 @@ static int Part1(std::string_view text)
     for (auto const &line : Split(text, '\n'))
     {
         if (starts_with(line, "forward "))
+        {
             pos += svtoi(line.substr(8));
+        }
         else if (starts_with(line, "up "))
+        {
             depth -= svtoi(line.substr(3));
+        }
         else if (starts_with(line, "down "))
+        {
             depth += svtoi(line.substr(5));
+        }
     }
 
     return pos * depth;
@@ -58,9 +65,9 @@ int main()
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(1694130 == part1);
+    Assert(1'694'130 == part1);
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1698850445 == part2);
+    Assert(1'698'850'445 == part2);
 }

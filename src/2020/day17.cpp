@@ -1,8 +1,10 @@
 #include "day17.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/point3d.hpp"
 #include "../common/point4d.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <unordered_map>
 
@@ -36,18 +38,26 @@ struct GOL3d
         int nbNeighbors = 0;
 
         for (int x = -1; x < 2; ++x)
+        {
             for (int y = -1; y < 2; ++y)
+            {
                 for (int z = -1; z < 2; ++z)
                 {
                     Point3d const offset{x, y, z};
 
                     // skip le centre
                     if (offset == Point3d{})
+                    {
                         continue;
+                    }
 
                     if (IsAlive(pos + offset))
+                    {
                         ++nbNeighbors;
+                    }
                 }
+            }
+        }
 
         return nbNeighbors;
     }
@@ -55,7 +65,9 @@ struct GOL3d
     [[nodiscard]] bool IsAlive(Point3d p) const
     {
         if (auto iter = map.find(p); iter != end(map))
+        {
             return iter->second;
+        }
 
         return false;
     }
@@ -71,20 +83,28 @@ struct GOL3d
                 return pair.first;
             });
 
-        const auto [min, max] = std::minmax_element(begin(points), end(points));
+        auto const [min, max] = std::minmax_element(begin(points), end(points));
 
         for (int x = min->x - 1; x <= max->x + 1; ++x)
+        {
             for (int y = min->y - 1; y <= max->y + 1; ++y)
+            {
                 for (int z = min->z - 1; z <= max->z + 1; ++z)
                 {
                     Point3d const pos{x, y, z};
                     auto const nbNeighbors = CountAliveNeighbors(pos);
 
                     if (IsAlive(pos))
+                    {
                         newMap[pos] = nbNeighbors == 2 || nbNeighbors == 3;
+                    }
                     else
+                    {
                         newMap[pos] = nbNeighbors == 3;
+                    }
                 }
+            }
+        }
 
         map = newMap;
     }
@@ -137,19 +157,29 @@ struct GOL4d
         int nbNeighbors = 0;
 
         for (int x = -1; x < 2; ++x)
+        {
             for (int y = -1; y < 2; ++y)
+            {
                 for (int z = -1; z < 2; ++z)
+                {
                     for (int w = -1; w < 2; ++w)
                     {
                         Point4d const offset{x, y, z, w};
 
                         // skip le centre
                         if (offset == Point4d{})
+                        {
                             continue;
+                        }
 
                         if (IsAlive(pos + offset))
+                        {
                             ++nbNeighbors;
+                        }
                     }
+                }
+            }
+        }
 
         return nbNeighbors;
     }
@@ -157,7 +187,9 @@ struct GOL4d
     [[nodiscard]] bool IsAlive(Point4d p) const
     {
         if (auto iter = map.find(p); iter != end(map))
+        {
             return iter->second;
+        }
 
         return false;
     }
@@ -173,21 +205,31 @@ struct GOL4d
                 return pair.first;
             });
 
-        const auto [min, max] = std::minmax_element(begin(points), end(points));
+        auto const [min, max] = std::minmax_element(begin(points), end(points));
 
         for (int x = min->x - 1; x <= max->x + 1; ++x)
+        {
             for (int y = min->y - 1; y <= max->y + 1; ++y)
+            {
                 for (int z = min->z - 1; z <= max->z + 1; ++z)
+                {
                     for (int w = min->w - 1; w <= max->w + 1; ++w)
                     {
                         Point4d const pos{x, y, z, w};
                         auto const nbNeighbors = CountAliveNeighbors(pos);
 
                         if (IsAlive(pos))
+                        {
                             newMap[pos] = nbNeighbors == 2 || nbNeighbors == 3;
+                        }
                         else
+                        {
                             newMap[pos] = nbNeighbors == 3;
+                        }
                     }
+                }
+            }
+        }
 
         map = newMap;
     }

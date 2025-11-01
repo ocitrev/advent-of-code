@@ -1,4 +1,5 @@
 #include "day11.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 
@@ -26,7 +27,9 @@ struct Robot
         {
             auto iter = grid.find(pos);
             if (iter != end(grid))
+            {
                 return iter->second;
+            }
 
             return 0;
         };

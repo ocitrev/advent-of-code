@@ -1,6 +1,8 @@
 #include "day23.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <span>
 
@@ -15,10 +17,14 @@ struct VM
     unsigned int &GetRegister(std::string_view instruction)
     {
         if (instruction[4] == 'a')
+        {
             return a;
+        }
 
         if (instruction[4] == 'b')
+        {
             return b;
+        }
 
         throw std::runtime_error("invalid register");
     }
@@ -27,9 +33,13 @@ struct VM
     {
         int const offset = svtoi(offsetText.substr(1));
         if (offsetText[0] == '-')
+        {
             ip -= offset;
+        }
         else
+        {
             ip += offset;
+        }
     }
 
     void Step()
@@ -58,16 +68,24 @@ struct VM
         else if (starts_with(instruction, "jie"))
         {
             if (GetRegister(instruction) % 2 == 0)
+            {
                 Jump(instruction.substr(7));
+            }
             else
+            {
                 ++ip;
+            }
         }
         else if (starts_with(instruction, "jio"))
         {
             if (GetRegister(instruction) == 1)
+            {
                 Jump(instruction.substr(7));
+            }
             else
+            {
                 ++ip;
+            }
         }
         else
         {

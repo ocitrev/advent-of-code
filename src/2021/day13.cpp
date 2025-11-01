@@ -1,4 +1,5 @@
 #include "day13.hpp"
+
 #include "../common.hpp"
 
 struct Map
@@ -37,9 +38,13 @@ struct Map
         for (Point2d p : map)
         {
             if (p.x < x)
+            {
                 folded.insert(p);
+            }
             else
+            {
                 folded.insert({x - (p.x - x), p.y});
+            }
         }
 
         map = folded;
@@ -52,9 +57,13 @@ struct Map
         for (Point2d p : map)
         {
             if (p.y < y)
+            {
                 folded.insert(p);
+            }
             else
+            {
                 folded.insert({p.x, y - (p.y - y)});
+            }
         }
 
         map = folded;
@@ -119,9 +128,13 @@ struct Map
                 Point2d const p{x, y};
 
                 if (map.find(p) == end(map))
+                {
                     out.push_back(' ');
+                }
                 else
+                {
                     out.append("█");
+                }
             }
 
             out.push_back('\n');

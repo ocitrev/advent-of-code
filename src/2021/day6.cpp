@@ -1,4 +1,5 @@
 #include "day6.hpp"
+
 #include "../common.hpp"
 
 static std::vector<int8_t> ParseInput()
@@ -47,13 +48,13 @@ int main()
 
     Assert(26 == Run(example::fishes, 18));
     Assert(5934 == Run(example::fishes, 80));
-    Assert(26984457539 == Run(example::fishes, 256));
+    Assert(26'984'457'539 == Run(example::fishes, 256));
 
     auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(359344 == part1);
+    Assert(359'344 == part1);
 
     auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1629570219571 == part2);
+    Assert(1'629'570'219'571 == part2);
 }

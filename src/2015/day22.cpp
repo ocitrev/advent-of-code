@@ -1,7 +1,10 @@
 #include "day22.hpp"
+
+#include "game_character.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
-#include "game_character.hpp"
+
 #include <fmt/format.h>
 #include <map>
 #include <optional>
@@ -65,10 +68,14 @@ struct Game
         wizard.armor = shieldTimer != 0 ? 7 : 0;
 
         if (rechargeTimer > 0)
+        {
             wizard.mana += 101;
+        }
 
         if (poisonTimer > 0)
+        {
             boss.hp -= 3;
+        }
 
         rechargeTimer = std::max(0, rechargeTimer - 1);
         shieldTimer = std::max(0, shieldTimer - 1);
@@ -79,16 +86,24 @@ struct Game
     {
         // check if enough mana
         if (wizard.mana < spell.cost)
+        {
             return false;
+        }
 
         if (spell.name == SpellId::Recharge)
+        {
             return rechargeTimer == 0;
+        }
 
         if (spell.name == SpellId::Shield)
+        {
             return shieldTimer == 0;
+        }
 
         if (spell.name == SpellId::Poison)
+        {
             return poisonTimer == 0;
+        }
 
         return true;
     }
@@ -96,16 +111,24 @@ struct Game
     bool CastSpell(Spell const &spell)
     {
         if (not CanCast(spell))
+        {
             return false;
+        }
 
         if (spell.name == SpellId::Recharge)
+        {
             rechargeTimer = 5;
+        }
 
         if (spell.name == SpellId::Shield)
+        {
             shieldTimer = 6;
+        }
 
         if (spell.name == SpellId::Poison)
+        {
             poisonTimer = 6;
+        }
 
         boss.hp -= spell.dammage;
         wizard.mana -= spell.cost;
@@ -120,20 +143,26 @@ struct Game
             --wizard.hp;
 
             if (wizard.IsDead())
+            {
                 return 1 << 30;
+            }
         }
 
         ApplyEffects();
 
         if (boss.IsDead())
+        {
             return 0;
+        }
 
         int best = 1 << 30;
 
         for (auto const &s : spells)
         {
             if (s.cost > best)
+            {
                 continue;
+            }
 
             if (CanCast(s))
             {
@@ -151,7 +180,9 @@ struct Game
         ApplyEffects();
 
         if (boss.IsDead())
+        {
             return 0;
+        }
 
         boss.Attack(wizard);
 

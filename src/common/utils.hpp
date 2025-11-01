@@ -31,18 +31,22 @@ inline auto insert_sorted(std::vector<T> &container, T &&item)
 }
 
 template <typename T, typename FuncT>
-inline void CombinationsWithReplacement(std::span<const T> list, std::size_t length, FuncT &&func)
+inline void CombinationsWithReplacement(std::span<T const> list, std::size_t length, FuncT &&func)
 {
     std::size_t const nb = list.size();
 
     if (length > nb)
+    {
         return;
+    }
 
     std::vector<T> values(length);
     std::vector<std::size_t> indices(length);
 
     for (std::size_t i = 0; i < length; ++i)
+    {
         values[i] = list[indices[i]];
+    }
 
     func(values);
 
@@ -52,11 +56,15 @@ inline void CombinationsWithReplacement(std::span<const T> list, std::size_t len
         for (; i < length; --i)
         {
             if (indices[i] != nb - 1)
+            {
                 break;
+            }
         }
 
         if (i > length)
+        {
             return;
+        }
 
         std::size_t const nextIdx = indices[i] + 1;
         for (std::size_t j = i; j < length; ++j)
@@ -70,22 +78,28 @@ inline void CombinationsWithReplacement(std::span<const T> list, std::size_t len
 }
 
 template <typename T, typename FuncT>
-inline bool Combinations(std::span<const T> list, std::size_t length, FuncT &&func)
+inline bool Combinations(std::span<T const> list, std::size_t length, FuncT &&func)
 {
     auto const nb = list.size();
 
     if (length > nb)
+    {
         return true;
+    }
 
     std::vector<T> values(length);
     std::vector<std::size_t> indices(length);
     std::iota(begin(indices), end(indices), 0);
 
     for (std::size_t i = 0; i < length; ++i)
+    {
         values[i] = list[i];
+    }
 
     if (not func(values))
+    {
         return false;
+    }
 
     while (true)
     {
@@ -93,11 +107,15 @@ inline bool Combinations(std::span<const T> list, std::size_t length, FuncT &&fu
         for (; i < length; --i)
         {
             if (indices[i] != i + nb - length)
+            {
                 break;
+            }
         }
 
         if (i > length)
+        {
             break;
+        }
 
         auto const nextIdx = indices[i] += 1;
         values[i] = list[nextIdx];
@@ -110,7 +128,9 @@ inline bool Combinations(std::span<const T> list, std::size_t length, FuncT &&fu
         }
 
         if (not func(values))
+        {
             return false;
+        }
     }
 
     return true;

@@ -1,6 +1,8 @@
 #include "day3.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <numeric>
@@ -23,7 +25,9 @@ struct Slope
     while (y < mapHeight)
     {
         if (map[y][x] == '#')
+        {
             ++trees;
+        }
 
         x = (x + static_cast<std::size_t>(slope.right)) % mapWidth;
         y += static_cast<std::size_t>(slope.down);
@@ -69,5 +73,5 @@ int main()
 
     auto const part2 = CountTreesInSlopes(GetInput(), allSlopes);
     fmt::print("  Part 2: {}\n", part2);
-    Assert(3952291680 == part2);
+    Assert(3'952'291'680 == part2);
 }

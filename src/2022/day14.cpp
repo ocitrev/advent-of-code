@@ -1,4 +1,5 @@
 #include "day14.hpp"
+
 #include "../common.hpp"
 
 struct Line
@@ -45,7 +46,9 @@ struct Map
         for (auto line : Split(scanlines, '\n'))
         {
             if (line.empty())
+            {
                 continue;
+            }
 
             auto const points = ParseScanLine(line);
             AddLineStrip(points);
@@ -194,24 +197,24 @@ struct Map
         {
             switch (state)
             {
-            case State::Fall:
-                state = Fall(sand);
-                break;
+                case State::Fall:
+                    state = Fall(sand);
+                    break;
 
-            case State::Left:
-                state = Left(sand);
-                break;
+                case State::Left:
+                    state = Left(sand);
+                    break;
 
-            case State::Right:
-                state = Right(sand);
-                break;
+                case State::Right:
+                    state = Right(sand);
+                    break;
 
-            case State::Stop:
-                SetCell(sand, Sand);
-                return sand != dropLocation;
+                case State::Stop:
+                    SetCell(sand, Sand);
+                    return sand != dropLocation;
 
-            case State::Drop:
-                return false;
+                case State::Drop:
+                    return false;
             }
         }
     }

@@ -169,7 +169,9 @@ struct Point2d
     constexpr bool IsVertical() const
     {
         if (x == 0)
+        {
             return true;
+        }
 
         return fabs(static_cast<double>(y) / static_cast<double>(x)) > 1.0;
     }
@@ -177,7 +179,9 @@ struct Point2d
     constexpr bool IsHorizontal() const
     {
         if (y == 0)
+        {
             return true;
+        }
 
         return fabs(static_cast<double>(y) / static_cast<double>(x)) < 1.0;
     }

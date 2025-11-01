@@ -1,5 +1,7 @@
 #include "day15.hpp"
+
 #include "../common.hpp"
+
 #include <initializer_list>
 #include <set>
 

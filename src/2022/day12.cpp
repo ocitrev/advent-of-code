@@ -1,4 +1,5 @@
 #include "day12.hpp"
+
 #include "../common.hpp"
 #include "../common/dijkstra.hpp"
 
@@ -67,7 +68,9 @@ static auto Solve(std::string_view mapText)
             auto const toHeight = map.GetHeight(to);
 
             if (fromHeight == Map::kInvalidHeight || toHeight == Map::kInvalidHeight)
+            {
                 return false;
+            }
 
             int const distance = toHeight - fromHeight;
             return distance <= 1;
@@ -97,7 +100,9 @@ static auto SolveReverse(std::string_view mapText)
             auto const toHeight = map.GetHeight(to);
 
             if (fromHeight == Map::kInvalidHeight || toHeight == Map::kInvalidHeight)
+            {
                 return false;
+            }
 
             int const distance = fromHeight - toHeight;
             return distance <= 1;

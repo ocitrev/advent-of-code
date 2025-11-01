@@ -1,5 +1,7 @@
 #include "day16.hpp"
+
 #include "../common.hpp"
+
 #include <regex>
 #include <set>
 
@@ -16,7 +18,9 @@ struct Rule
         std::match_results<std::string_view::const_iterator> m;
 
         if (not std::regex_match(begin(text), end(text), m, re))
+        {
             throw std::runtime_error{"Invalid rule text"};
+        }
 
         name = std::string_view{&*m[1].first, static_cast<size_t>(m[1].length())};
         range1.first = svtoi({&*m[2].first, static_cast<size_t>(m[2].length())});
@@ -28,10 +32,14 @@ struct Rule
     [[nodiscard]] bool IsValid(int n) const
     {
         if (n >= range1.first && n <= range1.second)
+        {
             return true;
+        }
 
         if (n >= range2.first && n <= range2.second)
+        {
             return true;
+        }
 
         return false;
     }
@@ -165,12 +173,16 @@ static int64_t Part2()
         for (auto const &rule : notes.rules)
         {
             if (rule.possibleIndex.size() != 1)
+            {
                 continue;
+            }
 
             int const toRemove = *rule.possibleIndex.begin();
 
             if (done.find(toRemove) != end(done))
+            {
                 continue;
+            }
 
             done.insert(toRemove);
 
@@ -184,7 +196,9 @@ static int64_t Part2()
         }
 
         if (not removed)
+        {
             break;
+        }
     }
 
     int64_t result = 1;
@@ -209,9 +223,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(20060 == part1);
+    Assert(20'060 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(2843534243843 == part2);
+    Assert(2'843'534'243'843 == part2);
 }

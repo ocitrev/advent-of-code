@@ -1,4 +1,5 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
 
 using namespace std::literals;
@@ -35,66 +36,66 @@ static int GetDigit(std::string_view line)
 {
     switch (char const c = line.front(); c)
     {
-    case '0':
-        throw std::runtime_error{"invalid digit"};
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-        return c - '0';
-    case 'o':
-        if (line.starts_with("one"sv))
-        {
-            return 1;
-        }
-        break;
-    case 't':
-        if (line.starts_with("two"sv))
-        {
-            return 2;
-        }
-        else if (line.starts_with("three"sv))
-        {
-            return 3;
-        }
-        break;
-    case 'f':
-        if (line.starts_with("four"sv))
-        {
-            return 4;
-        }
-        else if (line.starts_with("five"sv))
-        {
-            return 5;
-        }
-        break;
-    case 's':
-        if (line.starts_with("six"sv))
-        {
-            return 6;
-        }
-        else if (line.starts_with("seven"sv))
-        {
-            return 7;
-        }
-        break;
-    case 'e':
-        if (line.starts_with("eight"sv))
-        {
-            return 8;
-        }
-        break;
-    case 'n':
-        if (line.starts_with("nine"sv))
-        {
-            return 9;
-        }
-        break;
+        case '0':
+            throw std::runtime_error{"invalid digit"};
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            return c - '0';
+        case 'o':
+            if (line.starts_with("one"sv))
+            {
+                return 1;
+            }
+            break;
+        case 't':
+            if (line.starts_with("two"sv))
+            {
+                return 2;
+            }
+            else if (line.starts_with("three"sv))
+            {
+                return 3;
+            }
+            break;
+        case 'f':
+            if (line.starts_with("four"sv))
+            {
+                return 4;
+            }
+            else if (line.starts_with("five"sv))
+            {
+                return 5;
+            }
+            break;
+        case 's':
+            if (line.starts_with("six"sv))
+            {
+                return 6;
+            }
+            else if (line.starts_with("seven"sv))
+            {
+                return 7;
+            }
+            break;
+        case 'e':
+            if (line.starts_with("eight"sv))
+            {
+                return 8;
+            }
+            break;
+        case 'n':
+            if (line.starts_with("nine"sv))
+            {
+                return 9;
+            }
+            break;
     }
 
     return 0;
@@ -153,9 +154,9 @@ int main()
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(54632 == part1);
+    Assert(54'632 == part1);
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(54019 == part2);
+    Assert(54'019 == part2);
 }

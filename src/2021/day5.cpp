@@ -1,5 +1,7 @@
 #include "day5.hpp"
+
 #include "../common.hpp"
+
 #include <map>
 #include <ranges>
 
@@ -151,5 +153,5 @@ int main()
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(17013 == part2);
+    Assert(17'013 == part2);
 }

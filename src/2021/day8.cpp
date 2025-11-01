@@ -1,5 +1,7 @@
 #include "day8.hpp"
+
 #include "../common.hpp"
+
 #include <array>
 #include <bitset>
 #include <set>
@@ -60,13 +62,21 @@ static std::array<Segments, 10> Analyze(std::string_view signalPatterns)
         auto const count = s.count();
 
         if (count == 2)
+        {
             digits[1] = s;
+        }
         else if (count == 3)
+        {
             digits[7] = s;
+        }
         else if (count == 4)
+        {
             digits[4] = s;
+        }
         else if (count == 7)
+        {
             digits[8] = s;
+        }
     }
 
     std::erase(segments, digits[1]);
@@ -116,17 +126,25 @@ static std::array<Segments, 10> Analyze(std::string_view signalPatterns)
         {
             // 5 contiens le segment haut gauche, pas 2
             if ((s & topLeft) == topLeft)
+            {
                 digits[5] = s;
+            }
             else
+            {
                 digits[2] = s;
+            }
         }
         else if (count == 6)
         {
             // 9 contiens le segment du milieu, pas 0
             if ((s & middle) == middle)
+            {
                 digits[9] = s;
+            }
             else
+            {
                 digits[0] = s;
+            }
         }
     }
 
@@ -169,7 +187,7 @@ int main()
     fmt::print("Day 8, 2021: Seven Segment Search\n");
 
     Assert(26 == Part1(example::entries));
-    Assert(61229 == Part2(example::entries));
+    Assert(61'229 == Part2(example::entries));
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
@@ -177,5 +195,5 @@ int main()
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1004688 == part2);
+    Assert(1'004'688 == part2);
 }

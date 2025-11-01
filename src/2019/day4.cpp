@@ -1,4 +1,5 @@
 #include "day4.hpp"
+
 #include "../common.hpp"
 
 static bool IsIncreasing(unsigned int n)
@@ -15,10 +16,13 @@ constexpr static bool HasDoubleDigit(unsigned int n)
     do
     {
         if (++digitCount.at(n % 10) > 1)
+        {
             return true;
+        }
 
         n /= 10;
-    } while (n != 0);
+    }
+    while (n != 0);
 
     return false;
 }
@@ -31,12 +35,15 @@ constexpr static bool HasDoubleDigitExact(unsigned int n)
     {
         ++digitCount.at(n % 10);
         n /= 10;
-    } while (n != 0);
+    }
+    while (n != 0);
 
     for (int i : digitCount) // NOLINT, std::any_of is not constexpr
     {
         if (i == 2)
+        {
             return true;
+        }
     }
 
     return false;
@@ -64,24 +71,24 @@ int main()
 {
     fmt::print("Day 4, 2019: Secure Container\n");
 
-    Assert(IsIncreasing(111123));
-    Assert(IsIncreasing(135679));
+    Assert(IsIncreasing(111'123));
+    Assert(IsIncreasing(135'679));
 
-    Assert(IsValid1(111111));
-    Assert(!IsValid1(223450));
-    Assert(!IsValid1(123789));
-    Assert(IsValid2(112233));
-    Assert(!IsValid2(123444));
-    Assert(IsValid2(111122));
+    Assert(IsValid1(111'111));
+    Assert(!IsValid1(223'450));
+    Assert(!IsValid1(123'789));
+    Assert(IsValid2(112'233));
+    Assert(!IsValid2(123'444));
+    Assert(IsValid2(111'122));
 
-    static_assert(HasDoubleDigit(111111));
-    static_assert(HasDoubleDigit(112233));
-    static_assert(HasDoubleDigit(123444));
-    static_assert(HasDoubleDigit(111122));
-    static_assert(!HasDoubleDigitExact(111111));
-    static_assert(HasDoubleDigitExact(112233));
-    static_assert(!HasDoubleDigitExact(123444));
-    static_assert(HasDoubleDigitExact(111122));
+    static_assert(HasDoubleDigit(111'111));
+    static_assert(HasDoubleDigit(112'233));
+    static_assert(HasDoubleDigit(123'444));
+    static_assert(HasDoubleDigit(111'122));
+    static_assert(!HasDoubleDigitExact(111'111));
+    static_assert(HasDoubleDigitExact(112'233));
+    static_assert(!HasDoubleDigitExact(123'444));
+    static_assert(HasDoubleDigitExact(111'122));
 
     std::vector<unsigned int> loose;
     std::vector<unsigned int> strict;
@@ -90,13 +97,19 @@ int main()
     for (unsigned int i = begin; i != end; ++i)
     {
         if (!IsIncreasing(i))
+        {
             continue;
+        }
 
         if (!HasDoubleDigit(i))
+        {
             continue;
+        }
 
         if (HasDoubleDigitExact(i))
+        {
             strict.push_back(i);
+        }
 
         loose.push_back(i);
     }

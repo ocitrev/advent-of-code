@@ -1,7 +1,9 @@
 #include "day24.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
+
 #include <algorithm>
 #include <fmt/format.h>
 #include <gsl/gsl>
@@ -22,13 +24,17 @@ static std::vector<std::vector<int>> FindGroups(std::span<int const> ints, int n
             [&](auto const &values)
             {
                 if (std::accumulate(begin(values), end(values), 0) == groupSum)
+                {
                     groups.push_back(values);
+                }
 
                 return true;
             });
 
         if (not groups.empty() && groups.size() == oldSize)
+        {
             break;
+        }
     }
 
     return groups;
@@ -56,8 +62,7 @@ int64_t GetBestFit(std::span<int const> numbers, int nbPackages)
     std::transform(begin(groups), end(groups), std::back_inserter(groupWithQE),
         [](auto const &g)
         {
-            return std::make_pair(
-                static_cast<int>(g.size()), std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
+            return std::make_pair(static_cast<int>(g.size()), std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
         });
 
     Ensures(not groupWithQE.empty());
@@ -87,9 +92,9 @@ int main()
 
     auto const part1 = GetBestFit(ParseInput(), 3);
     fmt::print("  Part 1: {}\n", part1);
-    Assert(11266889531 == part1);
+    Assert(11'266'889'531 == part1);
 
     auto const part2 = GetBestFit(ParseInput(), 4);
     fmt::print("  Part 2: {}\n", part2);
-    Assert(77387711 == part2);
+    Assert(77'387'711 == part2);
 }

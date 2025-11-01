@@ -1,4 +1,5 @@
 #include "day16.hpp"
+
 #include "../common.hpp"
 
 static auto Part1()

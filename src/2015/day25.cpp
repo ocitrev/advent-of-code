@@ -1,12 +1,16 @@
 #include "day25.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 
 [[maybe_unused]] static int64_t GetNextSimple(int64_t n, bool first)
 {
     if (first)
+    {
         return 1;
+    }
 
     return ++n;
 }
@@ -14,9 +18,11 @@
 static int64_t GetNext(int64_t n, bool first)
 {
     if (first)
-        return int64_t{20151125};
+    {
+        return int64_t{20'151'125};
+    }
 
-    return (n * int64_t{252533}) % int64_t{33554393};
+    return (n * int64_t{252'533}) % int64_t{33'554'393};
 }
 
 template <typename GetNextT>
@@ -33,7 +39,9 @@ int64_t GetValue(int c, int r, GetNextT &&getNext)
         while (y > 0)
         {
             if (x == c && y == r)
+            {
                 return n;
+            }
 
             --y;
             ++x;
@@ -78,30 +86,30 @@ int main()
     Assert(11 == GetValue(1, 5, &GetNextSimple));
     Assert(17 == GetValue(2, 5, &GetNextSimple));
     Assert(16 == GetValue(1, 6, &GetNextSimple));
-    Assert(20151125 == GetValue(1, 1, &GetNext));
-    Assert(18749137 == GetValue(2, 1, &GetNext));
-    Assert(17289845 == GetValue(3, 1, &GetNext));
-    Assert(30943339 == GetValue(4, 1, &GetNext));
-    Assert(10071777 == GetValue(5, 1, &GetNext));
-    Assert(33511524 == GetValue(6, 1, &GetNext));
-    Assert(31916031 == GetValue(1, 2, &GetNext));
-    Assert(21629792 == GetValue(2, 2, &GetNext));
-    Assert(16929656 == GetValue(3, 2, &GetNext));
-    Assert(7726640 == GetValue(4, 2, &GetNext));
-    Assert(15514188 == GetValue(5, 2, &GetNext));
-    Assert(16080970 == GetValue(1, 3, &GetNext));
-    Assert(8057251 == GetValue(2, 3, &GetNext));
-    Assert(1601130 == GetValue(3, 3, &GetNext));
-    Assert(7981243 == GetValue(4, 3, &GetNext));
-    Assert(24592653 == GetValue(1, 4, &GetNext));
-    Assert(32451966 == GetValue(2, 4, &GetNext));
-    Assert(21345942 == GetValue(3, 4, &GetNext));
-    Assert(77061 == GetValue(1, 5, &GetNext));
-    Assert(17552253 == GetValue(2, 5, &GetNext));
-    Assert(33071741 == GetValue(1, 6, &GetNext));
+    Assert(20'151'125 == GetValue(1, 1, &GetNext));
+    Assert(18'749'137 == GetValue(2, 1, &GetNext));
+    Assert(17'289'845 == GetValue(3, 1, &GetNext));
+    Assert(30'943'339 == GetValue(4, 1, &GetNext));
+    Assert(10'071'777 == GetValue(5, 1, &GetNext));
+    Assert(33'511'524 == GetValue(6, 1, &GetNext));
+    Assert(31'916'031 == GetValue(1, 2, &GetNext));
+    Assert(21'629'792 == GetValue(2, 2, &GetNext));
+    Assert(16'929'656 == GetValue(3, 2, &GetNext));
+    Assert(7'726'640 == GetValue(4, 2, &GetNext));
+    Assert(15'514'188 == GetValue(5, 2, &GetNext));
+    Assert(16'080'970 == GetValue(1, 3, &GetNext));
+    Assert(8'057'251 == GetValue(2, 3, &GetNext));
+    Assert(1'601'130 == GetValue(3, 3, &GetNext));
+    Assert(7'981'243 == GetValue(4, 3, &GetNext));
+    Assert(24'592'653 == GetValue(1, 4, &GetNext));
+    Assert(32'451'966 == GetValue(2, 4, &GetNext));
+    Assert(21'345'942 == GetValue(3, 4, &GetNext));
+    Assert(77'061 == GetValue(1, 5, &GetNext));
+    Assert(17'552'253 == GetValue(2, 5, &GetNext));
+    Assert(33'071'741 == GetValue(1, 6, &GetNext));
 
     auto const [column, row] = ParseInput();
     auto const part1 = GetValue(column, row, &GetNext);
     fmt::print("  Part 1: {}\n", part1);
-    Assert(9132360 == part1);
+    Assert(9'132'360 == part1);
 }

@@ -1,6 +1,8 @@
 #include "day19.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <unordered_map>
 
@@ -28,7 +30,9 @@ struct Rule
         Parse(left, trim_copy(exprs[0]));
 
         if (exprs.size() > 1)
+        {
             Parse(right, trim_copy(exprs[1]));
+        }
     }
 
     void Parse(std::vector<RulePart> &parts, std::string_view text)
@@ -78,7 +82,9 @@ struct Rules
     size_t IsValid(std::string_view text, size_t current, Rule const &rule)
     {
         if (auto const nb = IsValid(text, current, rule.left); nb == rule.left.size())
+        {
             return nb;
+        }
 
         return IsValid(text, current, rule.right);
     }
@@ -86,7 +92,9 @@ struct Rules
     size_t IsValid(std::string_view text, size_t current, std::vector<RulePart> const &parts)
     {
         if (parts.empty())
+        {
             return 0;
+        }
 
         size_t const start = current;
 
@@ -95,7 +103,9 @@ struct Rules
             auto const nb = IsValid(text, current, p);
 
             if (nb == 0)
+            {
                 break;
+            }
 
             current += nb;
         }
@@ -106,7 +116,9 @@ struct Rules
     size_t IsValid(std::string_view text, size_t current, RulePart const &rule)
     {
         if (rule.type == Type::Literal)
+        {
             return text[current] == rule.text[0] ? 1 : 0;
+        }
 
         return IsValid(text, current, rules[rule.text]);
     }
@@ -121,7 +133,9 @@ static int Part1(std::string_view rulesText, std::string_view values)
     for (auto line : Split(values, '\n'))
     {
         if (rules.IsValid(line))
+        {
             ++count;
+        }
     }
 
     return count;

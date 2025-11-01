@@ -1,8 +1,8 @@
 #pragma once
 
 #if defined(__cpp_impl_coroutine) && defined(__cpp_lib_coroutine)
-#    include <coroutine>
-#    include <optional>
+#include <coroutine>
+#include <optional>
 
 // source: https://en.cppreference.com/w/cpp/coroutine/coroutine_handle
 template <std::movable T>
@@ -57,8 +57,8 @@ public:
         }
     }
 
-    Generator(const Generator &) = delete;
-    Generator &operator=(const Generator &) = delete;
+    Generator(Generator const &) = delete;
+    Generator &operator=(Generator const &) = delete;
 
     Generator(Generator &&other) noexcept
         : m_coroutine{other.m_coroutine}
@@ -88,7 +88,7 @@ public:
         {
             m_coroutine.resume();
         }
-        const T &operator*() const
+        T const &operator*() const
         {
             return *m_coroutine.promise().current_value;
         }
@@ -132,5 +132,5 @@ Generator<T> range(T first, T last)
     }
 }
 #else
-#    error coroutine support required
+#error coroutine support required
 #endif

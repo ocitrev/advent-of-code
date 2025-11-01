@@ -1,6 +1,8 @@
 #include "day20.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <vector>
 
@@ -11,8 +13,12 @@ int Part1(int limit)
     std::vector<int> giftsPerHouse(static_cast<std::size_t>(size), 10);
 
     for (int elve = 2; elve < size; ++elve)
+    {
         for (int i = elve; i < size; i += elve)
+        {
             giftsPerHouse[static_cast<std::size_t>(i)] += 10 * elve;
+        }
+    }
 
     auto iter = std::find_if(begin(giftsPerHouse), end(giftsPerHouse),
         [limit](int i)
@@ -37,7 +43,9 @@ int Part2(int limit)
             giftsPerHouse[static_cast<std::size_t>(i)] += 11 * elve;
 
             if (++visited == 50)
+            {
                 break;
+            }
         }
     }
 
@@ -67,9 +75,9 @@ int main()
 
     auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(786240 == part1);
+    Assert(786'240 == part1);
 
     auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(831600 == part2);
+    Assert(831'600 == part2);
 }

@@ -1,6 +1,8 @@
 #include "day15.hpp"
+
 #include "../common.hpp"
 #include "../common/range.hpp"
+
 #include <ctre.hpp>
 #include <optional>
 
@@ -34,8 +36,7 @@ static auto ParseInput(std::string_view text)
 
     for (auto line : Split(text, '\n'))
     {
-        auto [matched, sx, sy, bx, by]
-            = ctre::match<"Sensor at x=(.+), y=(.+): closest beacon is at x=(.+), y=(.+)">(line);
+        auto [matched, sx, sy, bx, by] = ctre::match<"Sensor at x=(.+), y=(.+): closest beacon is at x=(.+), y=(.+)">(line);
 
         if (matched)
         {
@@ -58,8 +59,7 @@ static auto CountImpossible(std::vector<Sensor> const &sensors, int y)
     {
         if (auto width = sensor.GetSizeAtHeight(y); width.has_value())
         {
-            if (sensor.closestBeacon.y == y && sensor.closestBeacon.x >= width->low
-                && sensor.closestBeacon.x <= width->high)
+            if (sensor.closestBeacon.y == y && sensor.closestBeacon.x >= width->low && sensor.closestBeacon.x <= width->high)
             {
                 if (sensor.closestBeacon.x == width->low)
                 {
@@ -108,7 +108,9 @@ static int64_t FindBeacon(std::vector<Sensor> const &sensors, int limit)
         std::vector<Range> ranges;
 
         if (stdoutIsConsole && y % 10'000 == 0)
+        {
             fmt::print("  {}/{} {}%          \r", y, limit, 100 - (y * 100LL / limit));
+        }
 
         for (auto const &sensor : sensors)
         {
@@ -130,7 +132,9 @@ static int64_t FindBeacon(std::vector<Sensor> const &sensors, int limit)
             Range b{ranges[1].high + 1, ranges[0].low - 1};
 
             if (a.Length() == 1)
+            {
                 return a.low * tuningFrequency + y;
+            }
 
             return b.low * tuningFrequency + y;
         }
@@ -160,13 +164,13 @@ int main()
     fmt::print("Day 15, 2022: Beacon Exclusion Zone\n");
 
     Assert(26 == CountImpossible(example::beacons, 10));
-    Assert(56000011 == FindBeacon(example::beacons, 20));
+    Assert(56'000'011 == FindBeacon(example::beacons, 20));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(5525847 == part1);
+    Assert(5'525'847 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(13340867187704 == part2);
+    Assert(13'340'867'187'704 == part2);
 }

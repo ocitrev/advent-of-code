@@ -1,4 +1,5 @@
 #include "day8.hpp"
+
 #include "../common.hpp"
 
 struct Tree
@@ -21,7 +22,9 @@ struct Map
     int8_t GetHeight(Point2d pos) const
     {
         if (auto iter = grid.find(pos); iter != end(grid))
+        {
             return iter->second.height;
+        }
 
         throw std::invalid_argument("pos");
     }
@@ -36,12 +39,16 @@ struct Map
             pos += dir;
 
             if (pos.x < 0 || pos.y < 0 || pos.x == width || pos.y == height)
+            {
                 break;
+            }
 
             auto const t = GetHeight(pos);
 
             if (h < t)
+            {
                 return false;
+            }
 
             other = std::max(other, t);
         }
@@ -58,13 +65,17 @@ struct Map
             pos += dir;
 
             if (pos.x < 0 || pos.y < 0 || pos.x == width || pos.y == height)
+            {
                 break;
+            }
 
             ++count;
             auto const other = GetHeight(pos);
 
             if (h <= other)
+            {
                 break;
+            }
         }
 
         return count;
@@ -74,7 +85,7 @@ struct Map
     {
         auto const h = GetHeight(pos);
         return CountSmaller(h, pos, Point2d::WEST) * CountSmaller(h, pos, Point2d::NORTH)
-               * CountSmaller(h, pos, Point2d::EAST) * CountSmaller(h, pos, Point2d::SOUTH);
+            * CountSmaller(h, pos, Point2d::EAST) * CountSmaller(h, pos, Point2d::SOUTH);
     }
 
     int CountVisible() const
@@ -181,5 +192,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(504000 == part2);
+    Assert(504'000 == part2);
 }

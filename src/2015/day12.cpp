@@ -1,12 +1,13 @@
 #include "day12.hpp"
+
 #include "../common/assert.hpp"
 #ifdef _MSC_VER
-#    pragma warning(push)
-#    pragma warning(disable : 5054)
+#pragma warning(push)
+#pragma warning(disable : 5054)
 #endif
 #include "rapidjson/document.h"
 #ifdef _MSC_VER
-#    pragma warning(pop)
+#pragma warning(pop)
 #endif
 #include <fmt/format.h>
 #include <numeric>
@@ -21,46 +22,46 @@ static int SumAllNumbers(rapidjson::Value const &value, bool checkExclusion)
 {
     switch (value.GetType())
     {
-    case rapidjson::kNumberType:
-        return value.GetInt();
+        case rapidjson::kNumberType:
+            return value.GetInt();
 
-    case rapidjson::kArrayType:
-    {
-        auto const &arr = value.GetArray();
-        return std::accumulate(arr.Begin(), arr.End(), 0,
-            [checkExclusion](int total, rapidjson::Value const &arrayValue)
-            {
-                return total + SumAllNumbers(arrayValue, checkExclusion);
-            });
-    }
-
-    case rapidjson::kObjectType:
-    {
-        auto const &obj = value.GetObject();
-
-        if (checkExclusion)
+        case rapidjson::kArrayType:
         {
-            bool const containsRed = std::any_of(obj.MemberBegin(), obj.MemberEnd(),
-                [](auto const &member)
+            auto const &arr = value.GetArray();
+            return std::accumulate(arr.Begin(), arr.End(), 0,
+                [checkExclusion](int total, rapidjson::Value const &arrayValue)
                 {
-                    return member.value.IsString() && ToStringView(member.value) == "red";
+                    return total + SumAllNumbers(arrayValue, checkExclusion);
                 });
-
-            if (containsRed)
-            {
-                return 0;
-            }
         }
 
-        return std::accumulate(obj.MemberBegin(), obj.MemberEnd(), 0,
-            [checkExclusion](int total, auto const &member)
-            {
-                return total + SumAllNumbers(member.value, checkExclusion);
-            });
-    }
+        case rapidjson::kObjectType:
+        {
+            auto const &obj = value.GetObject();
 
-    default:
-        return 0;
+            if (checkExclusion)
+            {
+                bool const containsRed = std::any_of(obj.MemberBegin(), obj.MemberEnd(),
+                    [](auto const &member)
+                    {
+                        return member.value.IsString() && ToStringView(member.value) == "red";
+                    });
+
+                if (containsRed)
+                {
+                    return 0;
+                }
+            }
+
+            return std::accumulate(obj.MemberBegin(), obj.MemberEnd(), 0,
+                [checkExclusion](int total, auto const &member)
+                {
+                    return total + SumAllNumbers(member.value, checkExclusion);
+                });
+        }
+
+        default:
+            return 0;
     }
 }
 
@@ -99,9 +100,9 @@ int main()
 
     int const part1 = SumAllNumbers(GetInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(191164 == part1);
+    Assert(191'164 == part1);
 
     int const part2 = SumAllNumbersNoRed(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(87842 == part2);
+    Assert(87'842 == part2);
 }

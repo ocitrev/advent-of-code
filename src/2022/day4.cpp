@@ -1,4 +1,5 @@
 #include "day4.hpp"
+
 #include "../common.hpp"
 #include "../common/range.hpp"
 

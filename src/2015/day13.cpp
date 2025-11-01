@@ -1,7 +1,9 @@
 #include "day13.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
+
 #include <fmt/format.h>
 #include <string>
 #include <vector>
@@ -35,7 +37,9 @@ static int GetHappiness(std::vector<Relation> const &relations, std::string_view
         });
 
     if (iter != end(relations))
+    {
         totalHappiness += iter->happiness;
+    }
 
     iter = std::find_if(begin(relations), end(relations),
         [&](Relation const &rel)
@@ -44,7 +48,9 @@ static int GetHappiness(std::vector<Relation> const &relations, std::string_view
         });
 
     if (iter != end(relations))
+    {
         totalHappiness += iter->happiness;
+    }
 
     return totalHappiness;
 }
@@ -59,7 +65,9 @@ static std::vector<Relation> ParseRelations(std::string_view text)
         Relation &r = relations.emplace_back(parts[0], parts[10], svtoi(parts[3]));
 
         if (parts[2] == "lose")
+        {
             r.happiness = -r.happiness;
+        }
     }
 
     return relations;
@@ -104,7 +112,8 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
 #if DEBUG_PRINT
         fmt::print("{}\n", totalHappiness);
 #endif
-    } while (next_necklace(begin(people), end(people)));
+    }
+    while (next_necklace(begin(people), end(people)));
 
     return bestHappiness;
 }

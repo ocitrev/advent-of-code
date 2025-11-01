@@ -1,4 +1,5 @@
 #include "day5.hpp"
+
 #include "../common.hpp"
 
 static void ParseCrates(std::string_view line, std::vector<std::vector<char>> &stacks)
@@ -19,7 +20,9 @@ static void ParseCrates(std::string_view line, std::vector<std::vector<char>> &s
         if (c >= 'A' && c <= 'Z')
         {
             if (crateIndex >= stacks.size())
+            {
                 stacks.resize(crateIndex + 1);
+            }
 
             stacks[crateIndex].push_back(c);
         }
@@ -32,7 +35,9 @@ static void ParseCrates(std::string_view line, std::vector<std::vector<char>> &s
     }
 
     if (nbCrates > stacks.size())
+    {
         stacks.resize(nbCrates);
+    }
 }
 
 enum struct Crane
@@ -91,7 +96,9 @@ static std::string ProcessStacks(std::string_view text)
             if (line.empty())
             {
                 for (auto &s : stacks)
+                {
                     std::reverse(begin(s), end(s));
+                }
 
                 parseCrates = false;
                 continue;

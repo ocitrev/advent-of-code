@@ -1,6 +1,8 @@
 #include "day11.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <fmt/format.h>
 
@@ -39,7 +41,9 @@ struct Grid
             {
                 auto const cell = GetCell(x, y);
                 if (cell == '.')
+                {
                     continue;
+                }
 
                 auto const nbOccupied = (this->*countOccupied)(x, y);
 
@@ -92,7 +96,9 @@ struct Grid
                 auto const c = GetCell(xx, yy);
 
                 if (c == '.')
+                {
                     continue;
+                }
 
                 return c == '#' ? 1 : 0;
             }
@@ -117,7 +123,9 @@ struct Grid
         int count = 0;
 
         while (Simulate(&Grid::CountSurroundingOccupiedFrom, 4))
+        {
             ++count;
+        }
 
         return count;
     }
@@ -127,7 +135,9 @@ struct Grid
         int count = 0;
 
         while (Simulate(&Grid::CountVisibleOccupiedFrom, 5))
+        {
             ++count;
+        }
 
         return count;
     }
@@ -140,10 +150,14 @@ struct Grid
     [[nodiscard]] char GetCell(int x, int y) const
     {
         if (x < 0 || y < 0)
+        {
             return '\0';
+        }
 
         if (x >= width || y >= height)
+        {
             return '\0';
+        }
 
         return seats[GetOffset(x, y)];
     }

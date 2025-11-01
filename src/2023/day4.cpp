@@ -1,4 +1,5 @@
 #include "day4.hpp"
+
 #include "../common.hpp"
 
 struct Card
@@ -42,7 +43,9 @@ struct Card
     [[nodiscard]] int GetScore() const
     {
         if (matchCount == 0)
+        {
             return 0;
+        }
 
         return static_cast<int>(std::pow(2, matchCount - 1));
     }
@@ -120,9 +123,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(24848 == part1);
+    Assert(24'848 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(7258152 == part2);
+    Assert(7'258'152 == part2);
 }

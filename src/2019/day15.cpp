@@ -1,6 +1,8 @@
 #include "day15.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
+
 #include <chrono>
 #include <optional>
 #include <set>
@@ -128,7 +130,9 @@ struct Robot
     {
         auto iter = grid.find(p);
         if (iter != end(grid))
+        {
             return iter->second;
+        }
 
         return {" "};
     }
@@ -196,7 +200,9 @@ struct Robot
         }
 
         if (GetTile(p) == kWall || visited.find(p) != end(visited))
+        {
             return false;
+        }
 
         visited.insert(p);
         auto const &[min, max] = bounds;
@@ -265,7 +271,9 @@ struct Robot
         for (auto const &cell : grid)
         {
             if (cell.second != kOxygen)
+            {
                 continue;
+            }
 
             for (std::size_t d = 0; d != 4; ++d)
             {

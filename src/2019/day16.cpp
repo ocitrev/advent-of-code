@@ -1,13 +1,15 @@
 #include "day16.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/terminal.hpp"
+
 #include <algorithm>
 #include <array>
 #include <fmt/format.h>
 #include <fstream>
 #include <string>
 #ifdef COROUTINE
-#    include <experimental/generator>
+#include <experimental/generator>
 #endif
 
 static constexpr std::array kPattern{0, 1, 0, -1};
@@ -30,7 +32,9 @@ struct PatternGenerator
             step = 1;
 
             if (++iter == end(kPattern))
+            {
                 iter = begin(kPattern);
+            }
         }
         else
         {
@@ -45,9 +49,15 @@ struct PatternGenerator
 std::experimental::generator<int> GeneratePatternWithRepetitions(int nb)
 {
     while (true)
+    {
         for (int p : kPattern)
+        {
             for (int i = 0; i != nb; ++i)
+            {
                 co_yield p;
+            }
+        }
+    }
 }
 
 template <typename T>
@@ -95,7 +105,9 @@ static std::string Process(std::string_view numbers, int count)
     }
 
     if (ret.size() > 8)
+    {
         ret.resize(8);
+    }
 
     return ret;
 }
@@ -109,9 +121,13 @@ static std::string ProcessPhaseCheat(std::string_view numbers)
         [&](char c) -> char
         {
             if (prev == '\0')
+            {
                 prev = c;
+            }
             else
+            {
                 prev = static_cast<char>((GetDigit(prev) + GetDigit(c)) % 10 + '0');
+            }
 
             return prev;
         });
@@ -130,10 +146,14 @@ static std::string ProcessWithOffsetTimes10000(std::string_view numbers, int cou
     std::string ret{numbers.data(), numbers.size()};
 
     for (int i = 1; i < missing; ++i)
+    {
         ret.append(numbers);
+    }
 
     for (int i = 0; i != count; ++i)
+    {
         ret = ProcessPhaseCheat(ret);
+    }
 
     return {ret.begin() + r.rem, ret.begin() + r.rem + 8};
 }

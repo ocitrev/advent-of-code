@@ -4,5 +4,5 @@
 namespace expected
 {
     static constexpr auto part1 = 357;
-    static constexpr auto part2 = 17468;
+    static constexpr auto part2 = 17'468;
 }

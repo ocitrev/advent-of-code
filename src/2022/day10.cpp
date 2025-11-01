@@ -1,4 +1,5 @@
 #include "day10.hpp"
+
 #include "../common.hpp"
 
 using namespace std::literals;
@@ -13,10 +14,14 @@ enum struct OpCode
 static OpCode ParseOpCode(std::string_view text)
 {
     if (text == "addx"sv)
+    {
         return OpCode::AddX;
+    }
 
     if (text == "noop"sv)
+    {
         return OpCode::Noop;
+    }
 
     return OpCode::Invalid;
 }
@@ -39,14 +44,14 @@ struct CPU
     {
         switch (cycleCount)
         {
-        case 20:
-        case 60:
-        case 100:
-        case 140:
-        case 180:
-        case 220:
-            score += cycleCount * X;
-            break;
+            case 20:
+            case 60:
+            case 100:
+            case 140:
+            case 180:
+            case 220:
+                score += cycleCount * X;
+                break;
         }
     }
 
@@ -55,12 +60,18 @@ struct CPU
         auto const pixel = cycleCount % 40;
 
         if (pixel == 0)
+        {
             lines.emplace_back().reserve(40);
+        }
 
         if (X - 1 == pixel || pixel == X || pixel == X + 1)
+        {
             lines.back().append("█"sv);
+        }
         else
+        {
             lines.back().append(1, ' ');
+        }
     }
 
     void Step(std::string_view instr)
@@ -70,18 +81,18 @@ struct CPU
 
         switch (op)
         {
-        case OpCode::AddX:
-            Cycle();
-            Cycle();
-            X += svtoi(operands[1]);
-            break;
+            case OpCode::AddX:
+                Cycle();
+                Cycle();
+                X += svtoi(operands[1]);
+                break;
 
-        case OpCode::Noop:
-            Cycle();
-            break;
+            case OpCode::Noop:
+                Cycle();
+                break;
 
-        default:
-            throw std::invalid_argument("instr");
+            default:
+                throw std::invalid_argument("instr");
         }
     }
 
@@ -141,12 +152,12 @@ int main()
     fmt::print("Day 10, 2022: Cathode-Ray Tube\n");
 
     Assert(-1 == CPU{}.Run(example::small_program).GetX());
-    Assert(13140 == RunProgram(example::large_program));
+    Assert(13'140 == RunProgram(example::large_program));
     Assert(example::expected == PrintProgram(example::large_program));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(11220 == part1);
+    Assert(11'220 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2:\n{}\n", part2);

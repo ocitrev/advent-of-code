@@ -1,6 +1,8 @@
 #include "day3.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/point2d.hpp"
+
 #include <fmt/format.h>
 #include <map>
 #include <vector>
@@ -17,22 +19,24 @@ class HouseVisitor
         ++currentPosition;
 
         if (currentPosition == positions.size())
+        {
             currentPosition = 0;
+        }
 
         switch (direction)
         {
-        case '>':
-            ++pos.x;
-            break;
-        case '<':
-            --pos.x;
-            break;
-        case '^':
-            --pos.y;
-            break;
-        case 'v':
-            ++pos.y;
-            break;
+            case '>':
+                ++pos.x;
+                break;
+            case '<':
+                --pos.x;
+                break;
+            case '^':
+                --pos.y;
+                break;
+            case 'v':
+                ++pos.y;
+                break;
         }
 
         return pos;
@@ -47,7 +51,9 @@ public:
     void Run(std::string_view path)
     {
         for (auto &p : positions)
+        {
             p = {};
+        }
 
         visitedHouses.clear();
         visitedHouses[Point2d{0, 0}] += static_cast<int>(positions.size());

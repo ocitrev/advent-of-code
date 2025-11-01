@@ -1,5 +1,7 @@
 #include "day13.hpp"
+
 #include "../common.hpp"
+
 #include <variant>
 
 struct Packet
@@ -168,7 +170,9 @@ static std::vector<Packet> ParsePackets(std::string_view input)
     for (auto line : Split(input, '\n'))
     {
         if (line.empty())
+        {
             continue;
+        }
 
         packets.push_back(ParsePacket(line));
     }
@@ -230,5 +234,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(19305 == part2);
+    Assert(19'305 == part2);
 }

@@ -1,13 +1,13 @@
 #include "terminal.hpp"
 
 #if defined(_WIN32) && !defined(__GNUC__)
-#    include <Windows.h>
-#    include <bit>
-#    include <crtdbg.h>
-#    include <cstdio>
-#    include <cstring>
-#    include <io.h>
-#    include <type_traits>
+#include <Windows.h>
+#include <bit>
+#include <crtdbg.h>
+#include <cstdio>
+#include <cstring>
+#include <io.h>
+#include <type_traits>
 
 static int ConsoleInit()
 {
@@ -28,9 +28,9 @@ extern "C"
     int __forceConsoleInit; // NOLINT
 }
 
-#    ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#        define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#    endif
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
 
 static bool EnableVTMode(HANDLE hStdHandle)
 {
@@ -71,7 +71,7 @@ bool IsTerminal(std::FILE *stream)
 
 #else
 
-#    include <unistd.h>
+#include <unistd.h>
 
 bool IsTerminal(std::FILE *stream)
 {

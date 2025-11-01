@@ -1,5 +1,7 @@
 #include "day14.hpp"
+
 #include "../common.hpp"
+
 #include <bitset>
 
 struct VM
@@ -17,16 +19,22 @@ struct VM
         for (char &c : mv)
         {
             if (c == 'X')
+            {
                 c = '1';
+            }
             else
+            {
                 c = '0';
+            }
         }
 
         std::string mo{mask};
         for (char &c : mo)
         {
             if (c != '1')
+            {
                 c = '0';
+            }
         }
 
         maskValue = std::bitset<kNbBits>(mv);
@@ -93,9 +101,13 @@ struct VM
             {
                 auto &c = bitMask[bit];
                 if (c == 'X')
+                {
                     c = *iter++;
+                }
                 else if (initialBits[bit] == '1')
+                {
                     c = '1';
+                }
             }
 
             masks.emplace_back(std::bitset<kNbBits>{bitMask}.to_ullong());
@@ -149,9 +161,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(8471403462063 == part1);
+    Assert(8'471'403'462'063 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(2667858637669 == part2);
+    Assert(2'667'858'637'669 == part2);
 }

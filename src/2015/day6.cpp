@@ -1,6 +1,8 @@
 #include "day6.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <charconv>
 #include <fmt/format.h>
@@ -114,7 +116,9 @@ public:
             [](int &value)
             {
                 if (value > 0)
+                {
                     --value;
+                }
             },
             [](int &value)
             {
@@ -154,11 +158,11 @@ public:
 
     void Print()
     {
-        for (std::size_t y = 0; y < 1'000; ++y)
+        for (std::size_t y = 0; y < 1000; ++y)
         {
-            for (std::size_t x = 0; x < 1'000; ++x)
+            for (std::size_t x = 0; x < 1000; ++x)
             {
-                fmt::print("{}", grid[y * 1'000 + x] == 0 ? ' ' : '#');
+                fmt::print("{}", grid[y * 1000 + x] == 0 ? ' ' : '#');
             }
 
             fmt::print("\n");
@@ -187,9 +191,9 @@ int main()
 
     int const part1 = Part1();
     fmt::print("  Part1: {}\n", part1);
-    Assert(569999 == part1);
+    Assert(569'999 == part1);
 
     int const part2 = Part2();
     fmt::print("  Part2: {}\n", part2);
-    Assert(17836115 == part2);
+    Assert(17'836'115 == part2);
 }

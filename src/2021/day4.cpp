@@ -1,4 +1,5 @@
 #include "day4.hpp"
+
 #include "../common.hpp"
 
 struct Cell
@@ -22,7 +23,9 @@ struct Board
             for (auto number : Split(line, ' '))
             {
                 if (number.empty())
+                {
                     continue;
+                }
 
                 col->number = svtoi(number);
                 ++col;
@@ -35,19 +38,19 @@ struct Board
     bool HasRow() const
     {
         return (board[0][0].hit && board[0][1].hit && board[0][2].hit && board[0][3].hit && board[0][4].hit)
-               || (board[1][0].hit && board[1][1].hit && board[1][2].hit && board[1][3].hit && board[1][4].hit)
-               || (board[2][0].hit && board[2][1].hit && board[2][2].hit && board[2][3].hit && board[2][4].hit)
-               || (board[3][0].hit && board[3][1].hit && board[3][2].hit && board[3][3].hit && board[3][4].hit)
-               || (board[4][0].hit && board[4][1].hit && board[4][2].hit && board[4][3].hit && board[4][4].hit);
+            || (board[1][0].hit && board[1][1].hit && board[1][2].hit && board[1][3].hit && board[1][4].hit)
+            || (board[2][0].hit && board[2][1].hit && board[2][2].hit && board[2][3].hit && board[2][4].hit)
+            || (board[3][0].hit && board[3][1].hit && board[3][2].hit && board[3][3].hit && board[3][4].hit)
+            || (board[4][0].hit && board[4][1].hit && board[4][2].hit && board[4][3].hit && board[4][4].hit);
     }
 
     bool HasColumn() const
     {
         return (board[0][0].hit && board[1][0].hit && board[2][0].hit && board[3][0].hit && board[4][0].hit)
-               || (board[0][1].hit && board[1][1].hit && board[2][1].hit && board[3][1].hit && board[4][1].hit)
-               || (board[0][2].hit && board[1][2].hit && board[2][2].hit && board[3][2].hit && board[4][2].hit)
-               || (board[0][3].hit && board[1][3].hit && board[2][3].hit && board[3][3].hit && board[4][3].hit)
-               || (board[0][4].hit && board[1][4].hit && board[2][4].hit && board[3][4].hit && board[4][4].hit);
+            || (board[0][1].hit && board[1][1].hit && board[2][1].hit && board[3][1].hit && board[4][1].hit)
+            || (board[0][2].hit && board[1][2].hit && board[2][2].hit && board[3][2].hit && board[4][2].hit)
+            || (board[0][3].hit && board[1][3].hit && board[2][3].hit && board[3][3].hit && board[4][3].hit)
+            || (board[0][4].hit && board[1][4].hit && board[2][4].hit && board[3][4].hit && board[4][4].hit);
     }
 
     int GetScore() const
@@ -58,7 +61,9 @@ struct Board
             for (auto const &col : row)
             {
                 if (not col.hit)
+                {
                     score += col.number;
+                }
             }
         }
 
@@ -155,7 +160,9 @@ static int Part2(std::span<int const> draw, std::string_view boardsText)
         for (auto &b : boards)
         {
             if (b.HasBingo())
+            {
                 continue;
+            }
 
             if (b.Draw(n))
             {
@@ -183,9 +190,9 @@ int main()
 
     auto const part1 = Part1(Input{});
     fmt::print("  Part 1: {}\n", part1);
-    Assert(29440 == part1);
+    Assert(29'440 == part1);
 
     auto const part2 = Part2(Input{});
     fmt::print("  Part 2: {}\n", part2);
-    Assert(13884 == part2);
+    Assert(13'884 == part2);
 }

@@ -1,4 +1,5 @@
 #include "day7.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 
@@ -41,10 +42,11 @@ static void Part1()
     do
     {
         maxValue = std::max(maxValue, Amplify1(code, sequence));
-    } while (std::next_permutation(begin(sequence), end(sequence)));
+    }
+    while (std::next_permutation(begin(sequence), end(sequence)));
 
     fmt::print("  Part1: {}\n", maxValue);
-    Assert(30940 == maxValue);
+    Assert(30'940 == maxValue);
 }
 
 static Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
@@ -83,7 +85,9 @@ static Int Amplify2(std::vector<Int> const &code, std::array<Int, 5> const &sequ
             auto v = cpu.RunUntilOuput(getParam);
 
             if (v.has_value())
+            {
                 param = *v;
+            }
         }
     }
 
@@ -99,10 +103,11 @@ static void Part2()
     do
     {
         maxValue = std::max(maxValue, Amplify2(code, sequence));
-    } while (std::next_permutation(begin(sequence), end(sequence)));
+    }
+    while (std::next_permutation(begin(sequence), end(sequence)));
 
     fmt::print("  Part2: {}\n", maxValue);
-    Assert(76211147 == maxValue);
+    Assert(76'211'147 == maxValue);
 }
 
 int main()

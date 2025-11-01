@@ -1,4 +1,5 @@
 #include "day10.hpp"
+
 #include "../common.hpp"
 #include "../common/combinations.hpp"
 

@@ -1,4 +1,5 @@
 #include "day13.hpp"
+
 #include "../common.hpp"
 
 struct Ticket
@@ -22,12 +23,16 @@ static int Part1()
     for (auto &&idText : Split(ticket.busIds, ','))
     {
         if (idText == "x")
+        {
             continue;
+        }
 
         int const id = svtoi(idText);
 
         if (id == 0)
+        {
             continue;
+        }
 
         int const start = ticket.earliest - (ticket.earliest % id) + id;
 
@@ -54,9 +59,13 @@ static int64_t GetNextStart(Ticket const &ticket)
     for (auto &&idText : Split(ticket.busIds, ','))
     {
         if (idText == "x")
+        {
             offsets.emplace_back(1);
+        }
         else
+        {
             offsets.emplace_back(svtoi(idText));
+        }
     }
 
     int64_t start = 1;
@@ -79,7 +88,9 @@ static int64_t GetNextStart(Ticket const &ticket)
         }
 
         if (valid)
+        {
             return start;
+        }
 
         start += timeToSkip;
     }
@@ -96,10 +107,10 @@ int main()
     fmt::print("Day 13, 2020: Shuttle Search\n");
 
     Assert(3417 == GetNextStart({0, "17,x,13,19"}));
-    Assert(754018 == GetNextStart({0, "67,7,59,61"}));
-    Assert(779210 == GetNextStart({0, "67,x,7,59,61"}));
-    Assert(1261476 == GetNextStart({0, "67,7,x,59,61"}));
-    Assert(1202161486 == GetNextStart({0, "1789,37,47,1889"}));
+    Assert(754'018 == GetNextStart({0, "67,7,59,61"}));
+    Assert(779'210 == GetNextStart({0, "67,x,7,59,61"}));
+    Assert(1'261'476 == GetNextStart({0, "67,7,x,59,61"}));
+    Assert(1'202'161'486 == GetNextStart({0, "1789,37,47,1889"}));
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
@@ -107,5 +118,5 @@ int main()
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(807435693182510 == part2);
+    Assert(807'435'693'182'510 == part2);
 }

@@ -1,7 +1,9 @@
 #include "day17.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
+
 #include <fmt/format.h>
 
 static auto HowManyCombinationsCanFit(std::vector<int> const &input, int limit)
@@ -26,10 +28,14 @@ static auto HowManyCombinationsCanFit(std::vector<int> const &input, int limit)
             });
 
         if (nbCombinations == 0)
+        {
             nbCombinations = nbCombinationsTotal;
+        }
 
         if (nbCombinationsTotal != 0 && not found)
+        {
             break;
+        }
     }
 
     return std::make_pair(nbCombinationsTotal, nbCombinations);

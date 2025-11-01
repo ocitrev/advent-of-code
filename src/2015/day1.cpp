@@ -1,4 +1,5 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
 
 static constexpr int get_depth(std::string_view data)
@@ -8,9 +9,13 @@ static constexpr int get_depth(std::string_view data)
     for (auto c : data)
     {
         if (c == '(')
+        {
             ++depth;
+        }
         else if (c == ')')
+        {
             --depth;
+        }
     }
 
     return depth;
@@ -26,12 +31,18 @@ static constexpr int get_pos_at_depth(std::string_view data, int const depth)
         ++pos;
 
         if (c == '(')
+        {
             ++currentDepth;
+        }
         else if (c == ')')
+        {
             --currentDepth;
+        }
 
         if (depth == currentDepth)
+        {
             return pos;
+        }
     }
 
     return 0;

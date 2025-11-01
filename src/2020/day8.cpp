@@ -1,6 +1,8 @@
 #include "day8.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <set>
 #include <span>
@@ -29,7 +31,9 @@ struct VM
         {
             auto nb = svtoi(ins.substr(5));
             if (ins[4] == '-')
+            {
                 nb = -nb;
+            }
             acc += nb;
             ++ip;
         }
@@ -37,7 +41,9 @@ struct VM
         {
             auto nb = svtoi(ins.substr(5));
             if (ins[4] == '-')
+            {
                 nb = -nb;
+            }
             ip += nb;
         }
     }
@@ -86,7 +92,9 @@ static int Run2(std::span<std::string_view const> instructions)
             });
 
         if (first == last)
+        {
             break;
+        }
 
         auto old = std::exchange(*first, "nop +0");
 
@@ -94,7 +102,9 @@ static int Run2(std::span<std::string_view const> instructions)
         vm.instructions = copy;
         vm.Run();
         if (vm.HasTerminated())
+        {
             return vm.acc;
+        }
 
         *first = old;
         ++first;
@@ -111,7 +121,9 @@ static int Run2(std::span<std::string_view const> instructions)
             });
 
         if (first == last)
+        {
             break;
+        }
 
         std::string jump{*first};
         jump.replace(0, 3, "jmp");
@@ -121,7 +133,9 @@ static int Run2(std::span<std::string_view const> instructions)
         vm.instructions = copy;
         vm.Run();
         if (vm.HasTerminated())
+        {
             return vm.acc;
+        }
 
         *first = old;
         ++first;

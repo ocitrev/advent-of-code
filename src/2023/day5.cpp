@@ -1,5 +1,7 @@
 #include "day5.hpp"
+
 #include "../common.hpp"
+
 #include <chrono>
 #include <execution>
 #include <gsl/gsl>
@@ -74,7 +76,7 @@ struct Mapping
         return value;
     }
 
-    [[nodiscard]] std::vector<Range> ConvertRanges(const std::vector<Range> &inputRanges) const
+    [[nodiscard]] std::vector<Range> ConvertRanges(std::vector<Range> const &inputRanges) const
     {
         std::vector<Range> result;
 
@@ -318,9 +320,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(389056265 == part1);
+    Assert(389'056'265 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(137516820 == part2);
+    Assert(137'516'820 == part2);
 }

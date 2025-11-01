@@ -1,5 +1,7 @@
 #include "day9.hpp"
+
 #include "../common.hpp"
+
 #include <unordered_map>
 #include <unordered_set>
 
@@ -34,7 +36,9 @@ struct Map
     int GetValue(Point2d const &p) const
     {
         if (auto iter = map.find(p); iter != end(map))
+        {
             return iter->second;
+        }
 
         return 9;
     }
@@ -60,7 +64,9 @@ struct Map
                     });
 
                 if (isLowSpot)
+                {
                     lowSpots.push_back(pos);
+                }
             }
         }
 
@@ -80,10 +86,14 @@ struct Map
     void FillBassin(Bassin &bassin, Point2d pos) const
     {
         if (GetValue(pos) == 9)
+        {
             return;
+        }
 
         if (auto const [iter, inserted] = bassin.insert(pos); not inserted)
+        {
             return;
+        }
 
         FillBassin(bassin, pos + Point2d::NORTH);
         FillBassin(bassin, pos + Point2d::WEST);
@@ -150,5 +160,5 @@ int main()
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1076922 == part2);
+    Assert(1'076'922 == part2);
 }

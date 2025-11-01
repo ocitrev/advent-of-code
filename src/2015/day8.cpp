@@ -1,6 +1,8 @@
 #include "day8.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <string>
 

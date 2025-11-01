@@ -1,4 +1,5 @@
 #include "day7.hpp"
+
 #include "../common.hpp"
 #include "../common/numbers.hpp"
 
@@ -43,7 +44,9 @@ static int Compute(std::span<int const> numbers, FuelCostFunc &&fuelCost)
         auto const f = fuelCost(numbers, i);
 
         if (f < fuel)
+        {
             fuel = f;
+        }
     }
 
     return fuel;
@@ -71,9 +74,9 @@ int main()
 
     auto const part1 = Part1(ParseInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(323647 == part1);
+    Assert(323'647 == part1);
 
     auto const part2 = Part2(ParseInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(87640209 == part2);
+    Assert(87'640'209 == part2);
 }

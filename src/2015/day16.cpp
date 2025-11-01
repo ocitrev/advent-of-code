@@ -1,6 +1,8 @@
 #include "day16.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <map>
 
@@ -59,7 +61,9 @@ static bool IsValue(Aunt const &aunt, std::string const &name, int expected, Pre
     auto iter = aunt.find(name);
 
     if (iter == end(aunt))
+    {
         return false;
+    }
 
     return pred(iter->second, expected);
 }
@@ -107,10 +111,14 @@ static int Part2()
         [](std::string const &name) -> std::function<bool(int, int)>
         {
             if (name == "cats" || name == "trees")
+            {
                 return std::less_equal{};
+            }
 
             if (name == "pomeranians" || name == "goldfish")
+            {
                 return std::greater_equal{};
+            }
 
             return std::not_equal_to{};
         });

@@ -10,7 +10,7 @@
 #include <vector>
 
 #if __has_include(<version>)
-#    include <version>
+#include <version>
 #endif
 
 [[nodiscard]] std::vector<std::string_view> Split(std::string_view text, std::string_view sep);
@@ -22,8 +22,7 @@
 }
 
 template <class T, class BinaryReductionOp, class UnaryTransformOp>
-[[nodiscard]] inline auto TransformReduceLines(
-    std::string_view text, T &&init, BinaryReductionOp &&r, UnaryTransformOp &&t)
+[[nodiscard]] inline auto TransformReduceLines(std::string_view text, T &&init, BinaryReductionOp &&r, UnaryTransformOp &&t)
 {
     auto const lines = Split(text, '\n');
     return std::transform_reduce(begin(lines), end(lines), std::forward<T>(init), std::forward<BinaryReductionOp>(r),
@@ -36,12 +35,16 @@ template <typename IterT>
     std::string result;
 
     if (first == last)
+    {
         return result;
+    }
 
     for (auto iter = first; iter != last; ++iter)
     {
         if (iter != first)
+        {
             result += sep;
+        }
 
         result += *iter;
     }
@@ -55,12 +58,16 @@ template <typename IterT, typename ToStringT>
     std::string result;
 
     if (first == last)
+    {
         return result;
+    }
 
     for (auto iter = first; iter != last; ++iter)
     {
         if (iter != first)
+        {
             result += sep;
+        }
 
         result += toString(*iter);
     }
@@ -182,7 +189,7 @@ template <typename IntT = int>
     return result;
 }
 
-#if __cpp_lib_starts_ends_with >= 201711
+#if __cpp_lib_starts_ends_with >= 201'711
 [[nodiscard]] inline constexpr bool starts_with(std::string_view text, std::string_view prefix)
 {
     return text.starts_with(prefix);
@@ -194,7 +201,7 @@ template <typename IntT = int>
 }
 #endif
 
-#if __cpp_lib_starts_ends_with >= 201711
+#if __cpp_lib_starts_ends_with >= 201'711
 [[nodiscard]] inline constexpr bool ends_with(std::string_view text, std::string_view prefix)
 {
     return text.ends_with(prefix);

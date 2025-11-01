@@ -1,4 +1,5 @@
 #include "day10.hpp"
+
 #include "../common.hpp"
 
 static int Part1(std::vector<int> adapters)
@@ -20,7 +21,9 @@ static int Part1(std::vector<int> adapters)
 static int Tribbonacci(int n)
 {
     if (n < 2)
+    {
         return 0;
+    }
 
     int first = 0;
     int second = 0;
@@ -52,12 +55,16 @@ static int64_t Part2(std::vector<int> adapters)
     while (first < len - 1 && last < len - 1)
     {
         while (adapters[static_cast<size_t>(last + 1)] - adapters[static_cast<size_t>(last)] == 1)
+        {
             ++last;
+        }
 
         int l = last - first + 1;
 
         if (l > 2)
+        {
             result *= Tribbonacci(l + 1);
+        }
 
         first = last + 1;
         last = first;
@@ -79,5 +86,5 @@ int main()
 
     auto const part2 = Part2(ParseInputNumbers());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(86812553324672 == part2);
+    Assert(86'812'553'324'672 == part2);
 }

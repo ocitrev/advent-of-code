@@ -1,7 +1,9 @@
 #include "day6.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
+
 #include <algorithm>
 #include <fmt/format.h>
 #include <map>
@@ -13,12 +15,16 @@ static std::map<std::string, int> countCache; // NOLINT
 static int CountIndirect(std::vector<std::string_view> const &list, std::string_view name)
 {
     if (name == "COM")
+    {
         return 0;
+    }
 
     std::string const key{name};
 
     if (auto iter = countCache.find(key); iter != end(countCache))
+    {
         return iter->second;
+    }
 
     for (auto const &item : list)
     {
@@ -40,12 +46,16 @@ static std::map<std::string, std::vector<std::string>> pathCache; // NOLINT
 static std::vector<std::string> GetPath(std::vector<std::string_view> const &list, std::string_view name)
 {
     if (name == "COM")
+    {
         return {};
+    }
 
     std::string const key{name};
 
     if (auto iter = pathCache.find(key); iter != end(pathCache))
+    {
         return iter->second;
+    }
 
     for (auto const &item : list)
     {
@@ -83,7 +93,7 @@ int main()
     }
 
     fmt::print("  Part1: {}\n", count);
-    Assert(247089 == count);
+    Assert(247'089 == count);
 
     auto you = GetPath(list, "YOU");
     auto san = GetPath(list, "SAN");

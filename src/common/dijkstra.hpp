@@ -1,5 +1,6 @@
 #pragma once
 #include "defaultdict.hpp"
+
 #include <type_traits>
 
 template <class Map, class WeightFunction, class ValidNeighborFunction, class GoalCheckFunction>
@@ -31,8 +32,7 @@ private:
     }
 
 public:
-    Dijkstra(Map const &map, WeightFunction &&weightFn, ValidNeighborFunction &&validNeighborFn,
-        GoalCheckFunction &&goalCheckFn)
+    Dijkstra(Map const &map, WeightFunction &&weightFn, ValidNeighborFunction &&validNeighborFn, GoalCheckFunction &&goalCheckFn)
         : map_{std::addressof(map)}
         , calcWeight_{std::move(weightFn)}
         , validNeighbor_{std::move(validNeighborFn)}
@@ -52,7 +52,9 @@ public:
         for (auto const &[p, _] : *map_)
         {
             if (p == start)
+            {
                 continue;
+            }
 
             queue.push_back(std::make_tuple(p, limit));
         }
@@ -78,13 +80,15 @@ public:
                 return path;
             }
 
-            std::array const neighbors{
-                current + Point2d::EAST, current + Point2d::SOUTH, current + Point2d::WEST, current + Point2d::NORTH};
+            std::array const neighbors{current + Point2d::EAST, current + Point2d::SOUTH, current + Point2d::WEST,
+                current + Point2d::NORTH};
 
             for (auto neighbor : neighbors)
             {
                 if (not validNeighbor_(current, neighbor))
+                {
                     continue;
+                }
 
                 if (auto const alt = dist.Get(current) + calcWeight_(current, neighbor); alt < dist.Get(neighbor))
                 {

@@ -1,8 +1,11 @@
 #include "day21.hpp"
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
+
 #include "game_character.hpp"
 #include "game_item.hpp"
+
+#include "../common/assert.hpp"
+#include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <vector>
 
@@ -61,13 +64,19 @@ struct Game
         player.Buy(shop.weapons[static_cast<std::size_t>(w)]);
 
         if (a != -1)
+        {
             player.Buy(shop.armors[static_cast<std::size_t>(a)]);
+        }
 
         if (r1 != -1)
+        {
             player.Buy(shop.rings[static_cast<std::size_t>(r1)]);
+        }
 
         if (r2 != -1)
+        {
             player.Buy(shop.rings[static_cast<std::size_t>(r2)]);
+        }
     }
 
     bool Fight()
@@ -77,12 +86,16 @@ struct Game
             player.Attack(boss);
 
             if (boss.IsDead())
+            {
                 return true;
+            }
 
             boss.Attack(player);
 
             if (player.IsDead())
+            {
                 return false;
+            }
         }
     }
 };
@@ -98,7 +111,9 @@ int RunGame(bool condition, PredT &&pred)
         for (int r1 = -1; r1 < static_cast<int>(shop.rings.size()); ++r1)
         {
             if (r1 != -1 && r1 <= r2)
+            {
                 continue;
+            }
 
             for (int a = -1; a < static_cast<int>(shop.armors.size()); ++a)
             {

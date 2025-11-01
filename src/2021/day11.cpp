@@ -1,4 +1,5 @@
 #include "day11.hpp"
+
 #include "../common.hpp"
 
 struct Environment
@@ -33,7 +34,9 @@ struct Environment
     {
         auto iter = map.find(p);
         if (iter == end(map))
+        {
             return;
+        }
 
         auto &level = iter->second;
         ++level;
@@ -47,7 +50,9 @@ struct Environment
     void Flash(Point2d const &p)
     {
         if (flashed.find(p) != end(flashed))
+        {
             return;
+        }
 
         flashed.insert(p);
         Increase(p + Point2d::NORTH);
@@ -65,12 +70,20 @@ struct Environment
         flashed.clear();
 
         for (auto &[p, l] : map)
+        {
             if (++l > 9)
+            {
                 Flash(p);
+            }
+        }
 
         for (auto &[p, l] : map)
+        {
             if (l > 9)
+            {
                 l = 0;
+            }
+        }
 
         return static_cast<int>(flashed.size());
     }
@@ -88,7 +101,9 @@ static int Part1(std::string_view lines, int n)
     int flashCount = 0;
 
     for (int i = 0; i != n; ++i)
+    {
         flashCount += env.Step();
+    }
 
     return flashCount;
 }

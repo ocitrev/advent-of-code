@@ -1,4 +1,5 @@
 #include "day13.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 
@@ -54,16 +55,16 @@ static std::string GetTile(Tile tile)
 {
     switch (tile)
     {
-    case Tile::Wall:
-        return "█";
-    case Tile::Block:
-        return "▪";
-    case Tile::Paddle:
-        return "▔";
-    case Tile::Ball:
-        return "●";
-    default:
-        return " ";
+        case Tile::Wall:
+            return "█";
+        case Tile::Block:
+            return "▪";
+        case Tile::Paddle:
+            return "▔";
+        case Tile::Ball:
+            return "●";
+        default:
+            return " ";
     }
 }
 

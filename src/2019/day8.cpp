@@ -1,4 +1,5 @@
 #include "day8.hpp"
+
 #include "../common.hpp"
 
 struct Layer
@@ -45,7 +46,9 @@ static std::string Render(std::string_view pixels, size_t w, size_t h)
                 [](auto source, auto dest)
                 {
                     if (dest == '2')
+                    {
                         return source;
+                    }
                     return dest;
                 });
         }
@@ -84,9 +87,13 @@ static void Part2()
         for (size_t x = 0; x != W; ++x, ++iter)
         {
             if (*iter == '0')
+            {
                 result.append(" ");
+            }
             else if (*iter == '1')
+            {
                 result.append("█");
+            }
         }
 
         result.append("\n");

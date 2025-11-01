@@ -1,6 +1,8 @@
 #include "day5.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <map>
@@ -9,16 +11,24 @@
 static bool IsNice1(std::string_view text)
 {
     if (text.find("ab") != std::string_view::npos)
+    {
         return false;
+    }
 
     if (text.find("cd") != std::string_view::npos)
+    {
         return false;
+    }
 
     if (text.find("pq") != std::string_view::npos)
+    {
         return false;
+    }
 
     if (text.find("xy") != std::string_view::npos)
+    {
         return false;
+    }
 
     int vowels = 0;
     char last = '\0';
@@ -27,21 +37,25 @@ static bool IsNice1(std::string_view text)
     for (char c : text)
     {
         if (c == last)
+        {
             hasDouble = true;
+        }
 
         switch (c)
         {
-        case 'a':
-        case 'e':
-        case 'i':
-        case 'o':
-        case 'u':
-            ++vowels;
-            break;
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u':
+                ++vowels;
+                break;
         }
 
         if (hasDouble && vowels >= 3)
+        {
             return true;
+        }
 
         last = c;
     }
@@ -56,7 +70,9 @@ static int Part1()
     for (auto const &line : Split(GetInput(), '\n'))
     {
         if (IsNice1(line))
+        {
             ++count;
+        }
     }
 
     return count;
@@ -75,7 +91,9 @@ static bool HasRepeatingPair(std::string_view text)
 
         // gcc wrongly warns about null dereference here
         if (it == end(pairs))
+        {
             continue;
+        }
 
         if (not inserted && it->second != offset - 1)
         {
@@ -119,7 +137,9 @@ static int Part2()
     for (auto const &line : Split(GetInput(), '\n'))
     {
         if (IsNice2(line))
+        {
             ++count;
+        }
     }
 
     return count;

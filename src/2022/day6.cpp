@@ -1,5 +1,7 @@
 #include "day6.hpp"
+
 #include "../common.hpp"
+
 #include <unordered_set>
 
 int64_t FindMarker(std::string_view data, int64_t len)
@@ -12,10 +14,14 @@ int64_t FindMarker(std::string_view data, int64_t len)
     while (true)
     {
         if (markerend == last)
+        {
             return -1;
+        }
 
         if (std::unordered_set<char>(makerstart, markerend).size() == static_cast<size_t>(len))
+        {
             return std::distance(first, markerend);
+        }
 
         ++makerstart;
         ++markerend;

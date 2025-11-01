@@ -1,5 +1,7 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
+
 #include <array>
 #include <optional>
 #include <span>

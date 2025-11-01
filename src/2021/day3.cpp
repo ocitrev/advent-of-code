@@ -1,5 +1,7 @@
 #include "day3.hpp"
+
 #include "../common.hpp"
+
 #include <span>
 #include <vector>
 
@@ -34,11 +36,15 @@ static bool GetMostPopular(std::span<unsigned int const> numbers, unsigned int b
     for (unsigned int n : numbers)
     {
         if (n & bitMask)
+        {
             ++count;
+        }
     }
 
     if (count * 2 == numbers.size())
+    {
         return true;
+    }
 
     return count > numbers.size() / 2;
 }
@@ -54,9 +60,13 @@ static unsigned int Part1(std::span<unsigned int const> numbers)
         unsigned int const bitMask = 1 << i;
 
         if (GetMostPopular(numbers, bitMask))
+        {
             gamma |= bitMask;
+        }
         else
+        {
             epsilon |= bitMask;
+        }
     }
 
     return gamma * epsilon;
@@ -100,7 +110,9 @@ static unsigned int GetPart2(std::vector<unsigned int> numbers, Rating rating)
         numbers.erase(last, end(numbers));
 
         if (numbers.size() == 1)
+        {
             return numbers.front();
+        }
     }
 
     return 0;
@@ -123,9 +135,9 @@ int main()
 
     auto const part1 = Part1(ParseBits(GetInput()));
     fmt::print("  Part 1: {}\n", part1);
-    Assert(841526 == part1);
+    Assert(841'526 == part1);
 
     auto const part2 = Part2(ParseBits(GetInput()));
     fmt::print("  Part 2: {}\n", part2);
-    Assert(4790390 == part2);
+    Assert(4'790'390 == part2);
 }

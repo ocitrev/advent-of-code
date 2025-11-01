@@ -20,7 +20,9 @@ struct DictWithDefault
     ValueT Get(KeyT const &key) const
     {
         if (auto iter = dict.find(key); iter != end(dict))
+        {
             return iter->second;
+        }
 
         return defaultValue;
     }

@@ -1,7 +1,9 @@
 #include "day15.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <fstream>
@@ -20,8 +22,7 @@ struct Ingredient
 
     Ingredient operator*(int nbSpoon) const
     {
-        return {
-            name, nbSpoon * capacity, nbSpoon * durability, nbSpoon * flavor, nbSpoon * texture, nbSpoon * calories};
+        return {name, nbSpoon * capacity, nbSpoon * durability, nbSpoon * flavor, nbSpoon * texture, nbSpoon * calories};
     }
 
     Ingredient &operator+=(Ingredient const &other)
@@ -102,14 +103,14 @@ static void Tests()
     {
         std::array values{std::make_pair(ingredients[0], 44), std::make_pair(ingredients[1], 56)};
         auto total = CombineIngredients(values);
-        Assert(62842880 == total.Score());
+        Assert(62'842'880 == total.Score());
     }
 
     {
         std::array values{std::make_pair(ingredients[0], 40), std::make_pair(ingredients[1], 60)};
         auto total = CombineIngredients(values);
         Assert(500 == total.calories);
-        Assert(57600000 == total.Score());
+        Assert(57'600'000 == total.Score());
     }
 #endif
 }
@@ -129,7 +130,9 @@ static std::pair<int, int> Run()
                 int const d = 100 - a - b - c;
 
                 if (d == 0)
+                {
                     continue;
+                }
 
                 std::array biscuit{
                     std::make_pair(ingredients[0], a),
@@ -142,10 +145,14 @@ static std::pair<int, int> Run()
                 auto const score = total.Score();
 
                 if (total.calories == 500 && score > maxScore500)
+                {
                     maxScore500 = score;
+                }
 
                 if (score > maxScore)
+                {
                     maxScore = score;
+                }
             }
         }
     }
@@ -162,7 +169,7 @@ int main()
 
     auto const [part1, part2] = Run();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(21367368 == part1);
+    Assert(21'367'368 == part1);
     fmt::print("  Part 2: {}\n", part2);
-    Assert(1766400 == part2);
+    Assert(1'766'400 == part2);
 }

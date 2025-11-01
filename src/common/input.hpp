@@ -1,5 +1,6 @@
 #pragma once
 #include "string.hpp"
+
 #include <vector>
 
 template <typename IntT = int, char separator = '\n'>

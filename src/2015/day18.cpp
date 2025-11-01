@@ -1,6 +1,8 @@
 #include "day18.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <array>
 #include <fmt/format.h>
 #include <numeric>
@@ -21,19 +23,25 @@ struct GOL
     [[nodiscard]] bool IsCorner(int x, int y) const
     {
         return (x == 0 && y == 0) || (x == width - 1 && y == 0) || (x == width - 1 && y == height - 1)
-               || (x == 0 && y == height - 1);
+            || (x == 0 && y == height - 1);
     }
 
     [[nodiscard]] bool GetCell(int x, int y) const
     {
         if (x < 0 || y < 0)
+        {
             return false;
+        }
 
         if (x >= width || y >= height)
+        {
             return false;
+        }
 
         if (cornerAlwaysOn && IsCorner(x, y))
+        {
             return true;
+        }
 
         return map[GetOffset(x, y)];
     }
@@ -71,15 +79,18 @@ struct GOL
 
                 auto const cell = GetCell(x, y);
                 std::array const neighbors{GetCell(x - 1, y - 1), GetCell(x, y - 1), GetCell(x + 1, y - 1),
-                    GetCell(x + 1, y), GetCell(x + 1, y + 1), GetCell(x, y + 1), GetCell(x - 1, y + 1),
-                    GetCell(x - 1, y)};
+                    GetCell(x + 1, y), GetCell(x + 1, y + 1), GetCell(x, y + 1), GetCell(x - 1, y + 1), GetCell(x - 1, y)};
 
                 auto const nbAlive = std::accumulate(begin(neighbors), end(neighbors), 0);
 
                 if (cell)
+                {
                     newState[GetOffset(x, y)] = nbAlive == 2 || nbAlive == 3;
+                }
                 else
+                {
                     newState[GetOffset(x, y)] = nbAlive == 3;
+                }
             }
         }
 

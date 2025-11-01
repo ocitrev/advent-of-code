@@ -1,4 +1,5 @@
 #include "day19.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 
@@ -12,9 +13,13 @@ static void Part1()
         total += value;
 
         if (value == 1)
+        {
             beam.append(1, '#');
+        }
         else
+        {
             beam.append(1, '.');
+        }
     };
 
     Int a = 0;
@@ -75,19 +80,33 @@ static Int FindSquare(Int width, Int height)
     {
         // trouve le depart
         while (Run(code, minx, miny) == 0)
+        {
             ++minx;
+        }
 
         for (Int x = 1; x != width; ++x)
+        {
             if (Run(code, x + minx, miny) == 0)
+            {
                 goto next;
+            }
+        }
 
         for (Int y = 1; y != height; ++y)
+        {
             if (Run(code, minx, miny - (height - y)) == 0)
+            {
                 goto next;
+            }
+        }
 
         for (Int x = 1; x != width; ++x)
+        {
             if (Run(code, minx + (width - x), miny - (height - 1)) == 0)
+            {
                 goto next;
+            }
+        }
 
         break;
     next:;
@@ -97,14 +116,14 @@ static Int FindSquare(Int width, Int height)
     Int y = miny - (height - 1);
 
     // fmt::print("{}, {}\n", x, y);
-    return x * 10000 + y;
+    return x * 10'000 + y;
 }
 
 static void Part2()
 {
     auto const part2 = FindSquare(100, 100);
     fmt::print("  Part2: {}\n", part2);
-    Assert(9210745 == part2);
+    Assert(9'210'745 == part2);
 }
 
 int main()

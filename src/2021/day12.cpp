@@ -1,4 +1,5 @@
 #include "day12.hpp"
+
 #include "../common.hpp"
 
 using namespace std::string_view_literals;
@@ -66,10 +67,14 @@ struct Paths
             Cave const right = parts[1];
 
             if (not right.IsStart() && not left.IsEnd())
+            {
                 paths[left].push_back(right);
+            }
 
             if (not left.IsStart() && not right.IsEnd())
+            {
                 paths[right].push_back(left);
+            }
         }
     }
 
@@ -92,7 +97,9 @@ private:
         auto iter = paths.find(start);
 
         if (iter == end(paths))
+        {
             return;
+        }
 
         // only visit samll caves once
         if (start.lower)
@@ -100,10 +107,14 @@ private:
             auto const visitedCount = std::count(begin(parents), end(parents), start);
 
             if (maxCount == 1 && visitedCount >= 1)
+            {
                 return;
+            }
 
             if (visitedCount > 0)
+            {
                 --maxCount;
+            }
         }
 
         parents.push_back(start);
@@ -147,5 +158,5 @@ int main()
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(93572 == part2);
+    Assert(93'572 == part2);
 }

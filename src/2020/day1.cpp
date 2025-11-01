@@ -1,4 +1,5 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
 
 static constexpr int kSumWanted = 2020;
@@ -23,8 +24,8 @@ static int Find(std::span<int const> numbers, std::size_t nb)
 
 static void Example()
 {
-    Assert(514579 == Find(example::numbers, 2));
-    Assert(241861950 == Find(example::numbers, 3));
+    Assert(514'579 == Find(example::numbers, 2));
+    Assert(241'861'950 == Find(example::numbers, 3));
 }
 
 static int Part1()
@@ -46,9 +47,9 @@ int main()
 
     auto const part1 = Part1();
     fmt::print("  Part 1: {}\n", part1);
-    Assert(806656 == part1);
+    Assert(806'656 == part1);
 
     auto const part2 = Part2();
     fmt::print("  Part 2: {}\n", part2);
-    Assert(230608320 == part2);
+    Assert(230'608'320 == part2);
 }

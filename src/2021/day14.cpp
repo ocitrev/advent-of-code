@@ -1,5 +1,7 @@
 #include "day14.hpp"
+
 #include "../common.hpp"
+
 #include <bit>
 #include <gsl/gsl>
 
@@ -26,7 +28,9 @@ struct PolymerTemplate
         for (auto line : Split(text, '\n'))
         {
             if (line.empty())
+            {
                 continue;
+            }
 
             if (polymer.empty())
             {
@@ -112,7 +116,7 @@ int main()
     fmt::print("Day 14, 2021: Extended Polymerization\n");
 
     Assert(1588 == Part1(example::polymer));
-    Assert(2188189693529 == Part2(example::polymer));
+    Assert(2'188'189'693'529 == Part2(example::polymer));
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
@@ -120,5 +124,5 @@ int main()
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(3906445077999 == part2);
+    Assert(3'906'445'077'999 == part2);
 }

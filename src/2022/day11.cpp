@@ -1,5 +1,7 @@
 #include "day11.hpp"
+
 #include "../common.hpp"
+
 #include <gsl/gsl>
 #include <ranges>
 
@@ -129,8 +131,8 @@ struct Game
         for (auto &item : items)
         {
             item = wm(monkey.Inspect(item));
-            auto const monkeyIndex
-                = static_cast<size_t>(item % monkey.divisble == 0 ? monkey.rules.second : monkey.rules.first);
+            auto const monkeyIndex =
+                static_cast<size_t>(item % monkey.divisble == 0 ? monkey.rules.second : monkey.rules.first);
             monkeys.at(monkeyIndex).items.push_back(item);
         }
     }
@@ -211,7 +213,7 @@ int main()
     Assert(10'605 == PlayGameDivideBy3(example::notes, 20));
     Assert(6 * 4 == PlayGameModulo(example::notes, 1));
     Assert(103 * 99 == PlayGameModulo(example::notes, 20));
-    Assert(5'204 * 5'192 == PlayGameModulo(example::notes, 1'000));
+    Assert(5204 * 5192 == PlayGameModulo(example::notes, 1000));
     Assert(2'713'310'158 == PlayGameModulo(example::notes, 10'000));
 
     auto const part1 = Part1();

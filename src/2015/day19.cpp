@@ -1,6 +1,8 @@
 #include "day19.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <algorithm>
 #include <fmt/format.h>
 #include <functional>

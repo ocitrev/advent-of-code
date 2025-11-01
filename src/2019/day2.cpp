@@ -1,4 +1,5 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 #include "../common/terminal.hpp"
@@ -23,7 +24,7 @@ static void Part1(std::vector<Int> const &code)
 {
     auto part1 = Run(code, 12, 2);
     fmt::print("  Part1: {}\n", part1);
-    Assert(3706713 == part1);
+    Assert(3'706'713 == part1);
 }
 
 static void Part2(std::vector<Int> const &code)
@@ -32,7 +33,7 @@ static void Part2(std::vector<Int> const &code)
     {
         for (Int verb = 0; verb != 100; ++verb)
         {
-            if (Run(code, noun, verb) == 19690720)
+            if (Run(code, noun, verb) == 19'690'720)
             {
                 auto part2 = noun * 100 + verb;
                 fmt::print("  Part2: {}\n", part2);

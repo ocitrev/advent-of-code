@@ -1,6 +1,8 @@
 #include "day7.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
+
 #include <fmt/format.h>
 #include <gsl/gsl>
 #include <map>
@@ -28,7 +30,9 @@ static Rule ParseRule(std::string_view ruleText)
         auto const result = std::from_chars(p.data(), p.data() + p.size(), nbBags);
 
         if (result.ec != std::errc{})
+        {
             continue;
+        }
 
         p.remove_prefix(static_cast<size_t>(result.ptr - p.data()));
         p.remove_suffix(p.size() - p.find("bag"sv));

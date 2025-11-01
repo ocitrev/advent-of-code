@@ -1,4 +1,5 @@
 #include "day1.hpp"
+
 #include "../common.hpp"
 
 static int Part1(std::string_view directions)
@@ -9,9 +10,13 @@ static int Part1(std::string_view directions)
     for (auto d : Split(directions, ", "))
     {
         if (d[0] == 'L')
+        {
             dir.Rotate90Left();
+        }
         else if (d[0] == 'R')
+        {
             dir.Rotate90Right();
+        }
 
         auto const dist = svtoi(d.substr(1));
         pos += dir * dist;
@@ -29,9 +34,13 @@ static int Part2(std::string_view directions)
     for (auto d : Split(directions, ", "))
     {
         if (d[0] == 'L')
+        {
             dir.Rotate90Left();
+        }
         else if (d[0] == 'R')
+        {
             dir.Rotate90Right();
+        }
 
         auto const dist = svtoi(d.substr(1));
 
@@ -40,7 +49,9 @@ static int Part2(std::string_view directions)
             pos += dir;
 
             if (visited.contains(pos))
+            {
                 return pos.Distance();
+            }
 
             visited.insert(pos);
         }

@@ -1,4 +1,5 @@
 #include "day2.hpp"
+
 #include "../common.hpp"
 
 enum struct Shape : int
@@ -12,15 +13,15 @@ constexpr Shape Parse(char c)
 {
     switch (c)
     {
-    case 'A':
-    case 'X':
-        return Shape::Rock;
-    case 'B':
-    case 'Y':
-        return Shape::Paper;
-    case 'C':
-    case 'Z':
-        return Shape::Scissors;
+        case 'A':
+        case 'X':
+            return Shape::Rock;
+        case 'B':
+        case 'Y':
+            return Shape::Paper;
+        case 'C':
+        case 'Z':
+            return Shape::Scissors;
     }
 
     throw std::invalid_argument{"c"};
@@ -29,16 +30,18 @@ constexpr Shape Parse(char c)
 constexpr int Game(Shape player1, Shape player2)
 {
     if (player1 == player2)
+    {
         return 3;
+    }
 
     switch (player1)
     {
-    case Shape::Rock:
-        return player2 == Shape::Paper ? 6 : 0;
-    case Shape::Paper:
-        return player2 == Shape::Scissors ? 6 : 0;
-    case Shape::Scissors:
-        return player2 == Shape::Rock ? 6 : 0;
+        case Shape::Rock:
+            return player2 == Shape::Paper ? 6 : 0;
+        case Shape::Paper:
+            return player2 == Shape::Scissors ? 6 : 0;
+        case Shape::Scissors:
+            return player2 == Shape::Rock ? 6 : 0;
     }
 
     throw std::invalid_argument("player1");
@@ -82,12 +85,12 @@ constexpr Shape WinnerAgainst(Shape input)
 {
     switch (input)
     {
-    case Shape::Rock:
-        return Shape::Paper;
-    case Shape::Paper:
-        return Shape::Scissors;
-    case Shape::Scissors:
-        return Shape::Rock;
+        case Shape::Rock:
+            return Shape::Paper;
+        case Shape::Paper:
+            return Shape::Scissors;
+        case Shape::Scissors:
+            return Shape::Rock;
     }
 
     throw std::invalid_argument("input");
@@ -97,12 +100,12 @@ constexpr Shape LoserAgainst(Shape input)
 {
     switch (input)
     {
-    case Shape::Rock:
-        return Shape::Scissors;
-    case Shape::Paper:
-        return Shape::Rock;
-    case Shape::Scissors:
-        return Shape::Paper;
+        case Shape::Rock:
+            return Shape::Scissors;
+        case Shape::Paper:
+            return Shape::Rock;
+        case Shape::Scissors:
+            return Shape::Paper;
     }
 
     throw std::invalid_argument("input");
@@ -118,10 +121,14 @@ static_assert(Shape::Scissors == LoserAgainst(Shape::Rock));
 constexpr Shape Parse2(char letter, Shape input)
 {
     if (letter == 'X')
+    {
         return LoserAgainst(input);
+    }
 
     if (letter == 'Z')
+    {
         return WinnerAgainst(input);
+    }
 
     return input;
 }
@@ -157,9 +164,9 @@ int main()
 
     auto const part1 = Part1(GetInput());
     fmt::print("  Part 1: {}\n", part1);
-    Assert(12740 == part1);
+    Assert(12'740 == part1);
 
     auto const part2 = Part2(GetInput());
     fmt::print("  Part 2: {}\n", part2);
-    Assert(11980 == part2);
+    Assert(11'980 == part2);
 }

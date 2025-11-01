@@ -1,5 +1,7 @@
 #include "day11.hpp"
+
 #include "../common/assert.hpp"
+
 #include <fmt/format.h>
 
 bool IsForbiddenLetter(char c)
@@ -23,7 +25,9 @@ void Increment(std::string &number, bool checkForbidden)
     }
 
     if (not checkForbidden)
+    {
         return;
+    }
 
     bool setToZero = false;
     for (char &c : number)
@@ -90,13 +94,19 @@ bool HasForbiddenLetters(std::string_view text)
 bool IsValidPassword(std::string_view text)
 {
     if (HasForbiddenLetters(text))
+    {
         return false;
+    }
 
     if (not HasStraight(text))
+    {
         return false;
+    }
 
     if (not HasRepeats(text))
+    {
         return false;
+    }
 
     return true;
 }
@@ -107,7 +117,8 @@ std::string NextPassword(std::string_view text)
     do
     {
         Increment(nextPassword, true);
-    } while (not IsValidPassword(nextPassword));
+    }
+    while (not IsValidPassword(nextPassword));
     return nextPassword;
 }
 

@@ -1,7 +1,9 @@
 #include "day14.hpp"
+
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
+
 #include <fmt/format.h>
 #include <map>
 
@@ -57,14 +59,18 @@ struct NanoFactory
     bool Produce(std::string const &name, std::int64_t count = 1)
     {
         if (storage[name] >= count)
+        {
             return true;
+        }
 
         if (name == "ORE")
+        {
             return false;
+        }
 
         auto const &[result, composants] = reactions[name];
-        auto n = static_cast<std::int64_t>(ceil(
-            (static_cast<double>(count) - static_cast<double>(storage[name])) / static_cast<double>(result.count)));
+        auto n = static_cast<std::int64_t>(
+            ceil((static_cast<double>(count) - static_cast<double>(storage[name])) / static_cast<double>(result.count)));
 #if 0
         fmt::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
 #endif
@@ -98,15 +104,19 @@ struct NanoFactory
             storage["ORE"] = pivot;
 
             if (Produce("FUEL"))
+            {
                 high = pivot;
+            }
             else
+            {
                 low = pivot + 1;
+            }
         }
 
         return low;
     }
 
-    std::int64_t ComputeFuel(std::int64_t totalOre = 1000000000000)
+    std::int64_t ComputeFuel(std::int64_t totalOre = 1'000'000'000'000)
     {
         std::int64_t low = 0;
         std::int64_t high = totalOre;
@@ -118,13 +128,19 @@ struct NanoFactory
             storage["ORE"] = totalOre;
 
             if (Produce("FUEL", pivot))
+            {
                 low = pivot;
+            }
             else
+            {
                 high = pivot - 1;
+            }
         }
 
         if (Produce("FUEL", high))
+        {
             return high;
+        }
 
         return low;
     }
@@ -136,19 +152,19 @@ int main()
 
     Assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
     Assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());
-    Assert(13312 == NanoFactory::Parse(example::ex3).ComputeOre());
-    Assert(180697 == NanoFactory::Parse(example::ex4).ComputeOre());
-    Assert(2210736 == NanoFactory::Parse(example::ex5).ComputeOre());
+    Assert(13'312 == NanoFactory::Parse(example::ex3).ComputeOre());
+    Assert(180'697 == NanoFactory::Parse(example::ex4).ComputeOre());
+    Assert(2'210'736 == NanoFactory::Parse(example::ex5).ComputeOre());
 
-    Assert(82892753 == NanoFactory::Parse(example::ex3).ComputeFuel());
-    Assert(5586022 == NanoFactory::Parse(example::ex4).ComputeFuel());
-    Assert(460664 == NanoFactory::Parse(example::ex5).ComputeFuel());
+    Assert(82'892'753 == NanoFactory::Parse(example::ex3).ComputeFuel());
+    Assert(5'586'022 == NanoFactory::Parse(example::ex4).ComputeFuel());
+    Assert(460'664 == NanoFactory::Parse(example::ex5).ComputeFuel());
 
     auto const part1 = NanoFactory::Parse(GetInput()).ComputeOre();
     fmt::print("  Part1: {}\n", part1);
-    Assert(1967319 == part1);
+    Assert(1'967'319 == part1);
 
     auto const part2 = NanoFactory::Parse(GetInput()).ComputeFuel();
     fmt::print("  Part2: {}\n", part2);
-    Assert(1122036 == part2);
+    Assert(1'122'036 == part2);
 }
