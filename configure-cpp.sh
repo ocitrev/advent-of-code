@@ -16,4 +16,4 @@ if [[ -d "$SCRIPT_DIR/build/cpp" ]]; then
   rm -r "$SCRIPT_DIR/build/cpp"
 fi
 
-cmake -G 'Ninja Multi-Config' -S "$SCRIPT_DIR/." -B "$SCRIPT_DIR/build/cpp"
+cmake -G 'Ninja Multi-Config' -S "$SCRIPT_DIR/." -B "$SCRIPT_DIR/build/cpp" "$@"
