@@ -9,14 +9,14 @@
 
 struct Elem
 {
-    std::int64_t count = 0;
+    std::uint64_t count = 0;
     std::string name;
 
     static Elem Parse(std::string_view data)
     {
         Elem el;
         auto pos = data.find(' ');
-        el.count = std::stoi(std::string{data.substr(0, pos)});
+        el.count = std::stoull(std::string{data.substr(0, pos)});
         el.name = data.substr(pos + 1);
         trim(el.name);
         return el;
@@ -26,7 +26,7 @@ struct Elem
 struct NanoFactory
 {
     std::map<std::string, std::pair<Elem, std::vector<Elem>>> reactions;
-    std::map<std::string, std::int64_t> storage;
+    std::map<std::string, std::uint64_t> storage;
 
     static NanoFactory Parse(std::string_view data)
     {
@@ -56,7 +56,7 @@ struct NanoFactory
         return f;
     }
 
-    bool Produce(std::string const &name, std::int64_t count = 1)
+    bool Produce(std::string const &name, std::uint64_t count = 1)
     {
         if (storage[name] >= count)
         {
@@ -69,7 +69,7 @@ struct NanoFactory
         }
 
         auto const &[result, composants] = reactions[name];
-        auto n = static_cast<std::int64_t>(
+        auto n = static_cast<std::uint64_t>(
             ceil((static_cast<double>(count) - static_cast<double>(storage[name])) / static_cast<double>(result.count)));
 #if 0
         fmt::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
@@ -80,7 +80,7 @@ struct NanoFactory
         for (auto const &c : composants)
         {
             producing &= Produce(c.name, n * c.count);
-            storage[c.name] -= n * c.count;
+            storage[c.name] -= std::min(storage[c.name], n * c.count);
         }
 
         if (producing)
@@ -92,14 +92,14 @@ struct NanoFactory
         return false;
     }
 
-    std::int64_t ComputeOre()
+    std::uint64_t ComputeOre()
     {
-        std::int64_t low = 0;
-        std::int64_t high = std::numeric_limits<std::int64_t>::max();
+        std::uint64_t low = 0;
+        std::uint64_t high = std::numeric_limits<std::uint64_t>::max();
 
         while (low < high)
         {
-            std::int64_t pivot = low + (high - low) / 2;
+            std::uint64_t pivot = low + (high - low) / 2;
             storage.clear();
             storage["ORE"] = pivot;
 
@@ -116,14 +116,14 @@ struct NanoFactory
         return low;
     }
 
-    std::int64_t ComputeFuel(std::int64_t totalOre = 1'000'000'000'000)
+    std::uint64_t ComputeFuel(std::uint64_t totalOre = 1'000'000'000'000)
     {
-        std::int64_t low = 0;
-        std::int64_t high = totalOre;
+        std::uint64_t low = 0;
+        std::uint64_t high = totalOre;
 
         while (low < high - 1)
         {
-            std::int64_t pivot = low + (high - low) / 2;
+            std::uint64_t pivot = low + (high - low) / 2;
             storage.clear();
             storage["ORE"] = totalOre;
 
