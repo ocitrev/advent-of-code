@@ -10,13 +10,15 @@
 - [2023](https://adventofcode.com/2023)
 - [2024](https://adventofcode.com/2024)
 
-# Prerequisites
-
-Ce projet a besoin de [vcpkg](https://vcpkg.io/en/getting-started) pour trouver ses dépendences. La variable d'environment `VCPKG_ROOT` doit est bien définie.
-
 # Comment faire
 
 ## Projets C++
+
+Prérequis pour le C++
+
+- [vcpkg](https://vcpkg.io/en/getting-started)
+- [CMake](https://cmake.org/)
+- [ninja](https://ninja-build.org/)
 
 Compilation
 
@@ -35,6 +37,8 @@ Exécution d’un jour particulier (exemple : 2019 — jour 2)
     ./build-cpp -t run-2019-2
 
 ## Projets Zig
+
+*Testé avec la version 0.15.2 de [Zig](https://ziglang.org/)*
 
 Compilation
 
@@ -61,6 +65,10 @@ Exécution d’un jour particulier (exemple : 2016 — jour 5)
 Compilation
 
     cargo build
+
+Exécution des tests unitaires
+
+    cargo test
 
 Exécution d’un jour particulier (exemple : 2016 — jour 5)
 
