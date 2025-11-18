@@ -12,18 +12,60 @@
 
 # Prerequisites
 
-Ce projet a besoin de [vcpkg](https://vcpkg.io/en/getting-started) pour trouver ses dependences. La variable d'environment `VCPKG_ROOT` doit est bien définie.
+Ce projet a besoin de [vcpkg](https://vcpkg.io/en/getting-started) pour trouver ses dépendences. La variable d'environment `VCPKG_ROOT` doit est bien définie.
 
-Comment compiler avec clang:
+# Comment faire
 
-    mkdir build
-    cd build
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
-    ninja
+## Projets C++
 
-Comment compiler GCC:
+Il faut configurer cmake avec la commande
 
-    mkdir build
-    cd build
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
-    ninja
+    ./configure-cpp
+
+Ensuite pour compiler avec la commande
+
+    ./build-cpp
+
+Pour executer tous les projets
+
+    ./build-cpp -t run
+
+Pour executer tous les projets de 2019
+
+    ./build-cpp -t run-2019
+
+Pour executer un projet en particulier, exemple avec jour 2, 2019
+
+    ./build-cpp -t run-2019-2
+
+## Projets Zig
+
+Pour compiler les projets Zig:
+
+    ./zig-build
+
+Pour executer tous les projets
+
+    ./zig-build run
+
+Pour executer tous les tests unitaires
+
+    ./zig-build test
+
+Pour executer tous les projets de 2024
+
+    ./zig-build run-2024
+
+Pour executer un projet en particulier, exemple avec jour 5, 2016
+
+    ./zig-build run-2016-5
+
+## Projets Rust
+
+Pour compiler les projets Rust:
+
+    cargo build
+
+Pour executer un projet en particulier, exemple avec jour 5, 2016
+
+    cargo run --bin 2016-5
