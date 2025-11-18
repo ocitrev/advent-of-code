@@ -18,29 +18,25 @@ Ce projet a besoin de [vcpkg](https://vcpkg.io/en/getting-started) pour trouver 
 
 ## Projets C++
 
-Il faut configurer cmake avec la commande
-
-    ./configure-cpp
-
-Ensuite pour compiler avec la commande
+Compilation
 
     ./build-cpp
 
-Pour executer tous les projets
+Exécution de tous les projets
 
     ./build-cpp -t run
 
-Pour executer tous les projets de 2019
+Exécution des solutions d'une année (exemple : 2019)
 
     ./build-cpp -t run-2019
 
-Pour executer un projet en particulier, exemple avec jour 2, 2019
+Exécution d’un jour particulier (exemple : 2019 — jour 2)
 
     ./build-cpp -t run-2019-2
 
 ## Projets Zig
 
-Pour compiler les projets Zig:
+Compilation
 
     ./zig-build
 
@@ -48,24 +44,24 @@ Pour executer tous les projets
 
     ./zig-build run
 
-Pour executer tous les tests unitaires
+Exécution des tests unitaires
 
     ./zig-build test
 
-Pour executer tous les projets de 2024
+Exécution d'une année (exemple : 2024)
 
     ./zig-build run-2024
 
-Pour executer un projet en particulier, exemple avec jour 5, 2016
+Exécution d’un jour particulier (exemple : 2016 — jour 5)
 
     ./zig-build run-2016-5
 
 ## Projets Rust
 
-Pour compiler les projets Rust:
+Compilation
 
     cargo build
 
-Pour executer un projet en particulier, exemple avec jour 5, 2016
+Exécution d’un jour particulier (exemple : 2016 — jour 5)
 
     cargo run --bin 2016-5
