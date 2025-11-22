@@ -164,8 +164,8 @@ static int SumOrderedPairs(std::string_view input)
 static std::vector<Packet> ParsePackets(std::string_view input)
 {
     std::vector<Packet> packets;
-    packets.push_back(ParsePacket("[[2]]", 2));
-    packets.push_back(ParsePacket("[[6]]", 6));
+    packets.push_back(ParsePacket("[[2]]", true));
+    packets.push_back(ParsePacket("[[6]]", true));
 
     for (auto line : Split(input, '\n'))
     {

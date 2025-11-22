@@ -130,7 +130,7 @@ struct Point2d
         return vecLength;
     }
 
-    [[nodiscard]] constexpr double Slope() const
+    [[nodiscard]] double Slope() const
     {
         return std::atan2(y, x);
     }

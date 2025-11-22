@@ -39,7 +39,7 @@ static auto Part2(std::string_view lines)
 
     elves.push_back(calories);
     std::partial_sort(begin(elves), begin(elves) + 3, end(elves), std::greater{});
-    return std::accumulate(begin(elves), begin(elves) + 3, 0);
+    return std::accumulate(begin(elves), begin(elves) + 3, int64_t{0});
 }
 
 int main()

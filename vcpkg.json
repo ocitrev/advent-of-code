@@ -1,8 +1,8 @@
 {
-    "dependencies": [
-        "fmt",
-        "ms-gsl",
-        "rapidjson",
-        "ctre"
-    ]
+  "dependencies": [
+    "fmt",
+    "ms-gsl",
+    "rapidjson",
+    "ctre"
+  ]
 }

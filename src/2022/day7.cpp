@@ -161,7 +161,7 @@ static auto SumOfAllSmallDirectories(std::string_view text)
             return fs->size > limit;
         });
 
-    return std::transform_reduce(first, last, 0, std::plus{},
+    return std::transform_reduce(first, last, size_t{0}, std::plus{},
         [](FileSystem const *fs)
         {
             return fs->size;

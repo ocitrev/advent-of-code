@@ -13,7 +13,7 @@
 )
 
 :: make sure VCPKG is setup
-@if [%VCPKG_ROOT%] == [] (
+@if "%VCPKG_ROOT%" == "" (
 	echo VCPKG_ROOT is not defined >&2
 	exit /b 1
 )
