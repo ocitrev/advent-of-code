@@ -1,0 +1,6 @@
+[language-server.clangd]
+command = "clangd"
+args = [
+  "--compile-commands-dir=build/cpp",
+  "--clang-tidy=false",
+]

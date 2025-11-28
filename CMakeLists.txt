@@ -6,6 +6,9 @@ set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CAC
 project(AdventOfCOde)
 include(Inputs.cmake)
 
+# for clangd lsp
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 if(MSVC)
   find_program(CPPCHECK NAMES "cppcheck.exe")
   if(CPPCHECK)
@@ -120,7 +123,7 @@ function(add_aoc year day)
   add_executable(${aoc} src/${year}/day${day}.cpp src/${year}/day${day}.hpp)
   target_link_libraries(${aoc} PRIVATE common)
   add_custom_target(run-${year}-${day} ${aoc} DEPENDS ${aoc})
-  
+
   add_aoc_input(${year} ${day})
   target_link_libraries(${aoc} PUBLIC resources-${year}-${day})
 

@@ -6,6 +6,7 @@
 .vs/
 .vscode/
 .zig-cache/
+.cache/
 zig-out/
 target/
 Cargo.lock
