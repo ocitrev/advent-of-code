@@ -35,7 +35,7 @@ pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const ally = gpa.allocator();
-    const input = comptime utils.trim_input(@embedFile("input"));
+    const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(ally, input);
     utils.printAnswer(1, p1);
@@ -50,7 +50,7 @@ const Int = i32;
 
 fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     _ = ally;
-    
+
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
         _ = line;
@@ -61,7 +61,7 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
 
 fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
     _ = ally;
-    
+
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
         _ = line;
@@ -77,7 +77,7 @@ test "parts 1,2" {
     ;
     try std.testing.expectEqual(0, try part1(ally, example));
     try std.testing.expectEqual(0, try part2(ally, example));
-}    
+}
 "@
 
     $folder = get-year-folder
