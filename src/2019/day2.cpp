@@ -3,6 +3,7 @@
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 #include "../common/terminal.hpp"
+#include <fmt/base.h>
 
 [[maybe_unused]] static Int RunAndGetValue(std::vector<Int> code, size_t offset)
 {
@@ -20,14 +21,12 @@ static Int Run(std::vector<Int> const &code, Int noun, Int verb)
     return a.ReadMemory(0);
 }
 
-static void Part1(std::vector<Int> const &code)
+static Int Part1(std::vector<Int> const &code)
 {
-    auto part1 = Run(code, 12, 2);
-    fmt::print("  Part1: {}\n", part1);
-    Assert(3'706'713 == part1);
+    return Run(code, 12, 2);
 }
 
-static void Part2(std::vector<Int> const &code)
+Int Part2(std::vector<Int> const &code)
 {
     for (Int noun = 0; noun != 100; ++noun)
     {
@@ -35,17 +34,17 @@ static void Part2(std::vector<Int> const &code)
         {
             if (Run(code, noun, verb) == 19'690'720)
             {
-                auto part2 = noun * 100 + verb;
-                fmt::print("  Part2: {}\n", part2);
-                Assert(8609 == part2);
-                return;
+                return noun * 100 + verb;
             }
         }
     }
+
+    return 0;
 }
 
 int main()
 {
+    // https://adventofcode.com/2019/day/2
     fmt::print("Day 2, 2019: 1202 Program Alarm\n");
 
     Assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
@@ -53,6 +52,11 @@ int main()
     Assert(9801 == RunAndGetValue({2, 4, 4, 5, 99, 0}, 5));
     Assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
-    Part1(ParseInputNumbers<Int, ','>());
-    Part2(ParseInputNumbers<Int, ','>());
+    auto const part1 = Part1(ParseInputNumbers<Int, ','>());
+    fmt::println("  Part1: {}", part1);
+    Assert(3'706'713 == part1);
+
+    auto const part2 = Part2(ParseInputNumbers<Int, ','>());
+    fmt::println("  Part2: {}", part2);
+    Assert(8609 == part2);
 }
