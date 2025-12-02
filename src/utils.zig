@@ -12,6 +12,10 @@ pub fn Result(comptime T: type) type {
     };
 }
 
+pub fn nbDigits(comptime T: type, num: T) T {
+    return std.math.log10_int(num) + 1;
+}
+
 pub const Parser = struct {
     input: []const u8,
 

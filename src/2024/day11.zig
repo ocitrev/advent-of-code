@@ -28,10 +28,6 @@ fn AutoHashMap(comptime K: type, comptime V: type) type {
 const Int = u64;
 const Cache = AutoHashMap(struct { Int, Int }, Int);
 
-fn nbDigits(num: Int) Int {
-    return std.math.log10_int(num) + 1;
-}
-
 fn blink(stone: Int, depth: Int, cache: *Cache, ally: std.mem.Allocator) Int {
     if (depth == 0) {
         return 1;
@@ -48,7 +44,7 @@ fn blink(stone: Int, depth: Int, cache: *Cache, ally: std.mem.Allocator) Int {
         return result;
     }
 
-    const digits = nbDigits(stone);
+    const digits = utils.nbDigits(Int, stone);
     if (digits & 1 == 0) {
         const p = std.math.powi(Int, 10, @divExact(digits, 2)) catch unreachable;
         var result = blink(@divTrunc(stone, p), depth - 1, cache, ally);
