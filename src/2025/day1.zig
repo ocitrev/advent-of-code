@@ -9,36 +9,17 @@ pub fn main() !void {
     defer m.deinit();
     const input = comptime utils.trimInput(@embedFile("input"));
 
-    const p1 = part1(input);
-    utils.printAnswer(1, p1);
-    std.debug.assert(992 == p1);
+    const result = run(input);
+    utils.printAnswer(1, result[0]);
+    std.debug.assert(992 == result[0]);
 
-    const p2 = part2(input);
-    utils.printAnswer(2, p2);
-    std.debug.assert(6133 == p2);
+    utils.printAnswer(2, result[1]);
+    std.debug.assert(6133 == result[1]);
 }
 
-fn part1(input: []const u8) u32 {
-    var result: u32 = 0;
-    var start: i32 = 50;
-
-    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (lineIt.next()) |line| {
-        const left = line[0] == 'L';
-        const count = std.fmt.parseInt(i32, line[1..], 10) catch unreachable;
-        const value = if (left) -count else count;
-        start = @mod(start + value, 100);
-
-        if (start == 0) {
-            result += 1;
-        }
-    }
-
-    return result;
-}
-
-fn part2(input: []const u8) u32 {
-    var result: u32 = 0;
+fn run(input: []const u8) struct { u32, u32 } {
+    var result1: u32 = 0;
+    var result2: u32 = 0;
     var start: i32 = 50;
 
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
@@ -55,12 +36,16 @@ fn part2(input: []const u8) u32 {
             }
 
             if (start == 0) {
-                result += 1;
+                result2 += 1;
             }
+        }
+
+        if (start == 0) {
+            result1 += 1;
         }
     }
 
-    return result;
+    return .{ result1, result2 };
 }
 
 test "parts 1,2" {
@@ -77,6 +62,7 @@ test "parts 1,2" {
         \\L82
     ;
     @setEvalBranchQuota(2000);
-    try std.testing.expectEqual(3, comptime part1(example));
-    try std.testing.expectEqual(6, comptime part2(example));
+    const result = comptime run(example);
+    try std.testing.expectEqual(3, result[0]);
+    try std.testing.expectEqual(6, result[1]);
 }
