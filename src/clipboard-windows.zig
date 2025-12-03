@@ -14,10 +14,12 @@ extern "user32" fn CloseClipboard() callconv(.winapi) windows.BOOL;
 extern "user32" fn EmptyClipboard() callconv(.winapi) windows.BOOL;
 extern "user32" fn RegisterClipboardFormatW(windows.LPCWSTR) callconv(.winapi) windows.UINT;
 extern "user32" fn SetClipboardData(format: windows.UINT, handle: windows.HANDLE) callconv(.winapi) ?windows.HANDLE;
+extern "kernel32" fn GetLastError() callconv(.winapi) windows.DWORD;
 extern "kernel32" fn GlobalLock(handle: windows.HANDLE) callconv(.winapi) ?*anyopaque;
 extern "kernel32" fn GlobalUnlock(handle: windows.HANDLE) callconv(.winapi) windows.BOOL;
 extern "kernel32" fn GlobalAlloc(flags: windows.UINT, size: windows.SIZE_T) callconv(.winapi) ?*anyopaque;
 extern "kernel32" fn RtlMoveMemory(out: *anyopaque, in: *anyopaque, size: windows.SIZE_T) callconv(.winapi) void;
+extern "kernel32" fn SwitchToThread() callconv(.winapi) windows.BOOL;
 
 fn registerClipboardFormat(format: []const u8) !windows.UINT {
     var buffer: [1024]u8 = undefined;
@@ -46,9 +48,25 @@ fn setClipboardDWORD(format: windows.UINT, data: windows.DWORD) !void {
 const GMEM_MOVEABLE: windows.UINT = 0x0002;
 const CF_UNICODE_TEXT: windows.UINT = 13;
 
+fn openClipboardWithErrorHandling() !void {
+    if (OpenClipboard(null) != 0) {
+        return;
+    }
+
+    // Retry when access is denied, as another application might be holding the clipboard
+    if (GetLastError() == 5) {
+        for (0..3) |_| {
+            _ = SwitchToThread();
+            if (OpenClipboard(null) != 0) return;
+        }
+    }
+
+    return error.OpenClipboard;
+}
+
 pub fn setClipboardText(text: []const u8, mode: clipboard.ClipboardMode) !void {
     if (text.len == 0) return;
-    if (OpenClipboard(null) == 0) return error.OpenClipboard;
+    try openClipboardWithErrorHandling();
     defer _ = CloseClipboard();
     if (EmptyClipboard() == 0) return error.EmptyClipboard;
 

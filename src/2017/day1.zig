@@ -3,16 +3,19 @@ const utils = @import("utils");
 
 pub fn main() !void {
     // https://adventofcode.com/2017/day/1
+    utils.printTitle(2017, 1, "Inverse Captcha");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
     const input = comptime utils.trimInput(@embedFile("input"));
-    std.debug.print("Day 1, 2017: Inverse Captcha\n", .{});
 
     @setEvalBranchQuota(5_000);
     const p1 = comptime part1(input);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(1150 == p1);
 
     const p2 = comptime part2(input);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(2, p2);
     std.debug.assert(1064 == p2);
 }
 

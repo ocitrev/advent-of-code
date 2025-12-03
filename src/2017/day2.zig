@@ -2,21 +2,24 @@ const std = @import("std");
 const utils = @import("utils");
 
 pub fn main() !void {
+    // https://adventofcode.com/2017/day/2
+    utils.printTitle(2017, 2, "Corruption Checksum");
+
+    const m = utils.Monitor.init();
+    defer m.deinit();
+    const input = comptime utils.trimInput(@embedFile("input"));
+
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
-    // https://adventofcode.com/2017/day/2
-    const input = comptime utils.trimInput(@embedFile("input"));
-    std.debug.print("Day 2, 2017: Corruption Checksum\n", .{});
-
     @setEvalBranchQuota(100_000);
     const p1 = comptime part1(input);
-    std.debug.print("  Part 1: {}\n", .{p1});
+    utils.printAnswer(1, p1);
     std.debug.assert(45972 == p1);
 
     const p2 = try part2(input, allocator);
-    std.debug.print("  Part 2: {}\n", .{p2});
+    utils.printAnswer(1, p2);
     std.debug.assert(326 == p2);
 }
 

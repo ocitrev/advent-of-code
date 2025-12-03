@@ -55,14 +55,14 @@ fn part2(input: []const u8) Int {
 
         while (pos < 12) {
             var best: ?usize = null;
-            for (start.., line[start..]) |i, c| {
-                if (i > line.len - (12 - pos)) {
-                    break;
-                }
+            const last = line.len - (11 - pos);
 
-                if (c > buffer[pos]) {
-                    buffer[pos] = c;
-                    best = i;
+            if (start < last) {
+                for (start.., line[start..last]) |i, c| {
+                    if (c > buffer[pos]) {
+                        buffer[pos] = c;
+                        best = i;
+                    }
                 }
             }
 
