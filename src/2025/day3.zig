@@ -20,42 +20,19 @@ pub fn main() !void {
 
 const Int = u64;
 
-fn part1(input: []const u8) Int {
-    var result: Int = 0;
-    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (lineIt.next()) |line| {
-        var jolts: Int = 0;
-        for (0.., line) |i, _| {
-            for (i + 1..line.len) |j| {
-                const tens = std.fmt.charToDigit(line[i], 10) catch unreachable;
-                const units = std.fmt.charToDigit(line[j], 10) catch unreachable;
-                const num: Int = tens * 10 + units;
-
-                if (num > jolts) {
-                    jolts = num;
-                }
-            }
-        }
-
-        result += jolts;
-    }
-
-    return result;
-}
-
-fn part2(input: []const u8) Int {
+fn solve(comptime nbDigits: u8, input: []const u8) Int {
     var result: Int = 0;
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
 
     while (lineIt.next()) |line| {
         var jolts: Int = 0;
-        var buffer = [12]u8{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        var buffer = std.mem.zeroes([nbDigits]u8);
         var pos: usize = 0;
         var start: usize = 0;
 
-        while (pos < 12) {
+        while (pos < nbDigits) {
             var best: ?usize = null;
-            const last = line.len - (11 - pos);
+            const last = line.len - ((nbDigits - 1) - pos);
 
             if (start < last) {
                 for (start.., line[start..last]) |i, c| {
@@ -81,6 +58,14 @@ fn part2(input: []const u8) Int {
     }
 
     return result;
+}
+
+fn part1(input: []const u8) Int {
+    return solve(2, input);
+}
+
+fn part2(input: []const u8) Int {
+    return solve(12, input);
 }
 
 test "parts 1,2" {
