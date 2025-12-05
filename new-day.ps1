@@ -97,6 +97,24 @@ test "parts 1,2" {
     {
         code $zigFilepath
     }
+
+    # add this day to build.zig
+    $buildDotZig = Join-Path $PSScriptRoot 'build.zig'
+    (get-content $buildDotZig) | % -begin {
+        $inBlock = $false
+    } -process {
+        $line = $_
+        if ($inBlock) {
+            if ($line -match '^(\s+)};') {
+                write-output "$($matches[1])    .{ .year = $Year, .day = $Day },"
+                $inBlock = $false
+            }
+        } elseif ($line -match 'const puzzles = \[_\]Aoc{') {
+            $inBlock = $true
+        }
+
+        write-output $line
+    } | set-content $buildDotZig -Encoding utf8
 }
 elseif ($Rust)
 {
