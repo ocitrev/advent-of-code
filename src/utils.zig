@@ -400,5 +400,5 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
 }
 
 pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
-    stdoutWrite("Day {}, {}: {s}\n", .{ year, day, title });
+    stdoutWrite("Day {}, {}: {s}\n", .{ day, year, title });
 }
