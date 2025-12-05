@@ -79,11 +79,23 @@ pub fn Point2d(comptime T: type) type {
             return .{ .x = x, .y = y };
         }
 
+        pub fn northWest(self: *const @This()) @This() {
+            return fromVec(self.vec() + NORTH.vec() + WEST.vec());
+        }
         pub fn north(self: *const @This()) @This() {
             return fromVec(self.vec() + NORTH.vec());
         }
+        pub fn northEast(self: *const @This()) @This() {
+            return fromVec(self.vec() + NORTH.vec() + EAST.vec());
+        }
+        pub fn southWest(self: *const @This()) @This() {
+            return fromVec(self.vec() + SOUTH.vec() + WEST.vec());
+        }
         pub fn south(self: *const @This()) @This() {
             return fromVec(self.vec() + SOUTH.vec());
+        }
+        pub fn southEast(self: *const @This()) @This() {
+            return fromVec(self.vec() + SOUTH.vec() + EAST.vec());
         }
         pub fn west(self: *const @This()) @This() {
             return fromVec(self.vec() + WEST.vec());

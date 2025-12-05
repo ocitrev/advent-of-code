@@ -2,3 +2,4 @@
 	path = inputs
 	url = https://ocitrev@github.com/ocitrev/aoc-inputs.git
 	update = rebase
+	branch = main

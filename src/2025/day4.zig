@@ -67,14 +67,14 @@ const Map = struct {
             const p = entry.key_ptr.*;
             var nbAround: Int = 0;
 
-            if (self.grid.get(p.north().west()) == '@') nbAround += 1;
+            if (self.grid.get(p.northWest()) == '@') nbAround += 1;
             if (self.grid.get(p.north()) == '@') nbAround += 1;
-            if (self.grid.get(p.north().east()) == '@') nbAround += 1;
+            if (self.grid.get(p.northEast()) == '@') nbAround += 1;
             if (self.grid.get(p.east()) == '@') nbAround += 1;
             if (self.grid.get(p.west()) == '@') nbAround += 1;
-            if (self.grid.get(p.south().west()) == '@') nbAround += 1;
+            if (self.grid.get(p.southWest()) == '@') nbAround += 1;
             if (self.grid.get(p.south()) == '@') nbAround += 1;
-            if (self.grid.get(p.south().east()) == '@') nbAround += 1;
+            if (self.grid.get(p.southEast()) == '@') nbAround += 1;
 
             if (nbAround < 4) {
                 try toRemove.append(self.ally, p);
