@@ -55,7 +55,7 @@ pub fn main() !void {
     // std.debug.assert(0 == p2);
 }
 
-const Int = i32;
+const Int = u64;
 
 fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     _ = ally;
@@ -95,6 +95,7 @@ test "parts 1,2" {
     if (Test-Path $zigFilepath)
     {
         Write-Warning "$Year\day$Day.zig already exists"
+        return
     }
     else
     {
@@ -181,12 +182,38 @@ mod tests {
 
     if (Test-Path $rustFilepath)
     {
-        Write-Warning "$Year\day$Day.zig already exists"
+        Write-Warning "$Year\day$Day.rs already exists"
+        return
     }
     else
     {
         Set-Content -Path $rustFilepath -Value $rustTemplate -Encoding utf8
     }
+
+    $binName = "name = `"$Year-$Day`""
+    # add to cargo.toml
+    $cargoToml = Join-Path $PSScriptRoot 'Cargo.toml'
+    (get-content $cargoToml) | % -begin {
+        $inBlock = $false
+        $found = $false
+    } -process {
+        $line = $_
+
+        if ($line -match [regex]::escape($binName)) {
+            write-warning "$Year-$Day binary already exists in Cargo.toml"
+            $found = $true
+        }
+
+        if (-not $found -and $line -match '^# Insert new bin here') {
+            write-output '[[bin]]'
+            write-output $binName
+            write-output "path = `"src/$Year/day$Day.rs`""
+            write-output ""
+        }
+
+        write-output $line
+
+    } | Set-Content -Path $cargoToml -Encoding utf8
 
     if ($env:VSCODE_INJECTION -eq '1')
     {
@@ -244,10 +271,12 @@ namespace example
     if (Test-Path $cppFilepath)
     {
         Write-Warning "$Year\day$Day.cpp already exists"
+        return
     }
     elseif (Test-Path $hppFilepath)
     {
         Write-Warning "$Year\day$Day.hpp already exists"
+        return
     }
     else
     {
