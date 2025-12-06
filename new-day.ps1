@@ -1,11 +1,19 @@
 #!/usr/bin/env pwsh
 #requires -version 7
 
-[CmdletBinding()]
+[CmdletBinding(defaultparametersetname='zig')]
+
 param(
     [int]$Year = [datetime]::Now.Year,
     [int]$Day = [datetime]::Now.AddHours(+1).Day,
+
+    [parameter(parametersetname='cpp')]
+    [switch]$Cpp,
+
+    [parameter(parametersetname='zig')]
     [switch]$Zig,
+
+    [parameter(parametersetname='rust')]
     [switch]$Rust
 )
 
@@ -21,7 +29,7 @@ function get-year-folder
     return $folder
 }
 
-if ($Zig)
+function create-zig
 {
     $zigText = @"
 const std = @import("std");
@@ -116,7 +124,8 @@ test "parts 1,2" {
         write-output $line
     } | set-content $buildDotZig -Encoding utf8
 }
-elseif ($Rust)
+
+function create-rust
 {
     $rustTemplate = @"
 #[path = "../utils.rs"]
@@ -184,7 +193,8 @@ mod tests {
         code $rustFilepath
     }
 }
-else
+
+function create-cpp
 {
     $cppText = @"
 #include "day$Day.hpp"
@@ -250,6 +260,14 @@ namespace example
     {
         code $cppFilepath
     }
+}
+
+switch ($pscmdlet.ParameterSetName)
+{
+    'zig' { create-zig }
+    'rust' { create-rust }
+    'cpp' { create-cpp }
+    default { throw "Unknown parameter set: $($pscmdlet.ParameterSetName)" }
 }
 
 $inputFile = (Join-Path $PSScriptRoot "inputs\$Year\day$Day.txt")
