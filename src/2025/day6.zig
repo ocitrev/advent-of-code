@@ -74,72 +74,67 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     return result;
 }
 
-const Column = struct {
-    start: usize,
-    len: usize,
-    op: u8,
+const Operation = enum {
+    none,
+    add,
+    mul,
 };
 
 fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    var columns = std.ArrayList(Column).empty;
-    defer columns.deinit(ally);
-
     var lines = std.ArrayList([]const u8).empty;
-    defer {
-        for (lines.items) |line| ally.free(line);
-        lines.deinit(ally);
-    }
+    defer lines.deinit(ally);
 
     var maxLineLen: usize = 0;
     var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lineIt.next()) |line| {
         maxLineLen = @max(maxLineLen, line.len);
+        try lines.append(ally, line);
     }
 
-    lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (lineIt.next()) |line| {
-        if (line[0] == '*' or line[0] == '+') {
-            var col = Column{ .start = 0, .len = 0, .op = line[0] };
-
-            for (1.., line[1..]) |i, c| {
-                if (c == '*' or c == '+') {
-                    col.len = i - col.start - 1;
-                    try columns.append(ally, col);
-                    col.start = i;
-                    col.op = c;
-                }
-            }
-
-            col.len = maxLineLen - col.start;
-            try columns.append(ally, col);
-        } else {
-            const paddedLine = try ally.alloc(u8, maxLineLen);
-            for (paddedLine) |*b| b.* = ' ';
-            std.mem.copyForwards(u8, paddedLine, line);
-            try lines.append(ally, paddedLine);
-        }
-    }
-
+    var numbers = std.ArrayList(Int).empty;
+    defer numbers.deinit(ally);
     var total: Int = 0;
-    for (columns.items) |col| {
-        var value: Int = if (col.op == '+') 0 else 1;
 
-        for (0..col.len) |i| {
-            var num: Int = 0;
-            for (lines.items) |line| {
-                const c = line[col.start + i];
-                if (c == ' ') continue;
-                num = num * 10 + (std.fmt.charToDigit(c, 10) catch unreachable);
-            }
+    for (0..maxLineLen) |i| {
+        const idx = maxLineLen - i - 1;
+        var num: ?Int = null;
+        var op: Operation = .none;
 
-            switch (col.op) {
-                '+' => value += num,
-                '*' => value *= num,
-                else => unreachable,
+        for (lines.items) |line| {
+            const c = if (idx < line.len) line[idx] else ' ';
+
+            switch (c) {
+                ' ' => continue,
+                '+' => op = .add,
+                '*' => op = .mul,
+                else => {
+                    const n = std.fmt.charToDigit(c, 10) catch unreachable;
+                    num = (num orelse 0) * 10 + n;
+                },
             }
         }
 
-        total += value;
+        if (num) |n| {
+            try numbers.append(ally, n);
+        }
+
+        switch (op) {
+            .add => {
+                for (numbers.items) |n| {
+                    total += n;
+                }
+                numbers.clearRetainingCapacity();
+            },
+            .mul => {
+                var value: Int = 1;
+                for (numbers.items) |n| {
+                    value *= n;
+                }
+                total += value;
+                numbers.clearRetainingCapacity();
+            },
+            .none => {},
+        }
     }
 
     return total;
