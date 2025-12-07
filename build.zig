@@ -146,6 +146,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2025, .day = 4 },
         .{ .year = 2025, .day = 5 },
         .{ .year = 2025, .day = 6 },
+        .{ .year = 2025, .day = 7 },
     };
 
     const params = BuildParams{
