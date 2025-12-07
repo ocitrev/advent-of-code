@@ -18,5 +18,6 @@
 	exit /b 1
 )
 
-cmake -G "Ninja Multi-Config" -S "%~dp0." -B "%~dp0build\cpp" %*
+set CMAKE_FLAGS=-DCMAKE_C_COMPILER="zig;cc" -DCMAKE_CXX_COMPILER="zig;c++"
+cmake -G "Ninja Multi-Config" -S "%~dp0." -B "%~dp0build\cpp" %CMAKE_FLAGS% %*
 @exit /b %errorlevel%
