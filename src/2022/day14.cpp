@@ -123,10 +123,10 @@ struct Map
         {
             for (int x = 0; x != w; ++x)
             {
-                fmt::print("{}", GetCell({x + min.x, y + min.y}));
+                std::print("{}", GetCell({x + min.x, y + min.y}));
             }
 
-            fmt::print("\n");
+            std::print("\n");
         }
     }
 
@@ -259,16 +259,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/14
-    fmt::print("Day 14, 2022: Regolith Reservoir\n");
+    std::print("Day 14, 2022: Regolith Reservoir\n");
 
     Assert(24 == Simulate(example::scanlines, false));
     Assert(93 == Simulate(example::scanlines, true));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(728 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     // Assert( == part2);
 }

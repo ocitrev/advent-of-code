@@ -5,7 +5,7 @@
 #include "../common/string.hpp"
 
 #include <array>
-#include <fmt/format.h>
+#include <print>
 #include <vector>
 
 static std::string MineOne(std::string const &key, int n)
@@ -29,13 +29,13 @@ static int Mine(std::string const &key, std::string_view start)
 int main()
 {
     // https://adventofcode.com/2015/day/4
-    fmt::print("Day 4, 2015: The Ideal Stocking Stuffer\n");
+    std::print("Day 4, 2015: The Ideal Stocking Stuffer\n");
 
     int const part1 = Mine(std::string{GetInput()}, "00000");
-    fmt::print("  Part1: {}\n", part1);
+    std::print("  Part1: {}\n", part1);
     Assert(117'946 == part1);
 
     int const part2 = Mine(std::string{GetInput()}, "000000");
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(3'938'038 == part2);
 }

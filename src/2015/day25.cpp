@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 
 [[maybe_unused]] static int64_t GetNextSimple(int64_t n, bool first)
 {
@@ -63,7 +63,7 @@ static std::pair<int, int> ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/25
-    fmt::print("Day 25, 2015: Let It Snow\n");
+    std::print("Day 25, 2015: Let It Snow\n");
 
     Assert(1 == GetValue(1, 1, &GetNextSimple));
     Assert(3 == GetValue(2, 1, &GetNextSimple));
@@ -110,6 +110,6 @@ int main()
 
     auto const [column, row] = ParseInput();
     auto const part1 = GetValue(column, row, &GetNext);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(9'132'360 == part1);
 }

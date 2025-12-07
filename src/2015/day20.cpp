@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <vector>
 
 int Part1(int limit)
@@ -66,7 +66,7 @@ static int ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/20
-    fmt::print("Day 20, 2015: Infinite Elves and Infinite Houses\n");
+    std::print("Day 20, 2015: Infinite Elves and Infinite Houses\n");
 
     Assert(2 == Part1(30));
     Assert(3 == Part1(40));
@@ -74,10 +74,10 @@ int main()
     Assert(6 == Part1(120));
 
     auto const part1 = Part1(ParseInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(786'240 == part1);
 
     auto const part2 = Part2(ParseInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(831'600 == part2);
 }

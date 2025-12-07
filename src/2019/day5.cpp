@@ -29,7 +29,7 @@ static void Part1(std::vector<Int> const &code)
         },
         [](Int value)
         {
-            fmt::print("  Part1: {}\n", value);
+            std::print("  Part1: {}\n", value);
             // 0 is outputed
             Assert(value == 0 || 13'285'749 == value);
         });
@@ -45,14 +45,14 @@ static void Part2(std::vector<Int> const &code)
         },
         [](Int value)
         {
-            fmt::print("  Part2: {}\n", value);
+            std::print("  Part2: {}\n", value);
             Assert(5'000'972 == value);
         });
 }
 
 int main()
 {
-    fmt::print("Day 5, 2019: Sunny with a Chance of Asteroids\n");
+    std::print("Day 5, 2019: Sunny with a Chance of Asteroids\n");
 
     Assert(0 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 7));
     Assert(1 == Run({3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, 8));

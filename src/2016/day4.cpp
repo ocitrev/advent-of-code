@@ -128,7 +128,7 @@ static int FindSectorIdForRoom(std::string_view rooms, std::string_view compare)
     {
         auto const roomName = r.Decrypt();
 #if 0
-        fmt::print("{}-{}\n", roomName, r.sector);
+        std::print("{}-{}\n", roomName, r.sector);
 #endif
 
         if (roomName.find(compare) != std::string_view::npos)
@@ -153,7 +153,7 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2016/day/4
-    fmt::print("Day 4, 2016: Security Through Obscurity\n");
+    std::print("Day 4, 2016: Security Through Obscurity\n");
 
     Assert(ParseRoom(example::room1).real);
     Assert(ParseRoom(example::room2).real);
@@ -162,10 +162,10 @@ int main()
     Assert("very encrypted name" == ParseRoom(example::room5).Decrypt());
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(137'896 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(501 == part2);
 }

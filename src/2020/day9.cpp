@@ -68,13 +68,13 @@ static llong Part2(std::span<llong const> numbers, llong weak)
 int main()
 {
     // https://adventofcode.com/2020/day/9
-    fmt::print("Day 9, 2020: Encoding Error\n");
+    std::print("Day 9, 2020: Encoding Error\n");
 
     auto const part1 = FindOutlier(ParseInputNumbers<llong>(), input::preamble);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(14'360'655 == part1);
 
     auto const part2 = Part2(ParseInputNumbers<llong>(), part1);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1'962'331 == part2);
 }

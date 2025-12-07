@@ -3,9 +3,9 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
 #include <functional>
 #include <map>
+#include <print>
 #include <string>
 #include <variant>
 #include <vector>
@@ -44,7 +44,7 @@ public:
                 std::string out{parts.back()};
                 auto const &in = parts.front();
                 wires[out] = Resolve(in);
-                // fmt::print("{} = {}\n", out, in);
+                // std::print("{} = {}\n", out, in);
             }
             else if (nb == 4)
             {
@@ -55,7 +55,7 @@ public:
                     throw std::runtime_error("Unknown instruction");
                 }
 
-                // fmt::print("{} = NOT {}\n", out, parts[1]);
+                // std::print("{} = NOT {}\n", out, parts[1]);
                 wires[out] = [val = Resolve(parts[1])]()
                 {
                     return static_cast<unsigned short>(~val());
@@ -65,7 +65,7 @@ public:
             {
                 auto const &op = parts[1];
                 std::string out{parts.back()};
-                // fmt::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
+                // std::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
 
                 if (op == "AND")
                 {
@@ -119,7 +119,7 @@ public:
         }
 
         unsigned short const value = iter->second();
-        // fmt::print("{} = {}\n", name, value);
+        // std::print("{} = {}\n", name, value);
         cache[key] = value;
         return value;
     }
@@ -153,7 +153,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/7
-    fmt::print("Day 7, 2015: Some Assembly Required\n");
+    std::print("Day 7, 2015: Some Assembly Required\n");
 
 #ifndef NDEBUG
     Circuit c{input::example};
@@ -168,10 +168,10 @@ int main()
 #endif
 
     int const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(46'065 == part1);
 
     int const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(14'134 == part2);
 }

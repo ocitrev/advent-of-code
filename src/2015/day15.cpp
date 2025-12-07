@@ -5,9 +5,9 @@
 #include "../common/utils.hpp"
 
 #include <array>
-#include <fmt/format.h>
 #include <fstream>
 #include <numeric>
+#include <print>
 #include <utility>
 #include <vector>
 
@@ -163,13 +163,13 @@ static std::pair<int, int> Run()
 int main()
 {
     // https://adventofcode.com/2015/day/15
-    fmt::print("Day 15, 2015: Science for Hungry People\n");
+    std::print("Day 15, 2015: Science for Hungry People\n");
 
     Tests();
 
     auto const [part1, part2] = Run();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(21'367'368 == part1);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1'766'400 == part2);
 }

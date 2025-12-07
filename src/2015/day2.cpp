@@ -4,7 +4,7 @@
 #include "../common/string.hpp"
 
 #include <charconv>
-#include <fmt/format.h>
+#include <print>
 #include <sstream>
 
 struct Box
@@ -61,7 +61,7 @@ static std::pair<int, int> calculate()
 int main()
 {
     // https://adventofcode.com/2015/day/2
-    fmt::print("Day 2, 2015: I Was Told There Would Be No Math\n");
+    std::print("Day 2, 2015: I Was Told There Would Be No Math\n");
 
     Assert(58 == Box{"2x3x4"}.area());
     Assert(43 == Box{"1x1x10"}.area());
@@ -70,8 +70,8 @@ int main()
 
     auto const [area, length] = calculate();
 
-    fmt::print("  Part1: {}\n", area);
-    fmt::print("  Part2: {}\n", length);
+    std::print("  Part1: {}\n", area);
+    std::print("  Part2: {}\n", length);
 
     Assert(1'586'300 == area);
     Assert(3'737'498 == length);

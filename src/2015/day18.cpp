@@ -4,8 +4,8 @@
 #include "../common/string.hpp"
 
 #include <array>
-#include <fmt/format.h>
 #include <numeric>
+#include <print>
 #include <vector>
 
 struct GOL
@@ -174,15 +174,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/18
-    fmt::print("Day 18, 2015: Like a GIF For Your Yard\n");
+    std::print("Day 18, 2015: Like a GIF For Your Yard\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(768 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(781 == part2);
 }

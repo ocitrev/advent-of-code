@@ -47,7 +47,7 @@ static void Part1()
             return elem.second == Tile::Block;
         });
 
-    fmt::print("  Part1: {}\n", result);
+    std::print("  Part1: {}\n", result);
     Assert(expected::part1 == result);
 }
 
@@ -104,7 +104,7 @@ static void Part2(bool render)
 
             if (render)
             {
-                fmt::print(CSI("24;1H") "SCORE: {}", score);
+                std::print(CSI("24;1H") "SCORE: {}", score);
             }
         }
         else
@@ -131,7 +131,7 @@ static void Part2(bool render)
 
             if (render)
             {
-                fmt::print(CSI("{};{}H") "{}", inputPos.y + 1, inputPos.x + 1, GetTile(tile));
+                std::print(CSI("{};{}H") "{}", inputPos.y + 1, inputPos.x + 1, GetTile(tile));
             }
 
             grid[inputPos] = tile;
@@ -155,7 +155,7 @@ static void Part2(bool render)
     if (render)
     {
         // Switches to a new alternate screen buffer.
-        fmt::print(CSI("?1049h") CSI("?25l"));
+        std::print(CSI("?1049h") CSI("?25l"));
     }
 
     cpu.Run();
@@ -163,17 +163,17 @@ static void Part2(bool render)
     if (render)
     {
         // Switches back to the main buffer.
-        fmt::print(CSI("?1049l") CSI("?25h"));
+        std::print(CSI("?1049l") CSI("?25h"));
     }
 
-    fmt::print("  Part2: {}\n", score);
+    std::print("  Part2: {}\n", score);
     Assert(expected::part2 == score);
 }
 
 int main()
 {
     bool const isTerminal = IsTerminal(stdout);
-    fmt::print("Day 13, 2019: Care Package\n");
+    std::print("Day 13, 2019: Care Package\n");
 
     Part1();
 

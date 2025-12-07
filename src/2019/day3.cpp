@@ -3,9 +3,8 @@
 #include "../common.hpp"
 
 #include <algorithm>
-#include <fmt/format.h>
-#include <gsl/gsl>
 #include <map>
+#include <print>
 #include <string>
 #include <vector>
 
@@ -93,7 +92,7 @@ static Result Solve(std::string_view wire1, std::string_view wire2)
         }
     }
 
-    Ensures(not crossing.empty());
+    Assert(not crossing.empty());
 
     auto d = std::min_element(begin(crossing), end(crossing),
         [](auto const &a, auto const &b)
@@ -118,7 +117,7 @@ static auto ParseInput()
 
 int main()
 {
-    fmt::print("Day 3, 2019: Crossed Wires\n");
+    std::print("Day 3, 2019: Crossed Wires\n");
     Assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));
     Assert((Result{159, 610} == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
     Assert((Result{135, 410}
@@ -126,9 +125,9 @@ int main()
 
     auto const [wire1, wire2] = ParseInput();
     auto const [closest, fastest] = Solve(wire1, wire2);
-    fmt::print("  Part1: {}\n", closest);
+    std::print("  Part1: {}\n", closest);
     Assert(245 == closest);
 
-    fmt::print("  Part2: {}\n", fastest);
+    std::print("  Part2: {}\n", fastest);
     Assert(48'262 == fastest);
 }

@@ -4,7 +4,7 @@
 #include "../common/point2d.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 
 struct Ship
 {
@@ -132,16 +132,16 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/12
-    fmt::print("Day 12, 2020: Rain Risk\n");
+    std::print("Day 12, 2020: Rain Risk\n");
 
     Assert(25 == Ship{}.Execute(example::instructions).Distance());
     Assert(286 == Ship{true}.Execute(example::instructions).Distance());
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1032 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(156'735 == part2);
 }

@@ -69,7 +69,7 @@ static auto ParseInput()
 
 int main()
 {
-    fmt::print("Day 4, 2019: Secure Container\n");
+    std::print("Day 4, 2019: Secure Container\n");
 
     Assert(IsIncreasing(111'123));
     Assert(IsIncreasing(135'679));
@@ -114,9 +114,9 @@ int main()
         loose.push_back(i);
     }
 
-    fmt::print("  Part1: {}\n", loose.size());
+    std::print("  Part1: {}\n", loose.size());
     Assert(1169 == loose.size());
 
-    fmt::print("  Part2: {}\n", strict.size());
+    std::print("  Part2: {}\n", strict.size());
     Assert(757 == strict.size());
 }

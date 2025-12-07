@@ -5,8 +5,8 @@
 #include "../common/terminal.hpp"
 
 #include <algorithm>
-#include <fmt/format.h>
 #include <map>
+#include <print>
 #include <string>
 #include <vector>
 
@@ -75,7 +75,7 @@ static std::vector<std::string> GetPath(std::vector<std::string_view> const &lis
 
 int main()
 {
-    fmt::print("Day 6, 2019: Universal Orbit Map\n");
+    std::print("Day 6, 2019: Universal Orbit Map\n");
     Assert(3 == CountIndirect(Split(example::data, '\n'), "D"));
     Assert(7 == CountIndirect(Split(example::data, '\n'), "L"));
     Assert(0 == CountIndirect(Split(example::data, '\n'), "COM"));
@@ -92,7 +92,7 @@ int main()
         count += CountIndirect(list, last);
     }
 
-    fmt::print("  Part1: {}\n", count);
+    std::print("  Part1: {}\n", count);
     Assert(247'089 == count);
 
     auto you = GetPath(list, "YOU");
@@ -108,6 +108,6 @@ int main()
             return a < b;
         });
 
-    fmt::print("  Part2: {}\n", result.size());
+    std::print("  Part2: {}\n", result.size());
     Assert(442 == result.size());
 }

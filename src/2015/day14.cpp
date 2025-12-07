@@ -4,8 +4,7 @@
 #include "../common/string.hpp"
 
 #include <algorithm>
-#include <fmt/format.h>
-#include <gsl/gsl>
+#include <print>
 #include <vector>
 
 struct Deer
@@ -61,7 +60,7 @@ int Part1()
 {
     auto const deers = ParseDeers(GetInput());
     std::vector<int> distances(deers.size());
-    Ensures(not deers.empty());
+    Assert(not deers.empty());
 
     std::transform(begin(deers), end(deers), begin(distances),
         [](Deer const &deer)
@@ -77,7 +76,7 @@ int Part1()
     auto const deers = ParseDeers(text);
     std::vector<int> points(deers.size());
     std::vector<int> distances(deers.size());
-    Ensures(not deers.empty());
+    Assert(not deers.empty());
 
     for (int s = 0; s < limit; ++s)
     {
@@ -109,7 +108,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/14
-    fmt::print("Day 14, 2015: Reindeer Olympics\n");
+    std::print("Day 14, 2015: Reindeer Olympics\n");
 
 #ifndef NDEBUG
     auto const deers = ParseDeers(example::text);
@@ -128,10 +127,10 @@ int main()
 #endif
 
     int const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(2660 == part1);
 
     int const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1256 == part2);
 }

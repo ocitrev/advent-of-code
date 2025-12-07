@@ -26,7 +26,7 @@ static auto Part1(std::string_view lines)
             }
         }
 
-        total += svtoi<int>(fmt::format("{}{}", first, last));
+        total += svtoi<int>(std::format("{}{}", first, last));
     }
 
     return total;
@@ -122,7 +122,7 @@ static auto GetCalibration2(std::string_view line)
         }
     }
 
-    return svtoi<int64_t>(fmt::format("{}{}", digits.front(), digits.back()));
+    return svtoi<int64_t>(std::format("{}{}", digits.front(), digits.back()));
 }
 
 static auto Part2(std::string_view lines)
@@ -140,7 +140,7 @@ static auto Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2023/day/1
-    fmt::print("Day 1, 2023: Trebuchet?!\n");
+    std::print("Day 1, 2023: Trebuchet?!\n");
 
     Assert(142 == Part1(example::part1));
     Assert(281 == Part2(example::part2));
@@ -153,10 +153,10 @@ int main()
     Assert(76 == GetCalibration2(Split(example::part2, '\n')[6]));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(54'632 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(54'019 == part2);
 }

@@ -92,7 +92,7 @@ struct VM
 
         for (int n = 0; n < max; ++n)
         {
-            auto bits = fmt::format("{:0{}b}\n", n, bitCount);
+            auto bits = std::format("{:0{}b}\n", n, bitCount);
 
             std::string bitMask(mask);
             auto iter = begin(bits);
@@ -155,15 +155,15 @@ static void Example()
 int main()
 {
     // https://adventofcode.com/2020/day/14
-    fmt::print("Day 14, 2020: Docking Data\n");
+    std::print("Day 14, 2020: Docking Data\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(8'471'403'462'063 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2'667'858'637'669 == part2);
 }

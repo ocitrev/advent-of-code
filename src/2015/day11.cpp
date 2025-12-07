@@ -2,7 +2,7 @@
 
 #include "../common/assert.hpp"
 
-#include <fmt/format.h>
+#include <print>
 
 bool IsForbiddenLetter(char c)
 {
@@ -125,7 +125,7 @@ std::string NextPassword(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/11
-    fmt::print("Day 11, 2015: Corporate Policy\n");
+    std::print("Day 11, 2015: Corporate Policy\n");
 
     Assert(HasStraight("hijklmmn"));
     Assert(HasRepeats("abbceffg"));
@@ -135,10 +135,10 @@ int main()
     Assert("ghjaabcc" == NextPassword("ghijklmn"));
 
     auto const part1 = NextPassword(GetInput());
-    fmt::print("  Part 1 = {}\n", part1);
+    std::print("  Part 1 = {}\n", part1);
     Assert("hepxxyzz" == part1);
 
     auto const part2 = NextPassword(part1);
-    fmt::print("  Part 2 = {}\n", part2);
+    std::print("  Part 2 = {}\n", part2);
     Assert("heqaabcc" == part2);
 }

@@ -150,7 +150,7 @@ static int64_t Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2021/day/10
-    fmt::print("Day 10, 2021: Syntax Scoring\n");
+    std::print("Day 10, 2021: Syntax Scoring\n");
 
     Assert(']' == GetCorruptedChar("(]"));
     Assert('>' == GetCorruptedChar("{()()()>"));
@@ -160,13 +160,13 @@ int main()
     Assert(294 == AutoCompleteScore("])}>"));
     Assert(288'957 == Part2(example::lines));
 
-    fmt::print("Debug: {}\n", AutoCompleteScore("])}>"));
+    std::print("Debug: {}\n", AutoCompleteScore("])}>"));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(288'291 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(820'045'242 == part2);
 }

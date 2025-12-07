@@ -4,7 +4,7 @@
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
 
-#include <fmt/format.h>
+#include <print>
 
 static auto HowManyCombinationsCanFit(std::vector<int> const &input, int limit)
 {
@@ -61,14 +61,14 @@ static auto Parts()
 int main()
 {
     // https://adventofcode.com/2015/day/17
-    fmt::print("Day 17, 2015: No Such Thing as Too Much\n");
+    std::print("Day 17, 2015: No Such Thing as Too Much\n");
 
     Example();
 
     auto const [part1, part2] = Parts();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1304 == part1);
 
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(18 == part2);
 }

@@ -44,12 +44,12 @@ static void Part1()
         beam.append(1, '\n');
     }
 
-    fmt::print("  Part1: {}\n", total);
+    std::print("  Part1: {}\n", total);
     Assert(231 == total);
 
     if constexpr (false)
     {
-        fmt::print("{}\n", beam);
+        std::print("{}\n", beam);
     }
 }
 
@@ -115,20 +115,20 @@ static Int FindSquare(Int width, Int height)
     Int x = minx;
     Int y = miny - (height - 1);
 
-    // fmt::print("{}, {}\n", x, y);
+    // std::print("{}, {}\n", x, y);
     return x * 10'000 + y;
 }
 
 static void Part2()
 {
     auto const part2 = FindSquare(100, 100);
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(9'210'745 == part2);
 }
 
 int main()
 {
-    fmt::print("Day 19, 2019: Tractor Beam\n");
+    std::print("Day 19, 2019: Tractor Beam\n");
     Part1();
     Part2();
 }

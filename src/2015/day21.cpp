@@ -6,7 +6,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <vector>
 
 struct Shop
@@ -137,13 +137,13 @@ int RunGame(bool condition, PredT &&pred)
 int main()
 {
     // https://adventofcode.com/2015/day/21
-    fmt::print("Day 21, 2015: RPG Simulator 20XX\n");
+    std::print("Day 21, 2015: RPG Simulator 20XX\n");
 
     auto const part1 = RunGame(true, std::less<int>{});
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(121 == part1);
 
     auto const part2 = RunGame(false, std::greater<int>{});
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(201 == part2);
 }

@@ -5,9 +5,9 @@
 
 #include <array>
 #include <charconv>
-#include <fmt/format.h>
 #include <functional>
 #include <numeric>
+#include <print>
 #include <vector>
 
 struct Rect
@@ -162,10 +162,10 @@ public:
         {
             for (std::size_t x = 0; x < 1000; ++x)
             {
-                fmt::print("{}", grid[y * 1000 + x] == 0 ? ' ' : '#');
+                std::print("{}", grid[y * 1000 + x] == 0 ? ' ' : '#');
             }
 
-            fmt::print("\n");
+            std::print("\n");
         }
     }
 };
@@ -187,13 +187,13 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/6
-    fmt::print("Day 6, 2015: Probably a Fire Hazard\n");
+    std::print("Day 6, 2015: Probably a Fire Hazard\n");
 
     int const part1 = Part1();
-    fmt::print("  Part1: {}\n", part1);
+    std::print("  Part1: {}\n", part1);
     Assert(569'999 == part1);
 
     int const part2 = Part2();
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(17'836'115 == part2);
 }

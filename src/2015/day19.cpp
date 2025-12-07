@@ -4,9 +4,9 @@
 #include "../common/string.hpp"
 
 #include <algorithm>
-#include <fmt/format.h>
 #include <functional>
 #include <map>
+#include <print>
 #include <random>
 #include <set>
 
@@ -111,7 +111,7 @@ static auto ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/19
-    fmt::print("Day 19, 2015: Medicine for Rudolph\n");
+    std::print("Day 19, 2015: Medicine for Rudolph\n");
 
     Assert(4 == CountMolecules(ParseGrammar(example::grammar1), example::molecule1));
     Assert(7 == CountMolecules(ParseGrammar(example::grammar1), example::molecule2));
@@ -121,10 +121,10 @@ int main()
     auto const [grammar, molecule] = ParseInput();
 
     auto const part1 = CountMolecules(ParseGrammar(grammar), molecule);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(535 == part1);
 
     auto const part2 = GetNumberOfSteps(ParseGrammar(grammar), molecule);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(212 == part2);
 }

@@ -3,8 +3,8 @@
 #include "../common/assert.hpp"
 #include "../common/point2d.hpp"
 
-#include <fmt/format.h>
 #include <map>
+#include <print>
 #include <vector>
 
 class HouseVisitor
@@ -80,17 +80,17 @@ static int GetNbVisitedHouses(std::string_view path, int playerCount)
 int main()
 {
     // https://adventofcode.com/2015/day/3
-    fmt::print("Day 3, 2015: Perfectly Spherical Houses in a Vacuum\n");
+    std::print("Day 3, 2015: Perfectly Spherical Houses in a Vacuum\n");
 
     Assert(2 == GetNbVisitedHouses(">", 1));
     Assert(4 == GetNbVisitedHouses("^>v<", 1));
     Assert(2 == GetNbVisitedHouses("^v^v^v^v^v", 1));
 
     int const part1 = GetNbVisitedHouses(GetInput(), 1);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(2572 == part1);
 
     int const part2 = GetNbVisitedHouses(GetInput(), 2);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2631 == part2);
 }

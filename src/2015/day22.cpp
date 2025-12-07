@@ -5,9 +5,9 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
 #include <map>
 #include <optional>
+#include <print>
 #include <vector>
 
 static int GetIntAfter(std::string_view text, std::string_view search)
@@ -252,15 +252,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/22
-    fmt::print("Day 22, 2015: Wizard Simulator 20XX\n");
+    std::print("Day 22, 2015: Wizard Simulator 20XX\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1824 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1937 == part2);
 }

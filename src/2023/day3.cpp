@@ -215,16 +215,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2023/day/3
-    fmt::print("Day 3, 2023: Gear Ratios\n");
+    std::print("Day 3, 2023: Gear Ratios\n");
 
     Assert(4361 == SumOfPartNumber(example::schematic));
     Assert(467'835 == GetGearRatios(example::schematic));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(527'364 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(79'026'871 == part2);
 }

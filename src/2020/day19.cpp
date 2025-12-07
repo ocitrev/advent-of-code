@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <unordered_map>
 
 enum struct Type
@@ -149,14 +149,14 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/19
-    fmt::print("Day 19, 2020: Monster Messages\n");
+    std::print("Day 19, 2020: Monster Messages\n");
 
     // Assert(2 == Part1(example::rules1, "aab\naba"));
 
     auto const part1 = Part1(example::rules2, example::values2);
     // auto const part1 = Part1(input::rules, input::values);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
 }

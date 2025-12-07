@@ -3,7 +3,6 @@
 #include "../common.hpp"
 #include "../common/intcode.hpp"
 #include "../common/terminal.hpp"
-#include <fmt/base.h>
 
 [[maybe_unused]] static Int RunAndGetValue(std::vector<Int> code, size_t offset)
 {
@@ -45,7 +44,7 @@ Int Part2(std::vector<Int> const &code)
 int main()
 {
     // https://adventofcode.com/2019/day/2
-    fmt::print("Day 2, 2019: 1202 Program Alarm\n");
+    std::print("Day 2, 2019: 1202 Program Alarm\n");
 
     Assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     Assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));
@@ -53,10 +52,10 @@ int main()
     Assert(30 == RunAndGetValue({1, 1, 1, 4, 99, 5, 6, 0, 99}, 0));
 
     auto const part1 = Part1(ParseInputNumbers<Int, ','>());
-    fmt::println("  Part1: {}", part1);
+    std::println("  Part1: {}", part1);
     Assert(3'706'713 == part1);
 
     auto const part2 = Part2(ParseInputNumbers<Int, ','>());
-    fmt::println("  Part2: {}", part2);
+    std::println("  Part2: {}", part2);
     Assert(8609 == part2);
 }

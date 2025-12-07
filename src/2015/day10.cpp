@@ -2,8 +2,7 @@
 
 #include "../common/assert.hpp"
 
-#include <fmt/format.h>
-#include <gsl/gsl>
+#include <print>
 #include <sstream>
 #include <string>
 
@@ -47,18 +46,18 @@ std::string LookAndSayLoop(int nbLoops)
 
 int Part1()
 {
-    return gsl::narrow_cast<int>(LookAndSayLoop(40).size());
+    return static_cast<int>(LookAndSayLoop(40).size());
 }
 
 int Part2()
 {
-    return gsl::narrow_cast<int>(LookAndSayLoop(50).size());
+    return static_cast<int>(LookAndSayLoop(50).size());
 }
 
 int main()
 {
     // https://adventofcode.com/2015/day/10
-    fmt::print("Day 10, 2015: Elves Look, Elves Say\n");
+    std::print("Day 10, 2015: Elves Look, Elves Say\n");
 
     Assert("11" == LookAndSay("1"));
     Assert("21" == LookAndSay("11"));
@@ -67,10 +66,10 @@ int main()
     Assert("312211" == LookAndSay("111221"));
 
     int const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(252'594 == part1);
 
     int const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(3'579'328 == part2);
 }

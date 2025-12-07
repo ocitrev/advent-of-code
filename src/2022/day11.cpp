@@ -2,7 +2,6 @@
 
 #include "../common.hpp"
 
-#include <gsl/gsl>
 #include <ranges>
 
 using Item = std::int64_t;
@@ -140,7 +139,7 @@ struct Game
 
 static std::uint64_t GetScore(Game const &game)
 {
-    Expects(game.monkeys.size() >= 2);
+    Assert(game.monkeys.size() >= 2);
 
     std::vector<std::uint64_t> inspections(game.monkeys.size());
     std::transform(begin(game.monkeys), end(game.monkeys), begin(inspections),
@@ -208,7 +207,7 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/11
-    fmt::print("Day 11, 2022: Monkey in the Middle\n");
+    std::print("Day 11, 2022: Monkey in the Middle\n");
 
     Assert(10'605 == PlayGameDivideBy3(example::notes, 20));
     Assert(6 * 4 == PlayGameModulo(example::notes, 1));
@@ -217,10 +216,10 @@ int main()
     Assert(2'713'310'158 == PlayGameModulo(example::notes, 10'000));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(50'830 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(14'399'640'002 == part2);
 }

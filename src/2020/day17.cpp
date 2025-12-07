@@ -5,7 +5,7 @@
 #include "../common/point4d.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <unordered_map>
 
 template <typename T>
@@ -285,15 +285,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/17
-    fmt::print("Day 17, 2020: Conway Cubes\n");
+    std::print("Day 17, 2020: Conway Cubes\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(255 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2340 == part2);
 }

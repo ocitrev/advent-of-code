@@ -157,16 +157,16 @@ static int Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2022/day/2
-    fmt::print("Day 2, 2022: Rock Paper Scissors\n");
+    std::print("Day 2, 2022: Rock Paper Scissors\n");
 
     Assert(15 == Part1(example::lines));
     Assert(12 == Part2(example::lines));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(12'740 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(11'980 == part2);
 }

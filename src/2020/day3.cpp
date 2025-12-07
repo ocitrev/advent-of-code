@@ -4,8 +4,8 @@
 #include "../common/string.hpp"
 
 #include <array>
-#include <fmt/format.h>
 #include <numeric>
+#include <print>
 #include <span>
 
 struct Slope
@@ -60,7 +60,7 @@ struct Slope
 int main()
 {
     // https://adventofcode.com/2020/day/3
-    fmt::print("Day 3, 2020: \n");
+    std::print("Day 3, 2020: \n");
 
     constexpr std::array allSlopes{Slope{1, 1}, Slope{3, 1}, Slope{5, 1}, Slope{7, 1}, Slope{1, 2}};
 
@@ -68,10 +68,10 @@ int main()
     Assert(336 == CountTreesInSlopes(example::map, allSlopes));
 
     auto const part1 = CountTrees(GetInput(), Slope{3, 1});
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(232 == part1);
 
     auto const part2 = CountTreesInSlopes(GetInput(), allSlopes);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(3'952'291'680 == part2);
 }

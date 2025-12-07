@@ -3,10 +3,10 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
-#include <gsl/gsl>
 #include <map>
+#include <print>
 #include <set>
+#include <span>
 #include <string>
 
 struct Rule
@@ -43,7 +43,7 @@ static Rule ParseRule(std::string_view ruleText)
     return rule;
 }
 
-static std::vector<Rule> ParseRules(gsl::span<std::string_view const> rawRules)
+static std::vector<Rule> ParseRules(std::span<std::string_view const> rawRules)
 {
     std::vector<Rule> rules;
     for (auto &&rule : rawRules)
@@ -130,15 +130,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/7
-    fmt::print("Day 7, 2020: Handy Haversacks\n");
+    std::print("Day 7, 2020: Handy Haversacks\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(224 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1488 == part2);
 }

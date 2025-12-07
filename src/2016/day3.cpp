@@ -66,16 +66,16 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2016/day/3
-    fmt::print("Day 3, 2016: Squares With Three Sides\n");
+    std::print("Day 3, 2016: Squares With Three Sides\n");
 
     Assert(false == IsTriangleTextValid(example::triangle));
     Assert(6 == CountVerticalTriangles(ParseTrianglesVerticaly(example::triangles2)));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(982 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1826 == part2);
 }

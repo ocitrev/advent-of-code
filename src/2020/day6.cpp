@@ -4,8 +4,8 @@
 #include "../common/string.hpp"
 
 #include <algorithm>
-#include <fmt/format.h>
 #include <iterator>
+#include <print>
 #include <set>
 
 [[nodiscard]] static int GetCount1(std::string_view group)
@@ -83,16 +83,16 @@
 int main()
 {
     // https://adventofcode.com/2020/day/6
-    fmt::print("Day 6, 2020: Custom Customs\n");
+    std::print("Day 6, 2020: Custom Customs\n");
 
     Assert(11 == GetSum1(example::answers));
     Assert(6 == GetSum2(example::answers));
 
     auto const part1 = GetSum1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(6625 == part1);
 
     auto const part2 = GetSum2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(3360 == part2);
 }

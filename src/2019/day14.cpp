@@ -4,8 +4,8 @@
 #include "../common/string.hpp"
 #include "../common/terminal.hpp"
 
-#include <fmt/format.h>
 #include <map>
+#include <print>
 
 struct Elem
 {
@@ -72,7 +72,7 @@ struct NanoFactory
         auto n = static_cast<std::uint64_t>(
             ceil((static_cast<double>(count) - static_cast<double>(storage[name])) / static_cast<double>(result.count)));
 #if 0
-        fmt::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
+        std::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
 #endif
 
         bool producing = true;
@@ -148,7 +148,7 @@ struct NanoFactory
 
 int main()
 {
-    fmt::print("Day 14, 2019: Space Stoichiometry\n");
+    std::print("Day 14, 2019: Space Stoichiometry\n");
 
     Assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
     Assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());
@@ -161,10 +161,10 @@ int main()
     Assert(460'664 == NanoFactory::Parse(example::ex5).ComputeFuel());
 
     auto const part1 = NanoFactory::Parse(GetInput()).ComputeOre();
-    fmt::print("  Part1: {}\n", part1);
+    std::print("  Part1: {}\n", part1);
     Assert(1'967'319 == part1);
 
     auto const part2 = NanoFactory::Parse(GetInput()).ComputeFuel();
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(1'122'036 == part2);
 }

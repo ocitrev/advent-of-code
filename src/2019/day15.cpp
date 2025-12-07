@@ -101,14 +101,14 @@ struct Robot
             frame.append("\n");
         }
 
-        fmt::print("{}", frame);
+        std::print("{}", frame);
     }
 
     void Print(bool isTerminal)
     {
         if (isTerminal)
         {
-            fmt::print(CSI("?1049h"));
+            std::print(CSI("?1049h"));
         }
 
         if (GetTile({0, 0}) != kDroid)
@@ -122,7 +122,7 @@ struct Robot
         {
             using namespace std::chrono_literals;
             std::this_thread::sleep_for(5s);
-            fmt::print(CSI("?1049l"));
+            std::print(CSI("?1049l"));
         }
     }
 
@@ -311,7 +311,7 @@ int main()
 {
     [[maybe_unused]] bool const isTerminal = IsTerminal(stdout);
 
-    fmt::print("Day 15, 2019: Oxygen System\n");
+    std::print("Day 15, 2019: Oxygen System\n");
 
     Robot r;
     r.ExploreAll();
@@ -319,10 +319,10 @@ int main()
     // r.Print();
 
     auto const commands = r.Solve();
-    fmt::print("  Part1: {} commands\n", commands.size() - 1);
+    std::print("  Part1: {} commands\n", commands.size() - 1);
     Assert(254 == commands.size() - 1);
 
     auto const part2 = r.FillOxygen();
-    fmt::print("  Part2: {} minutes\n", part2);
+    std::print("  Part2: {} minutes\n", part2);
     Assert(268 == part2);
 }

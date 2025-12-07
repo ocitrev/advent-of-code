@@ -128,12 +128,12 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/4
-    fmt::print("Day 4, 2020: Passport Processing\n"sv);
+    std::print("Day 4, 2020: Passport Processing\n"sv);
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(204 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
 }

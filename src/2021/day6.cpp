@@ -44,17 +44,17 @@ static uint64_t Part2(std::span<int8_t const> fishes)
 int main()
 {
     // https://adventofcode.com/2021/day/6
-    fmt::print("Day 6, 2021: Lanternfish\n");
+    std::print("Day 6, 2021: Lanternfish\n");
 
     Assert(26 == Run(example::fishes, 18));
     Assert(5934 == Run(example::fishes, 80));
     Assert(26'984'457'539 == Run(example::fishes, 256));
 
     auto const part1 = Part1(ParseInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(359'344 == part1);
 
     auto const part2 = Part2(ParseInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1'629'570'219'571 == part2);
 }

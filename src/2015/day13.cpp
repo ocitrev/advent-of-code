@@ -4,7 +4,7 @@
 #include "../common/string.hpp"
 #include "../common/utils.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <string>
 #include <vector>
 
@@ -102,7 +102,7 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
             }
 
 #if DEBUG_PRINT
-            fmt::print("{} -> ", person);
+            std::print("{} -> ", person);
 #endif
             prev = person;
         }
@@ -110,7 +110,7 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
         totalHappiness += GetHappiness(relations, prev, people.front());
         bestHappiness = std::max(bestHappiness, totalHappiness);
 #if DEBUG_PRINT
-        fmt::print("{}\n", totalHappiness);
+        std::print("{}\n", totalHappiness);
 #endif
     }
     while (next_necklace(begin(people), end(people)));
@@ -142,15 +142,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/13
-    fmt::print("Day 13, 2015: Knights of the Dinner Table\n");
+    std::print("Day 13, 2015: Knights of the Dinner Table\n");
 
     Assert(330 == ComputeBestHappiness(example::data));
 
     int const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(709 == part1);
 
     int const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(668 == part2);
 }

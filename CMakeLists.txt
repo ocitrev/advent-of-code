@@ -112,8 +112,8 @@ target_link_libraries(common PUBLIC fmt::fmt-header-only)
 find_package(Microsoft.GSL CONFIG REQUIRED)
 target_link_libraries(common PRIVATE Microsoft.GSL::GSL)
 
-find_package(RapidJSON CONFIG REQUIRED)
-target_link_libraries(common PRIVATE rapidjson)
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(common PRIVATE nlohmann_json::nlohmann_json)
 
 find_package(ctre CONFIG REQUIRED)
 target_link_libraries(common PRIVATE ctre::ctre)

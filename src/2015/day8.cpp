@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <string>
 
 static std::string Unescape(std::string_view text)
@@ -106,16 +106,16 @@ static int Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/8
-    fmt::print("Day 8, 2015: Matchsticks\n");
+    std::print("Day 8, 2015: Matchsticks\n");
 
     Assert(12 == Part1(input::example1));
     Assert(19 == Part2(input::example1));
 
     int const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1333 == part1);
 
     int const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2046 == part2);
 }

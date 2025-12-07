@@ -168,14 +168,14 @@ static auto Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2021/day/13
-    fmt::print("Day 13, 2021: Transparent Origami\n");
+    std::print("Day 13, 2021: Transparent Origami\n");
 
     Assert(17 == Part1(example::instructions));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(592 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2:\n{}\n", part2);
+    std::print("  Part 2:\n{}\n", part2);
 }

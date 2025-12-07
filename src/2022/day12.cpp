@@ -129,16 +129,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/12
-    fmt::print("Day 12, 2022: Hill Climbing Algorithm\n");
+    std::print("Day 12, 2022: Hill Climbing Algorithm\n");
 
     Assert(31 == Solve(example::map));
     Assert(29 == SolveReverse(example::map));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(412 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(402 == part2);
 }

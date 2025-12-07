@@ -1,0 +1,23 @@
+.{
+    .name = .advent_of_code,
+    .version = "0.0.0",
+    .fingerprint = 0x45f1999b6c041155,
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{
+        .ctre = .{
+            .url = "https://github.com/hanickadot/compile-time-regular-expressions/archive/refs/tags/v3.10.0.tar.gz",
+            .hash = "N-V-__8AAIQCYwBNATayOnMjv34izusxCO5rrcuLBhvarSlS",
+            .lazy = false,
+        },
+        .json = .{
+            .url = "https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz",
+            .hash = "N-V-__8AANqC8wBtv10C_41rBAgWfTMpQow7tzRi4h6LQYxm",
+            .lazy = false,
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

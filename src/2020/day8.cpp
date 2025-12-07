@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <set>
 #include <span>
 #include <utility>
@@ -153,16 +153,16 @@ static int Run2(std::string_view instructions)
 int main()
 {
     // https://adventofcode.com/2020/day/8
-    fmt::print("Day 8, 2020: \n");
+    std::print("Day 8, 2020: \n");
 
     Assert(5 == Run1(example::instructions));
     Assert(8 == Run2(example::instructions));
 
     auto const part1 = Run1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1528 == part1);
 
     auto const part2 = Run2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(640 == part2);
 }

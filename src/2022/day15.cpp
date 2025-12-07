@@ -109,7 +109,7 @@ static int64_t FindBeacon(std::vector<Sensor> const &sensors, int limit)
 
         if (stdoutIsConsole && y % 10'000 == 0)
         {
-            fmt::print("  {}/{} {}%          \r", y, limit, 100 - (y * 100LL / limit));
+            std::print("  {}/{} {}%          \r", y, limit, 100 - (y * 100LL / limit));
         }
 
         for (auto const &sensor : sensors)
@@ -161,16 +161,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/15
-    fmt::print("Day 15, 2022: Beacon Exclusion Zone\n");
+    std::print("Day 15, 2022: Beacon Exclusion Zone\n");
 
     Assert(26 == CountImpossible(example::beacons, 10));
     Assert(56'000'011 == FindBeacon(example::beacons, 20));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(5'525'847 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(13'340'867'187'704 == part2);
 }

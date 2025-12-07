@@ -3,7 +3,7 @@
 #include "../common/assert.hpp"
 #include "../common/string.hpp"
 
-#include <fmt/format.h>
+#include <print>
 #include <span>
 
 struct VM
@@ -134,15 +134,15 @@ auto Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/23
-    fmt::print("Day 23, 2015: Opening the Turing Lock\n");
+    std::print("Day 23, 2015: Opening the Turing Lock\n");
 
     Assert(2 == Example());
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(170 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(247 == part2);
 }

@@ -149,17 +149,17 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/10
-    fmt::print("Day 10, 2022: Cathode-Ray Tube\n");
+    std::print("Day 10, 2022: Cathode-Ray Tube\n");
 
     Assert(-1 == CPU{}.Run(example::small_program).GetX());
     Assert(13'140 == RunProgram(example::large_program));
     Assert(example::expected == PrintProgram(example::large_program));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(11'220 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2:\n{}\n", part2);
+    std::print("  Part 2:\n{}\n", part2);
     Assert(input::expected == part2);
 }

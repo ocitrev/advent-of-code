@@ -149,16 +149,16 @@ static int Part2(std::string_view mapText)
 int main()
 {
     // https://adventofcode.com/2021/day/9
-    fmt::print("Day 9, 2021: Smoke Basin\n");
+    std::print("Day 9, 2021: Smoke Basin\n");
 
     Assert(15 == Part1(example::map));
     Assert(1134 == Part2(example::map));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(562 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1'076'922 == part2);
 }

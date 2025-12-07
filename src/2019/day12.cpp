@@ -6,8 +6,8 @@
 #include "../common/terminal.hpp"
 
 #include <array>
-#include <fmt/format.h>
 #include <numeric>
+#include <print>
 #include <regex>
 
 class Moon
@@ -159,19 +159,19 @@ static long long CountCycle(std::string_view data)
 
 int main()
 {
-    fmt::print("Day 12, 2019: The N-Body Problem\n");
+    std::print("Day 12, 2019: The N-Body Problem\n");
 
     Assert(179 == Simulate(example::one, 10));
     Assert(1940 == Simulate(example::two, 100));
 
     auto part1 = Simulate(GetInput(), 1000);
-    fmt::print("  Part1: {}\n", part1);
+    std::print("  Part1: {}\n", part1);
     Assert(8625 == part1);
 
     Assert(2772 == CountCycle(example::one));
     Assert(4'686'774'924 == CountCycle(example::two));
 
     auto part2 = CountCycle(GetInput());
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(332'477'126'821'644 == part2);
 }

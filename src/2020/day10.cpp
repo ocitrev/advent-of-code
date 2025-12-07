@@ -76,15 +76,15 @@ static int64_t Part2(std::vector<int> adapters)
 int main()
 {
     // https://adventofcode.com/2020/day/10
-    fmt::print("Day 10, 2020: Adapter Array\n");
+    std::print("Day 10, 2020: Adapter Array\n");
     Assert(35 == Part1({begin(example::adapters1), end(example::adapters1)}));
     Assert(220 == Part1({begin(example::adapters2), end(example::adapters2)}));
 
     auto const part1 = Part1(ParseInputNumbers());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(2059 == part1);
 
     auto const part2 = Part2(ParseInputNumbers());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(86'812'553'324'672 == part2);
 }

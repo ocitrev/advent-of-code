@@ -38,7 +38,7 @@ static_assert(50'346 == GetRealFuel(100'756));
 
 int main()
 {
-    fmt::print("Day 1, 2019: The Tyranny of the Rocket Equation\n");
+    std::print("Day 1, 2019: The Tyranny of the Rocket Equation\n");
     auto const input = ParseInputNumbers();
 
     int const part1 = std::accumulate(begin(input), end(input), 0,
@@ -53,9 +53,9 @@ int main()
             return r + GetRealFuel(mass);
         });
 
-    fmt::print("  Part1: {}\n", part1);
+    std::print("  Part1: {}\n", part1);
     Assert(3'538'016 == part1);
 
-    fmt::print("  Part2: {}\n", part2);
+    std::print("  Part2: {}\n", part2);
     Assert(5'304'147 == part2);
 }

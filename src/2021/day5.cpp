@@ -140,7 +140,7 @@ static int Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2021/day/5
-    fmt::print("Day 5, 2021: Hydrothermal Venture\n");
+    std::print("Day 5, 2021: Hydrothermal Venture\n");
 
     Assert(5 == Part1(example::lines));
     Assert((Line{{1, 1}, {3, 3}}.IsDiagonal()));
@@ -148,10 +148,10 @@ int main()
     Assert(12 == Part2(example::lines));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(5835 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(17'013 == part2);
 }

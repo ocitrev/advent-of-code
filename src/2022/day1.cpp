@@ -45,16 +45,16 @@ static auto Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2022/day/1
-    fmt::print("Day 1, 2022: Calorie Counting\n");
+    std::print("Day 1, 2022: Calorie Counting\n");
 
     Assert(24'000 == Part1(example::lines));
     Assert(45'000 == Part2(example::lines));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(65'912 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(195'625 == part2);
 }

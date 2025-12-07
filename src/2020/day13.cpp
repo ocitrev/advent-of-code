@@ -104,7 +104,7 @@ static int64_t Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/13
-    fmt::print("Day 13, 2020: Shuttle Search\n");
+    std::print("Day 13, 2020: Shuttle Search\n");
 
     Assert(3417 == GetNextStart({0, "17,x,13,19"}));
     Assert(754'018 == GetNextStart({0, "67,7,59,61"}));
@@ -113,10 +113,10 @@ int main()
     Assert(1'202'161'486 == GetNextStart({0, "1789,37,47,1889"}));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(261 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(807'435'693'182'510 == part2);
 }

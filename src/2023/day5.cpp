@@ -4,7 +4,6 @@
 
 #include <chrono>
 #include <execution>
-#include <gsl/gsl>
 
 using namespace std::literals;
 using integer = int64_t;
@@ -234,7 +233,7 @@ struct Almanac
 
     [[nodiscard]] integer GetLowestLocation()
     {
-        Expects(not seeds.empty());
+        Assert(not seeds.empty());
         std::vector<integer> locations(seeds.size());
         std::transform(begin(seeds), end(seeds), begin(locations),
             [this](auto seed)
@@ -313,16 +312,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2023/day/5
-    fmt::println("Day 5, 2023: If You Give A Seed A Fertilizer");
+    std::println("Day 5, 2023: If You Give A Seed A Fertilizer");
 
     Assert(35 == GetLowestLocation(example::almanac));
     Assert(46 == GetLowestLocationFromSeedRanges(example::almanac));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(389'056'265 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(137'516'820 == part2);
 }

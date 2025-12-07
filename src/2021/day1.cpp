@@ -68,16 +68,16 @@ static int Part2(std::span<int const> values)
 int main()
 {
     // https://adventofcode.com/2021/day/1
-    fmt::print("Day 1, 2021: Sonar Sweep\n");
+    std::print("Day 1, 2021: Sonar Sweep\n");
 
     Assert(7 == Part1(example::numbers));
     Assert(5 == Part2(example::numbers));
 
     auto const part1 = Part1(ParseNumbers(GetInput()));
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(1316 == part1);
 
     auto const part2 = Part2(ParseNumbers(GetInput()));
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1344 == part2);
 }

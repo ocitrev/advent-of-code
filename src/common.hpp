@@ -9,8 +9,9 @@
 
 #include <algorithm>
 #include <array>
-#include <fmt/format.h>
+#include <format>
 #include <numeric>
+#include <print>
 #include <ranges>
 #include <string>
 #include <string_view>

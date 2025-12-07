@@ -56,15 +56,15 @@ static void Examples()
 int main()
 {
     // https://adventofcode.com/2020/day/2
-    fmt::print("Day 2, 2020: Password Philosophy\n");
+    std::print("Day 2, 2020: Password Philosophy\n");
 
     Examples();
 
     auto const passwords = Split(GetInput(), '\n');
     auto const part1 = std::count_if(begin(passwords), end(passwords), &V1::IsPasswordValid);
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(666 == part1);
 
     auto const part2 = std::count_if(begin(passwords), end(passwords), &V2::IsPasswordValid);
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
 }

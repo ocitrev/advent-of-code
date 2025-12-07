@@ -184,16 +184,16 @@ static int Part2(std::string_view entries)
 int main()
 {
     // https://adventofcode.com/2021/day/8
-    fmt::print("Day 8, 2021: Seven Segment Search\n");
+    std::print("Day 8, 2021: Seven Segment Search\n");
 
     Assert(26 == Part1(example::entries));
     Assert(61'229 == Part2(example::entries));
 
     auto const part1 = Part1(GetInput());
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(392 == part1);
 
     auto const part2 = Part2(GetInput());
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(1'004'688 == part2);
 }

@@ -4,7 +4,7 @@
 #include "../common/string.hpp"
 
 #include <array>
-#include <fmt/format.h>
+#include <print>
 
 struct Grid
 {
@@ -209,15 +209,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/11
-    fmt::print("Day 11, 2020: Seating System\n");
+    std::print("Day 11, 2020: Seating System\n");
 
     Example();
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(2273 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2064 == part2);
 }

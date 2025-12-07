@@ -80,16 +80,16 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/3
-    fmt::print("Day 3, 2022: Rucksack Reorganization\n");
+    std::print("Day 3, 2022: Rucksack Reorganization\n");
 
     Assert(157 == PraseLines(example::rucksack));
     Assert(70 == ParseGroups(example::rucksack));
 
     auto const part1 = Part1();
-    fmt::print("  Part 1: {}\n", part1);
+    std::print("  Part 1: {}\n", part1);
     Assert(8401 == part1);
 
     auto const part2 = Part2();
-    fmt::print("  Part 2: {}\n", part2);
+    std::print("  Part 2: {}\n", part2);
     Assert(2641 == part2);
 }
