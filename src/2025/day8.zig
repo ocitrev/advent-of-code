@@ -12,11 +12,15 @@ pub fn main() !void {
     const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
-    const p1 = try part1(ally, input, 1000);
+    var playground = try Playground.parse(ally, input);
+    defer playground.deinit();
+    const result = try playground.run(1000);
+
+    const p1 = result[0];
     utils.printAnswer(1, p1);
     std.debug.assert(80446 == p1);
 
-    const p2 = try part2(ally, input);
+    const p2 = result[1];
     utils.printAnswer(2, p2);
     std.debug.assert(51294528 == p2);
 }
@@ -25,9 +29,9 @@ const Int = i64;
 const P3d = utils.Point3d(Int);
 
 fn distanceSquared(a: P3d, b: P3d) Int {
-    const dx: Int = @intCast(@abs(b.x - a.x));
-    const dy: Int = @intCast(@abs(b.y - a.y));
-    const dz: Int = @intCast(@abs(b.z - a.z));
+    const dx: Int = b.x - a.x;
+    const dy: Int = b.y - a.y;
+    const dz: Int = b.z - a.z;
     return dx * dx + dy * dy + dz * dz;
 }
 
@@ -88,16 +92,6 @@ const UnionFind = struct {
 
         return false;
     }
-
-    fn countUnique(self: *@This()) Int {
-        var count: usize = 0;
-        for (self.sizes) |size| {
-            if (size > 0) {
-                count += 1;
-            }
-        }
-        return @intCast(count);
-    }
 };
 
 const Playground = struct {
@@ -149,18 +143,9 @@ const Playground = struct {
         return a.dist < b.dist;
     }
 
-    fn getLargestCircuitsAfter(self: *@This(), comptime nbConnection: u32) !Int {
-        var unionFind = try UnionFind.init(self.ally, self.points.items.len);
-        defer unionFind.deinit();
-
-        for (0.., self.distances.items) |i, pair| {
-            if (i >= nbConnection) break;
-            _ = unionFind.mix(pair.pair[0], pair.pair[1]);
-        }
-
+    fn calcPart1(self: @This(), unionFind: *const UnionFind) !Int {
         var circuitSizes = try std.ArrayList(Int).initCapacity(self.ally, self.points.items.len);
         defer circuitSizes.deinit(self.ally);
-
         for (unionFind.sizes) |s| {
             if (s > 0) {
                 circuitSizes.appendAssumeCapacity(@intCast(s));
@@ -171,40 +156,30 @@ const Playground = struct {
         return circuitSizes.items[0] * circuitSizes.items[1] * circuitSizes.items[2];
     }
 
-    fn connectAll(self: *@This()) !Int {
+    fn run(self: *@This(), comptime untilPart1: usize) ![2]Int {
         var unionFind = try UnionFind.init(self.ally, self.points.items.len);
         defer unionFind.deinit();
 
-        var lastA: usize = 0;
-        var lastB: usize = 0;
+        var nbConnections: usize = 0;
+        var part1: Int = 0;
+        var part2: Int = 0;
 
-        for (self.distances.items) |pair| {
-            lastA = pair.pair[0];
-            lastB = pair.pair[1];
-            if (unionFind.mix(lastA, lastB)) {
-                if (unionFind.countUnique() == 1) {
-                    break;
+        for (0.., self.distances.items) |i, d| {
+            if (i == untilPart1) {
+                part1 = try self.calcPart1(&unionFind);
+            }
+
+            if (unionFind.mix(d.pair[0], d.pair[1])) {
+                nbConnections += 1;
+                if (nbConnections == self.points.items.len - 1) {
+                    part2 = self.points.items[d.pair[0]].x * self.points.items[d.pair[1]].x;
                 }
             }
         }
 
-        const a = self.points.items[lastA];
-        const b = self.points.items[lastB];
-        return a.x * b.x;
+        return .{ part1, part2 };
     }
 };
-
-fn part1(ally: std.mem.Allocator, input: []const u8, comptime nbConnection: u32) !Int {
-    var playground = try Playground.parse(ally, input);
-    defer playground.deinit();
-    return try playground.getLargestCircuitsAfter(nbConnection);
-}
-
-fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    var playground = try Playground.parse(ally, input);
-    defer playground.deinit();
-    return try playground.connectAll();
-}
 
 test "parts 1,2" {
     const ally = std.testing.allocator;
@@ -230,6 +205,9 @@ test "parts 1,2" {
         \\984,92,344
         \\425,690,689
     ;
-    try std.testing.expectEqual(40, try part1(ally, example, 10));
-    try std.testing.expectEqual(25272, try part2(ally, example));
+    var playground = try Playground.parse(ally, example);
+    defer playground.deinit();
+    const result = try playground.run(10);
+    try std.testing.expectEqual(40, result[0]);
+    try std.testing.expectEqual(25272, result[1]);
 }
