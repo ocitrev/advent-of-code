@@ -11,3 +11,4 @@ zig-out/
 target/
 Cargo.lock
 tags
+*.sublime-workspace

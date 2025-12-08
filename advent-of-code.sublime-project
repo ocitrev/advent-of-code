@@ -1,0 +1,20 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"folder_exclude_patterns": ["build"]
+		}
+	],
+	"build_systems": [
+		{
+			"name": "Zig - debug unit tests",
+			"selector": "source.zig",
+			"working_dir": "$project_path",
+			"env": {
+				"TERM": "dumb"
+			},
+			"shell_cmd": "pwsh -noni -nop -f zig-debug.ps1 -build \"$file\""
+		}
+	]
+}
