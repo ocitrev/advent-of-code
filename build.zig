@@ -1,4 +1,5 @@
 const std = @import("std");
+const builtin = @import("builtin");
 
 const BuildParams = struct {
     target: std.Build.ResolvedTarget,
@@ -78,11 +79,17 @@ const Aoc = struct {
         self.addRunSteps(b, runStep, exe);
     }
 
-    fn addZigTestsTo(self: *const @This(), b: *std.Build, params: BuildParams, testStep: *std.Build.Step) void {
+    fn addZigTestsTo(
+        self: *const @This(),
+        b: *std.Build,
+        params: BuildParams,
+        testStep: *std.Build.Step,
+    ) void {
         const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ self.year, self.day }));
 
         // unit tests
         const unit_tests = b.addTest(.{
+            .name = b.fmt("test-{}-{}", .{ self.year, self.day }),
             .root_module = b.createModule(.{
                 .root_source_file = source_file,
                 .target = params.target,
@@ -108,8 +115,34 @@ const Aoc = struct {
         }
 
         // create day test step
-        const test_day_step = b.step(b.fmt("test-{}-{}", .{ self.year, self.day }), b.fmt("Run unit tests for year {}, day {}", .{ self.year, self.day }));
+        const test_day_step = b.step(
+            b.fmt("test-{}-{}", .{ self.year, self.day }),
+            b.fmt("Run unit tests for year {}, day {}", .{ self.year, self.day }),
+        );
         test_day_step.dependOn(&run_unit_tests.step);
+
+        if (comptime builtin.os.tag == .windows) {
+            // create debug step for this specific test
+            const debug_step = b.step(
+                b.fmt("debug-test-{}-{}", .{ self.year, self.day }),
+                b.fmt("Debug unit tests for year {}, day {} with RemedyBG", .{ self.year, self.day }),
+            );
+
+            // Get the path to the test executable
+            const test_exe_path = unit_tests.getEmittedBin();
+
+            // Launch RemedyBG with the test executable
+            const openDebugger = b.addSystemCommand(&.{
+                "pwsh",
+                "-nop",
+                "-f",
+            });
+            openDebugger.addFileArg(b.path("zig-debug.ps1"));
+            openDebugger.addFileArg(test_exe_path);
+            openDebugger.addFileArg(source_file);
+            openDebugger.step.dependOn(&unit_tests.step);
+            debug_step.dependOn(&openDebugger.step);
+        }
     }
 
     fn generateInputHeader(self: *const @This(), b: *std.Build) std.Build.LazyPath {
