@@ -18,14 +18,14 @@ pub fn main() !void {
 
     const p2 = try part2(ally, input);
     utils.printAnswer(2, p2);
-    // std.debug.assert(0 == p2);
+    std.debug.assert(1343576598 == p2);
 }
 
 const Int = i64;
 const P = utils.Point2d(Int);
 
 const Grid = struct {
-    points: std.ArrayList(P),
+    points: []P,
     ally: std.mem.Allocator,
 
     fn parse(ally: std.mem.Allocator, input: []const u8) !Grid {
@@ -42,27 +42,25 @@ const Grid = struct {
         }
 
         return Grid{
-            .points = points,
+            .points = try points.toOwnedSlice(ally),
             .ally = ally,
         };
     }
 
     fn deinit(self: *@This()) void {
-        self.points.deinit(self.ally);
+        self.ally.free(self.points);
     }
 
     fn area(p1: P, p2: P) Int {
-        const w = @max(p1.x, p2.x) - @min(p1.x, p2.x) + 1;
-        const h = @max(p1.y, p2.y) - @min(p1.y, p2.y) + 1;
+        const w = @as(Int, @intCast(@abs(p1.x - p2.x))) + 1;
+        const h = @as(Int, @intCast(@abs(p1.y - p2.y))) + 1;
         return w * h;
     }
 
     fn pointOnSegment(p: P, a: P, b: P) bool {
-        // Check if p is collinear with a and b using cross product
-        const cross = @as(i128, p.y - a.y) * @as(i128, b.x - a.x) -
-            @as(i128, p.x - a.x) * @as(i128, b.y - a.y);
-
-        if (cross != 0) return false;
+        if (a.x != b.x and a.y != b.y) {
+            @panic("pointOnSegment only supports axis-aligned segments");
+        }
 
         // Check if p is within the bounding box of the segment
         const min_x = @min(a.x, b.x);
@@ -74,7 +72,7 @@ const Grid = struct {
     }
 
     pub fn pointInside(self: *const @This(), p: P) bool {
-        const vertices = self.points.items;
+        const vertices = self.points;
         if (vertices.len < 3) return false;
 
         var inside = false;
@@ -89,57 +87,126 @@ const Grid = struct {
                 return true;
             }
 
-            // Check if point is on the edge's y-range
             if ((vi.y > p.y) != (vj.y > p.y)) {
-                // Calculate x-coordinate of intersection
-                const slope = @as(i128, vj.x - vi.x) * @as(i128, p.y - vi.y);
-                const dy = @as(i128, vj.y - vi.y);
+                const slope = (vj.x - vi.x) * (p.y - vi.y);
+                const dy = (vj.y - vi.y);
                 const intersect_x = vi.x + @divFloor(slope, dy);
 
                 if (p.x < intersect_x) {
                     inside = !inside;
                 }
             }
+
             j = i;
         }
 
         return inside;
     }
+    fn doesIntersect(self: *const @This(), p1: P, p2: P) bool {
+        const vertices = self.points;
+        var j = vertices.len - 1;
+
+        if (p1.x == p2.x) {
+            // Vertical segment from p1 to p2
+            const segX = p1.x;
+            const segTopY = @min(p1.y, p2.y);
+            const segBottomY = @max(p1.y, p2.y);
+
+            for (vertices, 0..) |_, i| {
+                const v1 = vertices[i];
+                const v2 = vertices[j];
+
+                if (v1.y == v2.y) {
+                    // Horizontal edge
+                    const edgeY = v1.y;
+                    const edgeLeftX = @min(v1.x, v2.x);
+                    const edgeRightX = @max(v1.x, v2.x);
+
+                    // Check if the vertical segment crosses this horizontal edge
+                    if (edgeY > segTopY and edgeY < segBottomY and
+                        segX > edgeLeftX and segX < edgeRightX)
+                    {
+                        return true;
+                    }
+                }
+
+                j = i;
+            }
+
+            return false;
+        } else if (p1.y == p2.y) {
+            // Horizontal segment from p1 to p2
+            const segY = p1.y;
+            const segLeftX = @min(p1.x, p2.x);
+            const segRightX = @max(p1.x, p2.x);
+
+            for (vertices, 0..) |_, i| {
+                const v1 = vertices[i];
+                const v2 = vertices[j];
+
+                if (v1.x == v2.x) {
+                    // Vertical edge
+                    const edgeX = v1.x;
+                    const edgeTopY = @min(v1.y, v2.y);
+                    const edgeBottomY = @max(v1.y, v2.y);
+
+                    // Check if the horizontal segment crosses this vertical edge
+                    if (edgeX > segLeftX and edgeX < segRightX and
+                        segY > edgeTopY and segY < edgeBottomY)
+                    {
+                        return true;
+                    }
+                }
+
+                j = i;
+            }
+
+            return false;
+        }
+
+        @panic("Sloped segments not supported");
+    }
 
     fn isValidRecangle(self: *const @This(), p1: P, p2: P) bool {
-        const topLeft = P{ .x = @min(p1.x, p2.x), .y = @min(p1.y, p2.y) };
-        const topRight = P{ .x = @max(p1.x, p2.x), .y = @min(p1.y, p2.y) };
-        const bottomLeft = P{ .x = @min(p1.x, p2.x), .y = @max(p1.y, p2.y) };
-        const bottomRight = P{ .x = @max(p1.x, p2.x), .y = @max(p1.y, p2.y) };
+        const left = @min(p1.x, p2.x);
+        const right = @max(p1.x, p2.x);
+        const top = @min(p1.y, p2.y);
+        const bottom = @max(p1.y, p2.y);
 
-        var validTL = topLeft.eql(p1) or topLeft.eql(p2);
-        var validTR = topRight.eql(p1) or topRight.eql(p2);
-        var validBL = bottomLeft.eql(p1) or bottomLeft.eql(p2);
-        var validBR = bottomRight.eql(p1) or bottomRight.eql(p2);
+        const corners = [_]P{
+            .{ .x = left, .y = top },
+            .{ .x = right, .y = top },
+            .{ .x = left, .y = bottom },
+            .{ .x = right, .y = bottom },
+        };
 
-        if (!validTL and self.pointInside(topLeft)) {
-            validTL = true;
-        }
-        if (!validTR and self.pointInside(topRight)) {
-            validTR = true;
-        }
-        if (!validBL and self.pointInside(bottomLeft)) {
-            validBL = true;
-        }
-
-        if (!validBR and self.pointInside(bottomRight)) {
-            validBR = true;
+        if (self.doesIntersect(corners[0], corners[1]) or
+            self.doesIntersect(corners[2], corners[3]) or
+            self.doesIntersect(corners[0], corners[2]) or
+            self.doesIntersect(corners[1], corners[3]))
+        {
+            return false;
         }
 
-        return validTL and validTR and validBL and validBR;
+        for (corners) |corner| {
+            if (corner.eql(p1) or corner.eql(p2)) continue;
+            if (!self.pointInside(corner)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     fn getLargestRectangleArea(self: *const @This(), comptime checkInside: bool) Int {
         var largestArea: Int = 0;
-        for (0.., self.points.items) |i, p1| {
-            for (self.points.items[i + 1 ..]) |p2| {
+        for (0.., self.points) |i, p1| {
+            for (self.points[i + 1 ..]) |p2| {
+                const a = area(p1, p2);
+                if (a <= largestArea) continue;
+
                 if (!checkInside or self.isValidRecangle(p1, p2)) {
-                    largestArea = @max(area(p1, p2), largestArea);
+                    largestArea = a;
                 }
             }
         }
@@ -184,6 +251,3 @@ test "parts 1,2" {
     try std.testing.expectEqual(50, try part1(ally, example));
     try std.testing.expectEqual(24, try part2(ally, example));
 }
-
-// tried: 4760959496 -> too high
-// tried: 4618516475 -> too high
