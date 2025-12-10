@@ -158,4 +158,10 @@ test "parts 1,2" {
     ;
     try std.testing.expectEqual(7, try part1(ally, example));
     try std.testing.expectEqual(33, try part2(ally, example));
+
+    const example2 =
+        \\[#.#####] (2,3,4,6) (2,5) (1,3,4,5,6) (1,2,5,6) (0,5,6) (0,1,2,3,4,6) (1,2,3,5,6) (1,3,4,6) (0,2,3,4,5,6) {23,42,62,53,35,62,74}
+    ;
+    try std.testing.expectEqual(1, try part1(ally, example2));
+    try std.testing.expectEqual(74, try part2(ally, example2));
 }
