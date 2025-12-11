@@ -7,12 +7,17 @@
         .ctre = .{
             .url = "https://github.com/hanickadot/compile-time-regular-expressions/archive/refs/tags/v3.10.0.tar.gz",
             .hash = "N-V-__8AAIQCYwBNATayOnMjv34izusxCO5rrcuLBhvarSlS",
-            .lazy = false,
+            .lazy = true,
         },
         .json = .{
             .url = "https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz",
             .hash = "N-V-__8AANqC8wBtv10C_41rBAgWfTMpQow7tzRi4h6LQYxm",
-            .lazy = false,
+            .lazy = true,
+        },
+        .z3_win_x64 = .{
+            .url = "https://github.com/Z3Prover/z3/releases/download/z3-4.15.4/z3-4.15.4-x64-win.zip",
+            .hash = "N-V-__8AAIdusgr77FQs4fEqT82i9NiiS-9v6e5WeOffbrdy",
+            .lazy = true,
         },
     },
     .paths = .{

@@ -13,16 +13,19 @@ const Type = enum {
 
 var cppUtilsLib: ?*std.Build.Step.Compile = null;
 
-const CppDependency = struct {
+const Dependency = struct {
     name: []const u8,
     includePath: []const u8,
+    libraryPath: ?[]const u8 = null,
+    importLib: ?[]const u8 = null,
+    dllName: ?[]const u8 = null,
 };
 
 const Aoc = struct {
     year: u16,
     day: u8,
     type: Type = .zig,
-    deps: []const CppDependency = &.{},
+    deps: []const Dependency = &.{},
 
     fn addRunSteps(self: *const @This(), b: *std.Build, runStep: *std.Build.Step, exe: *std.Build.Step.Compile) void {
         // add to run step
@@ -51,8 +54,45 @@ const Aoc = struct {
         if (b.args) |args| {
             run_cmd_standalone.addArgs(args);
         }
+
         const run_day_step = b.step(b.fmt("run-{}-{}", .{ self.year, self.day }), b.fmt("Run app for year {}, day {}", .{ self.year, self.day }));
         run_day_step.dependOn(&run_cmd_standalone.step);
+    }
+
+    fn addZigDeps(self: *const @This(), b: *std.Build, params: BuildParams, exe: *std.Build.Step.Compile) void {
+        var linkWithC = true;
+
+        for (self.deps) |dep| {
+            const lazyDep = b.lazyDependency(dep.name, .{
+                .target = params.target,
+                .optimize = params.optimize,
+            });
+
+            if (linkWithC) {
+                linkWithC = false;
+                exe.linkLibC();
+            }
+
+            if (lazyDep) |resolved| {
+                exe.addSystemIncludePath(resolved.path(dep.includePath));
+
+                if (dep.libraryPath) |lib| {
+                    const libPath = resolved.path(lib);
+                    exe.addLibraryPath(libPath);
+                    exe.root_module.addRPath(libPath);
+
+                    if (dep.dllName) |dllName| {
+                        const dllSrcPath = libPath.path(b, dllName);
+                        const installDll = b.addInstallFile(dllSrcPath, b.fmt("bin/{s}", .{dllName}));
+                        exe.step.dependOn(&installDll.step);
+                    }
+                }
+
+                if (dep.importLib) |lib| {
+                    exe.linkSystemLibrary(lib);
+                }
+            }
+        }
     }
 
     fn addZigTo(self: *const @This(), b: *std.Build, params: BuildParams, runStep: *std.Build.Step) void {
@@ -76,6 +116,7 @@ const Aoc = struct {
         const input_file = b.path(b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day }));
         exe.root_module.addAnonymousImport("input", .{ .root_source_file = input_file });
 
+        self.addZigDeps(b, params, exe);
         self.addRunSteps(b, runStep, exe);
     }
 
@@ -102,8 +143,25 @@ const Aoc = struct {
             unit_tests.root_module.addImport("utils", utils);
         }
 
+        self.addZigDeps(b, params, unit_tests);
+
         const run_unit_tests = b.addRunArtifact(unit_tests);
         testStep.dependOn(&run_unit_tests.step);
+
+        for (self.deps) |dep| {
+            if (dep.libraryPath) |_| {
+                const lazyDep = b.lazyDependency(dep.name, .{
+                    .target = params.target,
+                    .optimize = params.optimize,
+                });
+                if (lazyDep) |resolved| {
+                    if (dep.libraryPath) |lib| {
+                        const p = resolved.path(lib);
+                        run_unit_tests.addPathDir(p.getPath2(b, null));
+                    }
+                }
+            }
+        }
 
         // add or create year test step
         const test_year_step_name = b.fmt("test-{}", .{self.year});
@@ -119,6 +177,7 @@ const Aoc = struct {
             b.fmt("test-{}-{}", .{ self.year, self.day }),
             b.fmt("Run unit tests for year {}, day {}", .{ self.year, self.day }),
         );
+
         test_day_step.dependOn(&run_unit_tests.step);
 
         if (comptime builtin.os.tag == .windows) {
@@ -293,7 +352,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2015, .day = 9, .type = .cpp },
         .{ .year = 2015, .day = 10, .type = .cpp },
         .{ .year = 2015, .day = 11, .type = .cpp },
-        .{ .year = 2015, .day = 12, .type = .cpp, .deps = &[_]CppDependency{
+        .{ .year = 2015, .day = 12, .type = .cpp, .deps = &[_]Dependency{
             .{
                 .name = "json",
                 .includePath = "include",
@@ -392,7 +451,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2022, .day = 12, .type = .cpp },
         .{ .year = 2022, .day = 13, .type = .cpp },
         .{ .year = 2022, .day = 14, .type = .cpp },
-        .{ .year = 2022, .day = 15, .type = .cpp, .deps = &[_]CppDependency{
+        .{ .year = 2022, .day = 15, .type = .cpp, .deps = &[_]Dependency{
             .{
                 .name = "ctre",
                 .includePath = "single-header",
@@ -451,7 +510,13 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2025, .day = 7 },
         .{ .year = 2025, .day = 8 },
         .{ .year = 2025, .day = 9 },
-        .{ .year = 2025, .day = 10 },
+        .{ .year = 2025, .day = 10, .deps = &[_]Dependency{.{
+            .name = "z3_win_x64",
+            .includePath = "include",
+            .libraryPath = "bin",
+            .importLib = "libz3",
+            .dllName = "libz3.dll",
+        }} },
     };
 
     const params = BuildParams{
