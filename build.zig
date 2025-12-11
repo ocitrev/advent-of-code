@@ -517,6 +517,7 @@ pub fn build(b: *std.Build) void {
             .importLib = "libz3",
             .dllName = "libz3.dll",
         }} },
+        .{ .year = 2025, .day = 11 },
     };
 
     const params = BuildParams{
