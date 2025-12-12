@@ -26,6 +26,7 @@ const Int = u64;
 const Shape = struct {
     id: u8,
     grid: [3][3]bool,
+    area: Int,
 };
 
 const Region = struct {
@@ -50,13 +51,15 @@ const Farm = struct {
         for (0..6) |_| {
             const firstLine = lineIt.next().?;
             const id = try std.fmt.parseInt(u8, firstLine[0 .. firstLine.len - 1], 10);
-            var shape = Shape{ .id = id, .grid = undefined };
+            var shape = Shape{ .id = id, .grid = undefined, .area = 0 };
 
             var y: usize = 0;
             while (lineIt.next()) |line| {
                 if (line.len == 0) break;
                 for (0.., line) |x, c| {
-                    shape.grid[y][x] = c == '#';
+                    const on = c == '#';
+                    shape.grid[y][x] = on;
+                    if (on) shape.area += 1;
                 }
                 y += 1;
             }
@@ -64,7 +67,6 @@ const Farm = struct {
             try shapes.append(ally, shape);
         }
 
-        _ = lineIt.next();
         var quantityList = std.ArrayList(usize).empty;
         var regions = std.ArrayList(Region).empty;
 
@@ -102,15 +104,35 @@ const Farm = struct {
         self.ally.free(self.shapes);
         self.ally.free(self.regions);
     }
+
+    fn countRegions(self: *const @This()) Int {
+        var total: Int = 0;
+
+        // std.debug.print("debug\n", .{});
+
+        for (self.regions) |r| {
+            var minArea: Int = 0;
+
+            for (0.., r.quantities) |i, q| {
+                minArea += self.shapes[i].area * q;
+            }
+
+            const area = r.width * r.height;
+            // std.debug.print("area = {}, minArea = {}\n", .{ area, minArea });
+
+            if (area <= minArea) {
+                total += 1;
+            }
+        }
+
+        return total;
+    }
 };
 
 fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
     var farm = try Farm.parse(ally, input);
     defer farm.deinit();
-
-    std.debug.print("f = {}\n", .{farm});
-
-    return 0;
+    return farm.countRegions();
 }
 
 fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
@@ -161,6 +183,6 @@ test "parts 1,2" {
         \\12x5: 1 0 1 0 2 2
         \\12x5: 1 0 1 0 3 2
     ;
-    try std.testing.expectEqual(0, try part1(ally, example));
+    try std.testing.expectEqual(2, try part1(ally, example));
     try std.testing.expectEqual(0, try part2(ally, example));
 }
