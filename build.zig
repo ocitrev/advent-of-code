@@ -538,6 +538,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2025, .day = 9 },
         .{ .year = 2025, .day = 10, .deps = &[_]Dependency{getZ3Dependency()} },
         .{ .year = 2025, .day = 11 },
+        .{ .year = 2025, .day = 12 },
     };
 
     const params = BuildParams{
@@ -563,20 +564,12 @@ pub fn build(b: *std.Build) void {
 
     for (puzzles) |p| {
         switch (p.type) {
-            .cpp => {
-                switch (langOption) {
-                    .zig => continue,
-                    else => p.addCppTo(b, params, runStep),
-                }
+            .cpp => if (langOption == .cpp or langOption == .all) {
+                p.addCppTo(b, params, runStep);
             },
-            .zig => {
-                switch (langOption) {
-                    .cpp => continue,
-                    else => {
-                        p.addZigTo(b, params, runStep);
-                        p.addZigTestsTo(b, params, testStep);
-                    },
-                }
+            .zig => if (langOption == .zig or langOption == .all) {
+                p.addZigTo(b, params, runStep);
+                p.addZigTestsTo(b, params, testStep);
             },
         }
     }
