@@ -23,13 +23,92 @@ pub fn main() !void {
 
 const Int = u64;
 
-fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
-    _ = ally;
+const Shape = struct {
+    id: u8,
+    grid: [3][3]bool,
+};
 
-    var lineIt = std.mem.tokenizeAny(u8, input, "\r\n");
-    while (lineIt.next()) |line| {
-        _ = line;
+const Region = struct {
+    width: usize,
+    height: usize,
+    quantities: []usize,
+
+    fn deinit(self: *@This(), ally: std.mem.Allocator) void {
+        ally.free(self.quantities);
     }
+};
+
+const Farm = struct {
+    shapes: []Shape,
+    regions: []Region,
+    ally: std.mem.Allocator,
+
+    fn parse(ally: std.mem.Allocator, input: []const u8) !Farm {
+        var shapes = std.ArrayList(Shape).empty;
+        var lineIt = std.mem.splitAny(u8, input, "\r\n");
+
+        for (0..6) |_| {
+            const firstLine = lineIt.next().?;
+            const id = try std.fmt.parseInt(u8, firstLine[0 .. firstLine.len - 1], 10);
+            var shape = Shape{ .id = id, .grid = undefined };
+
+            var y: usize = 0;
+            while (lineIt.next()) |line| {
+                if (line.len == 0) break;
+                for (0.., line) |x, c| {
+                    shape.grid[y][x] = c == '#';
+                }
+                y += 1;
+            }
+
+            try shapes.append(ally, shape);
+        }
+
+        _ = lineIt.next();
+        var quantityList = std.ArrayList(usize).empty;
+        var regions = std.ArrayList(Region).empty;
+
+        while (lineIt.next()) |line| {
+            var it = std.mem.splitScalar(u8, line, ':');
+            const size = it.next().?;
+            const quantities = it.next().?;
+
+            var it2 = std.mem.tokenizeScalar(u8, quantities, ' ');
+            while (it2.next()) |q| {
+                const qty = try std.fmt.parseInt(u8, q, 10);
+                try quantityList.append(ally, qty);
+            }
+
+            var it3 = std.mem.splitScalar(u8, size, 'x');
+            try regions.append(ally, Region{
+                .width = try std.fmt.parseInt(usize, it3.next().?, 10),
+                .height = try std.fmt.parseInt(usize, it3.next().?, 10),
+                .quantities = try quantityList.toOwnedSlice(ally),
+            });
+        }
+
+        return Farm{
+            .shapes = try shapes.toOwnedSlice(ally),
+            .regions = try regions.toOwnedSlice(ally),
+            .ally = ally,
+        };
+    }
+
+    fn deinit(self: *@This()) void {
+        for (self.regions) |*r| {
+            r.deinit(self.ally);
+        }
+
+        self.ally.free(self.shapes);
+        self.ally.free(self.regions);
+    }
+};
+
+fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
+    var farm = try Farm.parse(ally, input);
+    defer farm.deinit();
+
+    std.debug.print("f = {}\n", .{farm});
 
     return 0;
 }
