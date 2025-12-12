@@ -331,6 +331,32 @@ const Lang = enum {
     zig,
 };
 
+fn getDepPlatform() []const u8 {
+    return switch (builtin.cpu.arch) {
+        .x86_64 => "x64",
+        else => @compileError("Architecture not supported."),
+    };
+}
+
+fn getZ3Dependency() Dependency {
+    return switch (comptime builtin.os.tag) {
+        .windows => .{
+            .name = "z3_win_" ++ comptime getDepPlatform(),
+            .includePath = "include",
+            .libraryPath = "bin",
+            .importLib = "libz3",
+            .dllName = "libz3.dll",
+        },
+        .linux => .{
+            .name = "z3_glibc_" ++ comptime getDepPlatform(),
+            .includePath = "include",
+            .libraryPath = "bin",
+            .importLib = "z3",
+        },
+        else => @compileError("Platform not supported"),
+    };
+}
+
 pub fn build(b: *std.Build) void {
 
     // Add custom options
@@ -510,13 +536,7 @@ pub fn build(b: *std.Build) void {
         .{ .year = 2025, .day = 7 },
         .{ .year = 2025, .day = 8 },
         .{ .year = 2025, .day = 9 },
-        .{ .year = 2025, .day = 10, .deps = &[_]Dependency{.{
-            .name = "z3_win_x64",
-            .includePath = "include",
-            .libraryPath = "bin",
-            .importLib = "libz3",
-            .dllName = "libz3.dll",
-        }} },
+        .{ .year = 2025, .day = 10, .deps = &[_]Dependency{getZ3Dependency()} },
         .{ .year = 2025, .day = 11 },
     };
 

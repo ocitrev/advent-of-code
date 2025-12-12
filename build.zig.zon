@@ -19,6 +19,11 @@
             .hash = "N-V-__8AAIdusgr77FQs4fEqT82i9NiiS-9v6e5WeOffbrdy",
             .lazy = true,
         },
+        .z3_glibc_x64 = .{
+            .url = "https://github.com/Z3Prover/z3/releases/download/z3-4.15.4/z3-4.15.4-x64-glibc-2.39.zip",
+            .hash = "N-V-__8AAFIjXwnpasMyJs4CKof8IctSHiy3bljUT1E1UAf7",
+            .lazy = true,
+        },
     },
     .paths = .{
         "build.zig",
