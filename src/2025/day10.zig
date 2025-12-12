@@ -15,13 +15,16 @@ pub fn main() !void {
     const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
-    const p1 = try part1(ally, input);
+    var machines = try Machines.parse(ally, input);
+    defer machines.deinit();
+
+    const p1 = machines.part1();
     utils.printAnswer(1, p1);
     std.debug.assert(434 == p1);
 
-    const p2 = try part2(ally, input);
+    const p2 = try machines.part2();
     utils.printAnswer(2, p2);
-    // std.debug.assert(0 == p2);
+    std.debug.assert(15132 == p2);
 }
 
 const Int = u64;
@@ -234,31 +237,23 @@ const Machines = struct {
     }
 };
 
-fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
-    var machines = try Machines.parse(ally, input);
-    defer machines.deinit();
-    return machines.part1();
-}
-
-fn part2(ally: std.mem.Allocator, input: []const u8) !Int {
-    var machines = try Machines.parse(ally, input);
-    defer machines.deinit();
-    return try machines.part2();
-}
-
 test "parts 1,2" {
     const ally = std.testing.allocator;
-    const example =
+    const example1 =
         \\[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
         \\[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}
         \\[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}
     ;
-    try std.testing.expectEqual(7, try part1(ally, example));
-    try std.testing.expectEqual(33, try part2(ally, example));
+    var machines1 = try Machines.parse(ally, example1);
+    defer machines1.deinit();
+    try std.testing.expectEqual(7, machines1.part1());
+    try std.testing.expectEqual(33, try machines1.part2());
 
     const example2 =
         \\[#.#####] (2,3,4,6) (2,5) (1,3,4,5,6) (1,2,5,6) (0,5,6) (0,1,2,3,4,6) (1,2,3,5,6) (1,3,4,6) (0,2,3,4,5,6) {23,42,62,53,35,62,74}
     ;
-    try std.testing.expectEqual(1, try part1(ally, example2));
-    try std.testing.expectEqual(74, try part2(ally, example2));
+    var machines2 = try Machines.parse(ally, example2);
+    defer machines2.deinit();
+    try std.testing.expectEqual(1, machines2.part1());
+    try std.testing.expectEqual(74, try machines2.part2());
 }
