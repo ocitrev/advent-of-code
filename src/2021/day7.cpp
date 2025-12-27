@@ -65,7 +65,7 @@ static int Part2(std::span<int const> numbers)
 int main()
 {
     // https://adventofcode.com/2021/day/7
-    std::print("Day 7, 2021: The Treachery of Whales\n");
+    std::println("Day 7, 2021: The Treachery of Whales");
 
     Assert(37 == Part1(example::positions));
     Assert(37 == GetFuelCostSimple(example::positions, 2));
@@ -73,10 +73,10 @@ int main()
     Assert(168 == Part2(example::positions));
 
     auto const part1 = Part1(ParseInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(323'647 == part1);
 
     auto const part2 = Part2(ParseInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(87'640'209 == part2);
 }

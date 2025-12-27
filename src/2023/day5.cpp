@@ -318,10 +318,10 @@ int main()
     Assert(46 == GetLowestLocationFromSeedRanges(example::almanac));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(389'056'265 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(137'516'820 == part2);
 }

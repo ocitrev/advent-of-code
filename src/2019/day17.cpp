@@ -152,7 +152,7 @@ static void RenderMap(Map const &map)
 
         if (++iter == end(line))
         {
-            std::print("{}\n", line);
+            std::println("{}", line);
             iter = begin(line);
         }
     }
@@ -255,7 +255,7 @@ static void Part1()
 {
     auto m = GenerateMap();
     auto const part1 = MarkIntersections(m);
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
     Assert(14'332 == part1);
 }
 
@@ -325,7 +325,7 @@ static void Part2()
     sendInputs("n\n");
     cpu.Run();
 
-    std::print("  Part2: {}\n", result);
+    std::println("  Part2: {}", result);
     Assert(1'034'009 == result);
 }
 
@@ -338,7 +338,7 @@ Map ParseMap(std::string_view mapData)
 
 int main()
 {
-    std::print("Day 17, 2019: Set and Forget\n");
+    std::println("Day 17, 2019: Set and Forget");
     Assert(13 == GetMapWidth(example::map1));
     Assert(76 == MarkIntersections(ParseMap(example::map1)));
     Assert("R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2" == GetPath(ParseMap(example::map2)));

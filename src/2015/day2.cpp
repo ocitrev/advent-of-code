@@ -61,7 +61,7 @@ static std::pair<int, int> calculate()
 int main()
 {
     // https://adventofcode.com/2015/day/2
-    std::print("Day 2, 2015: I Was Told There Would Be No Math\n");
+    std::println("Day 2, 2015: I Was Told There Would Be No Math");
 
     Assert(58 == Box{"2x3x4"}.area());
     Assert(43 == Box{"1x1x10"}.area());
@@ -70,8 +70,8 @@ int main()
 
     auto const [area, length] = calculate();
 
-    std::print("  Part1: {}\n", area);
-    std::print("  Part2: {}\n", length);
+    std::println("  Part1: {}", area);
+    std::println("  Part2: {}", length);
 
     Assert(1'586'300 == area);
     Assert(3'737'498 == length);

@@ -72,7 +72,7 @@ struct NanoFactory
         auto n = static_cast<std::uint64_t>(
             ceil((static_cast<double>(count) - static_cast<double>(storage[name])) / static_cast<double>(result.count)));
 #if 0
-        std::print("{} = {} - {} / {}\n", n, count, storage[name], result.count);
+        std::println("{} = {} - {} / {}", n, count, storage[name], result.count);
 #endif
 
         bool producing = true;
@@ -148,7 +148,7 @@ struct NanoFactory
 
 int main()
 {
-    std::print("Day 14, 2019: Space Stoichiometry\n");
+    std::println("Day 14, 2019: Space Stoichiometry");
 
     Assert(31 == NanoFactory::Parse(example::ex1).ComputeOre());
     Assert(165 == NanoFactory::Parse(example::ex2).ComputeOre());
@@ -161,10 +161,10 @@ int main()
     Assert(460'664 == NanoFactory::Parse(example::ex5).ComputeFuel());
 
     auto const part1 = NanoFactory::Parse(GetInput()).ComputeOre();
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
     Assert(1'967'319 == part1);
 
     auto const part2 = NanoFactory::Parse(GetInput()).ComputeFuel();
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
     Assert(1'122'036 == part2);
 }

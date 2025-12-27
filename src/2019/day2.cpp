@@ -44,7 +44,7 @@ Int Part2(std::vector<Int> const &code)
 int main()
 {
     // https://adventofcode.com/2019/day/2
-    std::print("Day 2, 2019: 1202 Program Alarm\n");
+    std::println("Day 2, 2019: 1202 Program Alarm");
 
     Assert(2 == RunAndGetValue({1, 0, 0, 0, 99}, 0));
     Assert(6 == RunAndGetValue({2, 3, 0, 3, 99}, 3));

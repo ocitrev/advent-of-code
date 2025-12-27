@@ -209,16 +209,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/7
-    std::print("Day 7, 2022: No Space Left On Device\n"sv);
+    std::println("Day 7, 2022: No Space Left On Device"sv);
 
     Assert(95'437 == SumOfAllSmallDirectories(example::terminal));
     Assert(24'933'642 == GetSizeOfFolderToDelete(example::terminal));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n"sv, part1);
+    std::println("  Part 1: {}"sv, part1);
     Assert(1'428'881 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n"sv, part2);
+    std::println("  Part 2: {}"sv, part2);
     Assert(10'475'598 == part2);
 }

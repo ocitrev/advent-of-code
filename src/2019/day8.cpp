@@ -71,7 +71,7 @@ static void Part1()
         });
 
     Assert(iterMin != end(layers));
-    std::print("  Part1: {}\n", iterMin->count[1] * iterMin->count[2]);
+    std::println("  Part1: {}", iterMin->count[1] * iterMin->count[2]);
     Assert(2080 == iterMin->count[1] * iterMin->count[2]);
 }
 
@@ -105,7 +105,7 @@ static void Part2()
 
 int main()
 {
-    std::print("Day 8, 2019: Space Image Format\n");
+    std::println("Day 8, 2019: Space Image Format");
     Assert("0110" == Render("0222112222120000", 2, 2));
 
     Part1();

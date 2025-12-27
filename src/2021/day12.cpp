@@ -143,7 +143,7 @@ static int Part2(std::string_view map)
 int main()
 {
     // https://adventofcode.com/2021/day/12
-    std::print("Day 12, 2021: Passage Pathing\n");
+    std::println("Day 12, 2021: Passage Pathing");
 
     Assert(10 == Part1(example::map1));
     Assert(19 == Part1(example::map2));
@@ -153,10 +153,10 @@ int main()
     Assert(3509 == Part2(example::map3));
 
     auto const part1 = Part1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(3298 == part1);
 
     auto const part2 = Part2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(93'572 == part2);
 }

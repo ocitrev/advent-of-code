@@ -41,15 +41,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/1
-    std::print("Day 1, 2020: Report Repair\n");
+    std::println("Day 1, 2020: Report Repair");
 
     Example();
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(806'656 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(230'608'320 == part2);
 }

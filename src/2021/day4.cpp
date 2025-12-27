@@ -183,16 +183,16 @@ static int Part2(Input const &input)
 int main()
 {
     // https://adventofcode.com/2021/day/4
-    std::print("Day 4, 2021: Giant Squid\n");
+    std::println("Day 4, 2021: Giant Squid");
 
     Assert(4512 == Part1(example::draw, example::boards));
     Assert(1924 == Part2(example::draw, example::boards));
 
     auto const part1 = Part1(Input{});
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(29'440 == part1);
 
     auto const part2 = Part2(Input{});
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(13'884 == part2);
 }

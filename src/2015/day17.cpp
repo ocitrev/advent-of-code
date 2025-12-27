@@ -61,14 +61,14 @@ static auto Parts()
 int main()
 {
     // https://adventofcode.com/2015/day/17
-    std::print("Day 17, 2015: No Such Thing as Too Much\n");
+    std::println("Day 17, 2015: No Such Thing as Too Much");
 
     Example();
 
     auto const [part1, part2] = Parts();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(1304 == part1);
 
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(18 == part2);
 }

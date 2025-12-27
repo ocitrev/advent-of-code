@@ -216,16 +216,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2023/day/7
-    std::print("Day 7, 2023: Camel Cards\n");
+    std::println("Day 7, 2023: Camel Cards");
 
     Assert(6440 == GetTotalWinnings(example::hands));
     Assert(5905 == GetTotalWinningsWithJoker(example::hands));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(253'910'319 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(254'083'736 == part2);
 }

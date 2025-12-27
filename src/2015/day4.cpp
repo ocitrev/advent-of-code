@@ -29,13 +29,13 @@ static int Mine(std::string const &key, std::string_view start)
 int main()
 {
     // https://adventofcode.com/2015/day/4
-    std::print("Day 4, 2015: The Ideal Stocking Stuffer\n");
+    std::println("Day 4, 2015: The Ideal Stocking Stuffer");
 
     int const part1 = Mine(std::string{GetInput()}, "00000");
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
     Assert(117'946 == part1);
 
     int const part2 = Mine(std::string{GetInput()}, "000000");
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
     Assert(3'938'038 == part2);
 }

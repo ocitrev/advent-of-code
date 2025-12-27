@@ -140,7 +140,7 @@ static auto Part2(std::string_view lines)
 int main()
 {
     // https://adventofcode.com/2023/day/1
-    std::print("Day 1, 2023: Trebuchet?!\n");
+    std::println("Day 1, 2023: Trebuchet?!");
 
     Assert(142 == Part1(example::part1));
     Assert(281 == Part2(example::part2));
@@ -153,10 +153,10 @@ int main()
     Assert(76 == GetCalibration2(Split(example::part2, '\n')[6]));
 
     auto const part1 = Part1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(54'632 == part1);
 
     auto const part2 = Part2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(54'019 == part2);
 }

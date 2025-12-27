@@ -129,16 +129,16 @@ static unsigned int Part2(std::vector<unsigned int> numbers)
 int main()
 {
     // https://adventofcode.com/2021/day/3
-    std::print("Day 3, 2021: Binary Diagnostic\n");
+    std::println("Day 3, 2021: Binary Diagnostic");
 
     Assert(198 == Part1(example::numbers));
     Assert(230 == Part2(example::numbers));
 
     auto const part1 = Part1(ParseBits(GetInput()));
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(841'526 == part1);
 
     auto const part2 = Part2(ParseBits(GetInput()));
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(4'790'390 == part2);
 }

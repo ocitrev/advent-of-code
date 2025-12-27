@@ -47,7 +47,7 @@ static void Part1()
             return elem.second == Tile::Block;
         });
 
-    std::print("  Part1: {}\n", result);
+    std::println("  Part1: {}", result);
     Assert(expected::part1 == result);
 }
 
@@ -166,14 +166,14 @@ static void Part2(bool render)
         std::print(CSI("?1049l") CSI("?25h"));
     }
 
-    std::print("  Part2: {}\n", score);
+    std::println("  Part2: {}", score);
     Assert(expected::part2 == score);
 }
 
 int main()
 {
     bool const isTerminal = IsTerminal(stdout);
-    std::print("Day 13, 2019: Care Package\n");
+    std::println("Day 13, 2019: Care Package");
 
     Part1();
 

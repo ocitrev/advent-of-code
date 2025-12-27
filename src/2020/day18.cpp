@@ -371,7 +371,7 @@ static Int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/18
-    std::print("Day 18, 2020: Operation Order\n");
+    std::println("Day 18, 2020: Operation Order");
 
     Assert(51 == Eval1("1 + (2 * 3) + (4 * (5 + 6))"));
     Assert(26 == Eval1("2 * 3 + (4 * 5)"));
@@ -386,10 +386,10 @@ int main()
     Assert(23'340 == Eval2("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(7'147'789'965'219 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(136'824'720'421'264 == part2);
 }

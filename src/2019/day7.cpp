@@ -45,7 +45,7 @@ static void Part1()
     }
     while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::print("  Part1: {}\n", maxValue);
+    std::println("  Part1: {}", maxValue);
     Assert(30'940 == maxValue);
 }
 
@@ -106,13 +106,13 @@ static void Part2()
     }
     while (std::next_permutation(begin(sequence), end(sequence)));
 
-    std::print("  Part2: {}\n", maxValue);
+    std::println("  Part2: {}", maxValue);
     Assert(76'211'147 == maxValue);
 }
 
 int main()
 {
-    std::print("Day 7, 2019: Amplification Circuit\n");
+    std::println("Day 7, 2019: Amplification Circuit");
 
     Assert(example::N1::result == Amplify1(example::N1::code, example::N1::sequence));
     Assert(example::N2::result == Amplify1(example::N2::code, example::N2::sequence));

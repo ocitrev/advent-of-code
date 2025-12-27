@@ -132,16 +132,16 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/12
-    std::print("Day 12, 2020: Rain Risk\n");
+    std::println("Day 12, 2020: Rain Risk");
 
     Assert(25 == Ship{}.Execute(example::instructions).Distance());
     Assert(286 == Ship{true}.Execute(example::instructions).Distance());
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(1032 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(156'735 == part2);
 }

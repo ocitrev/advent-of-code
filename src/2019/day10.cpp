@@ -95,7 +95,7 @@ struct Asteroid
 
 int main()
 {
-    std::print("Day 10, 2019: Monitoring Station\n");
+    std::println("Day 10, 2019: Monitoring Station");
 
     Assert(std::make_pair(8, Point2d{3, 4}) == GetBestFromMap(example::map1));
     Assert(std::make_pair(33, Point2d{5, 8}) == GetBestFromMap(example::map2));
@@ -106,7 +106,7 @@ int main()
     auto map = ParseMap(GetInput());
 
     auto const best = GetAsteroidWithMostRays(map);
-    std::print("  Part1: {}\n", best.rays.size());
+    std::println("  Part1: {}", best.rays.size());
     Assert(299 == best.rays.size());
 
     std::vector<std::pair<Point2d, Ray>> r;
@@ -138,6 +138,6 @@ int main()
     std::nth_element(begin(r), el200, end(r), sortBySlope);
 
     int const part2 = el200->second.pos.x * 100 + el200->second.pos.y;
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
     Assert(1419 == part2);
 }

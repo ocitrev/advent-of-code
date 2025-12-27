@@ -51,7 +51,7 @@ static constexpr int get_pos_at_depth(std::string_view data, int const depth)
 int main()
 {
     // https://adventofcode.com/2015/day/1
-    std::print("Day 1, 2015: Not Quite Lisp\n");
+    std::println("Day 1, 2015: Not Quite Lisp");
 
     static_assert(0 == get_depth("(())"));
     static_assert(0 == get_depth("()()"));
@@ -66,9 +66,9 @@ int main()
 
     constexpr int part1 = get_depth(GetInput());
     static_assert(232 == part1);
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
 
     constexpr int part2 = get_pos_at_depth(GetInput(), -1);
     static_assert(1783 == part2);
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
 }

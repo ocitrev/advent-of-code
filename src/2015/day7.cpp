@@ -44,7 +44,7 @@ public:
                 std::string out{parts.back()};
                 auto const &in = parts.front();
                 wires[out] = Resolve(in);
-                // std::print("{} = {}\n", out, in);
+                // std::println("{} = {}", out, in);
             }
             else if (nb == 4)
             {
@@ -55,7 +55,7 @@ public:
                     throw std::runtime_error("Unknown instruction");
                 }
 
-                // std::print("{} = NOT {}\n", out, parts[1]);
+                // std::println("{} = NOT {}", out, parts[1]);
                 wires[out] = [val = Resolve(parts[1])]()
                 {
                     return static_cast<unsigned short>(~val());
@@ -65,7 +65,7 @@ public:
             {
                 auto const &op = parts[1];
                 std::string out{parts.back()};
-                // std::print("{} = {} {} {}\n", out, parts[0], parts[1], parts[2]);
+                // std::println("{} = {} {} {}", out, parts[0], parts[1], parts[2]);
 
                 if (op == "AND")
                 {
@@ -119,7 +119,7 @@ public:
         }
 
         unsigned short const value = iter->second();
-        // std::print("{} = {}\n", name, value);
+        // std::println("{} = {}", name, value);
         cache[key] = value;
         return value;
     }
@@ -153,7 +153,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/7
-    std::print("Day 7, 2015: Some Assembly Required\n");
+    std::println("Day 7, 2015: Some Assembly Required");
 
 #ifndef NDEBUG
     Circuit c{input::example};
@@ -168,10 +168,10 @@ int main()
 #endif
 
     int const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(46'065 == part1);
 
     int const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(14'134 == part2);
 }

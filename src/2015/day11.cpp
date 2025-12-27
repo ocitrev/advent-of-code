@@ -125,7 +125,7 @@ std::string NextPassword(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/11
-    std::print("Day 11, 2015: Corporate Policy\n");
+    std::println("Day 11, 2015: Corporate Policy");
 
     Assert(HasStraight("hijklmmn"));
     Assert(HasRepeats("abbceffg"));
@@ -135,10 +135,10 @@ int main()
     Assert("ghjaabcc" == NextPassword("ghijklmn"));
 
     auto const part1 = NextPassword(GetInput());
-    std::print("  Part 1 = {}\n", part1);
+    std::println("  Part 1 = {}", part1);
     Assert("hepxxyzz" == part1);
 
     auto const part2 = NextPassword(part1);
-    std::print("  Part 2 = {}\n", part2);
+    std::println("  Part 2 = {}", part2);
     Assert("heqaabcc" == part2);
 }

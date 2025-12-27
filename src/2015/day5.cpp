@@ -148,7 +148,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/5
-    std::print("Day 5, 2015: Doesn't He Have Intern-Elves For This?\n");
+    std::println("Day 5, 2015: Doesn't He Have Intern-Elves For This?");
 
     Assert(IsNice1("ugknbfddgicrmopn"));
     Assert(IsNice1("aaa"));
@@ -161,10 +161,10 @@ int main()
     Assert(!IsNice2("ieodomkazucvgmuy"));
 
     int const part1 = Part1();
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
     Assert(238 == part1);
 
     int const part2 = Part2();
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
     Assert(69 == part2);
 }

@@ -149,14 +149,14 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/19
-    std::print("Day 19, 2020: Monster Messages\n");
+    std::println("Day 19, 2020: Monster Messages");
 
     // Assert(2 == Part1(example::rules1, "aab\naba"));
 
     auto const part1 = Part1(example::rules2, example::values2);
     // auto const part1 = Part1(input::rules, input::values);
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
 }

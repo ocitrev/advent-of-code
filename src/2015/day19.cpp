@@ -111,7 +111,7 @@ static auto ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/19
-    std::print("Day 19, 2015: Medicine for Rudolph\n");
+    std::println("Day 19, 2015: Medicine for Rudolph");
 
     Assert(4 == CountMolecules(ParseGrammar(example::grammar1), example::molecule1));
     Assert(7 == CountMolecules(ParseGrammar(example::grammar1), example::molecule2));
@@ -121,10 +121,10 @@ int main()
     auto const [grammar, molecule] = ParseInput();
 
     auto const part1 = CountMolecules(ParseGrammar(grammar), molecule);
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(535 == part1);
 
     auto const part2 = GetNumberOfSteps(ParseGrammar(grammar), molecule);
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(212 == part2);
 }

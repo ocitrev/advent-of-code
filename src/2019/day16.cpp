@@ -160,7 +160,7 @@ static std::string ProcessWithOffsetTimes10000(std::string_view numbers, int cou
 
 int main()
 {
-    std::print("Day 16, 2019: Flawed Frequency Transmission\n");
+    std::println("Day 16, 2019: Flawed Frequency Transmission");
 
     Assert("48226158" == Process("12345678", 1));
     Assert("34040438" == Process("12345678", 2));
@@ -175,10 +175,10 @@ int main()
     Assert("53553731" == ProcessWithOffsetTimes10000("03081770884921959731165446850517", 100));
 
     auto const part1 = Process(GetInput(), 100);
-    std::print("  Part1: {}\n", part1);
+    std::println("  Part1: {}", part1);
     Assert("88323090" == part1);
 
     auto const part2 = ProcessWithOffsetTimes10000(GetInput(), 100);
-    std::print("  Part2: {}\n", part2);
+    std::println("  Part2: {}", part2);
     Assert("50077964" == part2);
 }

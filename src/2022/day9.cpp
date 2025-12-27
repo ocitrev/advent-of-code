@@ -121,7 +121,7 @@ struct Map
                 }
             }
 
-            std::print("\n");
+            std::println("");
         }
     }
 
@@ -161,17 +161,17 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/9
-    std::print("Day 9, 2022: Rope Bridge\n");
+    std::println("Day 9, 2022: Rope Bridge");
 
     Assert(13 == CountVisited(example::instructions, 2));
     Assert(1 == CountVisited(example::instructions, 10));
     Assert(36 == CountVisited(example::larger, 10));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(5513 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(2427 == part2);
 }

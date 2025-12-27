@@ -66,7 +66,7 @@ static int SumAllNumbersNoRed(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2015/day/12
-    std::print("Day 12, 2015: JSAbacusFramework.io\n");
+    std::println("Day 12, 2015: JSAbacusFramework.io");
 
     Assert(6 == SumAllNumbers(R"([1,2,3])"));
     Assert(6 == SumAllNumbers(R"({"a":2,"b":4})"));
@@ -83,10 +83,10 @@ int main()
     Assert(6 == SumAllNumbersNoRed(R"([1,"red",5])"));
 
     int const part1 = SumAllNumbers(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(191'164 == part1);
 
     int const part2 = SumAllNumbersNoRed(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(87'842 == part2);
 }

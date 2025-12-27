@@ -117,7 +117,7 @@ static auto ParseInput()
 
 int main()
 {
-    std::print("Day 3, 2019: Crossed Wires\n");
+    std::println("Day 3, 2019: Crossed Wires");
     Assert((Result{6, 30} == Solve("R8,U5,L5,D3", "U7,R6,D4,L4")));
     Assert((Result{159, 610} == Solve("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83")));
     Assert((Result{135, 410}
@@ -125,9 +125,9 @@ int main()
 
     auto const [wire1, wire2] = ParseInput();
     auto const [closest, fastest] = Solve(wire1, wire2);
-    std::print("  Part1: {}\n", closest);
+    std::println("  Part1: {}", closest);
     Assert(245 == closest);
 
-    std::print("  Part2: {}\n", fastest);
+    std::println("  Part2: {}", fastest);
     Assert(48'262 == fastest);
 }

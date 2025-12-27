@@ -123,16 +123,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2023/day/6
-    std::print("Day 6, 2023: Wait For It\n");
+    std::println("Day 6, 2023: Wait For It");
 
     Assert(288 == CalculateMargin(example::races));
     Assert(71'503 == CalculateMargin2(example::races));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(293'046 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(35'150'181 == part2);
 }

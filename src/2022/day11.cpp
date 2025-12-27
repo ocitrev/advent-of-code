@@ -207,7 +207,7 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/11
-    std::print("Day 11, 2022: Monkey in the Middle\n");
+    std::println("Day 11, 2022: Monkey in the Middle");
 
     Assert(10'605 == PlayGameDivideBy3(example::notes, 20));
     Assert(6 * 4 == PlayGameModulo(example::notes, 1));
@@ -216,10 +216,10 @@ int main()
     Assert(2'713'310'158 == PlayGameModulo(example::notes, 10'000));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(50'830 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(14'399'640'002 == part2);
 }

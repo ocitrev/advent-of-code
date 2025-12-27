@@ -83,16 +83,16 @@
 int main()
 {
     // https://adventofcode.com/2020/day/6
-    std::print("Day 6, 2020: Custom Customs\n");
+    std::println("Day 6, 2020: Custom Customs");
 
     Assert(11 == GetSum1(example::answers));
     Assert(6 == GetSum2(example::answers));
 
     auto const part1 = GetSum1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(6625 == part1);
 
     auto const part2 = GetSum2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(3360 == part2);
 }

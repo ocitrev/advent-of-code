@@ -58,16 +58,16 @@ static int Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2021/day/2
-    std::print("Day 2, 2021: Dive!\n");
+    std::println("Day 2, 2021: Dive!");
 
     Assert(150 == Part1(example::directions));
     Assert(900 == Part2(example::directions));
 
     auto const part1 = Part1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(1'694'130 == part1);
 
     auto const part2 = Part2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(1'698'850'445 == part2);
 }

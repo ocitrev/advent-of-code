@@ -108,7 +108,7 @@ int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/14
-    std::print("Day 14, 2015: Reindeer Olympics\n");
+    std::println("Day 14, 2015: Reindeer Olympics");
 
 #ifndef NDEBUG
     auto const deers = ParseDeers(example::text);
@@ -127,10 +127,10 @@ int main()
 #endif
 
     int const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(2660 == part1);
 
     int const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(1256 == part2);
 }

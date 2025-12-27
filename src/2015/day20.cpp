@@ -66,7 +66,7 @@ static int ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/20
-    std::print("Day 20, 2015: Infinite Elves and Infinite Houses\n");
+    std::println("Day 20, 2015: Infinite Elves and Infinite Houses");
 
     Assert(2 == Part1(30));
     Assert(3 == Part1(40));
@@ -74,10 +74,10 @@ int main()
     Assert(6 == Part1(120));
 
     auto const part1 = Part1(ParseInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(786'240 == part1);
 
     auto const part2 = Part2(ParseInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(831'600 == part2);
 }

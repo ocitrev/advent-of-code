@@ -55,7 +55,7 @@ struct Game
 int main()
 {
     // https://adventofcode.com/2020/day/15
-    std::print("Day 15, 2020: Rambunctious Recitation\n");
+    std::println("Day 15, 2020: Rambunctious Recitation");
 
     Assert((1 == Game{std::vector{1, 3, 2}}.GetTurn(2020)));
     Assert((10 == Game{std::vector{2, 1, 3}}.GetTurn(2020)));
@@ -65,10 +65,10 @@ int main()
     Assert((1836 == Game{std::vector{3, 1, 2}}.GetTurn(2020)));
 
     auto const part1 = Game{ParseInputNumbers<int, ','>()}.GetTurn(2020);
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(371 == part1);
 
     auto const part2 = Game{ParseInputNumbers<int, ','>()}.GetTurn(30'000'000);
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(352 == part2);
 }

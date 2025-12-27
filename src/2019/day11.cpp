@@ -66,7 +66,7 @@ static void Part1()
 {
     Robot robot;
     robot.Run();
-    std::print("Part1: {}\n", robot.grid.size());
+    std::println("  Part1: {}", robot.grid.size());
     Assert(expected::part1 == robot.grid.size());
 }
 
@@ -100,13 +100,13 @@ static void Part2()
         result.append("\n");
     }
 
-    std::print("Part2:\n{}", result);
+    std::print("  Part2:\n{}", result);
     Assert(expected::part2 == result);
 }
 
 int main()
 {
-    std::print("Day 11, 2019: Space Police\n");
+    std::println("Day 11, 2019: Space Police");
 
     Part1();
     Part2();

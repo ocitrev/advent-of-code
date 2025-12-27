@@ -151,16 +151,16 @@ static std::string Part2()
 int main()
 {
     // https://adventofcode.com/2016/day/2
-    std::print("Day 2, 2016: Bathroom Security\n");
+    std::println("Day 2, 2016: Bathroom Security");
 
     Assert("1985" == ParseInstructions(example::instructions, Keypad::Parse(keypad1)));
     Assert("5DB3" == ParseInstructions(example::instructions, Keypad::Parse(keypad2)));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert("36629" == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     // Assert( == part2);
 }

@@ -161,16 +161,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/15
-    std::print("Day 15, 2022: Beacon Exclusion Zone\n");
+    std::println("Day 15, 2022: Beacon Exclusion Zone");
 
     Assert(26 == CountImpossible(example::beacons, 10));
     Assert(56'000'011 == FindBeacon(example::beacons, 20));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(5'525'847 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(13'340'867'187'704 == part2);
 }

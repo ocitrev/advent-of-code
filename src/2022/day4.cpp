@@ -50,16 +50,16 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/4
-    std::print("Day 4, 2022: Camp Cleanup\n");
+    std::println("Day 4, 2022: Camp Cleanup");
 
     Assert(2 == CountFullOverlap(example::pairs));
     Assert(4 == CountAnyOverlap(example::pairs));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(424 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(804 == part2);
 }

@@ -41,7 +41,7 @@ static int64_t Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/6
-    std::print("Day 6, 2022: Tuning Trouble\n");
+    std::println("Day 6, 2022: Tuning Trouble");
 
     Assert(7 == FindMarker(example::data1, 4));
     Assert(5 == FindMarker(example::data2, 4));
@@ -56,10 +56,10 @@ int main()
     Assert(26 == FindMarker(example::data5, 14));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(1953 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(2301 == part2);
 }

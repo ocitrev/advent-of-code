@@ -223,16 +223,16 @@ static auto Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/13
-    std::print("Day 13, 2022: Distress Signal\n");
+    std::println("Day 13, 2022: Distress Signal");
 
     Assert(13 == SumOrderedPairs(example::signal));
     Assert(140 == FindDecoderKey(example::signal));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(6484 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(19'305 == part2);
 }

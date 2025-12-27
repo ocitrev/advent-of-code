@@ -174,15 +174,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/18
-    std::print("Day 18, 2015: Like a GIF For Your Yard\n");
+    std::println("Day 18, 2015: Like a GIF For Your Yard");
 
     Example();
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(768 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(781 == part2);
 }

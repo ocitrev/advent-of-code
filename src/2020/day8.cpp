@@ -153,16 +153,16 @@ static int Run2(std::string_view instructions)
 int main()
 {
     // https://adventofcode.com/2020/day/8
-    std::print("Day 8, 2020: \n");
+    std::println("Day 8, 2020: ");
 
     Assert(5 == Run1(example::instructions));
     Assert(8 == Run2(example::instructions));
 
     auto const part1 = Run1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(1528 == part1);
 
     auto const part2 = Run2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(640 == part2);
 }

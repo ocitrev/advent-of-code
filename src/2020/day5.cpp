@@ -105,7 +105,7 @@ static int Part2()
 
             if (seats.find(s) == end(seats))
             {
-                // std::print("Seat({}, {}) is missing.\n", s.row, s.col);
+                // std::println("Seat({}, {}) is missing.", s.row, s.col);
                 if (found)
                 {
                     return s.GetId();
@@ -124,7 +124,7 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2020/day/5
-    std::print("Day 5, 2020: Binary Boarding\n");
+    std::println("Day 5, 2020: Binary Boarding");
 
     Assert(357 == GetSeat("FBFBBFFRLR").GetId());
     Assert(567 == GetSeat("BFFFBBFRRR").GetId());
@@ -132,10 +132,10 @@ int main()
     Assert(820 == GetSeat("BBFFBBFRLL").GetId());
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(883 == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(532 == part2);
 }

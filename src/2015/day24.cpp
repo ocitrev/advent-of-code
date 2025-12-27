@@ -53,7 +53,7 @@ int64_t GetBestFit(std::span<int const> numbers, int nbPackages)
             {
                 return std::to_string(v);
             });
-        std::print("{:<12} (QE={:3})\n", list, std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
+        std::println("{:<12} (QE={:3})", list, std::accumulate(begin(g), end(g), 1LL, std::multiplies{}));
     }
 #endif
 
@@ -84,16 +84,16 @@ static std::vector<int> ParseInput()
 int main()
 {
     // https://adventofcode.com/2015/day/24
-    std::print("Day 24, 2015: It Hangs in the Balance\n");
+    std::println("Day 24, 2015: It Hangs in the Balance");
 
     Assert(99 == GetBestFit(example::numbers, 3));
     Assert(44 == GetBestFit(example::numbers, 4));
 
     auto const part1 = GetBestFit(ParseInput(), 3);
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(11'266'889'531 == part1);
 
     auto const part2 = GetBestFit(ParseInput(), 4);
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(77'387'711 == part2);
 }

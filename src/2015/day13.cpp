@@ -110,7 +110,7 @@ static int ComputeBestHappiness(std::vector<Relation> const &relations, std::vec
         totalHappiness += GetHappiness(relations, prev, people.front());
         bestHappiness = std::max(bestHappiness, totalHappiness);
 #if DEBUG_PRINT
-        std::print("{}\n", totalHappiness);
+        std::println("{}", totalHappiness);
 #endif
     }
     while (next_necklace(begin(people), end(people)));
@@ -142,15 +142,15 @@ static int Part2()
 int main()
 {
     // https://adventofcode.com/2015/day/13
-    std::print("Day 13, 2015: Knights of the Dinner Table\n");
+    std::println("Day 13, 2015: Knights of the Dinner Table");
 
     Assert(330 == ComputeBestHappiness(example::data));
 
     int const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(709 == part1);
 
     int const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(668 == part2);
 }

@@ -75,7 +75,7 @@ static std::vector<std::string> GetPath(std::vector<std::string_view> const &lis
 
 int main()
 {
-    std::print("Day 6, 2019: Universal Orbit Map\n");
+    std::println("Day 6, 2019: Universal Orbit Map");
     Assert(3 == CountIndirect(Split(example::data, '\n'), "D"));
     Assert(7 == CountIndirect(Split(example::data, '\n'), "L"));
     Assert(0 == CountIndirect(Split(example::data, '\n'), "COM"));
@@ -92,7 +92,7 @@ int main()
         count += CountIndirect(list, last);
     }
 
-    std::print("  Part1: {}\n", count);
+    std::println("  Part1: {}", count);
     Assert(247'089 == count);
 
     auto you = GetPath(list, "YOU");
@@ -108,6 +108,6 @@ int main()
             return a < b;
         });
 
-    std::print("  Part2: {}\n", result.size());
+    std::println("  Part2: {}", result.size());
     Assert(442 == result.size());
 }

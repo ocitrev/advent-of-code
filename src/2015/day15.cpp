@@ -163,13 +163,13 @@ static std::pair<int, int> Run()
 int main()
 {
     // https://adventofcode.com/2015/day/15
-    std::print("Day 15, 2015: Science for Hungry People\n");
+    std::println("Day 15, 2015: Science for Hungry People");
 
     Tests();
 
     auto const [part1, part2] = Run();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(21'367'368 == part1);
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(1'766'400 == part2);
 }

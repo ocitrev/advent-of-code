@@ -77,7 +77,7 @@ static int FindShortest(std::string_view data, PredicateT &&pred)
     {
         Route &r = routes.emplace_back(Route::Parse(line));
 #if DEBUG_PRINT
-        std::print("{} -> {} = {}\n", r.a, r.b, r.distance);
+        std::println("{} -> {} = {}", r.a, r.b, r.distance);
 #endif
         insert_sorted(cities, r.a);
         insert_sorted(cities, r.b);
@@ -107,7 +107,7 @@ static int FindShortest(std::string_view data, PredicateT &&pred)
         {
             std::print("{} -> ", city);
         }
-        std::print("{}\n", total);
+        std::println("{}", total);
 #endif
     }
     while (std::next_permutation(begin(cities), end(cities)));
@@ -118,16 +118,16 @@ static int FindShortest(std::string_view data, PredicateT &&pred)
 int main()
 {
     // https://adventofcode.com/2015/day/9
-    std::print("Day 9, 2015: All in a Single Night\n");
+    std::println("Day 9, 2015: All in a Single Night");
 
     Assert(605 == FindShortest(input::example, std::less<>{}));
     Assert(982 == FindShortest(input::example, std::greater<>{}));
 
     int const part1 = FindShortest(GetInput(), std::less<>{});
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(117 == part1);
 
     int const part2 = FindShortest(GetInput(), std::greater<>{});
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(909 == part2);
 }

@@ -311,7 +311,7 @@ int main()
 {
     [[maybe_unused]] bool const isTerminal = IsTerminal(stdout);
 
-    std::print("Day 15, 2019: Oxygen System\n");
+    std::println("Day 15, 2019: Oxygen System");
 
     Robot r;
     r.ExploreAll();
@@ -319,10 +319,10 @@ int main()
     // r.Print();
 
     auto const commands = r.Solve();
-    std::print("  Part1: {} commands\n", commands.size() - 1);
+    std::println("  Part1: {} commands", commands.size() - 1);
     Assert(254 == commands.size() - 1);
 
     auto const part2 = r.FillOxygen();
-    std::print("  Part2: {} minutes\n", part2);
+    std::println("  Part2: {} minutes", part2);
     Assert(268 == part2);
 }

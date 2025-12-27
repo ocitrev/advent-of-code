@@ -143,16 +143,16 @@ static int Part2(std::string_view text)
 int main()
 {
     // https://adventofcode.com/2021/day/15
-    std::print("Day 15, 2021: Chiton\n");
+    std::println("Day 15, 2021: Chiton");
 
     Assert(40 == Part1(example::map));
     Assert(315 == Part2(example::map));
 
     auto const part1 = Part1(GetInput());
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(447 == part1);
 
     auto const part2 = Part2(GetInput());
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(2825 == part2);
 }

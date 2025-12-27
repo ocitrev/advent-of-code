@@ -137,13 +137,13 @@ int RunGame(bool condition, PredT &&pred)
 int main()
 {
     // https://adventofcode.com/2015/day/21
-    std::print("Day 21, 2015: RPG Simulator 20XX\n");
+    std::println("Day 21, 2015: RPG Simulator 20XX");
 
     auto const part1 = RunGame(true, std::less<int>{});
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert(121 == part1);
 
     auto const part2 = RunGame(false, std::greater<int>{});
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert(201 == part2);
 }

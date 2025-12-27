@@ -128,16 +128,16 @@ static std::string Part2()
 int main()
 {
     // https://adventofcode.com/2022/day/5
-    std::print("Day 5, 2022: Supply Stacks\n");
+    std::println("Day 5, 2022: Supply Stacks");
 
     Assert("CMZ" == ProcessStacks<Crane::Mover9000>(example::text));
     Assert("MCD" == ProcessStacks<Crane::Mover9001>(example::text));
 
     auto const part1 = Part1();
-    std::print("  Part 1: {}\n", part1);
+    std::println("  Part 1: {}", part1);
     Assert("SHMSDGZVC" == part1);
 
     auto const part2 = Part2();
-    std::print("  Part 2: {}\n", part2);
+    std::println("  Part 2: {}", part2);
     Assert("VRZGHDFBQ" == part2);
 }
