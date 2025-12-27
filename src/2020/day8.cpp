@@ -153,7 +153,7 @@ static int Run2(std::string_view instructions)
 int main()
 {
     // https://adventofcode.com/2020/day/8
-    std::println("Day 8, 2020: ");
+    std::println("Day 8, 2020: Handheld Halting ");
 
     Assert(5 == Run1(example::instructions));
     Assert(8 == Run2(example::instructions));

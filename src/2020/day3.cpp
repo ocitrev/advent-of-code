@@ -60,7 +60,7 @@ struct Slope
 int main()
 {
     // https://adventofcode.com/2020/day/3
-    std::println("Day 3, 2020: ");
+    std::println("Day 3, 2020: Toboggan Trajectory");
 
     constexpr std::array allSlopes{Slope{1, 1}, Slope{3, 1}, Slope{5, 1}, Slope{7, 1}, Slope{1, 2}};
 
