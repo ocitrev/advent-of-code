@@ -1,7 +1,7 @@
 #include "day12.hpp"
 
-#include "../common.hpp"
-#include "../common/dijkstra.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/dijkstra.hpp"
 
 struct Map
 {

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "common/assert.hpp"
-#include "common/input.hpp"
-#include "common/point2d.hpp"
-#include "common/string.hpp"
-#include "common/terminal.hpp"
-#include "common/utils.hpp"
+#include "cpp-utils/assert.hpp"
+#include "cpp-utils/input.hpp"
+#include "cpp-utils/point2d.hpp"
+#include "cpp-utils/string.hpp"
+#include "cpp-utils/terminal.hpp"
+#include "cpp-utils/utils.hpp"
 
 #include <algorithm>
 #include <array>

@@ -1,6 +1,6 @@
 #include "day9.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 struct Instruction
 {

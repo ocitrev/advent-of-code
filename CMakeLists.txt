@@ -70,58 +70,58 @@ else()
 endif()
 
 add_library(md5 OBJECT
-  src/common/md5.c
-  src/common/md5.h
-  src/common/md5.hpp
+  src/cpp-utils/md5.c
+  src/cpp-utils/md5.h
+  src/cpp-utils/md5.hpp
 )
 
-add_library(common STATIC
-  src/common.hpp
-  src/common/combinations.hpp
-  src/common/defaultdict.hpp
-  src/common/dijkstra.hpp
-  src/common/input.hpp
-  src/common/intcode.cpp
-  src/common/intcode.hpp
-  src/common/numbers.hpp
-  src/common/point2d.hpp
-  src/common/point3d.hpp
-  src/common/point4d.hpp
-  src/common/range.hpp
-  src/common/string.cpp
-  src/common/string.hpp
-  src/common/terminal.cpp
-  src/common/terminal.hpp
+add_library(cpp-utils STATIC
+  src/cpp-utils.hpp
+  src/cpp-utils/combinations.hpp
+  src/cpp-utils/defaultdict.hpp
+  src/cpp-utils/dijkstra.hpp
+  src/cpp-utils/input.hpp
+  src/cpp-utils/intcode.cpp
+  src/cpp-utils/intcode.hpp
+  src/cpp-utils/numbers.hpp
+  src/cpp-utils/point2d.hpp
+  src/cpp-utils/point3d.hpp
+  src/cpp-utils/point4d.hpp
+  src/cpp-utils/range.hpp
+  src/cpp-utils/string.cpp
+  src/cpp-utils/string.hpp
+  src/cpp-utils/terminal.cpp
+  src/cpp-utils/terminal.hpp
   $<TARGET_OBJECTS:md5>
 )
 
 if(WIN32)
-  target_compile_definitions(common PUBLIC
+  target_compile_definitions(cpp-utils PUBLIC
     _USE_MATH_DEFINES
     NOMINMAX
     WIN32_LEAN_AND_MEAN
   )
 endif()
 
-target_compile_features(common PUBLIC cxx_std_23)
-target_link_libraries(common PUBLIC project_warnings)
+target_compile_features(cpp-utils PUBLIC cxx_std_23)
+target_link_libraries(cpp-utils PUBLIC project_warnings)
 
 find_package(fmt CONFIG REQUIRED)
-target_link_libraries(common PUBLIC fmt::fmt-header-only)
+target_link_libraries(cpp-utils PUBLIC fmt::fmt-header-only)
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
-target_link_libraries(common PRIVATE Microsoft.GSL::GSL)
+target_link_libraries(cpp-utils PRIVATE Microsoft.GSL::GSL)
 
 find_package(nlohmann_json CONFIG REQUIRED)
-target_link_libraries(common PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(cpp-utils PRIVATE nlohmann_json::nlohmann_json)
 
 find_package(ctre CONFIG REQUIRED)
-target_link_libraries(common PRIVATE ctre::ctre)
+target_link_libraries(cpp-utils PRIVATE ctre::ctre)
 
 function(add_aoc year day)
   set(aoc ${year}-day${day})
   add_executable(${aoc} src/${year}/day${day}.cpp src/${year}/day${day}.hpp)
-  target_link_libraries(${aoc} PRIVATE common)
+  target_link_libraries(${aoc} PRIVATE cpp-utils)
   add_custom_target(run-${year}-${day} ${aoc} DEPENDS ${aoc})
 
   add_aoc_input(${year} ${day})

@@ -1,6 +1,6 @@
 #include "day6.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 #include <unordered_set>
 

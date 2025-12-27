@@ -1,7 +1,7 @@
 #include "day13.hpp"
 
-#include "../common.hpp"
-#include "../common/intcode.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/intcode.hpp"
 
 enum class Tile
 {

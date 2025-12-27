@@ -1,7 +1,7 @@
 #include "day2.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/string.hpp"
 
 #include <charconv>
 #include <print>

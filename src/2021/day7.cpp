@@ -1,7 +1,7 @@
 #include "day7.hpp"
 
-#include "../common.hpp"
-#include "../common/numbers.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/numbers.hpp"
 
 static std::vector<int> ParseInput()
 {

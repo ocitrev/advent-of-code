@@ -1,8 +1,8 @@
 #include "day2.hpp"
 
-#include "../common.hpp"
-#include "../common/intcode.hpp"
-#include "../common/terminal.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/intcode.hpp"
+#include "../cpp-utils/terminal.hpp"
 
 [[maybe_unused]] static Int RunAndGetValue(std::vector<Int> code, size_t offset)
 {

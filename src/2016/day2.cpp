@@ -1,6 +1,6 @@
 #include "day2.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 #include <optional>
 

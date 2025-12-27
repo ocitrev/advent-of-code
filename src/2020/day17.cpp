@@ -1,9 +1,9 @@
 #include "day17.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/point3d.hpp"
-#include "../common/point4d.hpp"
-#include "../common/string.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/point3d.hpp"
+#include "../cpp-utils/point4d.hpp"
+#include "../cpp-utils/string.hpp"
 
 #include <print>
 #include <unordered_map>

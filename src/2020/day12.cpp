@@ -1,8 +1,8 @@
 #include "day12.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/point2d.hpp"
-#include "../common/string.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/point2d.hpp"
+#include "../cpp-utils/string.hpp"
 
 #include <print>
 

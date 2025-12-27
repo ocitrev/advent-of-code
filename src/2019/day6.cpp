@@ -1,8 +1,8 @@
 #include "day6.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include "../common/terminal.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/string.hpp"
+#include "../cpp-utils/terminal.hpp"
 
 #include <algorithm>
 #include <map>

@@ -1,7 +1,7 @@
 #include "day8.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/string.hpp"
 
 #include <print>
 #include <set>

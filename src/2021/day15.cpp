@@ -1,6 +1,6 @@
 #include "day15.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 struct State
 {

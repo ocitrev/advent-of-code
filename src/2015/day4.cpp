@@ -1,8 +1,8 @@
 #include "day4.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/md5.hpp"
-#include "../common/string.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/md5.hpp"
+#include "../cpp-utils/string.hpp"
 
 #include <array>
 #include <print>

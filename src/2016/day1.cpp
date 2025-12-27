@@ -1,6 +1,6 @@
 #include "day1.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 static int Part1(std::string_view directions)
 {

@@ -1,6 +1,6 @@
 #include "day4.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 static bool IsIncreasing(unsigned int n)
 {

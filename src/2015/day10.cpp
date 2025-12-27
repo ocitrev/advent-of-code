@@ -1,6 +1,6 @@
 #include "day10.hpp"
 
-#include "../common/assert.hpp"
+#include "../cpp-utils/assert.hpp"
 
 #include <print>
 #include <sstream>

@@ -1,6 +1,6 @@
 #include "day10.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 using namespace std::literals;
 

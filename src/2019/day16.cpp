@@ -1,7 +1,7 @@
 #include "day16.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/terminal.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/terminal.hpp"
 
 #include <algorithm>
 #include <array>

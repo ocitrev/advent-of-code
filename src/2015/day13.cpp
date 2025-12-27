@@ -1,8 +1,8 @@
 #include "day13.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/string.hpp"
-#include "../common/utils.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/string.hpp"
+#include "../cpp-utils/utils.hpp"
 
 #include <print>
 #include <string>

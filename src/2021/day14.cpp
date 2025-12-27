@@ -1,6 +1,6 @@
 #include "day14.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 #include <bit>
 

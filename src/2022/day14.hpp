@@ -1,7 +1,7 @@
 #pragma once
 #include "input-bytes.hpp"
 
-#include "../common/point2d.hpp"
+#include "../cpp-utils/point2d.hpp"
 
 #include <string_view>
 

@@ -1,6 +1,6 @@
 #include "day5.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 #include <map>
 #include <ranges>

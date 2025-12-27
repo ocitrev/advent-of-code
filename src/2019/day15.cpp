@@ -1,7 +1,7 @@
 #include "day15.hpp"
 
-#include "../common.hpp"
-#include "../common/intcode.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/intcode.hpp"
 
 #include <chrono>
 #include <optional>

@@ -1,7 +1,7 @@
 #include "day7.hpp"
 
-#include "../common.hpp"
-#include "../common/intcode.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/intcode.hpp"
 
 static Int Amplify1(std::vector<Int> const &code, std::array<Int, 5> const &sequence)
 {

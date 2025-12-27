@@ -1,7 +1,7 @@
 #include "day15.hpp"
 
-#include "../common.hpp"
-#include "../common/range.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/range.hpp"
 
 #include <ctre.hpp>
 #include <optional>

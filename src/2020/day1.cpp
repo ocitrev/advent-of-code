@@ -1,6 +1,6 @@
 #include "day1.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 static constexpr int kSumWanted = 2020;
 

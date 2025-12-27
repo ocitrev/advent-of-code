@@ -1,6 +1,6 @@
 #include "day12.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 using namespace std::string_view_literals;
 

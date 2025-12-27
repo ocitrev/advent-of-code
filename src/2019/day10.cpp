@@ -1,7 +1,7 @@
 #include "day10.hpp"
 
-#include "../common.hpp"
-#include "../common/combinations.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/combinations.hpp"
 
 static constexpr double PI = 3.14159265358979323846;
 static constexpr double PI_2 = PI / 2.0;

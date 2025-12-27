@@ -1,6 +1,6 @@
 #include "day16.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 #include <regex>
 #include <set>

@@ -1,9 +1,9 @@
 #include "day12.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/combinations.hpp"
-#include "../common/string.hpp"
-#include "../common/terminal.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/combinations.hpp"
+#include "../cpp-utils/string.hpp"
+#include "../cpp-utils/terminal.hpp"
 
 #include <array>
 #include <numeric>

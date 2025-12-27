@@ -1,7 +1,7 @@
 #include "day5.hpp"
 
-#include "../common.hpp"
-#include "../common/intcode.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/intcode.hpp"
 
 [[maybe_unused]] static Int Run(std::vector<Int> const &code, Int input)
 {

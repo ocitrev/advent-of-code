@@ -250,7 +250,7 @@ const Aoc = struct {
         }
 
         const cppUtils = b.addLibrary(.{
-            .name = "cppUtils",
+            .name = "cpp-utils",
             .root_module = b.createModule(.{
                 .target = params.target,
                 .optimize = params.optimize,
@@ -260,16 +260,16 @@ const Aoc = struct {
 
         cppUtils.addCSourceFiles(.{
             .files = &.{
-                "src/common/intcode.cpp",
-                "src/common/string.cpp",
-                "src/common/terminal.cpp",
+                "src/cpp-utils/intcode.cpp",
+                "src/cpp-utils/string.cpp",
+                "src/cpp-utils/terminal.cpp",
             },
             .flags = cppFlags,
             .language = .cpp,
         });
         cppUtils.addCSourceFiles(.{
             .files = &.{
-                "src/common/md5.c",
+                "src/cpp-utils/md5.c",
             },
             .flags = &.{"-Wall"},
             .language = .c,

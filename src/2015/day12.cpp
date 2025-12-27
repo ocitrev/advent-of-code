@@ -1,6 +1,6 @@
 #include "day12.hpp"
 
-#include "../common/assert.hpp"
+#include "../cpp-utils/assert.hpp"
 
 #include <algorithm>
 #include <nlohmann/json.hpp>

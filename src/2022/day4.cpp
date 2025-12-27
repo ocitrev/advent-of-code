@@ -1,7 +1,7 @@
 #include "day4.hpp"
 
-#include "../common.hpp"
-#include "../common/range.hpp"
+#include "../cpp-utils.hpp"
+#include "../cpp-utils/range.hpp"
 
 static Range ParseRange(std::string_view range)
 {

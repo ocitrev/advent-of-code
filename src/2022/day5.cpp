@@ -1,6 +1,6 @@
 #include "day5.hpp"
 
-#include "../common.hpp"
+#include "../cpp-utils.hpp"
 
 static void ParseCrates(std::string_view line, std::vector<std::vector<char>> &stacks)
 {

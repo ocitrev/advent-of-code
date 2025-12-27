@@ -1,7 +1,7 @@
 #include "day3.hpp"
 
-#include "../common/assert.hpp"
-#include "../common/point2d.hpp"
+#include "../cpp-utils/assert.hpp"
+#include "../cpp-utils/point2d.hpp"
 
 #include <map>
 #include <print>
