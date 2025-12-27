@@ -547,7 +547,7 @@ pub fn build(b: *std.Build) void {
     };
 
     const utils = b.addModule("utils", .{
-        .root_source_file = b.path("src/utils.zig"),
+        .root_source_file = b.path("src/zig-utils/utils.zig"),
     });
 
     const runStep = b.step("run", "Run all apps");
