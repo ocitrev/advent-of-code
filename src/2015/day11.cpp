@@ -135,10 +135,10 @@ int main()
     Assert("ghjaabcc" == NextPassword("ghijklmn"));
 
     auto const part1 = NextPassword(GetInput());
-    std::println("  Part 1 = {}", part1);
+    std::println("  Part 1: {}", part1);
     Assert("hepxxyzz" == part1);
 
     auto const part2 = NextPassword(part1);
-    std::println("  Part 2 = {}", part2);
+    std::println("  Part 2: {}", part2);
     Assert("heqaabcc" == part2);
 }
