@@ -22,21 +22,21 @@ configure-cpp:
     {{ if path_exists('build/cpp') == 'false' { configure-cpp } else { '' } }}
 
 [working-directory: 'build/cpp']
-cpp +args='': configure-cpp
+cpp *args: configure-cpp
     ninja {{args}}
 
 [working-directory: 'build/cpp']
-cpp-release +args='': configure-cpp
+cpp-release *args: configure-cpp
     ninja -f build-RelWithDebInfo.ninja {{args}}
 
 rust:
     cargo build
 
-zig steps='':
-    zig build --prefix build/zig {{steps}}
+zig steps='' *options:
+    zig build --prefix build/zig {{steps}} {{options}}
 
-zig-cpp steps='':
-    zig build --prefix build/zig -Dlang=cpp {{steps}}
+zig-cpp steps='' *options:
+    zig build --prefix build/zig -Dlang=cpp {{steps}} {{options}}
 
 odin:
     @{{ if path_exists("build/odin") == 'false' { 'mkdir -p build/odin' } else { '' } }}
