@@ -10,23 +10,36 @@ configure-cpp := "cmake -G 'Ninja Multi-Config' -S . -B build/cpp -DCMAKE_C_COMP
 defafult:
     @just --list
 
-build: cpp rust zig
+build: cpp rust zig odin
 
 clean:
-    rm -r build/
+    {{ if path_exists('build') == 'true' { 'rm -r build/' } else { '' } }}
+    {{ if path_exists('.zig-cache') == 'true' { 'rm -r .zig-cache/' } else { '' } }}
+    {{ if path_exists('zig-out') == 'true' { 'rm -r zig-out/' } else { '' } }}
 
-cpp:
+[private]
+configure-cpp:
     {{ if path_exists('build/cpp') == 'false' { configure-cpp } else { '' } }}
-    cmake --build build/cpp
+
+[working-directory: 'build/cpp']
+cpp +args='': configure-cpp
+    ninja {{args}}
+
+[working-directory: 'build/cpp']
+cpp-release +args='': configure-cpp
+    ninja -f build-RelWithDebInfo.ninja {{args}}
 
 rust:
     cargo build
 
-zig:
-    zig build --prefix build/zig
+zig steps='':
+    zig build --prefix build/zig {{steps}}
+
+zig-cpp steps='':
+    zig build --prefix build/zig -Dlang=cpp {{steps}}
 
 odin:
-    {{ if path_exists("build/odin") == 'false' { 'mkdir -p build/odin' } else { '' } }}
+    @{{ if path_exists("build/odin") == 'false' { 'mkdir -p build/odin' } else { '' } }}
     odin build src/2019/day2.odin -file -out:build/odin/2019-2.exe
 
 show-leaderboard:
