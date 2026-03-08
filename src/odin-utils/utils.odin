@@ -24,4 +24,3 @@ read_integers :: proc(filepath: string) -> [dynamic]int {
 
     return result
 }
-

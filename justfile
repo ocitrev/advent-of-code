@@ -5,6 +5,7 @@ export ZIG_LOCAL_CACHE_DIR := zig-cache-dir
 export ZIG_GLOBAL_CACHE_DIR := zig-cache-dir
 export NINJA_STATUS := '[%s/%t %p :: %e] '
 configure-cpp := "cmake -G 'Ninja Multi-Config' -S . -B build/cpp -DCMAKE_C_COMPILER='zig;cc' -DCMAKE_CXX_COMPILER='zig;c++'"
+exe-ext := if os() == 'windows' { '.exe' } else { '' }
 
 [private]
 defafult:
@@ -17,26 +18,31 @@ clean:
     {{ if path_exists('.zig-cache') == 'true' { 'rm -r .zig-cache/' } else { '' } }}
     {{ if path_exists('zig-out') == 'true' { 'rm -r zig-out/' } else { '' } }}
 
-[private]
-configure-cpp:
+_configure-cpp:
     {{ if path_exists('build/cpp') == 'false' { configure-cpp } else { '' } }}
 
-[working-directory: 'build/cpp']
-[arg('release', long, short='r', value='-f build-RelWithDebInfo.ninja')]
-cpp target='' release='': configure-cpp
-    ninja {{release}} {{target}}
+[arg('release', long='release', short='r', value='-f build-RelWithDebInfo.ninja')]
+[working-directory('build/cpp')]
+cpp target='' release='': _configure-cpp
+    ninja {{ release }} {{ target }}
 
 rust:
     cargo build
 
-[arg('release', long, short='r', value='--release=safe')]
-[arg('cpp', long, value='-Dlang=cpp')]
+[arg('cpp', long='cpp', value='-Dlang=cpp')]
+[arg('release', long='release', short='r', value='--release=safe')]
 zig steps='' release='' cpp='' *options:
-    zig build --prefix build/zig {{steps}} {{release}} {{cpp}} {{options}}
+    zig build --prefix build/zig {{ steps }} {{ release }} {{ cpp }} {{ options }}
 
-odin:
-    @{{ if path_exists("build/odin") == 'false' { 'mkdir -p build/odin' } else { '' } }}
-    odin build src/2019/day2.odin -file -out:build/odin/2019-2.exe
+@_odin-configure:
+    {{ if path_exists("build/odin") == 'false' { 'mkdir -p build/odin' } else { '' } }}
+
+_odin-build name file: _odin-configure
+    odin build {{ file }} -file -out:build/odin/{{ name }}{{ exe-ext }}
+
+odin-2019-2: (_odin-build '2019-2' 'src/2019/day2.odin')
+
+odin: odin-2019-2
 
 show-leaderboard:
     python3 inputs/leaderboard.py
