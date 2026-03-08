@@ -26,8 +26,9 @@ _configure-cpp:
 cpp target='' release='': _configure-cpp
     ninja {{ release }} {{ target }}
 
-rust:
-    cargo build
+[arg('release', long='release', short='r', value='-r')]
+rust release='':
+    cargo build {{ release }}
 
 [arg('cpp', long='cpp', value='-Dlang=cpp')]
 [arg('release', long='release', short='r', value='--release=safe')]
