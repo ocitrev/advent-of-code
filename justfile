@@ -45,5 +45,8 @@ odin-2019-2: (_odin-build '2019-2' 'src/2019/day2.odin')
 
 odin: odin-2019-2
 
+pull:
+    git pull --recurse-submodules
+
 show-leaderboard:
     python3 inputs/leaderboard.py
