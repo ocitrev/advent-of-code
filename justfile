@@ -9,7 +9,7 @@ exe-ext := if os() == 'windows' { '.exe' } else { '' }
 
 [private]
 defafult:
-    @just --list
+    @just --list --unsorted
 
 build: cpp rust zig odin
 
