@@ -70,15 +70,15 @@ const Aoc = struct {
 
             if (linkWithC) {
                 linkWithC = false;
-                exe.linkLibC();
+                exe.root_module.link_libc = true;
             }
 
             if (lazyDep) |resolved| {
-                exe.addSystemIncludePath(resolved.path(dep.includePath));
+                exe.root_module.addSystemIncludePath(resolved.path(dep.includePath));
 
                 if (dep.libraryPath) |lib| {
                     const libPath = resolved.path(lib);
-                    exe.addLibraryPath(libPath);
+                    exe.root_module.addLibraryPath(libPath);
                     exe.root_module.addRPath(libPath);
 
                     if (dep.dllName) |dllName| {
@@ -89,7 +89,7 @@ const Aoc = struct {
                 }
 
                 if (dep.importLib) |lib| {
-                    exe.linkSystemLibrary(lib);
+                    exe.root_module.linkSystemLibrary(lib, .{});
                 }
             }
         }
@@ -209,7 +209,7 @@ const Aoc = struct {
         const inputFile = b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day });
 
         const fullPath = b.path(inputFile).getPath2(b, null);
-        const bytes = std.fs.cwd().readFileAlloc(b.allocator, fullPath, 1024 * 1024) catch {
+        const bytes = std.Io.Dir.cwd().readFileAlloc(io, fullPath, b.allocator, .limited(1024 * 1024)) catch {
             std.debug.panic("Failed to read input file: {any}", .{fullPath});
         };
 
@@ -258,7 +258,7 @@ const Aoc = struct {
             .linkage = .static,
         });
 
-        cppUtils.addCSourceFiles(.{
+        cppUtils.root_module.addCSourceFiles(.{
             .files = &.{
                 "src/cpp-utils/intcode.cpp",
                 "src/cpp-utils/string.cpp",
@@ -267,7 +267,7 @@ const Aoc = struct {
             .flags = cppFlags,
             .language = .cpp,
         });
-        cppUtils.addCSourceFiles(.{
+        cppUtils.root_module.addCSourceFiles(.{
             .files = &.{
                 "src/cpp-utils/md5.c",
             },
@@ -275,8 +275,8 @@ const Aoc = struct {
             .language = .c,
         });
 
-        cppUtils.linkLibC();
-        cppUtils.linkLibCpp();
+        cppUtils.root_module.link_libc = true;
+        cppUtils.root_module.link_libcpp = true;
         cppUtilsLib = cppUtils;
         return cppUtils;
     }
@@ -291,10 +291,10 @@ const Aoc = struct {
         });
 
         const generatedHeader = self.generateInputHeader(b);
-        exe.addIncludePath(generatedHeader.dirname());
+        exe.root_module.addIncludePath(generatedHeader.dirname());
 
         const sourceFile = b.fmt("src/{}/day{}.cpp", .{ self.year, self.day });
-        exe.addCSourceFile(.{
+        exe.root_module.addCSourceFile(.{
             .file = .{
                 .src_path = .{
                     .owner = b,
@@ -311,13 +311,13 @@ const Aoc = struct {
                 .optimize = params.optimize,
             });
             if (lazyDep) |resolved| {
-                exe.addSystemIncludePath(resolved.path(dep.includePath));
+                exe.root_module.addSystemIncludePath(resolved.path(dep.includePath));
             }
         }
 
-        exe.linkLibrary(addCppUtils(b, params));
-        exe.linkLibC();
-        exe.linkLibCpp();
+        exe.root_module.linkLibrary(addCppUtils(b, params));
+        exe.root_module.link_libc = true;
+        exe.root_module.link_libcpp = true;
 
         b.installArtifact(exe);
 
