@@ -50,3 +50,6 @@ pull:
 
 show-leaderboard:
     python3 inputs/leaderboard.py
+
+subl:
+    subl --project advent-of-code.sublime-project
