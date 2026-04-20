@@ -1,22 +1,14 @@
 package utils
 
-import "core:os"
 import "core:strings"
 import "core:strconv"
 
-read_integers :: proc(filepath: string) -> [dynamic]int {
-    data, ok := os.read_entire_file_from_filename(filepath)
-    if !ok {
-        return nil
-    }
-
-    defer delete(data)
+split_integers :: proc(data: string, sep: string) -> [dynamic]int {
     result: [dynamic]int
-
     it := string(data)
     for line in strings.split_lines_iterator(&it) {
         copy := line
-        for num in strings.split_iterator(&copy, ",") {
+        for num in strings.split_iterator(&copy, sep) {
             value, ok := strconv.parse_int(num, 10)
             if ok do append(&result, value)
         }
