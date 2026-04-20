@@ -17,6 +17,7 @@ clean:
     {{ if path_exists('build') == 'true' { 'rm -r build/' } else { '' } }}
     {{ if path_exists('.zig-cache') == 'true' { 'rm -r .zig-cache/' } else { '' } }}
     {{ if path_exists('zig-out') == 'true' { 'rm -r zig-out/' } else { '' } }}
+    {{ if path_exists('zig-pkg') == 'true' { 'rm -r zig-pkg/' } else { '' } }}
 
 _configure-cpp:
     {{ if path_exists('build/cpp') == 'false' { configure-cpp } else { '' } }}

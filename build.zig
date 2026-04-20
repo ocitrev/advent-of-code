@@ -209,6 +209,7 @@ const Aoc = struct {
         const inputFile = b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day });
 
         const fullPath = b.path(inputFile).getPath2(b, null);
+        const io = b.graph.io;
         const bytes = std.Io.Dir.cwd().readFileAlloc(io, fullPath, b.allocator, .limited(1024 * 1024)) catch {
             std.debug.panic("Failed to read input file: {any}", .{fullPath});
         };
