@@ -1,15 +1,14 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/25
     utils.printTitle(2024, 25, "Code Chronicle");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(ally, input);
@@ -53,7 +52,7 @@ fn part1(ally: std.mem.Allocator, input: []const u8) !Int {
             continue;
         }
 
-        for (0..5) |i| {
+        inline for (0..5) |i| {
             if (line[i] == '#') {
                 counter[i] += 1;
             }

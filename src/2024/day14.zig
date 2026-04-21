@@ -1,15 +1,17 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+var io: std.Io = undefined;
+
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+    io = init.io;
+
     // https://adventofcode.com/2024/day/14
     utils.printTitle(2024, 14, "Restroom Redoubt");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     const size = Point2d{ .x = 101, .y = 103 };
@@ -79,7 +81,7 @@ const Robots = struct {
             .buffer = try ally.alloc(u8, @intCast((size.x + 2) * size.y + 2)),
             .elapsed = 0,
             .ally = ally,
-            .ansi = std.fs.File.stdout().getOrEnableAnsiEscapeSupport(),
+            .ansi = utils.getOrEnableAnsiEscapeSupport(.stdout),
             .robotSet = std.AutoHashMap(Point2d, void).init(ally),
         };
     }
@@ -192,7 +194,9 @@ const Robots = struct {
             b.appendAssumeCapacity('\n');
         }
 
-        std.fs.File.stdout().writeAll(b.items) catch unreachable;
+        var stdout_writer = std.Io.File.stdout().writer(io, &.{});
+        const stdout = &stdout_writer.interface;
+        stdout.writeAll(b.items) catch unreachable;
     }
 
     fn splitToQuadrants(self: *const @This()) Quadrants {
@@ -241,7 +245,7 @@ fn part2(input: []const u8, size: Point2d, ally: std.mem.Allocator) !i32 {
             if (robots.ansi) {
                 std.debug.print("\x1b[?1049h\x1b[?25l", .{});
                 robots.renderQuadrant(q);
-                std.Thread.sleep(std.time.ns_per_ms * 250);
+                try io.sleep(.fromMilliseconds(250), .awake);
                 std.debug.print("\x1b[?1049l\x1b[?25h", .{});
             }
             break;

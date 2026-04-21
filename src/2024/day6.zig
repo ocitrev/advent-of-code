@@ -2,15 +2,14 @@ const std = @import("std");
 const utils = @import("utils");
 const Point2d = utils.Point2d(i32);
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/6
     utils.printTitle(2024, 6, "Guard Gallivant");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     var floor = try Floor.init(input, ally);

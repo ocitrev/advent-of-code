@@ -1,15 +1,14 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/10
     utils.printTitle(2024, 10, "Hoof It");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(input, ally);

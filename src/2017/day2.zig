@@ -1,7 +1,9 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2017/day/2
     utils.printTitle(2017, 2, "Corruption Checksum");
 
@@ -9,16 +11,12 @@ pub fn main() !void {
     defer m.deinit();
     const input = comptime utils.trimInput(@embedFile("input"));
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
     @setEvalBranchQuota(100_000);
     const p1 = comptime part1(input);
     utils.printAnswer(1, p1);
     std.debug.assert(45972 == p1);
 
-    const p2 = try part2(input, allocator);
+    const p2 = try part2(input, ally);
     utils.printAnswer(1, p2);
     std.debug.assert(326 == p2);
 }
@@ -55,14 +53,14 @@ test "part 1" {
     try std.testing.expectEqual(18, comptime part1(example));
 }
 
-fn checksum_2(line: []const u8, allocator: std.mem.Allocator) !i32 {
+fn checksum_2(line: []const u8, ally: std.mem.Allocator) !i32 {
     var numbers = std.ArrayList(i32).empty;
-    defer numbers.deinit(allocator);
+    defer numbers.deinit(ally);
 
     var row = std.mem.tokenizeAny(u8, line, " \t");
     while (row.next()) |cell| {
         const num = try std.fmt.parseInt(i32, cell, 10);
-        try numbers.append(allocator, num);
+        try numbers.append(ally, num);
     }
 
     for (0.., numbers.items) |i, a| {
@@ -76,11 +74,11 @@ fn checksum_2(line: []const u8, allocator: std.mem.Allocator) !i32 {
     unreachable;
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !i32 {
+fn part2(input: []const u8, ally: std.mem.Allocator) !i32 {
     var sum: i32 = 0;
     var lines = std.mem.tokenizeAny(u8, input, "\r\n");
     while (lines.next()) |line| {
-        sum += try checksum_2(line, allocator);
+        sum += try checksum_2(line, ally);
     }
 
     return sum;

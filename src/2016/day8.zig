@@ -2,19 +2,18 @@ const std = @import("std");
 const utils = @import("utils");
 const Point2d = utils.Point2d(i32);
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2016/day/8
     utils.printTitle(2016, 8, "Two-Factor Authentication");
 
     const m = utils.Monitor.init();
     defer m.deinit();
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
     const input = comptime @embedFile("input");
 
-    var s = Screen.init(50, 6, allocator);
+    var s = Screen.init(init.io, 50, 6, ally);
     defer s.deinit();
     s.run(input);
 
@@ -24,13 +23,19 @@ pub fn main() !void {
 }
 
 const Screen = struct {
+    io: std.Io,
     data: std.AutoHashMap(Point2d, void),
     width: i32,
     height: i32,
 
-    pub fn init(w: i32, h: i32, allocator: std.mem.Allocator) Screen {
-        const map = std.AutoHashMap(Point2d, void).init(allocator);
-        return Screen{ .data = map, .width = w, .height = h };
+    pub fn init(io: std.Io, w: i32, h: i32, ally: std.mem.Allocator) Screen {
+        const map = std.AutoHashMap(Point2d, void).init(ally);
+        return Screen{
+            .io = io,
+            .data = map,
+            .width = w,
+            .height = h,
+        };
     }
 
     pub fn deinit(self: *@This()) void {
@@ -136,7 +141,7 @@ const Screen = struct {
         var y: i32 = 0;
 
         var stdout_buffer: [1024]u8 = undefined;
-        var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+        var stdout_writer = std.Io.File.stdout().writer(self.io, &stdout_buffer);
         const stdout = &stdout_writer.interface;
 
         while (y != self.height) : (y += 1) {

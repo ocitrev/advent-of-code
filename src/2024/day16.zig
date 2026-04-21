@@ -1,15 +1,14 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/16
     utils.printTitle(2024, 16, "Reindeer Maze");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     var grid = try Grid.init(ally, input);
@@ -124,9 +123,8 @@ const Grid = struct {
             }
         }.call;
 
-        var q = std.PriorityQueue(Node, void, cmp).init(self.ally, {});
-        defer q.deinit();
-
+        var q = std.PriorityQueue(Node, void, cmp).empty;
+        defer q.deinit(self.ally);
         var visited = std.AutoHashMap(Elem, void).init(self.ally);
         defer visited.deinit();
 
@@ -135,21 +133,21 @@ const Grid = struct {
                 .e = .{ .pos = start, .dir = d },
                 .cost = 0,
             };
-            q.add(startNode) catch unreachable;
+            q.push(self.ally, startNode) catch unreachable;
         } else {
             for (dirs) |d| {
                 const startNode: Node = .{
                     .e = .{ .pos = start, .dir = d },
                     .cost = 0,
                 };
-                q.add(startNode) catch unreachable;
+                q.push(self.ally, startNode) catch unreachable;
             }
         }
 
         var cache = if (reverse) &self.cacheBackward else &self.cacheForward;
 
         while (q.items.len != 0) {
-            const node = q.remove();
+            const node = q.pop().?;
 
             if (!cache.contains(node.e)) {
                 cache.putNoClobber(node.e, node.cost) catch unreachable;
@@ -169,18 +167,18 @@ const Grid = struct {
             const d = node.e.dir;
             const newPos = node.e.pos.addp(d);
             if (self.map.get(newPos) == '.') {
-                q.add(.{
+                q.push(self.ally, .{
                     .e = .{ .pos = newPos, .dir = d },
                     .cost = node.cost + 1,
                 }) catch unreachable;
             }
 
-            q.add(.{
+            q.push(self.ally, .{
                 .e = .{ .pos = node.e.pos, .dir = d.rotate90Left() },
                 .cost = node.cost + 1000,
             }) catch unreachable;
 
-            q.add(.{
+            q.push(self.ally, .{
                 .e = .{ .pos = node.e.pos, .dir = d.rotate90Right() },
                 .cost = node.cost + 1000,
             }) catch unreachable;

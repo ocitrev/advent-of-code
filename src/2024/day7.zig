@@ -3,7 +3,9 @@ const utils = @import("utils");
 const int = u64;
 const kMaxNumbers: usize = 12;
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    _ = utils.init(init);
+
     // https://adventofcode.com/2024/day/7
     utils.printTitle(2024, 7, "Bridge Repair");
 

@@ -4,15 +4,14 @@ const z3 = @cImport({
     @cInclude("z3.h");
 });
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2025/day/10
     utils.printTitle(2025, 10, "Factory");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     var machines = try Machines.parse(ally, input);

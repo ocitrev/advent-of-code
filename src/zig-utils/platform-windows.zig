@@ -1,6 +1,6 @@
 const std = @import("std");
 const builtin = @import("builtin");
-const clipboard = @import("clipboard.zig");
+const platform = @import("platform.zig");
 
 const diagnostics = switch (builtin.os.tag) {
     .windows => {},
@@ -20,6 +20,9 @@ extern "kernel32" fn GlobalUnlock(handle: windows.HANDLE) callconv(.winapi) wind
 extern "kernel32" fn GlobalAlloc(flags: windows.UINT, size: windows.SIZE_T) callconv(.winapi) ?*anyopaque;
 extern "kernel32" fn RtlMoveMemory(out: *anyopaque, in: *anyopaque, size: windows.SIZE_T) callconv(.winapi) void;
 extern "kernel32" fn SwitchToThread() callconv(.winapi) windows.BOOL;
+extern "kernel32" fn GetStdHandle(nStdHandle: windows.DWORD) callconv(.winapi) ?windows.HANDLE;
+extern "kernel32" fn GetConsoleMode(hConsoleHandle: windows.HANDLE, lpMode: *windows.DWORD) callconv(.winapi) windows.BOOL;
+extern "kernel32" fn SetConsoleMode(hConsoleHandle: windows.HANDLE, dwMode: windows.DWORD) callconv(.winapi) windows.BOOL;
 
 fn registerClipboardFormat(format: []const u8) !windows.UINT {
     var buffer: [1024]u8 = undefined;
@@ -49,7 +52,7 @@ const GMEM_MOVEABLE: windows.UINT = 0x0002;
 const CF_UNICODE_TEXT: windows.UINT = 13;
 
 fn openClipboardWithErrorHandling() !void {
-    if (OpenClipboard(null) != 0) {
+    if (OpenClipboard(null) != .FALSE) {
         return;
     }
 
@@ -57,18 +60,18 @@ fn openClipboardWithErrorHandling() !void {
     if (GetLastError() == 5) {
         for (0..3) |_| {
             _ = SwitchToThread();
-            if (OpenClipboard(null) != 0) return;
+            if (OpenClipboard(null) != .FALSE) return;
         }
     }
 
     return error.OpenClipboard;
 }
 
-pub fn setClipboardText(text: []const u8, mode: clipboard.ClipboardMode) !void {
+pub fn setClipboardText(text: []const u8, mode: platform.ClipboardMode) !void {
     if (text.len == 0) return;
     try openClipboardWithErrorHandling();
     defer _ = CloseClipboard();
-    if (EmptyClipboard() == 0) return error.EmptyClipboard;
+    if (EmptyClipboard() == .FALSE) return error.EmptyClipboard;
 
     if (mode == .private) {
         try setClipboardDWORD(try registerClipboardFormat("ExcludeClipboardContentFromMonitorProcessing"), 0);
@@ -89,4 +92,35 @@ pub fn setClipboardText(text: []const u8, mode: clipboard.ClipboardMode) !void {
     defer _ = GlobalUnlock(handle);
     RtlMoveMemory(locked, textW.ptr, nbBytes);
     _ = SetClipboardData(CF_UNICODE_TEXT, handle) orelse return error.SetClipboardData;
+}
+
+pub fn getOrEnableAnsiEscapeSupport(fileType: platform.FileType) bool {
+    const ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+    const STD_INPUT_HANDLE: windows.DWORD = @bitCast(@as(i32, -10));
+    const STD_OUTPUT_HANDLE: windows.DWORD = @bitCast(@as(i32, -11));
+    const STD_ERROR_HANDLE: windows.DWORD = @bitCast(@as(i32, -12));
+
+    const handleType = switch (fileType) {
+        .stdin => STD_INPUT_HANDLE,
+        .stdout => STD_OUTPUT_HANDLE,
+        .stderr => STD_ERROR_HANDLE,
+    };
+
+    if (GetStdHandle(handleType)) |handle| {
+        var mode: windows.DWORD = 0;
+
+        if (GetConsoleMode(handle, &mode) == .FALSE) {
+            return false; // not a console (maybe redirected)
+        }
+
+        const new_mode = mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+        if (SetConsoleMode(handle, new_mode) == .FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    return false;
 }

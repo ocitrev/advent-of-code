@@ -1,16 +1,14 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const allocator = utils.init(init);
+
     // https://adventofcode.com/2023/day/9
     utils.printTitle(2023, 9, "Mirage Maintenance");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
 
     const input = comptime utils.trimInput(@embedFile("input"));
     utils.printAnswer(1, try part1(input, allocator));

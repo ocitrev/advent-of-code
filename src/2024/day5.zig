@@ -2,15 +2,14 @@ const std = @import("std");
 const utils = @import("utils");
 const Result = utils.Result(i32);
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/5
     utils.printTitle(2024, 5, "Print Queue");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     const result = try run(input, ally);

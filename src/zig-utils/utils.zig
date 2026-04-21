@@ -1,5 +1,5 @@
 const std = @import("std");
-const clipboard = @import("clipboard.zig");
+const platform = @import("platform.zig");
 
 pub fn Result(comptime T: type) type {
     return struct {
@@ -217,41 +217,43 @@ pub const Grid = struct {
 };
 
 pub fn trimInput(input: []const u8) []const u8 {
-    return std.mem.trimRight(u8, input, " \r\n\t");
+    return std.mem.trimEnd(u8, input, " \r\n\t");
 }
 
 pub const Monitor = struct {
-    start: std.time.Instant,
+    start: std.Io.Timestamp,
 
     pub fn init() Monitor {
-        return .{ .start = std.time.Instant.now() catch unreachable };
+        return .{ .start = std.Io.Timestamp.now(juicy.?.io, .real) };
     }
 
     pub fn deinit(self: *const @This()) void {
-        const end = std.time.Instant.now() catch unreachable;
-        const elapsed: f64 = @floatFromInt(end.since(self.start));
-        const ansi = std.fs.File.stderr().getOrEnableAnsiEscapeSupport();
-        const color = if (elapsed < std.time.ns_per_ms * 100)
+        const end = std.Io.Timestamp.now(juicy.?.io, .real);
+        const elapsed = std.Io.Timestamp.durationTo(self.start, end);
+        const ansi = platform.getOrEnableAnsiEscapeSupport(.stderr);
+        const color = if (elapsed.toMilliseconds() < 100)
             "\x1b[32m"
-        else if (elapsed < std.time.ns_per_ms * 500)
+        else if (elapsed.toMilliseconds() < 500)
             "\x1b[33m"
         else
             "\x1b[31m";
 
         const prefix = if (ansi) color else "";
-        const suffix = if (ansi) "\x1b[m" else "";
+        const suffix = if (ansi) "\x1b[0m" else "";
         var units: []const u8 = undefined;
         var value: f64 = undefined;
 
-        if (elapsed > std.time.ns_per_s) {
+        if (elapsed.toMilliseconds() > 1000) {
             units = "s";
-            value = elapsed / std.time.ns_per_s;
-        } else if (elapsed > std.time.ns_per_ms) {
+            const ms: f64 = @floatFromInt(elapsed.toMilliseconds());
+            value = ms / 1000.0;
+        } else if (elapsed.toMicroseconds() > 1000) {
             units = "ms";
-            value = elapsed / std.time.ns_per_ms;
+            const us: f64 = @floatFromInt(elapsed.toMicroseconds());
+            value = us / 1000.0;
         } else {
             units = "µs";
-            value = elapsed / std.time.ns_per_us;
+            value = @floatFromInt(elapsed.toMicroseconds());
         }
 
         std.debug.print("  Elapsed: {s}{d:.2}{s}{s}\n", .{ prefix, value, units, suffix });
@@ -333,7 +335,7 @@ pub fn add(comptime T: type) fn (T, T) T {
 fn setClipboardResult(comptime format: []const u8, number: anytype) !void {
     var buffer: [64]u8 = undefined;
     const textResult = try std.fmt.bufPrint(&buffer, format, .{number});
-    try clipboard.setClipboardText(textResult, .private);
+    try platform.setClipboardText(textResult, .private);
 }
 
 fn isEmptyNumber(comptime T: type, value: T) bool {
@@ -354,17 +356,14 @@ fn isNumber(T: type) bool {
     };
 }
 
-fn isBatchMode() bool {
-    var buffer: [1024]u8 = undefined;
-    var fba = std.heap.FixedBufferAllocator.init(&buffer);
-    const allocator = fba.allocator();
-    var args = std.process.argsWithAllocator(allocator) catch return false;
-    defer args.deinit();
+fn isBatchMode(ally: std.mem.Allocator, args: std.process.Args) bool {
+    var it = args.iterateAllocator(ally) catch unreachable;
+    defer it.deinit();
 
     // skip argv[0] equivalent
-    _ = args.skip();
+    _ = it.skip();
 
-    while (args.next()) |arg| {
+    while (it.next()) |arg| {
         if (std.mem.eql(u8, arg, "--batch")) {
             return true;
         }
@@ -373,9 +372,16 @@ fn isBatchMode() bool {
     return false;
 }
 
-fn stdoutWrite(comptime format: []const u8, arguments: anytype) void {
+var juicy: ?std.process.Init = null;
+
+pub fn init(juicy_: std.process.Init) std.mem.Allocator {
+    juicy = juicy_;
+    return juicy_.gpa;
+}
+
+pub fn stdoutWrite(comptime format: []const u8, arguments: anytype) void {
     var stdout_buffer: [1024]u8 = undefined;
-    var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+    var stdout_writer = std.Io.File.stdout().writer(juicy.?.io, &stdout_buffer);
     const stdout = &stdout_writer.interface;
     stdout.print(format, arguments) catch unreachable;
     stdout.flush() catch unreachable;
@@ -388,7 +394,7 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
     stdoutWrite("  Part {}: " ++ format ++ "\n", .{ part, result });
 
     // do not write in clipboard in batch mode
-    if (isBatchMode()) return;
+    if (isBatchMode(juicy.?.gpa, juicy.?.minimal.args)) return;
 
     const isEmtpy = if (comptime isNumber(T)) isEmptyNumber else isEmptyString;
 
@@ -401,4 +407,10 @@ pub fn printAnswer(comptime part: u2, result: anytype) void {
 
 pub fn printTitle(comptime year: u16, comptime day: u8, comptime title: []const u8) void {
     stdoutWrite("Day {}, {}: {s}\n", .{ day, year, title });
+}
+
+pub const FileType = platform.FileType;
+
+pub fn getOrEnableAnsiEscapeSupport(file: FileType) bool {
+    return platform.getOrEnableAnsiEscapeSupport(file);
 }

@@ -1,7 +1,9 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    _ = utils.init(init);
+
     // https://adventofcode.com/2025/day/2
     utils.printTitle(2025, 2, "Gift Shop");
 

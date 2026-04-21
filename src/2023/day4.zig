@@ -2,16 +2,15 @@ const std = @import("std");
 const utils = @import("utils");
 const Parser = utils.Parser;
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const allocator = utils.init(init);
+
     // https://adventofcode.com/2023/day/4
     utils.printTitle(2023, 4, "Scratchcards");
 
     const m = utils.Monitor.init();
     defer m.deinit();
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     utils.printAnswer(1, try part1(input, allocator));

@@ -1,15 +1,17 @@
 const std = @import("std");
 const utils = @import("utils");
 
-pub fn main() !void {
+var io: std.Io = undefined;
+
+pub fn main(init: std.process.Init) !void {
+    io = init.io;
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2024/day/23
     utils.printTitle(2024, 23, "LAN Party");
 
     const m = utils.Monitor.init();
     defer m.deinit();
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const ally = gpa.allocator();
     const input = comptime utils.trimInput(@embedFile("input"));
 
     const p1 = try part1(ally, input);
@@ -126,6 +128,12 @@ fn stringLess(_: void, a: String, b: String) bool {
     return std.mem.order(u8, a, b) == .lt;
 }
 
+fn getSeed() u64 {
+    const rngImpl: std.Random.IoSource = .{ .io = io };
+    const rng = rngImpl.interface();
+    return rng.int(u64);
+}
+
 fn part2(ally: std.mem.Allocator, input: []const u8) !String {
     var graph = try Graph.init(ally, input);
     defer graph.deinit();
@@ -138,8 +146,7 @@ fn part2(ally: std.mem.Allocator, input: []const u8) !String {
         try computers.append(ally, key.*);
     }
 
-    const seed: u64 = @intCast(std.time.nanoTimestamp());
-    var rng = std.Random.DefaultPrng.init(seed);
+    var rng = std.Random.DefaultPrng.init(getSeed());
     var clique = std.ArrayList(String).empty;
     defer clique.deinit(ally);
 

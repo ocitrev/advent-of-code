@@ -2,20 +2,18 @@ const std = @import("std");
 const utils = @import("utils");
 const Point2d = utils.Point2d(i32);
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2023/day/10
     utils.printTitle(2023, 10, "Pipe Maze");
 
     const m = utils.Monitor.init();
     defer m.deinit();
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
     const input = comptime utils.trimInput(@embedFile("input"));
-    utils.printAnswer(1, try part1(input, allocator));
-    utils.printAnswer(2, try part2(input, allocator));
+    utils.printAnswer(1, try part1(input, ally));
+    utils.printAnswer(2, try part2(input, ally));
 }
 
 const Grid = struct {
@@ -25,8 +23,8 @@ const Grid = struct {
     start: Point2d,
     nbDots: u32 = 0,
 
-    pub fn parse(input: []const u8, allocator: std.mem.Allocator) !Grid {
-        var map = std.AutoHashMap(Point2d, u8).init(allocator);
+    pub fn parse(input: []const u8, ally: std.mem.Allocator) !Grid {
+        var map = std.AutoHashMap(Point2d, u8).init(ally);
         var start = Point2d{};
         var y: i32 = 0;
         var w: i32 = 0;
@@ -57,10 +55,10 @@ const Grid = struct {
         self.map.deinit();
     }
 
-    pub fn replaceInvalidTiles(self: *@This(), allocator: std.mem.Allocator) !void {
+    pub fn replaceInvalidTiles(self: *@This(), ally: std.mem.Allocator) !void {
         var current = self.getStart();
         try self.map.put(current.p, current.c);
-        var valid = std.AutoHashMap(Point2d, void).init(allocator);
+        var valid = std.AutoHashMap(Point2d, void).init(ally);
         defer valid.deinit();
 
         while (true) {
@@ -219,8 +217,8 @@ const Grid = struct {
         return true;
     }
 
-    pub fn countTiles(self: *const @This(), allocator: std.mem.Allocator) !u32 {
-        var insideSet = std.AutoHashMap(Point2d, void).init(allocator);
+    pub fn countTiles(self: *const @This(), ally: std.mem.Allocator) !u32 {
+        var insideSet = std.AutoHashMap(Point2d, void).init(ally);
         defer insideSet.deinit();
 
         var y: i32 = 0;
@@ -343,17 +341,17 @@ test "vertical connections" {
     try std.testing.expect(comptime Grid.validV('|', '|'));
 }
 
-fn part1(input: []const u8, allocator: std.mem.Allocator) !u32 {
-    var grid = try Grid.parse(input, allocator);
+fn part1(input: []const u8, ally: std.mem.Allocator) !u32 {
+    var grid = try Grid.parse(input, ally);
     defer grid.deinit();
     return grid.countLoop();
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !u32 {
-    var grid = try Grid.parse(input, allocator);
+fn part2(input: []const u8, ally: std.mem.Allocator) !u32 {
+    var grid = try Grid.parse(input, ally);
     defer grid.deinit();
-    try grid.replaceInvalidTiles(allocator);
-    return try grid.countTiles(allocator);
+    try grid.replaceInvalidTiles(ally);
+    return try grid.countTiles(ally);
 }
 
 test "part 1" {

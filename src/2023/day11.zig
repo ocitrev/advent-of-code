@@ -2,30 +2,28 @@ const std = @import("std");
 const utils = @import("utils");
 const Point2d = utils.Point2d(i64);
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
+    const ally = utils.init(init);
+
     // https://adventofcode.com/2023/day/11
     utils.printTitle(2023, 11, "Cosmic Expansion");
 
     const m = utils.Monitor.init();
     defer m.deinit();
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
     const input = utils.trimInput(@embedFile("input"));
-    utils.printAnswer(1, try part1(input, allocator));
-    utils.printAnswer(2, try part2(input, allocator));
+    utils.printAnswer(1, try part1(input, ally));
+    utils.printAnswer(2, try part2(input, ally));
 }
 
 fn distance(a: Point2d, b: Point2d) i64 {
     return a.manhatanDistance(b);
 }
 
-fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, allocator: std.mem.Allocator) !void {
-    var setX = std.AutoHashMap(i64, void).init(allocator);
+fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, ally: std.mem.Allocator) !void {
+    var setX = std.AutoHashMap(i64, void).init(ally);
     defer setX.deinit();
-    var setY = std.AutoHashMap(i64, void).init(allocator);
+    var setY = std.AutoHashMap(i64, void).init(ally);
     defer setY.deinit();
 
     var min = galaxies.items[0];
@@ -67,9 +65,9 @@ fn expand(galaxies: *std.ArrayList(Point2d), factor: i64, allocator: std.mem.All
     }
 }
 
-fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocator) !i64 {
+fn simulate(input: []const u8, expansionFactor: i64, ally: std.mem.Allocator) !i64 {
     var galaxies = std.ArrayList(Point2d).empty;
-    defer galaxies.deinit(allocator);
+    defer galaxies.deinit(ally);
 
     var it = std.mem.tokenizeAny(u8, input, "\r\n");
     var y: i64 = 0;
@@ -78,14 +76,14 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
         for (line) |c| {
             if (c == '#') {
                 const p = Point2d{ .x = x, .y = y };
-                try galaxies.append(allocator, p);
+                try galaxies.append(ally, p);
             }
             x += 1;
         }
         y += 1;
     }
 
-    try expand(&galaxies, @max(expansionFactor - 1, 1), allocator);
+    try expand(&galaxies, @max(expansionFactor - 1, 1), ally);
     var total: i64 = 0;
     for (galaxies.items, 0..) |a, i| {
         for (galaxies.items, 0..) |b, j| {
@@ -97,12 +95,12 @@ fn simulate(input: []const u8, expansionFactor: i64, allocator: std.mem.Allocato
     return total;
 }
 
-fn part1(input: []const u8, allocator: std.mem.Allocator) !i64 {
-    return simulate(input, 1, allocator);
+fn part1(input: []const u8, ally: std.mem.Allocator) !i64 {
+    return simulate(input, 1, ally);
 }
 
-fn part2(input: []const u8, allocator: std.mem.Allocator) !i64 {
-    return simulate(input, 1000000, allocator);
+fn part2(input: []const u8, ally: std.mem.Allocator) !i64 {
+    return simulate(input, 1000000, ally);
 }
 
 test "part 1" {
