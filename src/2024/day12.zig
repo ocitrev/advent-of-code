@@ -74,7 +74,7 @@ const Map = struct {
 
     fn walkRecurse(self: *@This(), seed: u8, p: Point2d, region: *Region, sides: *Sides) !void {
         if (self.visited.contains(p)) return;
-        try self.visited.put(p, void{});
+        try self.visited.put(p, {});
         region.area += 1;
 
         const n = p.north();

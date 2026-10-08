@@ -1,8 +1,6 @@
 const std = @import("std");
 const utils = @import("utils");
-const z3 = @cImport({
-    @cInclude("z3.h");
-});
+const z3 = @import("z3");
 
 pub fn main(init: std.process.Init) !void {
     const ally = utils.init(init);
@@ -159,7 +157,7 @@ const Machine = struct {
             else
                 z3.Z3_mk_add(ctx, @intCast(terms.items.len), terms.items.ptr);
 
-            const rhs = z3.Z3_mk_int64(ctx, jolt, int_sort);
+            const rhs = z3.Z3_mk_int64(ctx, @intCast(jolt), int_sort);
             const eq = z3.Z3_mk_eq(ctx, sum_ast, rhs);
             _ = z3.Z3_optimize_assert(ctx, opt, eq);
         }

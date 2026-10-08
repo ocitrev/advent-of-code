@@ -1,5 +1,6 @@
 const std = @import("std");
 const builtin = @import("builtin");
+const Translator = @import("translate_c").Translator;
 
 const BuildParams = struct {
     target: std.Build.ResolvedTarget,
@@ -13,9 +14,15 @@ const Type = enum {
 
 var cppUtilsLib: ?*std.Build.Step.Compile = null;
 
+const CImport = struct {
+    module: []const u8,
+    header: []const u8,
+};
+
 const Dependency = struct {
     name: []const u8,
     includePath: []const u8,
+    cImport: ?CImport = null,
     libraryPath: ?[]const u8 = null,
     importLib: ?[]const u8 = null,
     dllName: ?[]const u8 = null,
@@ -31,12 +38,8 @@ const Aoc = struct {
         // add to run step
         const run_cmd_batch = b.addRunArtifact(exe);
         run_cmd_batch.step.dependOn(b.getInstallStep());
-        if (b.args) |args| {
-            run_cmd_batch.addArgs(args);
-        } else {
-            const batch_args = [_][]const u8{"--batch"};
-            run_cmd_batch.addArgs(&batch_args);
-        }
+        run_cmd_batch.addArg("--batch-if-no-args");
+        run_cmd_batch.addPassthruArgs();
         runStep.dependOn(&run_cmd_batch.step);
 
         // add or create year run step
@@ -51,9 +54,7 @@ const Aoc = struct {
         // create day run step
         const run_cmd_standalone = b.addRunArtifact(exe);
         run_cmd_standalone.step.dependOn(b.getInstallStep());
-        if (b.args) |args| {
-            run_cmd_standalone.addArgs(args);
-        }
+        run_cmd_standalone.addPassthruArgs();
 
         const run_day_step = b.step(b.fmt("run-{}-{}", .{ self.year, self.day }), b.fmt("Run app for year {}, day {}", .{ self.year, self.day }));
         run_day_step.dependOn(&run_cmd_standalone.step);
@@ -95,6 +96,26 @@ const Aoc = struct {
         }
     }
 
+    fn addCImports(self: *const @This(), b: *std.Build, params: BuildParams, module: *std.Build.Module) void {
+        for (self.deps) |dep| {
+            const c_import = dep.cImport orelse continue;
+            const dependency = b.lazyDependency(dep.name, .{
+                .target = params.target,
+                .optimize = params.optimize,
+            }) orelse continue;
+
+            const translate_c = b.dependency("translate_c", .{});
+            const translated_import: Translator = .init(translate_c, .{
+                .name = c_import.module,
+                .c_source_file = b.addWriteFiles().add("c-import.h", b.fmt("#include <{s}>\n", .{c_import.header})),
+                .target = params.target,
+                .optimize = params.optimize,
+            });
+            translated_import.addSystemIncludePath(dependency.path(dep.includePath));
+            module.addImport(c_import.module, translated_import.mod);
+        }
+    }
+
     fn addZigTo(self: *const @This(), b: *std.Build, params: BuildParams, runStep: *std.Build.Step) void {
         const source_file = b.path(b.fmt("src/{}/day{}.zig", .{ self.year, self.day }));
         const exe = b.addExecutable(.{
@@ -111,6 +132,8 @@ const Aoc = struct {
         if (b.modules.get("utils")) |utils| {
             exe.root_module.addImport("utils", utils);
         }
+
+        self.addCImports(b, params, exe.root_module);
 
         // input file
         const input_file = b.path(b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day }));
@@ -143,25 +166,11 @@ const Aoc = struct {
             unit_tests.root_module.addImport("utils", utils);
         }
 
+        self.addCImports(b, params, unit_tests.root_module);
         self.addZigDeps(b, params, unit_tests);
 
         const run_unit_tests = b.addRunArtifact(unit_tests);
         testStep.dependOn(&run_unit_tests.step);
-
-        for (self.deps) |dep| {
-            if (dep.libraryPath) |_| {
-                const lazyDep = b.lazyDependency(dep.name, .{
-                    .target = params.target,
-                    .optimize = params.optimize,
-                });
-                if (lazyDep) |resolved| {
-                    if (dep.libraryPath) |lib| {
-                        const p = resolved.path(lib);
-                        run_unit_tests.addPathDir(p.getPath2(b, null));
-                    }
-                }
-            }
-        }
 
         // add or create year test step
         const test_year_step_name = b.fmt("test-{}", .{self.year});
@@ -208,10 +217,19 @@ const Aoc = struct {
         const fileWriter = b.addWriteFiles();
         const inputFile = b.fmt("inputs/{}/day{}.txt", .{ self.year, self.day });
 
-        const fullPath = b.path(inputFile).getPath2(b, null);
+        const fullPath = b.root.join(b.allocator, inputFile) catch @panic("OOM");
+
+        const fullPathString = fullPath.toString(b.allocator) catch @panic("OOM");
+        defer b.allocator.free(fullPathString);
+
         const io = b.graph.io;
-        const bytes = std.Io.Dir.cwd().readFileAlloc(io, fullPath, b.allocator, .limited(1024 * 1024)) catch {
-            std.debug.panic("Failed to read input file: {any}", .{fullPath});
+        const bytes = std.Io.Dir.cwd().readFileAlloc(
+            io,
+            fullPathString,
+            b.allocator,
+            .limited(1024 * 1024),
+        ) catch {
+            std.debug.panic("Failed to read input file: {s}", .{fullPathString});
         };
 
         const text = b.fmt(
@@ -344,6 +362,7 @@ fn getZ3Dependency() Dependency {
         .windows => .{
             .name = "z3_win_" ++ comptime getDepPlatform(),
             .includePath = "include",
+            .cImport = .{ .module = "z3", .header = "z3.h" },
             .libraryPath = "bin",
             .importLib = "libz3",
             .dllName = "libz3.dll",
@@ -351,6 +370,7 @@ fn getZ3Dependency() Dependency {
         .linux => .{
             .name = "z3_glibc_" ++ comptime getDepPlatform(),
             .includePath = "include",
+            .cImport = .{ .module = "z3", .header = "z3.h" },
             .libraryPath = "bin",
             .importLib = "z3",
         },

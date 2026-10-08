@@ -363,13 +363,19 @@ fn isBatchMode(ally: std.mem.Allocator, args: std.process.Args) bool {
     // skip argv[0] equivalent
     _ = it.skip();
 
+    var batchByDefault = false;
+    var hasOtherArgs = false;
     while (it.next()) |arg| {
         if (std.mem.eql(u8, arg, "--batch")) {
             return true;
+        } else if (std.mem.eql(u8, arg, "--batch-if-no-args")) {
+            batchByDefault = true;
+        } else {
+            hasOtherArgs = true;
         }
     }
 
-    return false;
+    return batchByDefault and !hasOtherArgs;
 }
 
 var juicy: ?std.process.Init = null;
